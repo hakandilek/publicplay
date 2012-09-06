@@ -34,11 +34,11 @@ public class Post extends Model {
 		find.ref(key).delete();
 	}
 
-	public static Post get(long key) {
+	public static Post get(Long key) {
 		return find.ref(key);
 	}
 
-	public static void update(long key, Post post) {
+	public static void update(Long key, Post post) {
 		post.update(key);
 	}
 	
