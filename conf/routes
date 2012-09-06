@@ -1,9 +1,9 @@
 # Routes
-# This file defines all application routes (Higher priority routes first)
+# This file defines all routes (Higher priority routes first)
 # ~~~~
 
 # Home page
-GET     /                           controllers.Application.index()
+GET     /                           controllers.IndexController.index()
 # Post
 GET     /posts                      controllers.Posts.index()
 POST    /posts                      controllers.Posts.create()

@@ -9,7 +9,7 @@
         @for(post <- list) {
 		    <li>
                 @post.title - @post.content 
-                @form(routes.Posts.delete(post.key)) { 
+                @form(routes.PostController.delete(post.key)) { 
                     <input type="submit" value="Delete"> 
                 }
             </li> 
