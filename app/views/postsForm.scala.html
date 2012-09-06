@@ -1,0 +1,13 @@
+@(postForm: Form[Post]) 
+@import helper._ 
+
+@main("new post") {
+        
+	<h2>Add a new post</h2>
+	
+	@form(routes.Posts.create()) { 
+        @inputText(postForm("title"))
+        @inputText(postForm("content"))
+        <input type="submit" value="Create">
+    } 
+}
