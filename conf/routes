@@ -5,13 +5,13 @@
 # Home page
 GET     /                           controllers.IndexController.index()
 # Post
-GET     /posts                      controllers.Posts.index()
-POST    /posts                      controllers.Posts.create()
-GET     /posts/new                  controllers.Posts.newForm()
-GET     /posts/:id/edit             controllers.Posts.editForm(id: Long)
-GET     /posts/:id                  controllers.Posts.show(id: Long)
-PUT     /posts/:id                  controllers.Posts.update(id: Long)
-DELETE  /posts/:id                  controllers.Posts.delete(id: Long)
+GET     /posts                      controllers.PostController.index()
+POST    /posts                      controllers.PostController.create()
+GET     /posts/new                  controllers.PostController.newForm()
+GET     /posts/:id/edit             controllers.PostController.editForm(id: Long)
+GET     /posts/:id                  controllers.PostController.show(id: Long)
+PUT     /posts/:id                  controllers.PostController.update(id: Long)
+DELETE  /posts/:id                  controllers.PostController.delete(id: Long)
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
