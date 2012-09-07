@@ -10,8 +10,13 @@ POST    /posts                      controllers.PostController.create()
 GET     /posts/new                  controllers.PostController.newForm()
 GET     /posts/:key/edit            controllers.PostController.editForm(key: Long)
 GET     /posts/:key                 controllers.PostController.show(key: Long)
-POST    /posts/:key                 controllers.PostController.update(key: Long)
+POST    /posts/:key/update          controllers.PostController.update(key: Long)
 GET     /posts/:key/delete          controllers.PostController.delete(key: Long)
+# Comment
+POST    /posts/:postKey                             controllers.PostController.createComment(postKey: Long)
+GET     /posts/:postKey/comments/:commentKey/edit   controllers.PostController.editCommentForm(postKey: Long, commentKey: Long)
+POST    /posts/:postKey/comments/:commentKey        controllers.PostController.updateComment(postKey: Long, commentKey: Long)
+GET     /posts/:postKey/comments/:commentKey/delete controllers.PostController.deleteComment(postKey: Long, commentKey: Long)
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

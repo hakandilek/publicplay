@@ -1,7 +1,34 @@
-@(post: Post) 
+@(post: Post, commentKey:Long, commentForm: Form[Comment]) 
 @import helper._ 
 @import helper.twitterBootstrap._
+@import helper.H._
 @main("show") {
 	<h2>@post.getTitle()</h2>
-	<p>@post.getContent()</p>
+	<p>@nl2br(post.content)</p>
+	
+	@* comments *@
+	@if(post.comments.isEmpty()) {
+        <h3>no comments yet, be the first one:</h3>
+	} else {
+        <table class="posts zebra-striped">
+            <thead>
+                <tr>
+                    <th class="header">Comments</th>
+                </tr>
+            </thead>
+            <tbody>
+        @for(comment <- post.comments) {
+                <tr>
+                    <td><a href="@routes.PostController.editCommentForm(post.key, comment.key)">@nl2br(comment.content)</a></td>
+                </tr>
+        }
+            </tbody>
+        </table>
+        <h3>drop your comment:</h3>
+	}	
+    @form(if(commentKey != null) { routes.PostController.updateComment(post.key, commentForm.get().key) } 
+          else                   { routes.PostController.createComment(post.key) }) { 
+        @textarea(commentForm("content"))
+        <input type="submit" value="@if(commentKey != null) { Update } else {Create}">
+    } 
 }

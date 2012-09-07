@@ -1,9 +1,13 @@
 package models;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.CascadeType;
+
 
 import play.data.validation.Constraints.Required;
 import play.db.ebean.Model;
@@ -20,6 +24,9 @@ public class Post extends Model {
 
 	@Required
 	public String content;
+
+    @OneToMany(cascade=CascadeType.ALL, mappedBy="post")
+    public Set<Comment> comments;
 
 	public static Finder<Long, Post> find = new Finder<Long, Post>(Long.class, Post.class);
 
@@ -65,6 +72,14 @@ public class Post extends Model {
 
 	public void setContent(String content) {
 		this.content = content;
+	}
+
+	public Set<Comment> getComments() {
+		return comments;
+	}
+
+	public void setComments(Set<Comment> comments) {
+		this.comments = comments;
 	}
 
 	@Override
