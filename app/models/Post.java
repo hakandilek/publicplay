@@ -9,6 +9,7 @@ import play.data.validation.Constraints.Required;
 import play.db.ebean.Model;
 
 @Entity
+@SuppressWarnings("serial")
 public class Post extends Model {
 
 	@Id
@@ -20,7 +21,7 @@ public class Post extends Model {
 	@Required
 	public String content;
 
-	public static Finder<Long, Post> find = new Finder(Long.class, Post.class);
+	public static Finder<Long, Post> find = new Finder<Long, Post>(Long.class, Post.class);
 
 	public static List<Post> all() {
 		return find.all();
