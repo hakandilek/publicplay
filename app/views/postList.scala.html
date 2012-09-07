@@ -1,17 +1,31 @@
 @(list: List[Post]) 
 @import helper._ 
+@import helper.twitterBootstrap._
+@import helper.H._
 
 @main("PostList") {
         
 	<h1>@list.size() post(s)</h1>
 	
-    <ul>
+    <table class="posts zebra-striped">
+        <thead>
+            <tr>
+                <th class="header">Post</th>
+                <th class="header">Edit</th>
+                <th class="header">Delete</th>
+            </tr>
+        </thead>
+        <tbody>
         @for(post <- list) {
-		    <li>
-                <a href="@routes.PostController.show(post.key)">@post.title</a> - @post.content
-                <a href="@routes.PostController.editForm(post.key)">edit</a> 
-                <a href="@routes.PostController.delete(post.key)">delete</a> 
-            </li> 
+            <tr>
+                <td><a href="@routes.PostController.show(post.key)">@post.title</a></td>
+                <td><a href="@routes.PostController.editForm(post.key)">edit</a></td>
+                <td><a href="@routes.PostController.delete(post.key)">delete</a></td>
+            </tr>
+            <tr>
+                <td colspan="3"><p>@nl2br(post.content)</p></td>
+            </tr>
         }
-    </ul>
+        </tbody>
+    </table>
 }
