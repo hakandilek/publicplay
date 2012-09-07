@@ -1,0 +1,17 @@
+@(list: List[Post]) 
+@import helper._ 
+
+@main("PostList") {
+        
+	<h1>@list.size() post(s)</h1>
+	
+    <ul>
+        @for(post <- list) {
+		    <li>
+                <a href="@routes.PostController.show(post.key)">@post.title</a> - @post.content
+                <a href="@routes.PostController.editForm(post.key)">edit</a> 
+                <a href="@routes.PostController.delete(post.key)">delete</a> 
+            </li> 
+        }
+    </ul>
+}

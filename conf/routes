@@ -1,17 +1,17 @@
 # Routes
-# This file defines all application routes (Higher priority routes first)
+# This file defines all routes (Higher priority routes first)
 # ~~~~
 
 # Home page
-GET     /                           controllers.Application.index()
+GET     /                           controllers.HomeController.index()
 # Post
-GET     /posts                      controllers.Posts.index()
-POST    /posts                      controllers.Posts.create()
-GET     /posts/new                  controllers.Posts.newForm()
-GET     /posts/:id/edit             controllers.Posts.editForm(id: Long)
-GET     /posts/:id                  controllers.Posts.show(id: Long)
-PUT     /posts/:id                  controllers.Posts.update(id: Long)
-DELETE  /posts/:id                  controllers.Posts.delete(id: Long)
+GET     /posts                      controllers.PostController.index()
+POST    /posts                      controllers.PostController.create()
+GET     /posts/new                  controllers.PostController.newForm()
+GET     /posts/:key/edit            controllers.PostController.editForm(key: Long)
+GET     /posts/:key                 controllers.PostController.show(key: Long)
+POST    /posts/:key                 controllers.PostController.update(key: Long)
+GET     /posts/:key/delete          controllers.PostController.delete(key: Long)
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
