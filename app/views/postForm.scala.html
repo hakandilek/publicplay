@@ -1,7 +1,7 @@
 @(key: Long, postForm: Form[Post]) 
 @import helper._ 
 @import helper.twitterBootstrap._
-@main("new post") {
+@main(if(key != null) "update post" else "new post") {
         
 	<h2>Add a new post</h2>
 	
