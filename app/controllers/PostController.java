@@ -1,7 +1,6 @@
 package controllers;
 
 import java.util.List;
-import java.util.Set;
 
 import models.Comment;
 import models.Post;
