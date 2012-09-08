@@ -2,8 +2,6 @@ package test;
 
 import static org.junit.Assert.*;
 
-import java.util.List;
-
 import models.Post;
 
 import org.junit.*;
@@ -22,20 +20,6 @@ public class PostControllerTest {
 			public void run() {
 				Post post = Post.find.byId(-11l);
 				assertThat(post).isNotNull();
-			}
-		});
-	}
-
-	@Test
-	public void testIndex() {
-		running(fakeApplication(), new Runnable() {
-			public void run() {
-				Result result = callAction(controllers.routes.ref.PostController
-						.index());
-				assertThat(status(result)).isEqualTo(OK);
-				assertThat(contentType(result)).isEqualTo("text/html");
-				assertThat(charset(result)).isEqualTo("utf-8");
-				assertThat(contentAsString(result)).contains("posts");
 			}
 		});
 	}

@@ -5,7 +5,7 @@
 # Home page
 GET     /                           controllers.HomeController.index()
 # Post
-GET     /posts                      controllers.PostController.index()
+#GET     /posts                      controllers.PostController.index()
 POST    /posts                      controllers.PostController.create()
 GET     /posts/new                  controllers.PostController.newForm()
 GET     /posts/:key/edit            controllers.PostController.editForm(key: Long)

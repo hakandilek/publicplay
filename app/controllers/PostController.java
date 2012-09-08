@@ -1,7 +1,5 @@
 package controllers;
 
-import java.util.List;
-
 import models.Comment;
 import models.Post;
 import play.data.Form;
@@ -14,11 +12,6 @@ public class PostController extends Controller {
 
 	static Form<Comment> commentForm = form(Comment.class);
 
-	public static Result index() {
-		List<Post> list = Post.all();
-		return ok(views.html.postList.render(list));
-	}
-
 	public static Result newForm() {
 		return ok(views.html.postForm.render(null, postForm));
 	}
@@ -29,7 +22,7 @@ public class PostController extends Controller {
 			return badRequest(views.html.postForm.render(null, filledForm));
 		} else {
 			Post.create(filledForm.get());
-			return redirect(routes.PostController.index());
+			return redirect(routes.HomeController.index());
 		}
 	}
 
@@ -45,7 +38,7 @@ public class PostController extends Controller {
 			return badRequest(views.html.postForm.render(key, filledForm));
 		} else {
 			Post.update(key, filledForm.get());
-			return redirect(routes.PostController.index());
+			return redirect(routes.HomeController.index());
 		}
 	}
 
@@ -56,7 +49,7 @@ public class PostController extends Controller {
 
 	public static Result delete(Long key) {
 		Post.delete(key);
-		return redirect(routes.PostController.index());
+		return redirect(routes.HomeController.index());
 	}
 
 	//Comment stuff
