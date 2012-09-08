@@ -14,4 +14,8 @@ public class H {
 		return new Html(s);
 	}
 	
+	public static Html string(Object s) {
+		return new Html("" + s);
+	}
+	
 }
