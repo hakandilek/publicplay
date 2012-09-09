@@ -4,6 +4,7 @@
 @import helper.H._
 @main("show") {
 	<h2>@post.getTitle()</h2>
+	<p>@prettify(post.updatedOn)</p>
 	<p>@nl2br(post.content)</p>
 	
 	@* comments *@
@@ -19,7 +20,7 @@
             <tbody>
         @for(comment <- post.comments) {
                 <tr>
-                    <td><a href="@routes.PostController.editCommentForm(post.key, comment.key)">@nl2br(comment.content)</a></td>
+                    <td>@nl2br(comment.getContent()) - @prettify(comment.getUpdatedOn()) <a href="@routes.PostController.editCommentForm(post.key, comment.getKey())">edit</a></td>
                 </tr>
         }
             </tbody>
