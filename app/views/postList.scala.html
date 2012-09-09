@@ -11,17 +11,17 @@
     <table class="posts zebra-striped">
         <thead>
             <tr>
-                <th class="header">Post</th>
-                <th class="header">Edit</th>
-                <th class="header">Delete</th>
+                <th class="header">Posts</th>
             </tr>
         </thead>
         <tbody>
         @for(post <- list) {
             <tr>
-                <td><a href="@routes.PostController.show(post.key)">@post.title</a> - @prettify(post.updatedOn)</td>
-                <td><a href="@routes.PostController.editForm(post.key)">edit</a></td>
-                <td><a href="@routes.PostController.delete(post.key)">delete</a></td>
+                <td>
+                	<a href="@routes.PostController.show(post.key)">@post.title</a> - @prettify(post.updatedOn)
+                	<a href="@routes.PostController.editForm(post.key)">edit</a>
+                	<a href="@routes.PostController.delete(post.key)">delete</a>
+               	</td>
             </tr>
             <tr>
                 <td colspan="3"><p>@nl2br(post.content)</p></td>
