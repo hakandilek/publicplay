@@ -16,6 +16,6 @@ Those are some features of PublicPlay:
  * <del> logging </del>
  * <del> theming </del>
  * <del> pagination </del>
- * <del> Facebook login </del>
+ * Facebook login with [secure social](http://github.com/jaliss/securesocial)
  * <del> Facebook comments (posted comments appear on facebook) </del>
  * <del> Facebook like </del>

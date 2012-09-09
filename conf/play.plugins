@@ -1,0 +1,3 @@
+9998:service.UserService
+9999:securesocial.core.providers.utils.BCryptPasswordHasher
+10001:securesocial.core.providers.FacebookProvider

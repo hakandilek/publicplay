@@ -5,7 +5,7 @@
 # Home page
 GET     /                           controllers.HomeController.index()
 # Post
-#GET     /posts                      controllers.PostController.index()
+#GET    /posts                      controllers.PostController.index()
 POST    /posts                      controllers.PostController.create()
 GET     /posts/new                  controllers.PostController.newForm()
 GET     /posts/:key/edit            controllers.PostController.editForm(key: Long)
@@ -20,3 +20,15 @@ GET     /posts/:postKey/comments/:commentKey/delete controllers.PostController.d
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
+
+# securesocial integration
+# ~~~~
+GET     /user/login                 controllers.UserController.login
+GET     /user/info                  controllers.UserController.info
+GET     /user/logout                securesocial.controllers.LoginPage.logout
+GET     /authenticate/:provider     securesocial.controllers.LoginPage.authenticate(provider)
+POST    /authenticate/:provider     securesocial.controllers.LoginPage.authenticateByPost(provider)
+#securesocial unnecessary routes
+#GET     /login                      securesocial.controllers.LoginPage.login
+#GET     /signup                     securesocial.controllers.Registration.signUp
+#POST    /signup                     securesocial.controllers.Registration.handleSignUp

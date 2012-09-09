@@ -1,8 +1,8 @@
-@(list: List[Post]) 
+@(list: List[Post], user: securesocial.core.java.SocialUser, providers: List[securesocial.core.java.LoginProvider]) 
 
 @main("home") {
 
-    <h2> Welcome </h2>
+    <h2> Welcome @if(user != null) { @user.displayName }</h2>
     <p>
     	PublicPlay is a simple Forum application developed on 
     	<a href="http://github.com/playframework/play">Play Framework</a>.
@@ -11,7 +11,14 @@
     	Enjoy!
    	</p>
     
+	@if(user == null) {
+    <br/>
+		@***** no user in context *****@
+		@partials.login(providers)
+		
+	}
+	    
     <hr/>
     
-	@postList(list)
+	@partials.postList(list)
 }

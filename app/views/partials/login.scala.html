@@ -1,0 +1,9 @@
+@(providers: List[securesocial.core.java.LoginProvider]) 
+
+<p>
+	@for(p <- providers) {
+    	@defining( "images/providers/%s.png".format(p.providerId) ) { imageUrl =>
+            <a href="@p.authenticationUrl"> <img src="@routes.Assets.at(imageUrl)"/> login with @p.providerId</a>
+        }
+    }
+</p>
