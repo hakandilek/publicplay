@@ -2,7 +2,8 @@
 
 @main("home") {
 
-    <h2> Welcome @if(user != null) { @user.displayName }</h2>
+    <h2> Welcome @if(user != null) { <a href="@controllers.routes.UserController.info()">@user.displayName</a> }</h2> 
+    @if(user != null) {<a class="btn" href="@securesocial.controllers.routes.LoginPage.logout()">Logout</a> }
     <p>
     	PublicPlay is a simple Forum application developed on 
     	<a href="http://github.com/playframework/play">Play Framework</a>.
