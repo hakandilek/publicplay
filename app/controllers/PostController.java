@@ -57,7 +57,6 @@ public class PostController extends Controller {
 	public static Result createComment(Long postKey) {
 		Post post = Post.get(postKey);
 		Form<Comment> filledForm = commentForm.bindFromRequest();
-		System.out.println("form:" + filledForm);
 		if (filledForm.hasErrors()) {
 			return badRequest(views.html.postShow.render(post, null, filledForm));
 		} else {
