@@ -1,11 +1,14 @@
 package models;
 
+import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Basic;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Version;
 
 import play.data.validation.Constraints.Required;
 import play.db.ebean.Model;
@@ -23,7 +26,16 @@ public class Comment extends Model {
 
 	@Required
 	public String content;
+	
+    @Basic
+	public Date createdOn;
 
+    @Basic
+	public Date updatedOn;
+	
+	@Version
+	public int revision;
+	
 	public static Finder<Long, Comment> find = new Finder<Long, Comment>(Long.class, Comment.class);
 
 	public static List<Comment> all() {
@@ -31,6 +43,9 @@ public class Comment extends Model {
 	}
 
 	public static void create(Comment comment) {
+		Date now = new Date();
+		comment.setCreatedOn(now);
+		comment.setUpdatedOn(now);
 		comment.save();
 	}
 
@@ -43,6 +58,8 @@ public class Comment extends Model {
 	}
 
 	public static void update(Long key, Comment comment) {
+		Date now = new Date();
+		comment.setUpdatedOn(now);
 		comment.update(key);
 	}
 	
@@ -68,6 +85,30 @@ public class Comment extends Model {
 
 	public void setContent(String content) {
 		this.content = content;
+	}
+
+	public Date getCreatedOn() {
+		return createdOn;
+	}
+
+	public void setCreatedOn(Date createdOn) {
+		this.createdOn = createdOn;
+	}
+
+	public Date getUpdatedOn() {
+		return updatedOn;
+	}
+
+	public void setUpdatedOn(Date updatedOn) {
+		this.updatedOn = updatedOn;
+	}
+
+	public int getRevision() {
+		return revision;
+	}
+
+	public void setRevision(int revision) {
+		this.revision = revision;
 	}
 
 	@Override

@@ -2,33 +2,33 @@
 
 # --- !Ups
 
-insert into post (key, title, content) values (-11, 'some post', 'and  content of it');
-insert into post (key, title, content) values (-12, 'another post', 'and another content');
-insert into post (key, title, content) values (-13, 'yet another post', 'and yet another comment');
-insert into post (key, title, content) values (-14, 'dummy post', 'some comment on dummy stuff');
-insert into post (key, title, content) values (-15, 'wow it''s happening', 'yeah, sure!');
+insert into post (key, created_on, updated_on, revision, title, content) values (-11, '2012-01-01 00:01:00', '2012-01-01 00:01:00', 1, 'some post', 'and  content of it');
+insert into post (key, created_on, updated_on, revision, title, content) values (-12, '2012-01-02 00:02:00', '2012-02-01 00:02:00', 1, 'another post', 'and another content');
+insert into post (key, created_on, updated_on, revision, title, content) values (-13, '2012-01-03 00:03:00', '2012-03-01 00:03:00', 1, 'yet another post', 'and yet another comment');
+insert into post (key, created_on, updated_on, revision, title, content) values (-14, '2012-01-04 00:04:00', '2012-04-01 00:04:00', 1, 'dummy post', 'some comment on dummy stuff');
+insert into post (key, created_on, updated_on, revision, title, content) values (-15, '2012-01-05 00:05:00', '2012-05-01 00:05:00', 1, 'wow it''s happening', 'yeah, sure!');
 
-insert into comment (key, postKey, content) values (-111, -11, 'some comment');
-insert into comment (key, postKey, content) values (-112, -11, 'another comment');
-insert into comment (key, postKey, content) values (-113, -11, 'yet another comment');
-insert into comment (key, postKey, content) values (-114, -11, '...and a comment');
-insert into comment (key, postKey, content) values (-121, -12, 'comment 1');
-insert into comment (key, postKey, content) values (-122, -12, 'comment 2');
-insert into comment (key, postKey, content) values (-123, -12, 'comment 3');
-insert into comment (key, postKey, content) values (-124, -12, 'comment 4');
-insert into comment (key, postKey, content) values (-125, -12, 'comment 5');
-insert into comment (key, postKey, content) values (-126, -12, 'comment 6');
-insert into comment (key, postKey, content) values (-127, -12, 'comment 7');
-insert into comment (key, postKey, content) values (-128, -12, 'comment 8');
-insert into comment (key, postKey, content) values (-131, -13, 'comment 1');
-insert into comment (key, postKey, content) values (-132, -13, 'comment 2');
-insert into comment (key, postKey, content) values (-133, -13, 'comment 3');
-insert into comment (key, postKey, content) values (-141, -14, 'comment 1');
-insert into comment (key, postKey, content) values (-142, -14, 'comment 2');
-insert into comment (key, postKey, content) values (-143, -14, 'comment 3');
-insert into comment (key, postKey, content) values (-151, -15, 'comment 1');
-insert into comment (key, postKey, content) values (-152, -15, 'comment 2');
-insert into comment (key, postKey, content) values (-153, -15, 'comment 3');
+insert into comment (key, postKey, created_on, updated_on, revision, content) values (-111, -11, '2012-01-01 00:01:00', '2012-01-01 00:01:00', 1, 'some comment');
+insert into comment (key, postKey, created_on, updated_on, revision, content) values (-112, -11, '2012-01-02 00:01:00', '2012-01-02 00:01:00', 1, 'another comment');
+insert into comment (key, postKey, created_on, updated_on, revision, content) values (-113, -11, '2012-01-03 00:01:00', '2012-01-03 00:01:00', 1, 'yet another comment');
+insert into comment (key, postKey, created_on, updated_on, revision, content) values (-114, -11, '2012-01-04 00:01:00', '2012-01-04 00:01:00', 1, '...and a comment');
+insert into comment (key, postKey, created_on, updated_on, revision, content) values (-121, -12, '2012-01-05 00:01:00', '2012-01-05 00:01:00', 1, 'comment 1');
+insert into comment (key, postKey, created_on, updated_on, revision, content) values (-122, -12, '2012-01-01 00:01:00', '2012-01-01 00:01:00', 1, 'comment 2');
+insert into comment (key, postKey, created_on, updated_on, revision, content) values (-123, -12, '2012-01-02 00:01:00', '2012-01-02 00:01:00', 1, 'comment 3');
+insert into comment (key, postKey, created_on, updated_on, revision, content) values (-124, -12, '2012-01-03 00:01:00', '2012-01-03 00:01:00', 1, 'comment 4');
+insert into comment (key, postKey, created_on, updated_on, revision, content) values (-125, -12, '2012-01-04 00:01:00', '2012-01-04 00:01:00', 1, 'comment 5');
+insert into comment (key, postKey, created_on, updated_on, revision, content) values (-126, -12, '2012-01-05 00:01:00', '2012-01-05 00:01:00', 1, 'comment 6');
+insert into comment (key, postKey, created_on, updated_on, revision, content) values (-127, -12, '2012-01-01 00:01:00', '2012-01-01 00:01:00', 1, 'comment 7');
+insert into comment (key, postKey, created_on, updated_on, revision, content) values (-128, -12, '2012-01-02 00:01:00', '2012-01-02 00:01:00', 1, 'comment 8');
+insert into comment (key, postKey, created_on, updated_on, revision, content) values (-131, -13, '2012-01-03 00:01:00', '2012-01-03 00:01:00', 1, 'comment 1');
+insert into comment (key, postKey, created_on, updated_on, revision, content) values (-132, -13, '2012-01-04 00:01:00', '2012-01-04 00:01:00', 1, 'comment 2');
+insert into comment (key, postKey, created_on, updated_on, revision, content) values (-133, -13, '2012-01-05 00:01:00', '2012-01-05 00:01:00', 1, 'comment 3');
+insert into comment (key, postKey, created_on, updated_on, revision, content) values (-141, -14, '2012-01-01 00:01:00', '2012-01-01 00:01:00', 1, 'comment 1');
+insert into comment (key, postKey, created_on, updated_on, revision, content) values (-142, -14, '2012-01-02 00:01:00', '2012-01-02 00:01:00', 1, 'comment 2');
+insert into comment (key, postKey, created_on, updated_on, revision, content) values (-143, -14, '2012-01-03 00:01:00', '2012-01-03 00:01:00', 1, 'comment 3');
+insert into comment (key, postKey, created_on, updated_on, revision, content) values (-151, -15, '2012-01-04 00:01:00', '2012-01-04 00:01:00', 1, 'comment 1');
+insert into comment (key, postKey, created_on, updated_on, revision, content) values (-152, -15, '2012-01-05 00:01:00', '2012-01-05 00:01:00', 1, 'comment 2');
+insert into comment (key, postKey, created_on, updated_on, revision, content) values (-153, -15, '2012-01-01 00:01:00', '2012-01-01 00:01:00', 1, 'comment 3');
 
 # --- !Downs
 

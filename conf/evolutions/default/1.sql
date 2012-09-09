@@ -7,6 +7,9 @@ create table comment (
   key                       bigint not null,
   postKey                   bigint,
   content                   varchar(255),
+  created_on                timestamp,
+  updated_on                timestamp,
+  revision                  integer not null,
   constraint pk_comment primary key (key))
 ;
 
@@ -14,6 +17,9 @@ create table post (
   key                       bigint not null,
   title                     varchar(255),
   content                   varchar(255),
+  created_on                timestamp,
+  updated_on                timestamp,
+  revision                  integer not null,
   constraint pk_post primary key (key))
 ;
 

@@ -1,12 +1,15 @@
 package models;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.Basic;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.CascadeType;
+import javax.persistence.Version;
 
 
 import play.data.validation.Constraints.Required;
@@ -25,6 +28,15 @@ public class Post extends Model {
 	@Required
 	public String content;
 
+    @Basic
+	public Date createdOn;
+
+    @Basic
+	public Date updatedOn;
+	
+	@Version
+	public int revision;
+	
     @OneToMany(cascade=CascadeType.ALL, mappedBy="post")
     public Set<Comment> comments;
 
@@ -35,6 +47,9 @@ public class Post extends Model {
 	}
 
 	public static void create(Post post) {
+		Date now = new Date();
+		post.setCreatedOn(now);
+		post.setUpdatedOn(now);
 		post.save();
 	}
 
@@ -47,6 +62,8 @@ public class Post extends Model {
 	}
 
 	public static void update(Long key, Post post) {
+		Date now = new Date();
+		post.setUpdatedOn(now);
 		post.update(key);
 	}
 	
@@ -80,6 +97,30 @@ public class Post extends Model {
 
 	public void setComments(Set<Comment> comments) {
 		this.comments = comments;
+	}
+
+	public Date getCreatedOn() {
+		return createdOn;
+	}
+
+	public void setCreatedOn(Date createdOn) {
+		this.createdOn = createdOn;
+	}
+
+	public Date getUpdatedOn() {
+		return updatedOn;
+	}
+
+	public void setUpdatedOn(Date updatedOn) {
+		this.updatedOn = updatedOn;
+	}
+
+	public int getRevision() {
+		return revision;
+	}
+
+	public void setRevision(int revision) {
+		this.revision = revision;
 	}
 
 	@Override

@@ -6,6 +6,8 @@
         
 	<h1>@list.size() post(s)</h1>
 	
+	<h4><a href="@routes.PostController.newForm">Create a new post</a></h4>
+	
     <table class="posts zebra-striped">
         <thead>
             <tr>
@@ -17,7 +19,7 @@
         <tbody>
         @for(post <- list) {
             <tr>
-                <td><a href="@routes.PostController.show(post.key)">@post.title</a></td>
+                <td><a href="@routes.PostController.show(post.key)">@post.title</a> - @prettify(post.updatedOn)</td>
                 <td><a href="@routes.PostController.editForm(post.key)">edit</a></td>
                 <td><a href="@routes.PostController.delete(post.key)">delete</a></td>
             </tr>

@@ -1,10 +1,18 @@
 package views.html.helper;
 
+import java.util.Date;
+import java.util.Locale;
+
+import org.ocpsoft.prettytime.PrettyTime;
+
 import play.api.templates.Html;
 
 
 public class H {
 
+	//TODO: use request locale
+	private static PrettyTime prettyTime = new PrettyTime(Locale.ENGLISH);
+	
 	public static Html nl2br(String s) {
 		if (s == null)
 			return new Html("");
@@ -18,4 +26,10 @@ public class H {
 		return new Html("" + s);
 	}
 	
+	public static Html prettify(Date d) {
+		if (d == null)
+			return new Html("");
+		String s = prettyTime.format(d);
+		return new Html(s);
+	}
 }
