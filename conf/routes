@@ -21,14 +21,11 @@ GET     /posts/:postKey/comments/:commentKey/delete controllers.PostController.d
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
 
-# securesocial integration
+# socialauth integration
 # ~~~~
-GET     /user/login                 controllers.UserController.login
-GET     /user/info                  controllers.UserController.info
-GET     /user/logout                securesocial.controllers.LoginPage.logout
-GET     /authenticate/:provider     securesocial.controllers.LoginPage.authenticate(provider)
-POST    /authenticate/:provider     securesocial.controllers.LoginPage.authenticateByPost(provider)
-#securesocial unnecessary routes
-#GET     /login                      securesocial.controllers.LoginPage.login
-#GET     /signup                     securesocial.controllers.Registration.signUp
-#POST    /signup                     securesocial.controllers.Registration.handleSignUp
+GET     /user/login                     socialauth.controllers.SocialLogin.login
+GET     /user/info                      socialauth.controllers.SocialLogin.info
+GET     /user/logout                    socialauth.controllers.SocialLogin.logout
+GET     /authenticate/:provider         socialauth.controllers.SocialLogin.authenticate(provider)
+POST    /authenticate/:provider         socialauth.controllers.SocialLogin.authenticate(provider)
+GET     /authenticate/:provider/done    socialauth.controllers.SocialLogin.authenticateDone(provider)
