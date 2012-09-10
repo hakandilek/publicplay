@@ -7,8 +7,8 @@ import java.lang.annotation.Target;
 
 import play.mvc.With;
 
-@With(SocialAwareAction.class)
+@With(SecureAction.class)
 @Target({ElementType.TYPE, ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface SocialAware {
+public @interface Secure {
 }

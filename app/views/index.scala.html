@@ -1,8 +1,9 @@
-@(list: List[Post]) 
+@(list: List[Post], user: socialauth.core.SocialUser) 
 
 @main("home") {
 
-    <h2> Welcome </h2> 
+    <h1> Welcome @if(user != null) { <img alt="@user.profile.getProfileImageURL()" src="@user.profile.getProfileImageURL()"> <a href="@socialauth.controllers.routes.SocialLogin.info()">@user.profile.getFirstName()!</a> }</h1> 
+    @if(user != null) {<a class="btn" href="@socialauth.controllers.routes.SocialLogin.logout()">Logout</a> }
     <p>
     	PublicPlay is a simple Forum application developed on 
     	<a href="http://github.com/playframework/play">Play Framework</a>.
@@ -11,9 +12,12 @@
     	Enjoy!
    	</p>
     
+	@if(user == null) {
     <br/>
 		@***** no user in context *****@
 		@partials.login()
+		
+	}
 		
     <hr/>
     

@@ -5,27 +5,26 @@ import java.util.Map;
 
 import org.brickred.socialauth.Profile;
 
+import play.Application;
 import play.api.Plugin;
 import socialauth.core.SocialUser;
-import socialauth.core.UserId;
 
 public class SocialUserService implements Plugin {
 
 	private static SocialUserService instance;// plugin instance
 
-	private Map<UserId, SocialUser> users = new HashMap<UserId, SocialUser>();
+	private Map<String, SocialUser> users = new HashMap<String, SocialUser>();
 
-	public SocialUserService() {
+	public SocialUserService(Application app) {
 	}
 
-	public void save(Profile profile) {
-		UserId userId = new UserId(profile);
+	public void save(String userKey, Profile profile) {
 		SocialUser user = new SocialUser(profile);
-		users.put(userId, user);
+		users.put(userKey, user);
 	}
 
-	public SocialUser find(UserId userId) {
-		return users.get(userId);
+	public SocialUser find(String userKey) {
+		return users.get(userKey);
 	}
 
 	@Override
