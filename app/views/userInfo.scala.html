@@ -1,47 +1,32 @@
-@(user: securesocial.core.java.SocialUser, providers: List[securesocial.core.java.LoginProvider])
+@(user: socialauth.core.SocialUser)
 @main("user information") {
 	@if(user == null) {
 	
 		@***** no user in context *****@
-		@partials.login(providers)
+		@partials.login()
 		
 	} else {
 
 	<div class="page-header">
-	    <h2><img src="@user.avatarUrl" alt="@user.displayName" width="40px" height="40px"/> Welcome @user.displayName</h2>
+	    <h2><img src="@user.profile.getProfileImageURL()" alt="@user.profile.getFirstName() @user.profile.getLastName()" width="40px"/> Welcome @user.profile.getFirstName()</h2>
 	</div>
 	
 	<div class="clearfix">
 	    <h2>User Details</h2>
 	
 	    <ul>
-	        <li>User Id: @user.id.id</li>
-	        <li>Logged in from: @user.id.provider</li>
-	        <li>Email: @if( user.email != null ) { @user.email } else { Not Available }</li>
-	        <li>Authentication method: @user.authMethod</li>
+	        <li> <a href="https://www.facebook.com/profile.php?id=@user.profile.getValidatedId()">Facebook Profile</a></li>
+	        <li> User Id: @user.profile.getValidatedId()</li>
+	        <li> Logged in from: @user.profile.getProviderId()</li>
+	        <li> Email: @if( user.profile.getEmail() != null ) { @user.profile.getEmail() } else { Not Available } </li>
+	        <li> FirstName: @user.profile.getFirstName() </li>
+	        <li> LastName: @user.profile.getLastName() </li>
+	        <li> Language: @user.profile.getLanguage() </li>
+	        <li> Date of Birth: @user.profile.getDob() </li>
+	        <li> Gender: @user.profile.getGender() </li>
+	        <li> Location: @user.profile.getLocation() </li>
 	    </ul>
 	
-	    @if( user.oAuth1Info != null ) {
-	    <h2>OAuth1 Info</h2>
-	
-	    <ul>
-	        <li>Token: @user.oAuth1Info.token</li>
-	        <li>Secret: @user.oAuth1Info.secret</li>
-	    </ul>
-	    }
-	
-	    @if( user.oAuth2Info != null) {
-	    <h2>OAuth2 Info</h2>
-	
-	    <ul>
-	        <li>Access Token: @user.oAuth2Info.accessToken</li>
-	        @if( user.oAuth2Info.tokenType != null ) { <li>Token Type: @user.oAuth2Info.tokenType</li> }
-	        @if( user.oAuth2Info.expiresIn != null ) { <li>Expires in: @user.oAuth2Info.expiresIn seconds</li> }
-	        @if( user.oAuth2Info.refreshToken != null ) { <li>Refresh Token: @user.oAuth2Info.refreshToken</li> }
-	    </ul>
-	    }
-	    <hr>
-	    <a class="btn" href="@securesocial.controllers.routes.LoginPage.logout()">Logout</a>
 	</div>
 
 	}
