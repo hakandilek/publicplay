@@ -1,9 +1,6 @@
-@(providers: List[securesocial.core.java.LoginProvider]) 
+@() 
+@import helper._ 
 
 <p>
-	@for(p <- providers) {
-    	@defining( "images/providers/%s.png".format(p.providerId) ) { imageUrl =>
-            <a href="@p.authenticationUrl"> <img src="@routes.Assets.at(imageUrl)"/> login with @p.providerId</a>
-        }
-    }
+    <a href="@socialauth.controllers.routes.SocialLogin.authenticate("facebook")">login with facebook</a>
 </p>

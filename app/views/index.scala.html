@@ -1,9 +1,8 @@
-@(list: List[Post], user: securesocial.core.java.SocialUser, providers: List[securesocial.core.java.LoginProvider]) 
+@(list: List[Post]) 
 
 @main("home") {
 
-    <h2> Welcome @if(user != null) { <a href="@controllers.routes.UserController.info()">@user.displayName</a> }</h2> 
-    @if(user != null) {<a class="btn" href="@securesocial.controllers.routes.LoginPage.logout()">Logout</a> }
+    <h2> Welcome </h2> 
     <p>
     	PublicPlay is a simple Forum application developed on 
     	<a href="http://github.com/playframework/play">Play Framework</a>.
@@ -12,13 +11,10 @@
     	Enjoy!
    	</p>
     
-	@if(user == null) {
     <br/>
 		@***** no user in context *****@
-		@partials.login(providers)
+		@partials.login()
 		
-	}
-	    
     <hr/>
     
 	@partials.postList(list)

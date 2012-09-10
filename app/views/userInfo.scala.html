@@ -1,9 +1,10 @@
-@(user: securesocial.core.java.SocialUser, providers: List[securesocial.core.java.LoginProvider])
+@()
 @main("user information") {
+@*********************************
 	@if(user == null) {
 	
-		@***** no user in context *****@
-		@partials.login(providers)
+		@***** no user in context *****
+		@partials.login()
 		
 	} else {
 
@@ -41,8 +42,8 @@
 	    </ul>
 	    }
 	    <hr>
-	    <a class="btn" href="@securesocial.controllers.routes.LoginPage.logout()">Logout</a>
 	</div>
 
 	}
+***************************@
 }
