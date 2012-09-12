@@ -1,6 +1,5 @@
 package socialauth.controllers;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
 import java.util.Properties;
@@ -30,12 +29,31 @@ public class SocialLogin extends Controller {
 
 	public static final String ORIGINAL_URL = "originalURL";
 
-	private static SocialAuthManager authManager;
+	private static SocialAuthConfig authConfig;
 
-	public static SocialAuthManager getAuthManager() {
-		if (authManager == null) {
-			if (log.isDebugEnabled())
-				log.debug("Creating AuthManager ...");
+	private static SocialAuthManager createAuthManager(String provider) {
+		if (log.isDebugEnabled())
+			log.debug("Creating AuthManager ...");
+
+		try {
+			// Create an instance of SocialAuthManager and set config
+			SocialAuthConfig config = getAuthConfig();
+			if (config == null)
+				return null;
+			SocialAuthManager authManager = new SocialAuthManager();
+			authManager.setSocialAuthConfig(config);
+			String successUrl = authSuccessURL(provider);
+			authManager.getAuthenticationUrl(provider, successUrl);
+			return authManager;
+		} catch (Exception e) {
+			// problem occured
+			log.error("problem occured creating auth manager", e);
+			return null;
+		}
+	}
+
+	private static SocialAuthConfig getAuthConfig() {
+		if (authConfig == null) {
 			// Create an instance of SocialAuthConfgi object
 			Properties properties = new Properties();
 			ClassLoader loader = SocialAuthConfig.class.getClassLoader();
@@ -49,107 +67,114 @@ public class SocialLogin extends Controller {
 					properties.setProperty("proxy.host", proxyHost);
 				if (proxyPort != null)
 					properties.setProperty("proxy.port", proxyPort);
-				
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
 
-			SocialAuthConfig config = new SocialAuthConfig();
-
-			try {
-				// load configuration. By default load the configuration from socialauth.properties.
-				// You can also pass input stream, properties object or properties file name.
-				config.load(properties);
-
-				// Create an instance of SocialAuthManager and set config
-				authManager = new SocialAuthManager();
-				authManager.setSocialAuthConfig(config);
+				// load configuration. By default load the configuration from
+				// socialauth.properties.
+				// You can also pass input stream, properties object or properties
+				// file name.
+				authConfig = new SocialAuthConfig();
+				authConfig.load(properties);
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				Logger.error("error occured creating auth config", e);
+				return null;
 			}
+
 		}
-		return authManager;
+		return authConfig;
 	}
 
 	public static Result login() {
 		if (log.isDebugEnabled())
 			log.debug("login() <-");
-		
+
 		return ok(login.render());
 	}
 
 	public static Result logout() {
 		if (log.isDebugEnabled())
 			log.debug("logout() <-");
-		
-		//TODO: log user logout into DB
-		session(USER_KEY, null);
-		session(ORIGINAL_URL, null);
+
+		// TODO: log user logout into DB
+		session().remove(USER_KEY);
+		session().remove(ORIGINAL_URL);
 		return redirect(controllers.routes.HomeController.index());
 	}
 
+	private static String authSuccessURL(String provider) {
+		// URL of YOUR application which will be called after authentication
+		final Call successCall = routes.SocialLogin
+				.authenticateDone(provider);
+		String successUrl = "http://" + request().host()
+				+ successCall.url();
+		return successUrl;
+	}
+	
 	public static Result authenticate(String provider) {
 		if (log.isDebugEnabled())
 			log.debug("authenticate() with provider = " + provider);
 
-		final String originalURL = session(ORIGINAL_URL);
+		String originalURL = session(ORIGINAL_URL);
 		if (log.isDebugEnabled())
 			log.debug("originalURL = " + originalURL);
-		
+
 		if (SocialUtils.emptyOrNull(originalURL)) {
 			if (log.isDebugEnabled())
 				log.debug("setting referer...");
-			
+
 			String referer = request().getHeader("referer");
 			if (log.isDebugEnabled())
 				log.debug("No original URL setting referer = " + referer);
-			if (referer != null) 
+			if (referer != null) {
 				session(ORIGINAL_URL, referer);
+				originalURL = referer;
+			}
 		}
-		
-		try {
-			// URL of YOUR application which will be called after authentication
-			final Call successCall = routes.SocialLogin.authenticateDone(provider);
-			String successUrl = "http://" + request().host() + successCall.url();
 
-			// get Provider URL to which you should redirect for authentication. id can 
+		try {
+			// get Provider URL to which you should redirect for authentication.
+			// id can
 			// have values "facebook", "twitter", "yahoo" etc. or the OpenID URL
-			SocialAuthManager manager = getAuthManager();
+			SocialAuthManager manager = createAuthManager(provider);
+			String successUrl = authSuccessURL(provider);
 			String url = manager.getAuthenticationUrl(provider, successUrl);
 			if (log.isDebugEnabled())
 				log.debug("redirecting to url : " + url);
 			return redirect(url);
 		} catch (Exception e) {
-			e.printStackTrace();
-			return TODO;
+			log.error("error occured authenticating, redirecting to originalURL=" + originalURL, e);
+			return redirect(originalURL);
 		}
 	}
 
 	public static Result authenticateDone(String provider) {
 		if (log.isDebugEnabled())
 			log.debug("authenticateDone() <-" + provider);
-		
-		SocialAuthManager manager = getAuthManager();
-		Map<String, String> parameters = SocialUtils.parameters(request());
+
 		try {
 			// TODO use NIO here
+			
+			SocialAuthManager manager = createAuthManager(provider);
+			if (Logger.isDebugEnabled())
+				Logger.debug("manager : " + manager);
+			
+			Map<String, String> parameters = SocialUtils.parameters(request());
+			if (Logger.isDebugEnabled())
+				Logger.debug("parameters : " + parameters);
 			// authenticate
 			AuthProvider auth = manager.connect(parameters);
 			// get profile
 			Profile profile = auth.getUserProfile();
 			if (log.isDebugEnabled())
 				log.debug("profile : " + profile);
-			
+
 			final SocialUser user = new SocialUser(profile);
 			if (log.isDebugEnabled())
 				log.debug("user : " + user);
-			
+
 			final String userKey = user.getUserKey();
 			if (log.isDebugEnabled())
 				log.debug("userKey : " + userKey);
-			
+
 			if (userKey != null)
 				session(USER_KEY, userKey);
 
@@ -159,20 +184,20 @@ public class SocialLogin extends Controller {
 				log.debug("userService : " + userService);
 			if (userService != null)
 				userService.save(userKey, profile);
-			
+
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			log.error("error occured during authentication. redirecting back", e);
 		}
-		
+
 		String originalURL = session(ORIGINAL_URL);
 		if (log.isDebugEnabled())
 			log.debug("originalURL : " + originalURL);
+
 		if (!SocialUtils.emptyOrNull(originalURL)) {
-			session(ORIGINAL_URL, null);
+			session().remove(ORIGINAL_URL);
 			if (log.isDebugEnabled())
 				log.debug("redirecting to originalURL : " + originalURL);
-			
+
 			return redirect(originalURL);
 		}
 		if (log.isDebugEnabled())
@@ -182,7 +207,8 @@ public class SocialLogin extends Controller {
 
 	@Secure
 	public static Result info() {
-		final SocialUser user = (SocialUser) ctx().args.get(SocialLogin.USER_KEY);
+		final SocialUser user = (SocialUser) ctx().args
+				.get(SocialLogin.USER_KEY);
 		log.info("user info = " + user);
 		return ok(userInfo.render(user));
 	}
