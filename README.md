@@ -13,7 +13,7 @@ Those are some features of PublicPlay:
 (either already implemented or <del>planned</del>)
 
  * unit testing
- * <del> logging </del>
+ * logging 
  * <del> theming </del>
  * <del> pagination </del>
  * Facebook login with [social auth](http://code.google.com/p/socialauth)

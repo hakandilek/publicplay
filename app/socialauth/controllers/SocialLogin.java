@@ -2,10 +2,8 @@ package socialauth.controllers;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
-import java.util.Set;
 
 import org.brickred.socialauth.AuthProvider;
 import org.brickred.socialauth.Profile;
@@ -13,9 +11,9 @@ import org.brickred.socialauth.SocialAuthConfig;
 import org.brickred.socialauth.SocialAuthManager;
 
 import play.Logger;
+import play.Logger.ALogger;
 import play.api.mvc.Call;
 import play.mvc.Controller;
-import play.mvc.Http.Request;
 import play.mvc.Result;
 import socialauth.core.Secure;
 import socialauth.core.SocialUser;
@@ -25,7 +23,8 @@ import views.html.login;
 import views.html.userInfo;
 
 public class SocialLogin extends Controller {
-	
+	private static ALogger log = Logger.of(SocialLogin.class);
+
 	/** session key for authenticated user */
 	public static final String USER_KEY = "socialUser";
 
@@ -35,6 +34,8 @@ public class SocialLogin extends Controller {
 
 	public static SocialAuthManager getAuthManager() {
 		if (authManager == null) {
+			if (log.isDebugEnabled())
+				log.debug("Creating AuthManager ...");
 			// Create an instance of SocialAuthConfgi object
 			Properties properties = new Properties();
 			ClassLoader loader = SocialAuthConfig.class.getClassLoader();
@@ -73,10 +74,16 @@ public class SocialLogin extends Controller {
 	}
 
 	public static Result login() {
+		if (log.isDebugEnabled())
+			log.debug("login() <-");
+		
 		return ok(login.render());
 	}
 
 	public static Result logout() {
+		if (log.isDebugEnabled())
+			log.debug("logout() <-");
+		
 		//TODO: log user logout into DB
 		session(USER_KEY, null);
 		session(ORIGINAL_URL, null);
@@ -84,18 +91,20 @@ public class SocialLogin extends Controller {
 	}
 
 	public static Result authenticate(String provider) {
-		if (Logger.isDebugEnabled())
-			Logger.debug("authenticate with provider = " + provider);
+		if (log.isDebugEnabled())
+			log.debug("authenticate() with provider = " + provider);
 
 		final String originalURL = session(ORIGINAL_URL);
-		if (Logger.isDebugEnabled())
-			Logger.debug("originalURL = " + originalURL);
+		if (log.isDebugEnabled())
+			log.debug("originalURL = " + originalURL);
+		
 		if (SocialUtils.emptyOrNull(originalURL)) {
-			if (Logger.isDebugEnabled())
-				Logger.debug("setting referer...");
+			if (log.isDebugEnabled())
+				log.debug("setting referer...");
+			
 			String referer = request().getHeader("referer");
-			if (Logger.isDebugEnabled())
-				Logger.debug("No original URL setting referer = " + referer);
+			if (log.isDebugEnabled())
+				log.debug("No original URL setting referer = " + referer);
 			if (referer != null) 
 				session(ORIGINAL_URL, referer);
 		}
@@ -109,6 +118,8 @@ public class SocialLogin extends Controller {
 			// have values "facebook", "twitter", "yahoo" etc. or the OpenID URL
 			SocialAuthManager manager = getAuthManager();
 			String url = manager.getAuthenticationUrl(provider, successUrl);
+			if (log.isDebugEnabled())
+				log.debug("redirecting to url : " + url);
 			return redirect(url);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -117,53 +128,62 @@ public class SocialLogin extends Controller {
 	}
 
 	public static Result authenticateDone(String provider) {
+		if (log.isDebugEnabled())
+			log.debug("authenticateDone() <-" + provider);
+		
 		SocialAuthManager manager = getAuthManager();
-		Map<String, String> parameters = parameters(request());
+		Map<String, String> parameters = SocialUtils.parameters(request());
 		try {
 			// TODO use NIO here
 			// authenticate
 			AuthProvider auth = manager.connect(parameters);
 			// get profile
 			Profile profile = auth.getUserProfile();
+			if (log.isDebugEnabled())
+				log.debug("profile : " + profile);
+			
 			final SocialUser user = new SocialUser(profile);
+			if (log.isDebugEnabled())
+				log.debug("user : " + user);
+			
 			final String userKey = user.getUserKey();
+			if (log.isDebugEnabled())
+				log.debug("userKey : " + userKey);
+			
 			if (userKey != null)
 				session(USER_KEY, userKey);
 
 			// save profile information
 			SocialUserService userService = SocialUserService.getInstance();
+			if (log.isDebugEnabled())
+				log.debug("userService : " + userService);
 			if (userService != null)
 				userService.save(userKey, profile);
+			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
 		String originalURL = session(ORIGINAL_URL);
+		if (log.isDebugEnabled())
+			log.debug("originalURL : " + originalURL);
 		if (!SocialUtils.emptyOrNull(originalURL)) {
 			session(ORIGINAL_URL, null);
+			if (log.isDebugEnabled())
+				log.debug("redirecting to originalURL : " + originalURL);
+			
 			return redirect(originalURL);
 		}
+		if (log.isDebugEnabled())
+			log.debug("redirecting back to home");
 		return redirect(controllers.routes.HomeController.index());
-	}
-
-	private static Map<String, String> parameters(Request request) {
-		Map<String, String> params = new HashMap<String, String>();
-		Map<String, String[]> queryString = request.queryString();
-		Set<String> keySet = queryString.keySet();
-		for (String key : keySet) {
-			String[] strings = queryString.get(key);
-			for (String value : strings) {
-				if (value != null)
-					params.put(key, value);
-			}
-		}
-		return params;
 	}
 
 	@Secure
 	public static Result info() {
 		final SocialUser user = (SocialUser) ctx().args.get(SocialLogin.USER_KEY);
-		Logger.info("user info = " + user);
+		log.info("user info = " + user);
 		return ok(userInfo.render(user));
 	}
 
