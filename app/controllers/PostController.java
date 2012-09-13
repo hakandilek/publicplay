@@ -73,7 +73,7 @@ public class PostController extends Controller {
 		}
 	}
 
-	public static Result show(Long key) {
+	public static Result show(Long key, String title) {
 		if (log.isDebugEnabled())
 			log.debug("show() <-" + key);
 		
@@ -96,7 +96,7 @@ public class PostController extends Controller {
 	}
 
 	//Comment stuff
-	public static Result createComment(Long postKey) {
+	public static Result createComment(Long postKey, String title) {
 		if (log.isDebugEnabled())
 			log.debug("createComment() <-" + postKey);
 		

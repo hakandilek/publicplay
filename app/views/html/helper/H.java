@@ -32,4 +32,14 @@ public class H {
 		String s = prettyTime.format(d);
 		return new Html(s);
 	}
+	
+	public static String sanitize(String s) {
+		if (s == null)
+			return "";
+		s = s.replaceAll("[^A-Za-z0-9]", "_");
+		s = s.toLowerCase(Locale.ENGLISH);
+		return s;
+	}
+	
+	
 }

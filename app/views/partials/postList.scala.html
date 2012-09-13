@@ -18,7 +18,7 @@
         @for(post <- list) {
             <tr>
                 <td>
-                	<a href="@routes.PostController.show(post.key)">@post.title</a> - @prettify(post.updatedOn)
+                	<a href="@routes.PostController.show(post.key, sanitize(post.title))">@post.title</a> - @prettify(post.updatedOn)
                 	<a href="@routes.PostController.editForm(post.key)">edit</a>
                 	<a href="@routes.PostController.delete(post.key)">delete</a>
                	</td>

@@ -28,7 +28,7 @@
         <h3>drop your comment:</h3>
 	}	
     @form(if(commentKey != null) { routes.PostController.updateComment(post.key, commentForm.get().key) } 
-          else                   { routes.PostController.createComment(post.key) }) { 
+          else                   { routes.PostController.createComment(post.key, post.title) }) { 
         @textarea(commentForm("content"))
         <input type="submit" value="@if(commentKey != null) { Update } else {Create}">
     } 
