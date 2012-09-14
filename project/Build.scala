@@ -12,7 +12,8 @@ object ApplicationBuild extends Build {
         //prettytime library
         "org.ocpsoft.prettytime" % "prettytime" % "2.0.0-SNAPSHOT",
         //socialauth library
-        "org.brickred" % "socialauth" % "2.3"
+        "org.brickred" % "socialauth" % "2.3",
+        "com.restfb" % "restfb" % "1.6.11"
     )
 
     val main = PlayProject(appName, appVersion, appDependencies, mainLang = JAVA).settings (

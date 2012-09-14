@@ -31,5 +31,5 @@
           else                   { routes.PostController.createComment(post.key, post.title) }) { 
         @textarea(commentForm("content"))
         <input type="submit" value="@if(commentKey != null) { Update } else {Create}">
-    } 
+    }
 }
