@@ -7,6 +7,7 @@ import play.Logger.ALogger;
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
+import utils.HttpUtils;
 
 public class PostController extends Controller {
 
@@ -81,7 +82,11 @@ public class PostController extends Controller {
 		if (log.isDebugEnabled())
 			log.debug("post : " + post);
 		
-		return ok(views.html.postShow.render(post, null, commentForm));
+		String selfUrl = HttpUtils.selfURL();
+		if (Logger.isDebugEnabled())
+			Logger.debug("selfUrl : " + selfUrl);
+		
+		return ok(views.html.postShow.render(post, null, commentForm, selfUrl));
 	}
 
 	public static Result delete(Long key) {
@@ -104,12 +109,16 @@ public class PostController extends Controller {
 		if (log.isDebugEnabled())
 			log.debug("post : " + post);
 		
+		String selfUrl = HttpUtils.selfURL();
+		if (Logger.isDebugEnabled())
+			Logger.debug("selfUrl : " + selfUrl);
+		
 		Form<Comment> filledForm = commentForm.bindFromRequest();
 		if (filledForm.hasErrors()) {
 			if (log.isDebugEnabled())
 				log.debug("validation errors occured");
 			
-			return badRequest(views.html.postShow.render(post, null, filledForm));
+			return badRequest(views.html.postShow.render(post, null, filledForm, selfUrl));
 		} else {
 			Comment comment = filledForm.get();
 			comment.setPost(post);
@@ -120,7 +129,7 @@ public class PostController extends Controller {
 			if (log.isDebugEnabled())
 				log.debug("comment created");
 			
-			return ok(views.html.postShow.render(post, null, commentForm));
+			return ok(views.html.postShow.render(post, null, commentForm, selfUrl));
 		}
 	}
 
@@ -136,8 +145,12 @@ public class PostController extends Controller {
 		if (log.isDebugEnabled())
 			log.debug("comment : " + comment);
 		
+		String selfUrl = HttpUtils.selfURL();
+		if (Logger.isDebugEnabled())
+			Logger.debug("selfUrl : " + selfUrl);
+		
 		Form<Comment> form = commentForm.fill(comment);
-		return ok(views.html.postShow.render(post, commentKey, form));
+		return ok(views.html.postShow.render(post, commentKey, form, selfUrl));
 	}
 
 	public static Result updateComment(Long postKey, Long commentKey) {
@@ -148,18 +161,22 @@ public class PostController extends Controller {
 		if (log.isDebugEnabled())
 			log.debug("post : " + post);
 		
+		String selfUrl = HttpUtils.selfURL();
+		if (Logger.isDebugEnabled())
+			Logger.debug("selfUrl : " + selfUrl);
+		
 		Form<Comment> filledForm = commentForm.bindFromRequest();
 		if (filledForm.hasErrors()) {
 			if (log.isDebugEnabled())
 				log.debug("validation errors occured");
 			
-			return badRequest(views.html.postShow.render(post, commentKey, filledForm));
+			return badRequest(views.html.postShow.render(post, commentKey, filledForm, selfUrl));
 		} else {
 			Comment.update(commentKey, filledForm.get());
 			if (log.isDebugEnabled())
 				log.debug("entity updated");
 			
-			return ok(views.html.postShow.render(post, commentKey, commentForm));
+			return ok(views.html.postShow.render(post, commentKey, commentForm, selfUrl));
 		}
 	}
 
@@ -175,7 +192,11 @@ public class PostController extends Controller {
 		if (log.isDebugEnabled())
 			log.debug("entity deleted");
 		
-		return ok(views.html.postShow.render(post, null, commentForm));
+		String selfUrl = HttpUtils.selfURL();
+		if (Logger.isDebugEnabled())
+			Logger.debug("selfUrl : " + selfUrl);
+		
+		return ok(views.html.postShow.render(post, null, commentForm, selfUrl));
 	}
 
 }

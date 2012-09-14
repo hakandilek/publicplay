@@ -1,11 +1,21 @@
-@(post: Post, commentKey:Long, commentForm: Form[Comment]) 
+@(post: Post, commentKey:Long, commentForm: Form[Comment], selfURL: String) 
 @import helper._ 
 @import helper.twitterBootstrap._
 @import helper.H._
 @main("show") {
+	<div id="fb-root"></div>
+	<script>(function(d, s, id) {
+	  var js, fjs = d.getElementsByTagName(s)[0];
+	  if (d.getElementById(id)) return;
+	  js = d.createElement(s); js.id = id;
+	  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=441048632604409";
+	  fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));</script>
+
 	<h2>@post.getTitle()</h2>
 	<p>@prettify(post.updatedOn)</p>
 	<p>@nl2br(post.content)</p>
+	<div class="fb-like" data-href="@selfURL" data-send="false" data-width="550" data-show-faces="true"></div>
 	
 	@* comments *@
 	@if(post.comments.isEmpty()) {
