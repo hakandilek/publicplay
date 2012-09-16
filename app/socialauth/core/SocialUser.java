@@ -1,6 +1,10 @@
 package socialauth.core;
 
+import java.util.Calendar;
+import java.util.Date;
+
 import org.brickred.socialauth.Profile;
+import org.brickred.socialauth.util.BirthDate;
 
 public class SocialUser {
 
@@ -29,5 +33,12 @@ public class SocialUser {
 		builder.append("SocialUser [").append(userKey)
 				.append(" = ").append(profile).append("]");
 		return builder.toString();
+	}
+
+	public Date getBirthDate() {
+		final BirthDate dob = getProfile().getDob();
+		final Calendar cal = Calendar.getInstance();
+		cal.set(dob.getYear(), dob.getMonth(), dob.getDay(), 0, 0, 0);
+		return cal.getTime();
 	}
 }

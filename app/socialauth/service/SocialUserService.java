@@ -1,7 +1,8 @@
 package socialauth.service;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Date;
+
+import models.User;
 
 import org.brickred.socialauth.Profile;
 
@@ -12,11 +13,10 @@ import play.api.Plugin;
 import socialauth.core.SocialUser;
 
 public class SocialUserService implements Plugin {
+	
 	private static ALogger log = Logger.of(SocialUserService.class);
 
 	private static SocialUserService instance;// plugin instance
-
-	private Map<String, SocialUser> users = new HashMap<String, SocialUser>();
 
 	public SocialUserService(Application app) {
 		if (log.isInfoEnabled())
@@ -31,8 +31,19 @@ public class SocialUserService implements Plugin {
 		if (log.isDebugEnabled())
 			log.debug("profile : " + profile);
 		
-		SocialUser user = new SocialUser(profile);
-		users.put(userKey, user);
+		User user = User.get(userKey);
+		if (Logger.isDebugEnabled())
+			Logger.debug("user : " + user);
+		
+		if (user != null) {
+			user.loginCount++;
+			user.setLastLogin(new Date());
+			user.update();
+		} else {
+			SocialUser socialUser = new SocialUser(profile);
+			user = new User(socialUser);
+			User.create(user);
+		}
 		
 		if (log.isDebugEnabled())
 			log.debug("saved user profile.");
@@ -44,11 +55,16 @@ public class SocialUserService implements Plugin {
 		if (log.isDebugEnabled())
 			log.debug("userKey : " + userKey);
 		
-		SocialUser user = users.get(userKey);
+		final User user = User.get(userKey);
+		if (Logger.isDebugEnabled())
+			Logger.debug("user : " + user);
+		SocialUser socialUser = user.toSocialUser();
+		if (Logger.isDebugEnabled())
+			Logger.debug("socialUser : " + socialUser);
 		
 		if (log.isDebugEnabled())
 			log.debug("user : " + user);
-		return user;
+		return socialUser;
 	}
 
 	@Override
@@ -61,6 +77,7 @@ public class SocialUserService implements Plugin {
 		instance = this;
 		if (log.isInfoEnabled())
 			log.debug(getClass().getSimpleName() + " started.");
+
 	}
 
 	@Override
