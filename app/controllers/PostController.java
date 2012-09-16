@@ -93,7 +93,7 @@ public class PostController extends Controller {
 		if (log.isDebugEnabled())
 			log.debug("delete() <-" + key);
 		
-		Post.delete(key);
+		Post.remove(key);
 		if (log.isDebugEnabled())
 			log.debug("entity deleted");
 		
@@ -188,7 +188,7 @@ public class PostController extends Controller {
 		if (log.isDebugEnabled())
 			log.debug("post : " + post);
 		
-		Comment.delete(commentKey);
+		Comment.remove(commentKey);
 		if (log.isDebugEnabled())
 			log.debug("entity deleted");
 		

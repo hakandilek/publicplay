@@ -53,7 +53,7 @@ public class Post extends Model {
 		post.save();
 	}
 
-	public static void delete(Long key) {
+	public static void remove(Long key) {
 		find.ref(key).delete();
 	}
 

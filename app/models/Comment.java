@@ -49,7 +49,7 @@ public class Comment extends Model {
 		comment.save();
 	}
 
-	public static void delete(Long key) {
+	public static void remove(Long key) {
 		find.ref(key).delete();
 	}
 
