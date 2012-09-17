@@ -2,11 +2,15 @@ package controllers;
 
 import models.Comment;
 import models.Post;
+import models.User;
 import play.Logger;
 import play.Logger.ALogger;
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
+import socialauth.controllers.SocialLogin;
+import socialauth.core.Secure;
+import socialauth.core.SocialUser;
 import utils.HttpUtils;
 
 public class PostController extends Controller {
@@ -197,6 +201,49 @@ public class PostController extends Controller {
 			Logger.debug("selfUrl : " + selfUrl);
 		
 		return ok(views.html.postShow.render(post, null, commentForm, selfUrl));
+	}
+
+	/**
+	 * rating is done via ajax, therefore return simply the eventual rate sum
+	 */
+	@Secure
+	public static Result rateUp(Long postKey) {
+		if (Logger.isDebugEnabled())
+			Logger.debug("rateUp <-" + postKey);
+		return rate(postKey, 1);
+	}
+
+	@Secure
+	public static Result rateDown(Long postKey) {
+		if (Logger.isDebugEnabled())
+			Logger.debug("rateDown <-" + postKey);
+		return rate(postKey, -1);
+	}
+
+	public static Result rate(Long postKey, int rate) {
+		if (Logger.isDebugEnabled())
+			Logger.debug("rate <-" + postKey);
+
+		Post post = Post.get(postKey);
+		if (log.isDebugEnabled())
+			log.debug("post : " + post);
+		
+		final SocialUser socialUser = (SocialUser) ctx().args.get(SocialLogin.USER_KEY);
+		if (log.isDebugEnabled())
+			log.debug("socialUser : " + socialUser);
+		User user = null;
+		if (socialUser != null)
+			user = User.get(socialUser.getUserKey());
+		if (Logger.isDebugEnabled())
+			Logger.debug("user : " + user);
+		if (user != null) {
+			//TODO:save/update rate
+			return ok(views.html.rate.render(rate));
+		} else {
+			if (Logger.isDebugEnabled())
+				Logger.debug("no user");
+			return TODO;
+		}
 	}
 
 }

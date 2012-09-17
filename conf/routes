@@ -17,6 +17,9 @@ POST    /posts/:postKey                             controllers.PostController.c
 GET     /posts/:postKey/comments/:commentKey/edit   controllers.PostController.editCommentForm(postKey: Long, commentKey: Long)
 POST    /posts/:postKey/comments/:commentKey        controllers.PostController.updateComment(postKey: Long, commentKey: Long)
 GET     /posts/:postKey/comments/:commentKey/delete controllers.PostController.deleteComment(postKey: Long, commentKey: Long)
+#Rating posts
+GET     /posts/:postKey/rateUp   					controllers.PostController.rateUp(postKey: Long)
+GET     /posts/:postKey/rateDown   					controllers.PostController.rateDown(postKey: Long)
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

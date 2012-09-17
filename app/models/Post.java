@@ -7,6 +7,8 @@ import java.util.Set;
 import javax.persistence.Basic;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.CascadeType;
 import javax.persistence.Version;
@@ -39,6 +41,10 @@ public class Post extends Model {
 	
     @OneToMany(cascade=CascadeType.ALL, mappedBy="post")
     public Set<Comment> comments;
+    
+	@ManyToMany
+	@JoinColumn(name = "rating", nullable = true)
+	public PostRating rating;
 
 	public static Finder<Long, Post> find = new Finder<Long, Post>(Long.class, Post.class);
 
