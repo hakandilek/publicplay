@@ -18,4 +18,4 @@ Those are some features of PublicPlay:
  * <del> pagination </del>
  * Facebook login with [social auth](http://code.google.com/p/socialauth)
  * <del> Facebook comments (posted comments appear on facebook) </del>
- * <del> Facebook like </del>
+ * Facebook like
