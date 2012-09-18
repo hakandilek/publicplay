@@ -5,11 +5,11 @@
 # Home page
 GET     /                           controllers.HomeController.index()
 # Post
-#GET    /posts                      controllers.PostController.index()
+GET     /posts                      controllers.PostController.list(p:Int ?= 0, s ?= "createdOn", o ?= "desc", f ?= "")
 POST    /posts                      controllers.PostController.create()
 GET     /posts/new                  controllers.PostController.newForm()
 GET     /posts/:key/edit            controllers.PostController.editForm(key: Long)
-GET     /posts/:key/:title          controllers.PostController.show(key: Long, title: String)
+GET     /posts/:key/:title          controllers.PostController.show(key: Long, title: String, p:Int ?= 0, s ?= "createdOn", o ?= "desc", f ?= "")
 POST    /posts/:key/update          controllers.PostController.update(key: Long)
 GET     /posts/:key/delete          controllers.PostController.delete(key: Long)
 # Comment

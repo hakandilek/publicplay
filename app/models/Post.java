@@ -5,17 +5,16 @@ import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
-import javax.persistence.CascadeType;
 import javax.persistence.Version;
-
 
 import play.data.validation.Constraints.Required;
 import play.db.ebean.Model;
+
+import com.avaje.ebean.Page;
 
 @Entity
 @SuppressWarnings("serial")
@@ -50,6 +49,27 @@ public class Post extends Model {
 		return find.all();
 	}
 
+	/**
+	 * Return a page of posts
+	 * 
+	 * @param page
+	 *            Page to display
+	 * @param pageSize
+	 *            Number of computers per page
+	 * @param sortBy
+	 *            property used for sorting
+	 * @param order
+	 *            Sort order (either or asc or desc)
+	 * @param filter
+	 *            Filter applied on the name column
+	 */
+	public static Page<Post> page(int page, int pageSize, String sortBy,
+			String order, String filter) {
+		return find.where().ilike("title", "%" + filter + "%")
+				.orderBy(sortBy + " " + order).findPagingList(pageSize)
+				.getPage(page);
+	}
+   
 	public static void create(Post post) {
 		Date now = new Date();
 		post.setCreatedOn(now);

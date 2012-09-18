@@ -1,5 +1,7 @@
 package controllers;
 
+import com.avaje.ebean.Page;
+
 import models.Comment;
 import models.Post;
 import models.User;
@@ -10,34 +12,74 @@ import play.mvc.Controller;
 import play.mvc.Result;
 import socialauth.controllers.SocialLogin;
 import socialauth.core.Secure;
+import socialauth.core.SocialAware;
 import socialauth.core.SocialUser;
 import utils.HttpUtils;
+import views.html.index;
+import views.html.postForm;
+import views.html.postShow;
+import views.html.rate;
 
-public class PostController extends Controller {
+public class PostController extends Controller implements Constants {
 
 	private static ALogger log = Logger.of(PostController.class);
 
-	static Form<Post> postForm = form(Post.class);
+	static Form<Post> form = form(Post.class);
 
 	static Form<Comment> commentForm = form(Comment.class);
 
+	/**
+	 * Display the paginated list of posts.
+	 * 
+	 * @param page
+	 *            Current page number (starts from 0)
+	 * @param sortBy
+	 *            Column to be sorted
+	 * @param order
+	 *            Sort order (either asc or desc)
+	 * @param filter
+	 *            Filter applied on computer names
+	 */
+	@SocialAware
+	public static Result list(int page, String sortBy, String order,
+			String filter) {
+		if (log.isDebugEnabled())
+			log.debug("index() <-");
+
+		if (log.isDebugEnabled())
+			log.debug("page : " + page);
+		if (log.isDebugEnabled())
+			log.debug("sortBy : " + sortBy);
+		if (log.isDebugEnabled())
+			log.debug("order : " + order);
+		if (log.isDebugEnabled())
+			log.debug("filter : " + filter);
+
+		SocialUser user = (SocialUser) ctx().args.get(SocialLogin.USER_KEY);
+		if (log.isDebugEnabled())
+			log.debug("user : " + user);
+
+		return ok(index.render(Post.page(page, POSTS_PER_PAGE, sortBy, order, filter),
+				sortBy, order, filter, user));
+	}
+	
 	public static Result newForm() {
 		if (log.isDebugEnabled())
 			log.debug("newForm() <-");
 		
-		return ok(views.html.postForm.render(null, postForm));
+		return ok(postForm.render(null, form));
 	}
 
 	public static Result create() {
 		if (log.isDebugEnabled())
 			log.debug("create() <-");
 		
-		Form<Post> filledForm = postForm.bindFromRequest();
+		Form<Post> filledForm = form.bindFromRequest();
 		if (filledForm.hasErrors()) {
 			if (log.isDebugEnabled())
 				log.debug("validation errors occured");
 			
-			return badRequest(views.html.postForm.render(null, filledForm));
+			return badRequest(postForm.render(null, filledForm));
 		} else {
 			Post.create(filledForm.get());
 			if (log.isDebugEnabled())
@@ -55,20 +97,20 @@ public class PostController extends Controller {
 		if (log.isDebugEnabled())
 			log.debug("post : " + post);
 		
-		Form<Post> form = postForm.fill(post);
-		return ok(views.html.postForm.render(key, form));
+		Form<Post> frm = form.fill(post);
+		return ok(postForm.render(key, frm));
 	}
 
 	public static Result update(Long key) {
 		if (log.isDebugEnabled())
 			log.debug("update() <-" + key);
 		
-		Form<Post> filledForm = postForm.bindFromRequest();
+		Form<Post> filledForm = form.bindFromRequest();
 		if (filledForm.hasErrors()) {
 			if (log.isDebugEnabled())
 				log.debug("validation errors occured");
 			
-			return badRequest(views.html.postForm.render(key, filledForm));
+			return badRequest(postForm.render(key, filledForm));
 		} else {
 			Post.update(key, filledForm.get());
 			if (log.isDebugEnabled())
@@ -78,11 +120,24 @@ public class PostController extends Controller {
 		}
 	}
 
-	public static Result show(Long key, String title) {
+	/**
+	 * Display the paginated list of posts.
+	 * 
+	 * @param page
+	 *            Current page number (starts from 0)
+	 * @param sortBy
+	 *            Column to be sorted
+	 * @param order
+	 *            Sort order (either asc or desc)
+	 * @param filter
+	 *            Filter applied on computer names
+	 */
+	public static Result show(Long postKey, String title, int page, String sortBy, String order,
+			String filter) {
 		if (log.isDebugEnabled())
-			log.debug("show() <-" + key);
+			log.debug("show() <-" + postKey);
 		
-		Post post = Post.get(key);
+		Post post = Post.get(postKey);
 		if (log.isDebugEnabled())
 			log.debug("post : " + post);
 		
@@ -90,7 +145,9 @@ public class PostController extends Controller {
 		if (log.isDebugEnabled())
 			log.debug("selfUrl : " + selfUrl);
 		
-		return ok(views.html.postShow.render(post, null, commentForm, selfUrl));
+		final Page<Comment> pg = Comment.page(page, COMMENTS_PER_PAGE, sortBy, order, filter);
+		return ok(postShow.render(post, null, commentForm, selfUrl, pg, sortBy,
+				order, filter));
 	}
 
 	public static Result delete(Long key) {
@@ -122,7 +179,8 @@ public class PostController extends Controller {
 			if (log.isDebugEnabled())
 				log.debug("validation errors occured");
 			
-			return badRequest(views.html.postShow.render(post, null, filledForm, selfUrl));
+			final Page<Comment> pg = Comment.page(0, COMMENTS_PER_PAGE, "createdOn", "desc", "");
+			return badRequest(postShow.render(post, null, commentForm, selfUrl, pg, "createdOn", "desc", ""));
 		} else {
 			Comment comment = filledForm.get();
 			comment.setPost(post);
@@ -133,7 +191,8 @@ public class PostController extends Controller {
 			if (log.isDebugEnabled())
 				log.debug("comment created");
 			
-			return ok(views.html.postShow.render(post, null, commentForm, selfUrl));
+			final Page<Comment> pg = Comment.page(0, COMMENTS_PER_PAGE, "createdOn", "desc", "");
+			return ok(postShow.render(post, null, commentForm, selfUrl, pg, "createdOn", "desc", ""));
 		}
 	}
 
@@ -154,7 +213,8 @@ public class PostController extends Controller {
 			log.debug("selfUrl : " + selfUrl);
 		
 		Form<Comment> form = commentForm.fill(comment);
-		return ok(views.html.postShow.render(post, commentKey, form, selfUrl));
+		final Page<Comment> pg = Comment.page(0, COMMENTS_PER_PAGE, "createdOn", "desc", "");
+		return ok(postShow.render(post, commentKey, commentForm, selfUrl, pg, "createdOn", "desc", ""));
 	}
 
 	public static Result updateComment(Long postKey, Long commentKey) {
@@ -174,13 +234,15 @@ public class PostController extends Controller {
 			if (log.isDebugEnabled())
 				log.debug("validation errors occured");
 			
-			return badRequest(views.html.postShow.render(post, commentKey, filledForm, selfUrl));
+			final Page<Comment> pg = Comment.page(0, COMMENTS_PER_PAGE, "createdOn", "desc", "");
+			return badRequest(postShow.render(post, commentKey, commentForm, selfUrl, pg, "createdOn", "desc", ""));
 		} else {
 			Comment.update(commentKey, filledForm.get());
 			if (log.isDebugEnabled())
 				log.debug("entity updated");
 			
-			return ok(views.html.postShow.render(post, commentKey, commentForm, selfUrl));
+			final Page<Comment> pg = Comment.page(0, COMMENTS_PER_PAGE, "createdOn", "desc", "");
+			return ok(postShow.render(post, commentKey, commentForm, selfUrl, pg, "createdOn", "desc", ""));
 		}
 	}
 
@@ -200,7 +262,8 @@ public class PostController extends Controller {
 		if (log.isDebugEnabled())
 			log.debug("selfUrl : " + selfUrl);
 		
-		return ok(views.html.postShow.render(post, null, commentForm, selfUrl));
+		final Page<Comment> pg = Comment.page(0, COMMENTS_PER_PAGE, "createdOn", "desc", "");
+		return ok(postShow.render(post, null, commentForm, selfUrl, pg, "createdOn", "desc", ""));
 	}
 
 	/**
@@ -220,7 +283,7 @@ public class PostController extends Controller {
 		return rate(postKey, -1);
 	}
 
-	public static Result rate(Long postKey, int rate) {
+	public static Result rate(Long postKey, int rating) {
 		if (log.isDebugEnabled())
 			log.debug("rate <-" + postKey);
 
@@ -238,7 +301,7 @@ public class PostController extends Controller {
 			log.debug("user : " + user);
 		if (user != null) {
 			//TODO:save/update rate
-			return ok(views.html.rate.render(rate));
+			return ok(rate.render(rating));
 		} else {
 			if (log.isDebugEnabled())
 				log.debug("no user");

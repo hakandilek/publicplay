@@ -1,26 +1,49 @@
-@(post: Post, commentKey:Long, commentForm: Form[Comment], selfURL: String) 
+@(post: Post, commentKey:Long, commentForm: Form[Comment], selfURL: String, currentPage: Page[Comment], currentSortBy: String, currentOrder: String, currentFilter: String) 
 @import helper._ 
 @import helper.twitterBootstrap._
 @import helper.H._
-@main("show") {
-	<div id="fb-root"></div>
-	<script>(function(d, s, id) {
-	  var js, fjs = d.getElementsByTagName(s)[0];
-	  if (d.getElementById(id)) return;
-	  js = d.createElement(s); js.id = id;
-	  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=441048632604409";
-	  fjs.parentNode.insertBefore(js, fjs);
-	}(document, 'script', 'facebook-jssdk'));</script>
 
+@***************************************************
+* Pagination helper generating navigation links    *
+***************************************************@
+
+@link(newPage:Int, newSortBy:String) = @{
+    
+    var sortBy = currentSortBy
+    var order = currentOrder
+    
+    if(newSortBy != null) {
+        sortBy = newSortBy
+        if(currentSortBy == newSortBy) {
+            if(currentOrder == "asc") {
+                order = "desc"
+            } else {
+                order = "asc"
+            }
+        } else {
+            order = "asc"
+        }
+    }
+    
+    // Generate the link
+    routes.PostController.show(post.key, sanitize(post.title), newPage, sortBy, order, currentFilter)
+}
+
+@main("show") {
 	<h2>@post.getTitle()</h2>
 	<p>@prettify(post.updatedOn)</p>
 	<p>@nl2br(post.content)</p>
 	<div class="fb-like" data-href="@selfURL" data-send="false" data-width="550" data-show-faces="true"></div>
 	
 	@* comments *@
-	@if(post.comments.isEmpty()) {
-        <h3>no comments yet, be the first one:</h3>
+    @if(currentPage.getTotalRowCount == 0) {
+        
+        <div class="well">
+        	<h3>no comments yet, be the first one:</h3>
+        </div>
+        
 	} else {
+
         <table class="posts zebra-striped">
             <thead>
                 <tr>
@@ -28,13 +51,40 @@
                 </tr>
             </thead>
             <tbody>
-        @for(comment <- post.comments) {
+        @for(comment <- currentPage.getList) {
                 <tr>
                     <td>@nl2br(comment.getContent()) - @prettify(comment.getUpdatedOn()) <a href="@routes.PostController.editCommentForm(post.key, comment.getKey())">edit</a></td>
                 </tr>
         }
             </tbody>
         </table>
+        
+	    <div id="pagination" class="pagination">
+	        <ul>
+	            @if(currentPage.hasPrev) {
+	                <li class="prev">
+	                    <a href="@link(currentPage.getPageIndex - 1, null)">&larr; Previous</a>
+	                </li>
+	            } else {
+	                <li class="prev disabled">
+	                    <a>&larr; Previous</a>
+	                </li>
+	            }
+	            <li class="current">
+	                <a>Displaying @currentPage.getDisplayXtoYofZ(" to "," of ")</a>
+	            </li>
+	            @if(currentPage.hasNext) {
+	                <li class="next">
+	                    <a href="@link(currentPage.getPageIndex + 1, null)">Next &rarr;</a>
+	                </li>
+	            } else {
+	                <li class="next disabled">
+	                    <a>Next &rarr;</a>
+	                </li>
+	            }
+	        </ul>
+	    </div>
+        
         <h3>drop your comment:</h3>
 	}	
     @form(if(commentKey != null) { routes.PostController.updateComment(post.key, commentForm.get().key) } 
