@@ -1,7 +1,6 @@
 package models;
 
 import java.util.Date;
-import java.util.List;
 
 import javax.persistence.Basic;
 import javax.persistence.Entity;
@@ -12,6 +11,8 @@ import javax.persistence.Version;
 
 import play.data.validation.Constraints.Required;
 import play.db.ebean.Model;
+
+import com.avaje.ebean.Page;
 
 @Entity
 @SuppressWarnings("serial")
@@ -38,10 +39,27 @@ public class Comment extends Model {
 	
 	public static Finder<Long, Comment> find = new Finder<Long, Comment>(Long.class, Comment.class);
 
-	public static List<Comment> all() {
-		return find.all();
+	/**
+	 * Return a page of comments
+	 * 
+	 * @param page
+	 *            Page to display
+	 * @param pageSize
+	 *            Number of computers per page
+	 * @param sortBy
+	 *            property used for sorting
+	 * @param order
+	 *            Sort order (either or asc or desc)
+	 * @param filter
+	 *            Filter applied on the name column
+	 */
+	public static Page<Comment> page(int page, int pageSize, String sortBy,
+			String order, String filter) {
+		return find.where().ilike("content", "%" + filter + "%")
+				.orderBy(sortBy + " " + order).findPagingList(pageSize)
+				.getPage(page);
 	}
-
+   
 	public static void create(Comment comment) {
 		Date now = new Date();
 		comment.setCreatedOn(now);

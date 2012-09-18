@@ -1,4 +1,4 @@
-@(list: List[Post], user: socialauth.core.SocialUser) 
+@(currentPage: Page[Post], currentSortBy: String, currentOrder: String, currentFilter: String, user: socialauth.core.SocialUser)
 
 @main("home") {
 
@@ -21,5 +21,5 @@
 		
     <hr/>
     
-	@partials.postList(list)
+	@partials.postList(currentPage, currentSortBy, currentOrder, currentFilter)
 }

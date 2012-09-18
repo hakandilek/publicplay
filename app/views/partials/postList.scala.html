@@ -1,12 +1,45 @@
-@(list: List[Post]) 
+@(currentPage: Page[Post], currentSortBy: String, currentOrder: String, currentFilter: String)
 @import helper._ 
 @import helper.twitterBootstrap._
 @import helper.H._
 
-        
-	<h2>@list.size() post(s)</h2>
+	@***************************************************
+	* Pagination helper generating navigation links    *
+	***************************************************@
+	
+	@link(newPage:Int, newSortBy:String) = @{
+	    
+	    var sortBy = currentSortBy
+	    var order = currentOrder
+	    
+	    if(newSortBy != null) {
+	        sortBy = newSortBy
+	        if(currentSortBy == newSortBy) {
+	            if(currentOrder == "asc") {
+	                order = "desc"
+	            } else {
+	                order = "asc"
+	            }
+	        } else {
+	            order = "asc"
+	        }
+	    }
+	    
+	    // Generate the link
+	    routes.PostController.list(newPage, sortBy, order, currentFilter)
+	}
+
+	<h2>@currentPage.getTotalRowCount post(s)</h2>
 	
 	<h4><a href="@routes.PostController.newForm">Create a new post</a></h4>
+    
+    @if(currentPage.getTotalRowCount == 0) {
+        
+        <div class="well">
+            <em>Nothing to display</em>
+        </div>
+        
+    } else {
 	
     <table class="posts zebra-striped">
         <thead>
@@ -15,7 +48,7 @@
             </tr>
         </thead>
         <tbody>
-        @for(post <- list) {
+        @for(post <- currentPage.getList) {
             <tr>
                 <td>
                 	<a href="@routes.PostController.show(post.key, sanitize(post.title))">@post.title</a> - @prettify(post.updatedOn)
@@ -29,3 +62,31 @@
         }
         </tbody>
     </table>
+    
+    <div id="pagination" class="pagination">
+        <ul>
+            @if(currentPage.hasPrev) {
+                <li class="prev">
+                    <a href="@link(currentPage.getPageIndex - 1, null)">&larr; Previous</a>
+                </li>
+            } else {
+                <li class="prev disabled">
+                    <a>&larr; Previous</a>
+                </li>
+            }
+            <li class="current">
+                <a>Displaying @currentPage.getDisplayXtoYofZ(" to "," of ")</a>
+            </li>
+            @if(currentPage.hasNext) {
+                <li class="next">
+                    <a href="@link(currentPage.getPageIndex + 1, null)">Next &rarr;</a>
+                </li>
+            } else {
+                <li class="next disabled">
+                    <a>Next &rarr;</a>
+                </li>
+            }
+        </ul>
+    </div>
+    
+    }
