@@ -42,8 +42,6 @@ public class Post extends Model {
     @OneToMany(cascade=CascadeType.ALL, mappedBy="post")
     public Set<Comment> comments;
     
-	@ManyToMany
-	@JoinColumn(name = "rating", nullable = true)
 	public PostRating rating;
 
 	public static Finder<Long, Post> find = new Finder<Long, Post>(Long.class, Post.class);
@@ -64,7 +62,7 @@ public class Post extends Model {
 	}
 
 	public static Post get(Long key) {
-		return find.ref(key);
+		return find.byId(key);
 	}
 
 	public static void update(Long key, Post post) {

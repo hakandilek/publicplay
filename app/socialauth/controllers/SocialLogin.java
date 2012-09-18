@@ -75,7 +75,7 @@ public class SocialLogin extends Controller {
 				authConfig = new SocialAuthConfig();
 				authConfig.load(properties);
 			} catch (Exception e) {
-				Logger.error("error occured creating auth config", e);
+				log.error("error occured creating auth config", e);
 				return null;
 			}
 
@@ -154,12 +154,12 @@ public class SocialLogin extends Controller {
 			// TODO use NIO here
 			
 			SocialAuthManager manager = createAuthManager(provider);
-			if (Logger.isDebugEnabled())
-				Logger.debug("manager : " + manager);
+			if (log.isDebugEnabled())
+				log.debug("manager : " + manager);
 			
 			Map<String, String> parameters = SocialUtils.parameters(request());
-			if (Logger.isDebugEnabled())
-				Logger.debug("parameters : " + parameters);
+			if (log.isDebugEnabled())
+				log.debug("parameters : " + parameters);
 			// authenticate
 			AuthProvider auth = manager.connect(parameters);
 			// get profile
@@ -186,7 +186,8 @@ public class SocialLogin extends Controller {
 				userService.save(userKey, profile);
 
 		} catch (Exception e) {
-			log.error("error occured during authentication. redirecting back", e);
+			log.trace("error occured during authentication. redirecting back", e);
+			e.printStackTrace();
 		}
 
 		String originalURL = session(ORIGINAL_URL);

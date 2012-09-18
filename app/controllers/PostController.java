@@ -87,8 +87,8 @@ public class PostController extends Controller {
 			log.debug("post : " + post);
 		
 		String selfUrl = HttpUtils.selfURL();
-		if (Logger.isDebugEnabled())
-			Logger.debug("selfUrl : " + selfUrl);
+		if (log.isDebugEnabled())
+			log.debug("selfUrl : " + selfUrl);
 		
 		return ok(views.html.postShow.render(post, null, commentForm, selfUrl));
 	}
@@ -114,8 +114,8 @@ public class PostController extends Controller {
 			log.debug("post : " + post);
 		
 		String selfUrl = HttpUtils.selfURL();
-		if (Logger.isDebugEnabled())
-			Logger.debug("selfUrl : " + selfUrl);
+		if (log.isDebugEnabled())
+			log.debug("selfUrl : " + selfUrl);
 		
 		Form<Comment> filledForm = commentForm.bindFromRequest();
 		if (filledForm.hasErrors()) {
@@ -150,8 +150,8 @@ public class PostController extends Controller {
 			log.debug("comment : " + comment);
 		
 		String selfUrl = HttpUtils.selfURL();
-		if (Logger.isDebugEnabled())
-			Logger.debug("selfUrl : " + selfUrl);
+		if (log.isDebugEnabled())
+			log.debug("selfUrl : " + selfUrl);
 		
 		Form<Comment> form = commentForm.fill(comment);
 		return ok(views.html.postShow.render(post, commentKey, form, selfUrl));
@@ -166,8 +166,8 @@ public class PostController extends Controller {
 			log.debug("post : " + post);
 		
 		String selfUrl = HttpUtils.selfURL();
-		if (Logger.isDebugEnabled())
-			Logger.debug("selfUrl : " + selfUrl);
+		if (log.isDebugEnabled())
+			log.debug("selfUrl : " + selfUrl);
 		
 		Form<Comment> filledForm = commentForm.bindFromRequest();
 		if (filledForm.hasErrors()) {
@@ -197,8 +197,8 @@ public class PostController extends Controller {
 			log.debug("entity deleted");
 		
 		String selfUrl = HttpUtils.selfURL();
-		if (Logger.isDebugEnabled())
-			Logger.debug("selfUrl : " + selfUrl);
+		if (log.isDebugEnabled())
+			log.debug("selfUrl : " + selfUrl);
 		
 		return ok(views.html.postShow.render(post, null, commentForm, selfUrl));
 	}
@@ -208,21 +208,21 @@ public class PostController extends Controller {
 	 */
 	@Secure
 	public static Result rateUp(Long postKey) {
-		if (Logger.isDebugEnabled())
-			Logger.debug("rateUp <-" + postKey);
+		if (log.isDebugEnabled())
+			log.debug("rateUp <-" + postKey);
 		return rate(postKey, 1);
 	}
 
 	@Secure
 	public static Result rateDown(Long postKey) {
-		if (Logger.isDebugEnabled())
-			Logger.debug("rateDown <-" + postKey);
+		if (log.isDebugEnabled())
+			log.debug("rateDown <-" + postKey);
 		return rate(postKey, -1);
 	}
 
 	public static Result rate(Long postKey, int rate) {
-		if (Logger.isDebugEnabled())
-			Logger.debug("rate <-" + postKey);
+		if (log.isDebugEnabled())
+			log.debug("rate <-" + postKey);
 
 		Post post = Post.get(postKey);
 		if (log.isDebugEnabled())
@@ -234,14 +234,14 @@ public class PostController extends Controller {
 		User user = null;
 		if (socialUser != null)
 			user = User.get(socialUser.getUserKey());
-		if (Logger.isDebugEnabled())
-			Logger.debug("user : " + user);
+		if (log.isDebugEnabled())
+			log.debug("user : " + user);
 		if (user != null) {
 			//TODO:save/update rate
 			return ok(views.html.rate.render(rate));
 		} else {
-			if (Logger.isDebugEnabled())
-				Logger.debug("no user");
+			if (log.isDebugEnabled())
+				log.debug("no user");
 			return TODO;
 		}
 	}

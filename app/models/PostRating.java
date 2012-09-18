@@ -15,8 +15,6 @@ import play.db.ebean.Model;
 @SuppressWarnings("serial")
 public class PostRating extends Model {
 
-	@ManyToMany
-	@JoinColumn(name = "postKey", nullable = false)
 	public Post post;
 
 	@Required
@@ -47,7 +45,7 @@ public class PostRating extends Model {
 	}
 
 	public static PostRating get(Long key) {
-		return find.ref(key);
+		return find.byId(key);
 	}
 
 	public static void update(Long key, PostRating comment) {

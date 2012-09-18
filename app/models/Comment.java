@@ -54,7 +54,7 @@ public class Comment extends Model {
 	}
 
 	public static Comment get(Long key) {
-		return find.ref(key);
+		return find.byId(key);
 	}
 
 	public static void update(Long key, Comment comment) {

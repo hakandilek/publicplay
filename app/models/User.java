@@ -119,7 +119,7 @@ public class User extends Model {
 	}
 
 	public static User get(String key) {
-		return find.ref(key);
+		return find.byId(key);
 	}
 
 	public static void update(String key, User user) {
@@ -252,8 +252,8 @@ public class User extends Model {
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
 		builder.append("User [key=").append(key).append(", firstName=")
-				.append(firstName).append(", lastName=").append(lastName)
-				.append(", email=").append(email).append("]");
+				.append(getFirstName()).append(", lastName=").append(getLastName())
+				.append(", email=").append(getEmail()).append("]");
 		return builder.toString();
 	}
 

@@ -32,8 +32,8 @@ public class SocialUserService implements Plugin {
 			log.debug("profile : " + profile);
 		
 		User user = User.get(userKey);
-		if (Logger.isDebugEnabled())
-			Logger.debug("user : " + user);
+		if (log.isDebugEnabled())
+			log.debug("user : " + user);
 		
 		if (user != null) {
 			user.loginCount++;
@@ -56,14 +56,14 @@ public class SocialUserService implements Plugin {
 			log.debug("userKey : " + userKey);
 		
 		final User user = User.get(userKey);
-		if (Logger.isDebugEnabled())
-			Logger.debug("user : " + user);
-		SocialUser socialUser = user.toSocialUser();
-		if (Logger.isDebugEnabled())
-			Logger.debug("socialUser : " + socialUser);
-		
 		if (log.isDebugEnabled())
 			log.debug("user : " + user);
+		SocialUser socialUser = null;
+		if (user != null) {
+			socialUser = user.toSocialUser();
+			if (log.isDebugEnabled())
+				log.debug("socialUser : " + socialUser);
+		}
 		return socialUser;
 	}
 
