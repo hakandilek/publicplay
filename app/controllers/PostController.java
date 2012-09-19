@@ -10,10 +10,8 @@ import play.Logger.ALogger;
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
-import socialauth.controllers.SocialLogin;
 import socialauth.core.Secure;
 import socialauth.core.SocialAware;
-import socialauth.core.SocialUser;
 import utils.HttpUtils;
 import views.html.index;
 import views.html.postForm;
@@ -55,33 +53,39 @@ public class PostController extends Controller implements Constants {
 		if (log.isDebugEnabled())
 			log.debug("filter : " + filter);
 
-		SocialUser user = (SocialUser) ctx().args.get(SocialLogin.USER_KEY);
-		if (log.isDebugEnabled())
-			log.debug("user : " + user);
+		User user = HttpUtils.loginUser(ctx());
 
-		return ok(index.render(Post.page(page, POSTS_PER_PAGE, sortBy, order, filter),
-				sortBy, order, filter, user));
+		Page<Post> pg = Post.page(page, POSTS_PER_PAGE, sortBy, order, filter);
+		return ok(index.render(pg, sortBy, order, filter, user));
 	}
 	
+	@SocialAware
 	public static Result newForm() {
 		if (log.isDebugEnabled())
 			log.debug("newForm() <-");
 		
-		return ok(postForm.render(null, form));
+		User user = HttpUtils.loginUser(ctx());
+
+		return ok(postForm.render(null, form, user));
 	}
 
+	@Secure
 	public static Result create() {
 		if (log.isDebugEnabled())
 			log.debug("create() <-");
 		
+		User user = HttpUtils.loginUser(ctx());
+
 		Form<Post> filledForm = form.bindFromRequest();
-		if (filledForm.hasErrors()) {
+		if (filledForm.hasErrors() || user == null) {
 			if (log.isDebugEnabled())
 				log.debug("validation errors occured");
 			
-			return badRequest(postForm.render(null, filledForm));
+			return badRequest(postForm.render(null, filledForm, user));
 		} else {
-			Post.create(filledForm.get());
+			Post post = filledForm.get();
+			post.createdBy = user;
+			Post.create(post);
 			if (log.isDebugEnabled())
 				log.debug("entity created");
 			
@@ -89,6 +93,7 @@ public class PostController extends Controller implements Constants {
 		}
 	}
 
+	@Secure
 	public static Result editForm(Long key) {
 		if (log.isDebugEnabled())
 			log.debug("editForm() <-" + key);
@@ -97,22 +102,31 @@ public class PostController extends Controller implements Constants {
 		if (log.isDebugEnabled())
 			log.debug("post : " + post);
 		
+		User user = HttpUtils.loginUser(ctx());
+		
 		Form<Post> frm = form.fill(post);
-		return ok(postForm.render(key, frm));
+		return ok(postForm.render(key, frm, user));
 	}
 
+	@Secure
 	public static Result update(Long key) {
 		if (log.isDebugEnabled())
 			log.debug("update() <-" + key);
 		
+		User user = HttpUtils.loginUser(ctx());
+		
 		Form<Post> filledForm = form.bindFromRequest();
-		if (filledForm.hasErrors()) {
+		if (filledForm.hasErrors() || user == null) {
 			if (log.isDebugEnabled())
 				log.debug("validation errors occured");
 			
-			return badRequest(postForm.render(key, filledForm));
+			return badRequest(postForm.render(key, filledForm, user));
 		} else {
-			Post.update(key, filledForm.get());
+			Post post = filledForm.get();
+			post.updatedBy = user;
+			if (log.isDebugEnabled())
+				log.debug("post : " + post);
+			Post.update(key, post);
 			if (log.isDebugEnabled())
 				log.debug("entity updated");
 			
@@ -132,6 +146,7 @@ public class PostController extends Controller implements Constants {
 	 * @param filter
 	 *            Filter applied on computer names
 	 */
+	@SocialAware
 	public static Result show(Long postKey, String title, int page, String sortBy, String order,
 			String filter) {
 		if (log.isDebugEnabled())
@@ -145,11 +160,14 @@ public class PostController extends Controller implements Constants {
 		if (log.isDebugEnabled())
 			log.debug("selfUrl : " + selfUrl);
 		
+		User user = HttpUtils.loginUser(ctx());
+
 		final Page<Comment> pg = Comment.page(page, COMMENTS_PER_PAGE, sortBy, order, filter);
-		return ok(postShow.render(post, null, commentForm, selfUrl, pg, sortBy,
+		return ok(postShow.render(post, null, commentForm, selfUrl, user, pg, sortBy,
 				order, filter));
 	}
 
+	@Secure
 	public static Result delete(Long key) {
 		if (log.isDebugEnabled())
 			log.debug("delete() <-" + key);
@@ -162,6 +180,7 @@ public class PostController extends Controller implements Constants {
 	}
 
 	//Comment stuff
+	@Secure
 	public static Result createComment(Long postKey, String title) {
 		if (log.isDebugEnabled())
 			log.debug("createComment() <-" + postKey);
@@ -170,32 +189,36 @@ public class PostController extends Controller implements Constants {
 		if (log.isDebugEnabled())
 			log.debug("post : " + post);
 		
+		User user = HttpUtils.loginUser(ctx());
+		
 		String selfUrl = HttpUtils.selfURL();
 		if (log.isDebugEnabled())
 			log.debug("selfUrl : " + selfUrl);
 		
 		Form<Comment> filledForm = commentForm.bindFromRequest();
-		if (filledForm.hasErrors()) {
+		if (filledForm.hasErrors() || user == null) {
 			if (log.isDebugEnabled())
 				log.debug("validation errors occured");
 			
 			final Page<Comment> pg = Comment.page(0, COMMENTS_PER_PAGE, "createdOn", "desc", "");
-			return badRequest(postShow.render(post, null, commentForm, selfUrl, pg, "createdOn", "desc", ""));
+			return badRequest(postShow.render(post, null, filledForm, selfUrl, user, pg, "createdOn", "desc", ""));
 		} else {
 			Comment comment = filledForm.get();
 			comment.setPost(post);
+			comment.createdBy = user;
 			if (log.isDebugEnabled())
 				log.debug("comment : " + comment);
-			
+
 			Comment.create(comment);
 			if (log.isDebugEnabled())
 				log.debug("comment created");
 			
 			final Page<Comment> pg = Comment.page(0, COMMENTS_PER_PAGE, "createdOn", "desc", "");
-			return ok(postShow.render(post, null, commentForm, selfUrl, pg, "createdOn", "desc", ""));
+			return ok(postShow.render(post, null, commentForm, selfUrl, user, pg, "createdOn", "desc", ""));
 		}
 	}
 
+	@Secure
 	public static Result editCommentForm(Long postKey, Long commentKey) {
 		if (log.isDebugEnabled())
 			log.debug("editCommentForm() <-");
@@ -212,11 +235,14 @@ public class PostController extends Controller implements Constants {
 		if (log.isDebugEnabled())
 			log.debug("selfUrl : " + selfUrl);
 		
+		User user = HttpUtils.loginUser(ctx());
+
 		Form<Comment> form = commentForm.fill(comment);
 		final Page<Comment> pg = Comment.page(0, COMMENTS_PER_PAGE, "createdOn", "desc", "");
-		return ok(postShow.render(post, commentKey, commentForm, selfUrl, pg, "createdOn", "desc", ""));
+		return ok(postShow.render(post, commentKey, form, selfUrl, user, pg, "createdOn", "desc", ""));
 	}
 
+	@Secure
 	public static Result updateComment(Long postKey, Long commentKey) {
 		if (log.isDebugEnabled())
 			log.debug("updateComment() <-");
@@ -225,27 +251,34 @@ public class PostController extends Controller implements Constants {
 		if (log.isDebugEnabled())
 			log.debug("post : " + post);
 		
+		User user = HttpUtils.loginUser(ctx());
+		
 		String selfUrl = HttpUtils.selfURL();
 		if (log.isDebugEnabled())
 			log.debug("selfUrl : " + selfUrl);
 		
 		Form<Comment> filledForm = commentForm.bindFromRequest();
-		if (filledForm.hasErrors()) {
+		if (filledForm.hasErrors() || user == null) {
 			if (log.isDebugEnabled())
 				log.debug("validation errors occured");
 			
 			final Page<Comment> pg = Comment.page(0, COMMENTS_PER_PAGE, "createdOn", "desc", "");
-			return badRequest(postShow.render(post, commentKey, commentForm, selfUrl, pg, "createdOn", "desc", ""));
+			return badRequest(postShow.render(post, commentKey, filledForm, selfUrl, user, pg, "createdOn", "desc", ""));
 		} else {
-			Comment.update(commentKey, filledForm.get());
+			Comment comment = filledForm.get();
+			comment.updatedBy = user;
+			if (log.isDebugEnabled())
+				log.debug("comment : " + comment);
+			Comment.update(commentKey, comment);
 			if (log.isDebugEnabled())
 				log.debug("entity updated");
 			
 			final Page<Comment> pg = Comment.page(0, COMMENTS_PER_PAGE, "createdOn", "desc", "");
-			return ok(postShow.render(post, commentKey, commentForm, selfUrl, pg, "createdOn", "desc", ""));
+			return ok(postShow.render(post, commentKey, commentForm, selfUrl, user, pg, "createdOn", "desc", ""));
 		}
 	}
 
+	@Secure
 	public static Result deleteComment(Long postKey, Long commentKey) {
 		if (log.isDebugEnabled())
 			log.debug("deleteComment() <-");
@@ -262,8 +295,10 @@ public class PostController extends Controller implements Constants {
 		if (log.isDebugEnabled())
 			log.debug("selfUrl : " + selfUrl);
 		
+		User user = HttpUtils.loginUser(ctx());
+
 		final Page<Comment> pg = Comment.page(0, COMMENTS_PER_PAGE, "createdOn", "desc", "");
-		return ok(postShow.render(post, null, commentForm, selfUrl, pg, "createdOn", "desc", ""));
+		return ok(views.html.postShow.render(post, null, commentForm, selfUrl, user, pg, "createdOn", "desc", ""));
 	}
 
 	/**
@@ -291,14 +326,8 @@ public class PostController extends Controller implements Constants {
 		if (log.isDebugEnabled())
 			log.debug("post : " + post);
 		
-		final SocialUser socialUser = (SocialUser) ctx().args.get(SocialLogin.USER_KEY);
-		if (log.isDebugEnabled())
-			log.debug("socialUser : " + socialUser);
-		User user = null;
-		if (socialUser != null)
-			user = User.get(socialUser.getUserKey());
-		if (log.isDebugEnabled())
-			log.debug("user : " + user);
+		User user = HttpUtils.loginUser(ctx());
+		
 		if (user != null) {
 			//TODO:save/update rate
 			return ok(rate.render(rating));

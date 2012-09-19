@@ -45,4 +45,5 @@ section#main .topRight {
     color: #666;
 }
 
-
+.profile { display:inline; }
+.profile img { height: 22px; }

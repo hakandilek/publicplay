@@ -1,8 +1,8 @@
-@(currentPage: Page[Post], currentSortBy: String, currentOrder: String, currentFilter: String, user: socialauth.core.SocialUser)
+@(currentPage: Page[Post], currentSortBy: String, currentOrder: String, currentFilter: String, user: models.User)
 
 @main("home") {
 
-    <h1> Welcome @if(user != null) { <img alt="@user.profile.getProfileImageURL()" src="@user.profile.getProfileImageURL()"> <a href="@socialauth.controllers.routes.SocialLogin.info()">@user.profile.getFirstName()!</a> }</h1> 
+    <h1> Welcome @partials.userProfile(user)! </h1> 
     @if(user != null) {<a class="btn" href="@socialauth.controllers.routes.SocialLogin.logout()">Logout</a> }
     <p>
     	PublicPlay is a simple Forum application developed on 

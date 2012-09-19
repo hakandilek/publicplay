@@ -51,9 +51,12 @@
         @for(post <- currentPage.getList) {
             <tr>
                 <td>
-                	<a href="@routes.PostController.show(post.key, sanitize(post.title))">@post.title</a> - @prettify(post.updatedOn)
-                	<a href="@routes.PostController.editForm(post.key)">edit</a>
-                	<a href="@routes.PostController.delete(post.key)">delete</a>
+                	<a href="@routes.PostController.show(post.key, sanitize(post.title))">@post.title</a>
+                    <a class="btn" href="@routes.PostController.editForm(post.key)">edit</a>
+                    <a class="btn" href="@routes.PostController.delete(post.key)">delete</a>
+                    <br/>
+                    @prettify(post.createdOn) @if(post.getCreatedBy() != null) {by @partials.userProfile(post.getCreatedBy())} 
+                    @if(post.getUpdatedBy() != null) {updated @prettify(post.updatedOn) by @partials.userProfile(post.getUpdatedBy())} 
                	</td>
             </tr>
             <tr>

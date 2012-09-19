@@ -67,7 +67,7 @@ public class PostControllerTest {
 		running(fakeApplication(), new Runnable() {
 			public void run() {
 				Result result = callAction(controllers.routes.ref.PostController
-						.show(-11l, "title"));
+						.show(-11l, "title", 0, "createdOn", "desc", ""));
 				assertThat(status(result)).isEqualTo(OK);
 				assertThat(contentType(result)).isEqualTo("text/html");
 				assertThat(charset(result)).isEqualTo("utf-8");

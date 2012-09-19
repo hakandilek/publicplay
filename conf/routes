@@ -4,6 +4,9 @@
 
 # Home page
 GET     /                           controllers.HomeController.index()
+#Users
+GET     /users/:key                 controllers.UserController.show(key: String)
+GET     /users/self                 controllers.UserController.showSelf()
 # Post
 GET     /posts                      controllers.PostController.list(p:Int ?= 0, s ?= "createdOn", o ?= "desc", f ?= "")
 POST    /posts                      controllers.PostController.create()
@@ -27,7 +30,7 @@ GET     /assets/*file               controllers.Assets.at(path="/public", file)
 # socialauth integration
 # ~~~~
 GET     /user/login                     socialauth.controllers.SocialLogin.login
-GET     /user/info                      socialauth.controllers.SocialLogin.info
+#GET     /user/info                      socialauth.controllers.SocialLogin.info
 GET     /user/logout                    socialauth.controllers.SocialLogin.logout
 GET     /authenticate/:provider         socialauth.controllers.SocialLogin.authenticate(provider)
 POST    /authenticate/:provider         socialauth.controllers.SocialLogin.authenticate(provider)

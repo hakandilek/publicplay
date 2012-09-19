@@ -8,8 +8,9 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.Version;
 
 import play.data.validation.Constraints.Required;
 import play.db.ebean.Model;
@@ -34,14 +35,20 @@ public class Post extends Model {
 
     @Basic
 	public Date updatedOn;
-	
-	@Version
-	public int revision;
+
+    //TODO:many-to-many
+	public PostRating rating;
 	
     @OneToMany(cascade=CascadeType.ALL, mappedBy="post")
     public Set<Comment> comments;
     
-	public PostRating rating;
+    @ManyToOne
+    @JoinColumn(name="created_by", nullable=false)
+	public User createdBy;
+
+    @ManyToOne
+    @JoinColumn(name="updated_by", nullable=true)
+	public User updatedBy;
 
 	public static Finder<Long, Post> find = new Finder<Long, Post>(Long.class, Post.class);
 
@@ -138,13 +145,29 @@ public class Post extends Model {
 	public void setUpdatedOn(Date updatedOn) {
 		this.updatedOn = updatedOn;
 	}
-
-	public int getRevision() {
-		return revision;
+	
+	public PostRating getRating() {
+		return rating;
 	}
 
-	public void setRevision(int revision) {
-		this.revision = revision;
+	public void setRating(PostRating rating) {
+		this.rating = rating;
+	}
+
+	public User getCreatedBy() {
+		return createdBy;
+	}
+
+	public void setCreatedBy(User createdBy) {
+		this.createdBy = createdBy;
+	}
+
+	public User getUpdatedBy() {
+		return updatedBy;
+	}
+
+	public void setUpdatedBy(User updatedBy) {
+		this.updatedBy = updatedBy;
 	}
 
 	@Override

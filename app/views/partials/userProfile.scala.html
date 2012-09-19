@@ -1,0 +1,13 @@
+@(user: models.User, login: Boolean = false) 
+@import helper._ 
+@if(user != null) {
+    <div class="profile">
+	    <img alt="@user.getProfileImageURL()" src="@user.profileImageURL"  /> 
+	    <a href="@controllers.routes.UserController.show(user.key)">@user.firstName @user.lastName</a>
+    </div>
+} else {
+    @if(login) {
+	    @***** no user in context *****@
+	    @partials.login()
+    }
+}
