@@ -1,4 +1,4 @@
-@(key: Long, postForm: Form[Post], user: socialauth.core.SocialUser)
+@(key: Long, postForm: Form[Post], user: models.User)
 @import helper._ 
 @import helper.twitterBootstrap._
 @main(if(key != null) "update post" else "new post") {

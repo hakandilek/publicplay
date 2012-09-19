@@ -1,4 +1,4 @@
-@(post: Post, commentKey:Long, commentForm: Form[Comment], selfURL: String, user: socialauth.core.SocialUser) 
+@(post: Post, commentKey:Long, commentForm: Form[Comment], selfURL: String, user: models.User) 
 @import helper._ 
 @import helper.twitterBootstrap._
 @import helper.H._
@@ -35,8 +35,8 @@
 	                    <br/>
 	                    <a class="btn" href="@routes.PostController.editCommentForm(post.key, comment.getKey())">edit</a>
 	                    <br/>
-	                    @prettify(comment.createdOn) @if(comment.createdBy != null) {by @partials.userProfile(comment.createdBy.toSocialUser())} 
-	                    @if(comment.updatedBy != null) {updated @prettify(comment.updatedOn) by @partials.userProfile(comment.updatedBy.toSocialUser())}
+	                    @prettify(comment.createdOn) @if(comment.createdBy != null) {by @partials.userProfile(comment.createdBy)} 
+	                    @if(comment.updatedBy != null) {updated @prettify(comment.updatedOn) by @partials.userProfile(comment.updatedBy)}
                     </td> 
                 </tr>
         }

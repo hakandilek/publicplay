@@ -1,9 +1,9 @@
-@(user: socialauth.core.SocialUser, login: Boolean = false) 
+@(user: models.User, login: Boolean = false) 
 @import helper._ 
 @if(user != null) {
     <div class="profile">
-	    <img alt="@user.profile.getProfileImageURL()" src="@user.profile.getProfileImageURL()"  /> 
-	    <a href="@socialauth.controllers.routes.SocialLogin.info()">@user.profile.getFirstName() @user.profile.getLastName()</a>
+	    <img alt="@user.getProfileImageURL()" src="@user.profileImageURL"  /> 
+	    <a href="@controllers.routes.UserController.show(user.key)">@user.firstName @user.lastName</a>
     </div>
 } else {
     @if(login) {

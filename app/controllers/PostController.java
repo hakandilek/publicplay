@@ -8,10 +8,8 @@ import play.Logger.ALogger;
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
-import socialauth.controllers.SocialLogin;
 import socialauth.core.Secure;
 import socialauth.core.SocialAware;
-import socialauth.core.SocialUser;
 import utils.HttpUtils;
 
 public class PostController extends Controller {
@@ -27,10 +25,8 @@ public class PostController extends Controller {
 		if (log.isDebugEnabled())
 			log.debug("newForm() <-");
 		
-		final SocialUser user = (SocialUser) ctx().args.get(SocialLogin.USER_KEY);
-		if (log.isDebugEnabled())
-			log.debug("user : " + user);
-		
+		User user = HttpUtils.loginUser(ctx());
+
 		return ok(views.html.postForm.render(null, postForm, user));
 	}
 
@@ -39,10 +35,8 @@ public class PostController extends Controller {
 		if (log.isDebugEnabled())
 			log.debug("create() <-");
 		
-		final SocialUser user = (SocialUser) ctx().args.get(SocialLogin.USER_KEY);
-		if (log.isDebugEnabled())
-			log.debug("user : " + user);
-		
+		User user = HttpUtils.loginUser(ctx());
+
 		Form<Post> filledForm = postForm.bindFromRequest();
 		if (filledForm.hasErrors() || user == null) {
 			if (log.isDebugEnabled())
@@ -51,7 +45,7 @@ public class PostController extends Controller {
 			return badRequest(views.html.postForm.render(null, filledForm, user));
 		} else {
 			Post post = filledForm.get();
-			post.createdBy = new User(user);
+			post.createdBy = user;
 			Post.create(post);
 			if (log.isDebugEnabled())
 				log.debug("entity created");
@@ -69,9 +63,7 @@ public class PostController extends Controller {
 		if (log.isDebugEnabled())
 			log.debug("post : " + post);
 		
-		final SocialUser user = (SocialUser) ctx().args.get(SocialLogin.USER_KEY);
-		if (log.isDebugEnabled())
-			log.debug("user : " + user);
+		User user = HttpUtils.loginUser(ctx());
 		
 		Form<Post> form = postForm.fill(post);
 		return ok(views.html.postForm.render(key, form, user));
@@ -82,9 +74,7 @@ public class PostController extends Controller {
 		if (log.isDebugEnabled())
 			log.debug("update() <-" + key);
 		
-		final SocialUser user = (SocialUser) ctx().args.get(SocialLogin.USER_KEY);
-		if (log.isDebugEnabled())
-			log.debug("user : " + user);
+		User user = HttpUtils.loginUser(ctx());
 		
 		Form<Post> filledForm = postForm.bindFromRequest();
 		if (filledForm.hasErrors() || user == null) {
@@ -94,7 +84,7 @@ public class PostController extends Controller {
 			return badRequest(views.html.postForm.render(key, filledForm, user));
 		} else {
 			Post post = filledForm.get();
-			post.updatedBy = new User(user);
+			post.updatedBy = user;
 			if (log.isDebugEnabled())
 				log.debug("post : " + post);
 			Post.update(key, post);
@@ -118,9 +108,7 @@ public class PostController extends Controller {
 		if (log.isDebugEnabled())
 			log.debug("selfUrl : " + selfUrl);
 		
-		final SocialUser user = (SocialUser) ctx().args.get(SocialLogin.USER_KEY);
-		if (log.isDebugEnabled())
-			log.debug("user : " + user);
+		User user = HttpUtils.loginUser(ctx());
 
 		return ok(views.html.postShow.render(post, null, commentForm, selfUrl, user));
 	}
@@ -147,9 +135,7 @@ public class PostController extends Controller {
 		if (log.isDebugEnabled())
 			log.debug("post : " + post);
 		
-		final SocialUser user = (SocialUser) ctx().args.get(SocialLogin.USER_KEY);
-		if (log.isDebugEnabled())
-			log.debug("user : " + user);
+		User user = HttpUtils.loginUser(ctx());
 		
 		String selfUrl = HttpUtils.selfURL();
 		if (log.isDebugEnabled())
@@ -164,7 +150,7 @@ public class PostController extends Controller {
 		} else {
 			Comment comment = filledForm.get();
 			comment.setPost(post);
-			comment.createdBy = new User(user);
+			comment.createdBy = user;
 			if (log.isDebugEnabled())
 				log.debug("comment : " + comment);
 
@@ -193,9 +179,7 @@ public class PostController extends Controller {
 		if (log.isDebugEnabled())
 			log.debug("selfUrl : " + selfUrl);
 		
-		final SocialUser user = (SocialUser) ctx().args.get(SocialLogin.USER_KEY);
-		if (log.isDebugEnabled())
-			log.debug("user : " + user);
+		User user = HttpUtils.loginUser(ctx());
 
 		Form<Comment> form = commentForm.fill(comment);
 		return ok(views.html.postShow.render(post, commentKey, form, selfUrl, user));
@@ -210,9 +194,7 @@ public class PostController extends Controller {
 		if (log.isDebugEnabled())
 			log.debug("post : " + post);
 		
-		final SocialUser user = (SocialUser) ctx().args.get(SocialLogin.USER_KEY);
-		if (log.isDebugEnabled())
-			log.debug("user : " + user);
+		User user = HttpUtils.loginUser(ctx());
 		
 		String selfUrl = HttpUtils.selfURL();
 		if (log.isDebugEnabled())
@@ -226,7 +208,7 @@ public class PostController extends Controller {
 			return badRequest(views.html.postShow.render(post, commentKey, filledForm, selfUrl, user));
 		} else {
 			Comment comment = filledForm.get();
-			comment.updatedBy = new User(user);
+			comment.updatedBy = user;
 			if (log.isDebugEnabled())
 				log.debug("comment : " + comment);
 			Comment.update(commentKey, comment);
@@ -254,9 +236,7 @@ public class PostController extends Controller {
 		if (log.isDebugEnabled())
 			log.debug("selfUrl : " + selfUrl);
 		
-		final SocialUser user = (SocialUser) ctx().args.get(SocialLogin.USER_KEY);
-		if (log.isDebugEnabled())
-			log.debug("user : " + user);
+		User user = HttpUtils.loginUser(ctx());
 
 		return ok(views.html.postShow.render(post, null, commentForm, selfUrl, user));
 	}
@@ -286,14 +266,8 @@ public class PostController extends Controller {
 		if (log.isDebugEnabled())
 			log.debug("post : " + post);
 		
-		final SocialUser socialUser = (SocialUser) ctx().args.get(SocialLogin.USER_KEY);
-		if (log.isDebugEnabled())
-			log.debug("socialUser : " + socialUser);
-		User user = null;
-		if (socialUser != null)
-			user = User.get(socialUser.getUserKey());
-		if (log.isDebugEnabled())
-			log.debug("user : " + user);
+		User user = HttpUtils.loginUser(ctx());
+		
 		if (user != null) {
 			//TODO:save/update rate
 			return ok(views.html.rate.render(rate));

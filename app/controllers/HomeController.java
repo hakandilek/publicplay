@@ -3,13 +3,13 @@ package controllers;
 import java.util.List;
 
 import models.Post;
+import models.User;
 import play.Logger;
 import play.Logger.ALogger;
 import play.mvc.Controller;
 import play.mvc.Result;
-import socialauth.controllers.SocialLogin;
 import socialauth.core.SocialAware;
-import socialauth.core.SocialUser;
+import utils.HttpUtils;
 import views.html.index;
 
 public class HomeController extends Controller {
@@ -21,9 +21,7 @@ public class HomeController extends Controller {
 		if (log.isDebugEnabled())
 			log.debug("index() <-");
 		
-		final SocialUser user = (SocialUser) ctx().args.get(SocialLogin.USER_KEY);
-		if (log.isDebugEnabled())
-			log.debug("user : " + user);
+		User user = HttpUtils.loginUser(ctx());
 		
 		List<Post> list = Post.all();
 		return ok(index.render(list, user));

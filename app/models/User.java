@@ -26,6 +26,9 @@ public class User extends Model {
 	public String key;
 
 	@Basic
+	public String originalKey;
+
+	@Basic
 	public Date createdOn;
 
 	@Basic
@@ -72,7 +75,6 @@ public class User extends Model {
     
     @OneToMany(cascade=CascadeType.ALL, mappedBy="createdBy")
     public Set<Comment> comments;
-	
 
 	public static Finder<String, User> find = new Finder<String, User>(
 			String.class, User.class);
@@ -80,6 +82,7 @@ public class User extends Model {
 	public User(SocialUser socialUser) {
 		key = socialUser.getUserKey();
 		final Profile profile = socialUser.getProfile();
+		originalKey = profile.getValidatedId();
 		firstName = profile.getFirstName();
 		lastName = profile.getLastName();
 		birthdate = socialUser.getBirthDate();
@@ -110,6 +113,7 @@ public class User extends Model {
 		profile.setLocation(location);
 		profile.setProfileImageURL(profileImageURL);
 		profile.setProviderId(providerId);
+		profile.setValidatedId(originalKey);
 
 		SocialUser su = new SocialUser(key, profile);
 		return su;

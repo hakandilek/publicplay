@@ -33,6 +33,7 @@ create table post_rating (
 
 create table user (
   key                       varchar(255) not null,
+  original_key              varchar(255),
   created_on                timestamp,
   updated_on                timestamp,
   login_count               integer,

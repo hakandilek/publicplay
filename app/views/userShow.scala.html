@@ -1,0 +1,30 @@
+@(user: models.User, self: Boolean)
+@main("user information") {
+
+	<div class="page-header">
+        <h2>User Details</h2>
+	</div>
+	
+	<div class="clearfix">
+        <h2>
+            <img src="@user.getProfileImageURL()" alt="@user.getFirstName() @user.getLastName()" width="40px"/>
+            @user.getFirstName() @user.getLastName()
+        </h2>
+        <p>
+        @if(self) { This is you! }
+        </p>
+        <br/>
+	
+	    <ul>
+	        <li> <a href="https://www.facebook.com/profile.php?id=@user.originalKey">Facebook Profile</a></li>
+	        <li> Logged in from: @user.providerId</li>
+	        <li> Email: @if( user.email != null ) { @user.email } else { Not Available } </li>
+	        <li> FirstName: @user.firstName </li>
+	        <li> LastName: @user.lastName </li>
+	        <li> Date of Birth: @user.birthdate </li>
+	        <li> Gender: @user.gender </li>
+	        <li> Location: @user.location </li>
+	    </ul>
+	
+	</div>
+}
