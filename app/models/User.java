@@ -3,10 +3,13 @@ package models;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Version;
 
 import org.brickred.socialauth.Profile;
@@ -63,6 +66,13 @@ public class User extends Model {
 
 	@Basic
 	public String providerId;
+	
+    @OneToMany(cascade=CascadeType.ALL, mappedBy="createdBy")
+    public Set<Post> posts;
+    
+    @OneToMany(cascade=CascadeType.ALL, mappedBy="createdBy")
+    public Set<Comment> comments;
+	
 
 	public static Finder<String, User> find = new Finder<String, User>(
 			String.class, User.class);
@@ -85,13 +95,15 @@ public class User extends Model {
 		Profile profile = new Profile();
 		profile.setFirstName(firstName);
 		profile.setLastName(lastName);
-		final BirthDate dob = new BirthDate();
-		final Calendar cal = Calendar.getInstance();
-		cal.setTime(birthdate);
-		dob.setDay(cal.get(Calendar.DAY_OF_MONTH) + 1);
-		dob.setMonth(cal.get(Calendar.MONTH) + 1);
-		dob.setDay(cal.get(Calendar.YEAR) + 1900);
-		profile.setDob(dob);
+		if (birthdate != null) {
+			final BirthDate dob = new BirthDate();
+			final Calendar cal = Calendar.getInstance();
+			cal.setTime(birthdate);
+			dob.setDay(cal.get(Calendar.DAY_OF_MONTH) + 1);
+			dob.setMonth(cal.get(Calendar.MONTH) + 1);
+			dob.setDay(cal.get(Calendar.YEAR) + 1900);
+			profile.setDob(dob);
+		}
 		profile.setEmail(email);
 		profile.setCountry(country);
 		profile.setGender(gender);

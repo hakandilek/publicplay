@@ -10,6 +10,7 @@ import play.mvc.Controller;
 import play.mvc.Result;
 import socialauth.controllers.SocialLogin;
 import socialauth.core.Secure;
+import socialauth.core.SocialAware;
 import socialauth.core.SocialUser;
 import utils.HttpUtils;
 
@@ -21,25 +22,37 @@ public class PostController extends Controller {
 
 	static Form<Comment> commentForm = form(Comment.class);
 
+	@SocialAware
 	public static Result newForm() {
 		if (log.isDebugEnabled())
 			log.debug("newForm() <-");
 		
-		return ok(views.html.postForm.render(null, postForm));
+		final SocialUser user = (SocialUser) ctx().args.get(SocialLogin.USER_KEY);
+		if (log.isDebugEnabled())
+			log.debug("user : " + user);
+		
+		return ok(views.html.postForm.render(null, postForm, user));
 	}
 
+	@Secure
 	public static Result create() {
 		if (log.isDebugEnabled())
 			log.debug("create() <-");
 		
+		final SocialUser user = (SocialUser) ctx().args.get(SocialLogin.USER_KEY);
+		if (log.isDebugEnabled())
+			log.debug("user : " + user);
+		
 		Form<Post> filledForm = postForm.bindFromRequest();
-		if (filledForm.hasErrors()) {
+		if (filledForm.hasErrors() || user == null) {
 			if (log.isDebugEnabled())
 				log.debug("validation errors occured");
 			
-			return badRequest(views.html.postForm.render(null, filledForm));
+			return badRequest(views.html.postForm.render(null, filledForm, user));
 		} else {
-			Post.create(filledForm.get());
+			Post post = filledForm.get();
+			post.createdBy = new User(user);
+			Post.create(post);
 			if (log.isDebugEnabled())
 				log.debug("entity created");
 			
@@ -47,6 +60,7 @@ public class PostController extends Controller {
 		}
 	}
 
+	@Secure
 	public static Result editForm(Long key) {
 		if (log.isDebugEnabled())
 			log.debug("editForm() <-" + key);
@@ -55,22 +69,35 @@ public class PostController extends Controller {
 		if (log.isDebugEnabled())
 			log.debug("post : " + post);
 		
+		final SocialUser user = (SocialUser) ctx().args.get(SocialLogin.USER_KEY);
+		if (log.isDebugEnabled())
+			log.debug("user : " + user);
+		
 		Form<Post> form = postForm.fill(post);
-		return ok(views.html.postForm.render(key, form));
+		return ok(views.html.postForm.render(key, form, user));
 	}
 
+	@Secure
 	public static Result update(Long key) {
 		if (log.isDebugEnabled())
 			log.debug("update() <-" + key);
 		
+		final SocialUser user = (SocialUser) ctx().args.get(SocialLogin.USER_KEY);
+		if (log.isDebugEnabled())
+			log.debug("user : " + user);
+		
 		Form<Post> filledForm = postForm.bindFromRequest();
-		if (filledForm.hasErrors()) {
+		if (filledForm.hasErrors() || user == null) {
 			if (log.isDebugEnabled())
 				log.debug("validation errors occured");
 			
-			return badRequest(views.html.postForm.render(key, filledForm));
+			return badRequest(views.html.postForm.render(key, filledForm, user));
 		} else {
-			Post.update(key, filledForm.get());
+			Post post = filledForm.get();
+			post.updatedBy = new User(user);
+			if (log.isDebugEnabled())
+				log.debug("post : " + post);
+			Post.update(key, post);
 			if (log.isDebugEnabled())
 				log.debug("entity updated");
 			
@@ -78,6 +105,7 @@ public class PostController extends Controller {
 		}
 	}
 
+	@SocialAware
 	public static Result show(Long key, String title) {
 		if (log.isDebugEnabled())
 			log.debug("show() <-" + key);
@@ -90,9 +118,14 @@ public class PostController extends Controller {
 		if (log.isDebugEnabled())
 			log.debug("selfUrl : " + selfUrl);
 		
-		return ok(views.html.postShow.render(post, null, commentForm, selfUrl));
+		final SocialUser user = (SocialUser) ctx().args.get(SocialLogin.USER_KEY);
+		if (log.isDebugEnabled())
+			log.debug("user : " + user);
+
+		return ok(views.html.postShow.render(post, null, commentForm, selfUrl, user));
 	}
 
+	@Secure
 	public static Result delete(Long key) {
 		if (log.isDebugEnabled())
 			log.debug("delete() <-" + key);
@@ -105,6 +138,7 @@ public class PostController extends Controller {
 	}
 
 	//Comment stuff
+	@Secure
 	public static Result createComment(Long postKey, String title) {
 		if (log.isDebugEnabled())
 			log.debug("createComment() <-" + postKey);
@@ -113,30 +147,36 @@ public class PostController extends Controller {
 		if (log.isDebugEnabled())
 			log.debug("post : " + post);
 		
+		final SocialUser user = (SocialUser) ctx().args.get(SocialLogin.USER_KEY);
+		if (log.isDebugEnabled())
+			log.debug("user : " + user);
+		
 		String selfUrl = HttpUtils.selfURL();
 		if (log.isDebugEnabled())
 			log.debug("selfUrl : " + selfUrl);
 		
 		Form<Comment> filledForm = commentForm.bindFromRequest();
-		if (filledForm.hasErrors()) {
+		if (filledForm.hasErrors() || user == null) {
 			if (log.isDebugEnabled())
 				log.debug("validation errors occured");
 			
-			return badRequest(views.html.postShow.render(post, null, filledForm, selfUrl));
+			return badRequest(views.html.postShow.render(post, null, filledForm, selfUrl, user));
 		} else {
 			Comment comment = filledForm.get();
 			comment.setPost(post);
+			comment.createdBy = new User(user);
 			if (log.isDebugEnabled())
 				log.debug("comment : " + comment);
-			
+
 			Comment.create(comment);
 			if (log.isDebugEnabled())
 				log.debug("comment created");
 			
-			return ok(views.html.postShow.render(post, null, commentForm, selfUrl));
+			return ok(views.html.postShow.render(post, null, commentForm, selfUrl, user));
 		}
 	}
 
+	@Secure
 	public static Result editCommentForm(Long postKey, Long commentKey) {
 		if (log.isDebugEnabled())
 			log.debug("editCommentForm() <-");
@@ -153,10 +193,15 @@ public class PostController extends Controller {
 		if (log.isDebugEnabled())
 			log.debug("selfUrl : " + selfUrl);
 		
+		final SocialUser user = (SocialUser) ctx().args.get(SocialLogin.USER_KEY);
+		if (log.isDebugEnabled())
+			log.debug("user : " + user);
+
 		Form<Comment> form = commentForm.fill(comment);
-		return ok(views.html.postShow.render(post, commentKey, form, selfUrl));
+		return ok(views.html.postShow.render(post, commentKey, form, selfUrl, user));
 	}
 
+	@Secure
 	public static Result updateComment(Long postKey, Long commentKey) {
 		if (log.isDebugEnabled())
 			log.debug("updateComment() <-");
@@ -165,25 +210,34 @@ public class PostController extends Controller {
 		if (log.isDebugEnabled())
 			log.debug("post : " + post);
 		
+		final SocialUser user = (SocialUser) ctx().args.get(SocialLogin.USER_KEY);
+		if (log.isDebugEnabled())
+			log.debug("user : " + user);
+		
 		String selfUrl = HttpUtils.selfURL();
 		if (log.isDebugEnabled())
 			log.debug("selfUrl : " + selfUrl);
 		
 		Form<Comment> filledForm = commentForm.bindFromRequest();
-		if (filledForm.hasErrors()) {
+		if (filledForm.hasErrors() || user == null) {
 			if (log.isDebugEnabled())
 				log.debug("validation errors occured");
 			
-			return badRequest(views.html.postShow.render(post, commentKey, filledForm, selfUrl));
+			return badRequest(views.html.postShow.render(post, commentKey, filledForm, selfUrl, user));
 		} else {
-			Comment.update(commentKey, filledForm.get());
+			Comment comment = filledForm.get();
+			comment.updatedBy = new User(user);
+			if (log.isDebugEnabled())
+				log.debug("comment : " + comment);
+			Comment.update(commentKey, comment);
 			if (log.isDebugEnabled())
 				log.debug("entity updated");
 			
-			return ok(views.html.postShow.render(post, commentKey, commentForm, selfUrl));
+			return ok(views.html.postShow.render(post, commentKey, commentForm, selfUrl, user));
 		}
 	}
 
+	@Secure
 	public static Result deleteComment(Long postKey, Long commentKey) {
 		if (log.isDebugEnabled())
 			log.debug("deleteComment() <-");
@@ -200,7 +254,11 @@ public class PostController extends Controller {
 		if (log.isDebugEnabled())
 			log.debug("selfUrl : " + selfUrl);
 		
-		return ok(views.html.postShow.render(post, null, commentForm, selfUrl));
+		final SocialUser user = (SocialUser) ctx().args.get(SocialLogin.USER_KEY);
+		if (log.isDebugEnabled())
+			log.debug("user : " + user);
+
+		return ok(views.html.postShow.render(post, null, commentForm, selfUrl, user));
 	}
 
 	/**

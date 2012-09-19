@@ -5,11 +5,12 @@
 
 create table comment (
   key                       bigint not null,
-  postKey                   bigint,
   content                   varchar(255),
   created_on                timestamp,
   updated_on                timestamp,
-  revision                  integer not null,
+  postKey                   bigint,
+  created_by                varchar(255),
+  updated_by                varchar(255),
   constraint pk_comment primary key (key))
 ;
 
@@ -19,7 +20,8 @@ create table post (
   content                   varchar(255),
   created_on                timestamp,
   updated_on                timestamp,
-  revision                  integer not null,
+  created_by                varchar(255),
+  updated_by                varchar(255),
   constraint pk_post primary key (key))
 ;
 
@@ -56,6 +58,14 @@ create sequence user_seq;
 
 alter table comment add constraint fk_comment_post_1 foreign key (postKey) references post (key) on delete restrict on update restrict;
 create index ix_comment_post_1 on comment (postKey);
+alter table comment add constraint fk_comment_createdBy_2 foreign key (created_by) references user (key) on delete restrict on update restrict;
+create index ix_comment_createdBy_2 on comment (created_by);
+alter table comment add constraint fk_comment_updatedBy_3 foreign key (updated_by) references user (key) on delete restrict on update restrict;
+create index ix_comment_updatedBy_3 on comment (updated_by);
+alter table post add constraint fk_post_createdBy_4 foreign key (created_by) references user (key) on delete restrict on update restrict;
+create index ix_post_createdBy_4 on post (created_by);
+alter table post add constraint fk_post_updatedBy_5 foreign key (updated_by) references user (key) on delete restrict on update restrict;
+create index ix_post_updatedBy_5 on post (updated_by);
 
 
 

@@ -8,7 +8,6 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.Version;
 
 import play.data.validation.Constraints.Required;
 import play.db.ebean.Model;
@@ -20,10 +19,6 @@ public class Comment extends Model {
 	@Id
 	public Long key;
 
-    @ManyToOne
-    @JoinColumn(name="postKey", nullable=false)
-	public Post post;
-
 	@Required
 	public String content;
 	
@@ -33,9 +28,18 @@ public class Comment extends Model {
     @Basic
 	public Date updatedOn;
 	
-	@Version
-	public int revision;
-	
+    @ManyToOne
+    @JoinColumn(name="postKey", nullable=false)
+	public Post post;
+
+    @ManyToOne
+    @JoinColumn(name="created_by", nullable=false)
+	public User createdBy;
+
+    @ManyToOne
+    @JoinColumn(name="updated_by", nullable=true)
+	public User updatedBy;
+
 	public static Finder<Long, Comment> find = new Finder<Long, Comment>(Long.class, Comment.class);
 
 	public static List<Comment> all() {
@@ -101,14 +105,6 @@ public class Comment extends Model {
 
 	public void setUpdatedOn(Date updatedOn) {
 		this.updatedOn = updatedOn;
-	}
-
-	public int getRevision() {
-		return revision;
-	}
-
-	public void setRevision(int revision) {
-		this.revision = revision;
 	}
 
 	@Override

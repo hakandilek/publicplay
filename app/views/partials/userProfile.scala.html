@@ -1,0 +1,13 @@
+@(user: socialauth.core.SocialUser, login: Boolean = false) 
+@import helper._ 
+@if(user != null) {
+    <div class="profile">
+	    <img alt="@user.profile.getProfileImageURL()" src="@user.profile.getProfileImageURL()"  /> 
+	    <a href="@socialauth.controllers.routes.SocialLogin.info()">@user.profile.getFirstName() @user.profile.getLastName()</a>
+    </div>
+} else {
+    @if(login) {
+	    @***** no user in context *****@
+	    @partials.login()
+    }
+}
