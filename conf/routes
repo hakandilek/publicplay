@@ -11,6 +11,8 @@ GET     /users/self                 controllers.UserController.showSelf()
 GET     /posts                      controllers.PostController.list(p:Int ?= 0)
 POST    /posts                      controllers.PostController.create()
 GET     /posts/new                  controllers.PostController.newForm()
+GET     /posts/:key/rateUp          controllers.PostController.rateUp(key: Long)
+GET     /posts/:key/rateDown        controllers.PostController.rateDown(key: Long)
 GET     /posts/:key/edit            controllers.PostController.editForm(key: Long)
 POST    /posts/:key/update          controllers.PostController.update(key: Long)
 GET     /posts/:key/delete          controllers.PostController.delete(key: Long)
@@ -20,9 +22,6 @@ POST    /posts/:postKey                             controllers.PostController.c
 GET     /posts/:postKey/comments/:commentKey/edit   controllers.PostController.editCommentForm(postKey: Long, commentKey: Long)
 POST    /posts/:postKey/comments/:commentKey        controllers.PostController.updateComment(postKey: Long, commentKey: Long)
 GET     /posts/:postKey/comments/:commentKey/delete controllers.PostController.deleteComment(postKey: Long, commentKey: Long)
-#Rating posts
-GET     /posts/:postKey/rateUp   					controllers.PostController.rateUp(postKey: Long)
-GET     /posts/:postKey/rateDown   					controllers.PostController.rateDown(postKey: Long)
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

@@ -4,22 +4,27 @@
 @import helper.H._
 
 @main(post.getTitle()) {
-	<p class="lead">@post.getTitle()</p>
-	<blockquote>@nl2br(post.content)</blockquote>
+    <p class="lead">
+        <a href="@routes.PostController.rateUp(post.key)"><i class="icon-plus"></i></a>
+        <a href="@routes.PostController.rateDown(post.key)"><i class="icon-minus"></i></a>
+        @post.getTitle()
+    </p>
+       
+    <blockquote>@nl2br(post.content)</blockquote>
     <small>
         @prettify(post.createdOn) @if(post.getCreatedBy() != null) {by @partials.userProfile(post.getCreatedBy())}
         @if(post.getUpdatedBy() != null) {updated @prettify(post.updatedOn) by @partials.userProfile(post.getUpdatedBy())}
     </small>
-	<div class="fb-like" data-href="@selfURL" data-send="false" data-width="550" data-show-faces="true"></div>
-	
-	@* comments *@
+    <div class="fb-like" data-href="@selfURL" data-send="false" data-width="550" data-show-faces="true"></div>
+    
+    @* comments *@
     @if(currentPage.getTotalRowCount == 0) {
         
         <div class="well">
-        	<h4>no comments yet, be the first one:</h4>
+            <h4>no comments yet, be the first one:</h4>
         </div>
         
-	} else {
+    } else {
 
         <table class="comments table table-striped table-bordered">
             <thead>
@@ -32,46 +37,46 @@
                 <tr>
                     <td>
                         <blockquote> @nl2br(comment.getContent()) </blockquote>
-	                    <br/>
-	                    <a class="btn btn-mini" href="@routes.PostController.editCommentForm(post.key, comment.getKey())">edit</a>
-	                    <br/>
-	                    @prettify(comment.createdOn) @if(comment.createdBy != null) {by @partials.userProfile(comment.createdBy)} 
-	                    @if(comment.updatedBy != null) {updated @prettify(comment.updatedOn) by @partials.userProfile(comment.updatedBy)}
+                        <br/>
+                        <a class="btn btn-mini" href="@routes.PostController.editCommentForm(post.key, comment.getKey())">edit</a>
+                        <br/>
+                        @prettify(comment.createdOn) @if(comment.createdBy != null) {by @partials.userProfile(comment.createdBy)} 
+                        @if(comment.updatedBy != null) {updated @prettify(comment.updatedOn) by @partials.userProfile(comment.updatedBy)}
                     </td> 
                 </tr>
         }
             </tbody>
         </table>
         
-	    <div id="pagination" class="pagination">
-	        <ul>
-	            @if(currentPage.hasPrev) {
-	                <li class="prev">
-	                    <a href="@routes.PostController.show(post.key, sanitize(post.title), currentPage.getPageIndex - 1)">&larr; Previous</a>
-	                </li>
-	            } else {
-	                <li class="prev disabled">
-	                    <a>&larr; Previous</a>
-	                </li>
-	            }
-	            <li class="current">
-	                <a>Displaying @currentPage.getDisplayXtoYofZ(" to "," of ")</a>
-	            </li>
-	            @if(currentPage.hasNext) {
-	                <li class="next">
-	                    <a href="@routes.PostController.show(post.key, sanitize(post.title), currentPage.getPageIndex + 1)">Next &rarr;</a>
-	                </li>
-	            } else {
-	                <li class="next disabled">
-	                    <a>Next &rarr;</a>
-	                </li>
-	            }
-	        </ul>
-	    </div>
+        <div id="pagination" class="pagination">
+            <ul>
+                @if(currentPage.hasPrev) {
+                    <li class="prev">
+                        <a href="@routes.PostController.show(post.key, sanitize(post.title), currentPage.getPageIndex - 1)">&larr; Previous</a>
+                    </li>
+                } else {
+                    <li class="prev disabled">
+                        <a>&larr; Previous</a>
+                    </li>
+                }
+                <li class="current">
+                    <a>Displaying @currentPage.getDisplayXtoYofZ(" to "," of ")</a>
+                </li>
+                @if(currentPage.hasNext) {
+                    <li class="next">
+                        <a href="@routes.PostController.show(post.key, sanitize(post.title), currentPage.getPageIndex + 1)">Next &rarr;</a>
+                    </li>
+                } else {
+                    <li class="next disabled">
+                        <a>Next &rarr;</a>
+                    </li>
+                }
+            </ul>
+        </div>
         
         <h4>drop your comment:</h4>
-	}
-	
+    }
+    
     @if(user == null) {
     
     <br/>
@@ -84,15 +89,15 @@
         
     } else {
     
-	    @form(if(commentKey != null) { routes.PostController.updateComment(post.key, commentKey) } 
-	          else                   { routes.PostController.createComment(post.key, post.title) }) { 
-	        @textarea(commentForm("content"))
+        @form(if(commentKey != null) { routes.PostController.updateComment(post.key, commentKey) } 
+              else                   { routes.PostController.createComment(post.key, post.title) }) { 
+            @textarea(commentForm("content"))
             <div>
                <input type="submit" value="@if(commentKey != null) { Update } else { Post }">
                as @partials.userProfile(user)
             </div>
-	    }
+        }
 
     }
-	
+    
 }

@@ -25,6 +25,8 @@
         @for(post <- currentPage.getList) {
             <tr>
                 <td>
+                    <a href="@routes.PostController.rateUp(post.key)"><i class="icon-plus"></i></a>
+                    <a href="@routes.PostController.rateDown(post.key)"><i class="icon-minus"></i></a>
                 	<a href="@routes.PostController.show(post.key, sanitize(post.title))">@post.title</a>
                	</td>
             </tr>
