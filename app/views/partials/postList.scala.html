@@ -3,7 +3,7 @@
 @import helper.twitterBootstrap._
 @import helper.H._
 
-	<h2>@currentPage.getTotalRowCount post(s)</h2>
+	<h3>@currentPage.getTotalRowCount post(s)</h3>
 	
 	<h4><a href="@routes.PostController.newForm">Create a new post</a></h4>
     
@@ -15,7 +15,7 @@
         
     } else {
 	
-    <table class="posts zebra-striped">
+    <table class="posts table table-striped table-bordered">
         <thead>
             <tr>
                 <th class="header">Posts</th>
@@ -26,15 +26,19 @@
             <tr>
                 <td>
                 	<a href="@routes.PostController.show(post.key, sanitize(post.title))">@post.title</a>
-                    <a class="btn" href="@routes.PostController.editForm(post.key)">edit</a>
-                    <a class="btn" href="@routes.PostController.delete(post.key)">delete</a>
-                    <br/>
-                    @prettify(post.createdOn) @if(post.getCreatedBy() != null) {by @partials.userProfile(post.getCreatedBy())} 
-                    @if(post.getUpdatedBy() != null) {updated @prettify(post.updatedOn) by @partials.userProfile(post.getUpdatedBy())} 
                	</td>
             </tr>
             <tr>
-                <td colspan="3"><p>@nl2br(post.content)</p></td>
+                <td colspan="3">
+                    <blockquote>@nl2br(post.content)</blockquote>
+                    <small>
+	                    @prettify(post.createdOn) @if(post.getCreatedBy() != null) {by @partials.userProfile(post.getCreatedBy())} 
+	                    @if(post.getUpdatedBy() != null) {updated @prettify(post.updatedOn) by @partials.userProfile(post.getUpdatedBy())} 
+                    </small> 
+                    <br/>
+                    <a class="btn btn-mini" href="@routes.PostController.editForm(post.key)">edit</a>
+                    <a class="btn btn-mini btn-danger" href="@routes.PostController.delete(post.key)">delete</a>
+                </td>
             </tr>
         }
         </tbody>

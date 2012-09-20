@@ -29,6 +29,9 @@ public class UserController extends Controller {
 		User user = User.get(key);
 		if (log.isDebugEnabled())
 			log.debug("user : " + user);
+		if (user == null) {
+			return badRequest(userShow.render(user, false));
+		}
 		boolean selfPage = false;
 		if (user != null && self != null && (user.key + "").equals(self.userKey)) {
 			selfPage  = true;

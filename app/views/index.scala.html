@@ -2,8 +2,8 @@
 
 @main("home") {
 
-    <h1> Welcome @partials.userProfile(user)! </h1> 
-    @if(user != null) {<a class="btn" href="@socialauth.controllers.routes.SocialLogin.logout()">Logout</a> }
+    <h2> Welcome @partials.userProfile(user)! </h2> 
+    @if(user != null) {<p><a class="btn" href="@socialauth.controllers.routes.SocialLogin.logout()">Logout</a> </p>}
     <p>
     	PublicPlay is a simple Forum application developed on 
     	<a href="http://github.com/playframework/play">Play Framework</a>.
