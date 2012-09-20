@@ -63,17 +63,9 @@ public class Post extends Model {
 	 *            Page to display
 	 * @param pageSize
 	 *            Number of computers per page
-	 * @param sortBy
-	 *            property used for sorting
-	 * @param order
-	 *            Sort order (either or asc or desc)
-	 * @param filter
-	 *            Filter applied on the name column
 	 */
-	public static Page<Post> page(int page, int pageSize, String sortBy,
-			String order, String filter) {
-		return find.where().ilike("title", "%" + filter + "%")
-				.orderBy(sortBy + " " + order).findPagingList(pageSize)
+	public static Page<Post> page(int page, int pageSize) {
+		return find.where().orderBy("createdOn desc").findPagingList(pageSize)
 				.getPage(page);
 	}
    

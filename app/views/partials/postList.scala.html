@@ -1,33 +1,7 @@
-@(currentPage: Page[Post], currentSortBy: String, currentOrder: String, currentFilter: String)
+@(currentPage: Page[Post])
 @import helper._ 
 @import helper.twitterBootstrap._
 @import helper.H._
-
-	@***************************************************
-	* Pagination helper generating navigation links    *
-	***************************************************@
-	
-	@link(newPage:Int, newSortBy:String) = @{
-	    
-	    var sortBy = currentSortBy
-	    var order = currentOrder
-	    
-	    if(newSortBy != null) {
-	        sortBy = newSortBy
-	        if(currentSortBy == newSortBy) {
-	            if(currentOrder == "asc") {
-	                order = "desc"
-	            } else {
-	                order = "asc"
-	            }
-	        } else {
-	            order = "asc"
-	        }
-	    }
-	    
-	    // Generate the link
-	    routes.PostController.list(newPage, sortBy, order, currentFilter)
-	}
 
 	<h2>@currentPage.getTotalRowCount post(s)</h2>
 	
@@ -70,7 +44,7 @@
         <ul>
             @if(currentPage.hasPrev) {
                 <li class="prev">
-                    <a href="@link(currentPage.getPageIndex - 1, null)">&larr; Previous</a>
+                    <a href="@routes.PostController.list(currentPage.getPageIndex - 1)">&larr; Previous</a>
                 </li>
             } else {
                 <li class="prev disabled">
@@ -82,7 +56,7 @@
             </li>
             @if(currentPage.hasNext) {
                 <li class="next">
-                    <a href="@link(currentPage.getPageIndex + 1, null)">Next &rarr;</a>
+                    <a href="@routes.PostController.list(currentPage.getPageIndex + 1)">Next &rarr;</a>
                 </li>
             } else {
                 <li class="next disabled">

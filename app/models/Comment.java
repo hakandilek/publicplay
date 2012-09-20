@@ -46,22 +46,16 @@ public class Comment extends Model {
 	/**
 	 * Return a page of comments
 	 * 
+	 * @param postKey
+	 *            post key
 	 * @param page
 	 *            Page to display
 	 * @param pageSize
 	 *            Number of computers per page
-	 * @param sortBy
-	 *            property used for sorting
-	 * @param order
-	 *            Sort order (either or asc or desc)
-	 * @param filter
-	 *            Filter applied on the name column
 	 */
-	public static Page<Comment> page(int page, int pageSize, String sortBy,
-			String order, String filter) {
-		return find.where().ilike("content", "%" + filter + "%")
-				.orderBy(sortBy + " " + order).findPagingList(pageSize)
-				.getPage(page);
+	public static Page<Comment> page(Long postKey, int page, int pageSize) {
+		return find.where().eq("postKey", postKey).orderBy("createdOn desc")
+				.findPagingList(pageSize).getPage(page);
 	}
    
 	public static void create(Comment comment) {

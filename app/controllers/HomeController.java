@@ -18,7 +18,7 @@ public class HomeController extends Controller {
 		if (log.isDebugEnabled())
 			log.debug("index() <-");
 
-		return PostController.list(0, "createdOn", "desc", "");
+		return PostController.list(0);
 	}
 
 }

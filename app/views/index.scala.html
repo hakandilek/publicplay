@@ -1,4 +1,4 @@
-@(currentPage: Page[Post], currentSortBy: String, currentOrder: String, currentFilter: String, user: models.User)
+@(currentPage: Page[Post], user: models.User)
 
 @main("home") {
 
@@ -21,5 +21,5 @@
 		
     <hr/>
     
-	@partials.postList(currentPage, currentSortBy, currentOrder, currentFilter)
+	@partials.postList(currentPage)
 }
