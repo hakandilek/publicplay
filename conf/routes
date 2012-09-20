@@ -12,9 +12,9 @@ GET     /posts                      controllers.PostController.list(p:Int ?= 0, 
 POST    /posts                      controllers.PostController.create()
 GET     /posts/new                  controllers.PostController.newForm()
 GET     /posts/:key/edit            controllers.PostController.editForm(key: Long)
-GET     /posts/:key/:title          controllers.PostController.show(key: Long, title: String, p:Int ?= 0, s ?= "createdOn", o ?= "desc", f ?= "")
 POST    /posts/:key/update          controllers.PostController.update(key: Long)
 GET     /posts/:key/delete          controllers.PostController.delete(key: Long)
+GET     /posts/:key/:title          controllers.PostController.show(key: Long, title: String, p:Int ?= 0, s ?= "createdOn", o ?= "desc", f ?= "")
 # Comment
 POST    /posts/:postKey                             controllers.PostController.createComment(postKey: Long, title: String)
 GET     /posts/:postKey/comments/:commentKey/edit   controllers.PostController.editCommentForm(postKey: Long, commentKey: Long)
