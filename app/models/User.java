@@ -103,7 +103,7 @@ public class User extends Model {
 			final Calendar cal = Calendar.getInstance();
 			cal.setTime(birthdate);
 			dob.setDay(cal.get(Calendar.DAY_OF_MONTH) + 1);
-			dob.setMonth(cal.get(Calendar.MONTH) + 1);
+			dob.setMonth(cal.get(Calendar.MONTH));
 			dob.setDay(cal.get(Calendar.YEAR) + 1900);
 			profile.setDob(dob);
 		}

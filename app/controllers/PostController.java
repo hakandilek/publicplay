@@ -31,32 +31,19 @@ public class PostController extends Controller implements Constants {
 	 * 
 	 * @param page
 	 *            Current page number (starts from 0)
-	 * @param sortBy
-	 *            Column to be sorted
-	 * @param order
-	 *            Sort order (either asc or desc)
-	 * @param filter
-	 *            Filter applied on computer names
 	 */
 	@SocialAware
-	public static Result list(int page, String sortBy, String order,
-			String filter) {
+	public static Result list(int page) {
 		if (log.isDebugEnabled())
 			log.debug("index() <-");
 
 		if (log.isDebugEnabled())
 			log.debug("page : " + page);
-		if (log.isDebugEnabled())
-			log.debug("sortBy : " + sortBy);
-		if (log.isDebugEnabled())
-			log.debug("order : " + order);
-		if (log.isDebugEnabled())
-			log.debug("filter : " + filter);
 
 		User user = HttpUtils.loginUser(ctx());
 
-		Page<Post> pg = Post.page(page, POSTS_PER_PAGE, sortBy, order, filter);
-		return ok(index.render(pg, sortBy, order, filter, user));
+		Page<Post> pg = Post.page(page, POSTS_PER_PAGE);
+		return ok(index.render(pg, user));
 	}
 	
 	@SocialAware
@@ -139,16 +126,9 @@ public class PostController extends Controller implements Constants {
 	 * 
 	 * @param page
 	 *            Current page number (starts from 0)
-	 * @param sortBy
-	 *            Column to be sorted
-	 * @param order
-	 *            Sort order (either asc or desc)
-	 * @param filter
-	 *            Filter applied on computer names
 	 */
 	@SocialAware
-	public static Result show(Long postKey, String title, int page, String sortBy, String order,
-			String filter) {
+	public static Result show(Long postKey, String title, int page) {
 		if (log.isDebugEnabled())
 			log.debug("show() <-" + postKey);
 		
@@ -162,9 +142,8 @@ public class PostController extends Controller implements Constants {
 		
 		User user = HttpUtils.loginUser(ctx());
 
-		final Page<Comment> pg = Comment.page(page, COMMENTS_PER_PAGE, sortBy, order, filter);
-		return ok(postShow.render(post, null, commentForm, selfUrl, user, pg, sortBy,
-				order, filter));
+		final Page<Comment> pg = Comment.page(postKey, page, COMMENTS_PER_PAGE);
+		return ok(postShow.render(post, null, commentForm, selfUrl, user, pg));
 	}
 
 	@Secure
@@ -200,8 +179,8 @@ public class PostController extends Controller implements Constants {
 			if (log.isDebugEnabled())
 				log.debug("validation errors occured");
 			
-			final Page<Comment> pg = Comment.page(0, COMMENTS_PER_PAGE, "createdOn", "desc", "");
-			return badRequest(postShow.render(post, null, filledForm, selfUrl, user, pg, "createdOn", "desc", ""));
+			final Page<Comment> pg = Comment.page(postKey, 0, COMMENTS_PER_PAGE);
+			return badRequest(postShow.render(post, null, filledForm, selfUrl, user, pg));
 		} else {
 			Comment comment = filledForm.get();
 			comment.setPost(post);
@@ -213,8 +192,8 @@ public class PostController extends Controller implements Constants {
 			if (log.isDebugEnabled())
 				log.debug("comment created");
 			
-			final Page<Comment> pg = Comment.page(0, COMMENTS_PER_PAGE, "createdOn", "desc", "");
-			return ok(postShow.render(post, null, commentForm, selfUrl, user, pg, "createdOn", "desc", ""));
+			final Page<Comment> pg = Comment.page(postKey, 0, COMMENTS_PER_PAGE);
+			return ok(postShow.render(post, null, commentForm, selfUrl, user, pg));
 		}
 	}
 
@@ -238,8 +217,8 @@ public class PostController extends Controller implements Constants {
 		User user = HttpUtils.loginUser(ctx());
 
 		Form<Comment> form = commentForm.fill(comment);
-		final Page<Comment> pg = Comment.page(0, COMMENTS_PER_PAGE, "createdOn", "desc", "");
-		return ok(postShow.render(post, commentKey, form, selfUrl, user, pg, "createdOn", "desc", ""));
+		final Page<Comment> pg = Comment.page(postKey, 0, COMMENTS_PER_PAGE);
+		return ok(postShow.render(post, commentKey, form, selfUrl, user, pg));
 	}
 
 	@Secure
@@ -262,8 +241,8 @@ public class PostController extends Controller implements Constants {
 			if (log.isDebugEnabled())
 				log.debug("validation errors occured");
 			
-			final Page<Comment> pg = Comment.page(0, COMMENTS_PER_PAGE, "createdOn", "desc", "");
-			return badRequest(postShow.render(post, commentKey, filledForm, selfUrl, user, pg, "createdOn", "desc", ""));
+			final Page<Comment> pg = Comment.page(postKey, 0, COMMENTS_PER_PAGE);
+			return badRequest(postShow.render(post, commentKey, filledForm, selfUrl, user, pg));
 		} else {
 			Comment comment = filledForm.get();
 			comment.updatedBy = user;
@@ -273,8 +252,8 @@ public class PostController extends Controller implements Constants {
 			if (log.isDebugEnabled())
 				log.debug("entity updated");
 			
-			final Page<Comment> pg = Comment.page(0, COMMENTS_PER_PAGE, "createdOn", "desc", "");
-			return ok(postShow.render(post, commentKey, commentForm, selfUrl, user, pg, "createdOn", "desc", ""));
+			final Page<Comment> pg = Comment.page(postKey, 0, COMMENTS_PER_PAGE);
+			return ok(postShow.render(post, commentKey, commentForm, selfUrl, user, pg));
 		}
 	}
 
@@ -297,8 +276,8 @@ public class PostController extends Controller implements Constants {
 		
 		User user = HttpUtils.loginUser(ctx());
 
-		final Page<Comment> pg = Comment.page(0, COMMENTS_PER_PAGE, "createdOn", "desc", "");
-		return ok(views.html.postShow.render(post, null, commentForm, selfUrl, user, pg, "createdOn", "desc", ""));
+		final Page<Comment> pg = Comment.page(postKey, 0, COMMENTS_PER_PAGE);
+		return ok(views.html.postShow.render(post, null, commentForm, selfUrl, user, pg));
 	}
 
 	/**

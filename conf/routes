@@ -8,21 +8,20 @@ GET     /                           controllers.HomeController.index()
 GET     /users/:key                 controllers.UserController.show(key: String)
 GET     /users/self                 controllers.UserController.showSelf()
 # Post
-GET     /posts                      controllers.PostController.list(p:Int ?= 0, s ?= "createdOn", o ?= "desc", f ?= "")
+GET     /posts                      controllers.PostController.list(p:Int ?= 0)
 POST    /posts                      controllers.PostController.create()
 GET     /posts/new                  controllers.PostController.newForm()
+GET     /posts/:key/rateUp          controllers.PostController.rateUp(key: Long)
+GET     /posts/:key/rateDown        controllers.PostController.rateDown(key: Long)
 GET     /posts/:key/edit            controllers.PostController.editForm(key: Long)
-GET     /posts/:key/:title          controllers.PostController.show(key: Long, title: String, p:Int ?= 0, s ?= "createdOn", o ?= "desc", f ?= "")
 POST    /posts/:key/update          controllers.PostController.update(key: Long)
 GET     /posts/:key/delete          controllers.PostController.delete(key: Long)
+GET     /posts/:key/:title          controllers.PostController.show(key: Long, title: String, p:Int ?= 0)
 # Comment
 POST    /posts/:postKey                             controllers.PostController.createComment(postKey: Long, title: String)
 GET     /posts/:postKey/comments/:commentKey/edit   controllers.PostController.editCommentForm(postKey: Long, commentKey: Long)
 POST    /posts/:postKey/comments/:commentKey        controllers.PostController.updateComment(postKey: Long, commentKey: Long)
 GET     /posts/:postKey/comments/:commentKey/delete controllers.PostController.deleteComment(postKey: Long, commentKey: Long)
-#Rating posts
-GET     /posts/:postKey/rateUp   					controllers.PostController.rateUp(postKey: Long)
-GET     /posts/:postKey/rateDown   					controllers.PostController.rateDown(postKey: Long)
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
