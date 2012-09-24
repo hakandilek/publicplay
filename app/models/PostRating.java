@@ -1,12 +1,10 @@
 package models;
 
 import java.util.Date;
-import java.util.List;
 
 import javax.persistence.Basic;
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
+import javax.persistence.Id;
 
 import play.data.validation.Constraints.Required;
 import play.db.ebean.Model;
@@ -15,10 +13,11 @@ import play.db.ebean.Model;
 @SuppressWarnings("serial")
 public class PostRating extends Model {
 
-	public Post post;
-
+	@Id
+    public PostRatingPK key;
+    
 	@Required
-	public long value;
+	public int value;
 
 	@Basic
 	public Date createdOn;
@@ -26,40 +25,31 @@ public class PostRating extends Model {
 	@Basic
 	public Date updatedOn;
 
-	public static Finder<Long, PostRating> find = new Finder<Long, PostRating>(
-			Long.class, PostRating.class);
+	public static Finder<PostRatingPK, PostRating> find = new Finder<PostRatingPK, PostRating>(
+			PostRatingPK.class, PostRating.class);
 
-	public static List<PostRating> all() {
-		return find.all();
+	public static PostRating get(User user, Post post) {
+		PostRating rating = find.where().eq("user_key", user.key)
+				.eq("post_key", post.key).findUnique();
+		return rating;
 	}
 
-	public static void create(PostRating comment) {
-		Date now = new Date();
-		comment.setCreatedOn(now);
-		comment.setUpdatedOn(now);
-		comment.save();
-	}
-
-	public static void remove(Long key) {
-		find.ref(key).delete();
-	}
-
-	public static PostRating get(Long key) {
+	public static PostRating get(String userKey, Long postKey) {
+		PostRatingPK key = new PostRatingPK(userKey, postKey);
 		return find.byId(key);
 	}
 
-	public static void update(Long key, PostRating comment) {
+	public static void create(PostRating rating) {
 		Date now = new Date();
-		comment.setUpdatedOn(now);
-		comment.update(key);
+		rating.setCreatedOn(now);
+		rating.setUpdatedOn(now);
+		rating.save();
 	}
 
-	public Post getPost() {
-		return post;
-	}
-
-	public void setPost(Post post) {
-		this.post = post;
+	public static void update(PostRatingPK key, PostRating rating) {
+		Date now = new Date();
+		rating.setUpdatedOn(now);
+		rating.update();
 	}
 
 	public Date getCreatedOn() {

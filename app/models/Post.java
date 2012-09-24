@@ -31,14 +31,14 @@ public class Post extends Model {
 	public String content;
 
     @Basic
+	public Integer rating = 0;
+
+    @Basic
 	public Date createdOn;
 
     @Basic
 	public Date updatedOn;
 
-    //TODO:many-to-many
-	public PostRating rating;
-	
     @OneToMany(cascade=CascadeType.ALL, mappedBy="post")
     public Set<Comment> comments;
     
@@ -138,14 +138,6 @@ public class Post extends Model {
 		this.updatedOn = updatedOn;
 	}
 	
-	public PostRating getRating() {
-		return rating;
-	}
-
-	public void setRating(PostRating rating) {
-		this.rating = rating;
-	}
-
 	public User getCreatedBy() {
 		return createdBy;
 	}
@@ -162,11 +154,20 @@ public class Post extends Model {
 		this.updatedBy = updatedBy;
 	}
 
+	public Integer getRating() {
+		return rating;
+	}
+
+	public void setRating(Integer rating) {
+		this.rating = rating;
+	}
+
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("Post [key=").append(key).append(", title=")
-				.append(title).append(", content=").append(content).append("]");
+		builder.append("Post [key=").append(key).append(", rating=")
+				.append(rating).append(", title=").append(title)
+				.append(", content=").append(content).append("]");
 		return builder.toString();
 	}
 

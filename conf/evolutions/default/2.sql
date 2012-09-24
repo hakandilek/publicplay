@@ -3,11 +3,11 @@
 # --- !Ups
 insert into user (key, original_key, created_on, updated_on, login_count, last_login, first_name, last_name, email, profile_image_url, provider_id, revision) values ('testuser', 'testKey', '2012-01-01', '2012-01-01', 1, '2012-01-01', 'Foo', 'Bar', 'foobar@test.com', 'http://goo.gl/lK8OO', 'somewhere', 1);
     
-insert into post (key, created_on, updated_on, created_by, updated_by, title, content) values (-11, '2012-01-01 00:01:00', '2012-01-01 00:01:00', 'testuser', 'testuser', 'some post', 'and  content of it');
-insert into post (key, created_on, updated_on, created_by, updated_by, title, content) values (-12, '2012-01-02 00:02:00', '2012-02-01 00:02:00', 'testuser', 'testuser', 'another post', 'and another content');
-insert into post (key, created_on, updated_on, created_by, title, content) values (-13, '2012-01-03 00:03:00', '2012-03-01 00:03:00', 'testuser', 'yet another post', 'and yet another comment');
-insert into post (key, created_on, updated_on, created_by, title, content) values (-14, '2012-01-04 00:04:00', '2012-04-01 00:04:00', 'testuser', 'dummy post', 'some comment on dummy stuff');
-insert into post (key, created_on, updated_on, created_by, title, content) values (-15, '2012-01-05 00:05:00', '2012-05-01 00:05:00', 'testuser', 'wow it''s happening', 'yeah, sure!');
+insert into post (key, rating, created_on, updated_on, created_by, updated_by, title, content) values (-11, 345, '2012-01-05 00:01:00', '2012-05-01 00:01:00', 'testuser', 'testuser', 'some post', 'and  content of it');
+insert into post (key, rating, created_on, updated_on, created_by, updated_by, title, content) values (-12, 123, '2012-01-04 00:02:00', '2012-04-01 00:02:00', 'testuser', 'testuser', 'another post', 'and another content');
+insert into post (key, rating, created_on, updated_on, created_by, title, content) values (-13, 23, '2012-01-03 00:03:00', '2012-03-01 00:03:00', 'testuser', 'yet another post', 'and yet another comment');
+insert into post (key, rating, created_on, updated_on, created_by, title, content) values (-14, 0, '2012-01-02 00:04:00', '2012-02-01 00:04:00', 'testuser', 'dummy post', 'some comment on dummy stuff');
+insert into post (key, rating, created_on, updated_on, created_by, title, content) values (-15, -42, '2012-01-01 00:05:00', '2012-01-01 00:05:00', 'testuser', 'wow it''s happening', 'yeah, sure!');
 
 insert into comment (key, postKey, created_on, updated_on, created_by, content) values (-111, -11, '2012-01-01 00:01:00', '2012-01-01 00:01:00', 'testuser', 'some comment');
 insert into comment (key, postKey, created_on, updated_on, created_by, content) values (-112, -11, '2012-01-02 00:01:00', '2012-01-02 00:01:00', 'testuser', 'another comment');

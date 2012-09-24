@@ -4,6 +4,8 @@ import com.avaje.ebean.Page;
 
 import models.Comment;
 import models.Post;
+import models.PostRating;
+import models.PostRatingPK;
 import models.User;
 import play.Logger;
 import play.Logger.ALogger;
@@ -300,16 +302,45 @@ public class PostController extends Controller implements Constants {
 	public static Result rate(Long postKey, int rating) {
 		if (log.isDebugEnabled())
 			log.debug("rate <-" + postKey);
-
+		if (log.isDebugEnabled())
+			log.debug("rating : " + rating);
+		
 		Post post = Post.get(postKey);
 		if (log.isDebugEnabled())
 			log.debug("post : " + post);
 		
 		User user = HttpUtils.loginUser(ctx());
+		if (log.isDebugEnabled())
+			log.debug("user : " + user);
 		
-		if (user != null) {
-			//TODO:save/update rate
-			return ok(rate.render(rating));
+		if (post != null && user != null) {
+			//save/update rate
+			if (post.rating == null)
+				post.rating = 0;
+			PostRating pr = PostRating.get(user, post);
+			if (log.isDebugEnabled())
+				log.debug("pr : " + pr);
+			
+			PostRatingPK key = new PostRatingPK(user.key, post.key);
+			if (pr == null) {
+				pr = new PostRating();
+				pr.value = rating;
+				pr.key = key;
+				PostRating.create(pr);
+				post.rating += rating;
+			} else {
+				PostRating.update(key, pr);
+				post.rating -= pr.value;
+				post.rating += rating;
+			}
+			
+			if (log.isDebugEnabled())
+				log.debug("updating post...");
+			post.update();
+			if (log.isDebugEnabled())
+				log.debug("post : " + post);
+			
+			return ok(rate.render(post.rating));
 		} else {
 			if (log.isDebugEnabled())
 				log.debug("no user");
