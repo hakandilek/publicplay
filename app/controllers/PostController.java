@@ -350,4 +350,17 @@ public class PostController extends Controller implements Constants {
 		}
 	}
 
+	public static Result rateShow(Long postKey) {
+		Post post = Post.get(postKey);
+		if (log.isDebugEnabled())
+			log.debug("post : " + post);
+		
+		if (post != null) {
+			return ok(rate.render(post.rating));
+		}
+		
+		if (log.isDebugEnabled())
+			log.debug("no post");
+		return TODO;
+	}
 }
