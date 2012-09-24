@@ -18,6 +18,7 @@ create table post (
   key                       bigint not null,
   title                     varchar(255),
   content                   varchar(255),
+  rating                    integer,
   created_on                timestamp,
   updated_on                timestamp,
   created_by                varchar(255),
@@ -26,9 +27,12 @@ create table post (
 ;
 
 create table post_rating (
-  value                     bigint,
+  user_key                  varchar(255),
+  post_key                  bigint,
+  value                     integer,
   created_on                timestamp,
-  updated_on                timestamp)
+  updated_on                timestamp,
+  constraint pk_post_rating primary key (user_key, post_key))
 ;
 
 create table user (
@@ -54,6 +58,8 @@ create table user (
 create sequence comment_seq;
 
 create sequence post_seq;
+
+create sequence post_rating_seq;
 
 create sequence user_seq;
 
@@ -87,6 +93,8 @@ SET REFERENTIAL_INTEGRITY TRUE;
 drop sequence if exists comment_seq;
 
 drop sequence if exists post_seq;
+
+drop sequence if exists post_rating_seq;
 
 drop sequence if exists user_seq;
 
