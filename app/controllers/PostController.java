@@ -286,17 +286,17 @@ public class PostController extends Controller implements Constants {
 	 * rating is done via ajax, therefore return simply the eventual rate sum
 	 */
 	@Secure
-	public static Result rateUp(Long postKey) {
+	public static Result rateUp(Long key) {
 		if (log.isDebugEnabled())
-			log.debug("rateUp <-" + postKey);
-		return rate(postKey, 1);
+			log.debug("rateUp <-" + key);
+		return rate(key, 1);
 	}
 
 	@Secure
-	public static Result rateDown(Long postKey) {
+	public static Result rateDown(Long key) {
 		if (log.isDebugEnabled())
-			log.debug("rateDown <-" + postKey);
-		return rate(postKey, -1);
+			log.debug("rateDown <-" + key);
+		return rate(key, -1);
 	}
 
 	public static Result rate(Long postKey, int rating) {
@@ -317,6 +317,8 @@ public class PostController extends Controller implements Constants {
 			//save/update rate
 			if (post.rating == null)
 				post.rating = 0;
+			if (log.isDebugEnabled())
+				log.debug("fetching PostRating...");
 			PostRating pr = PostRating.get(user, post);
 			if (log.isDebugEnabled())
 				log.debug("pr : " + pr);
@@ -348,4 +350,17 @@ public class PostController extends Controller implements Constants {
 		}
 	}
 
+	public static Result rateShow(Long postKey) {
+		Post post = Post.get(postKey);
+		if (log.isDebugEnabled())
+			log.debug("post : " + post);
+		
+		if (post != null) {
+			return ok(rate.render(post.rating));
+		}
+		
+		if (log.isDebugEnabled())
+			log.debug("no post");
+		return TODO;
+	}
 }

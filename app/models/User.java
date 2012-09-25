@@ -68,7 +68,7 @@ public class User extends Model {
 	public String profileImageURL;
 
 	@Basic
-	public String providerId;
+	public String provider;
 	
     @OneToMany(cascade=CascadeType.ALL, mappedBy="createdBy")
     public Set<Post> posts;
@@ -91,7 +91,7 @@ public class User extends Model {
 		gender = profile.getGender();
 		location = profile.getLocation();
 		profileImageURL = profile.getProfileImageURL();
-		providerId = profile.getProviderId();
+		provider = profile.getProviderId();
 	}
 
 	public SocialUser toSocialUser() {
@@ -112,7 +112,7 @@ public class User extends Model {
 		profile.setGender(gender);
 		profile.setLocation(location);
 		profile.setProfileImageURL(profileImageURL);
-		profile.setProviderId(providerId);
+		profile.setProviderId(provider);
 		profile.setValidatedId(originalKey);
 
 		SocialUser su = new SocialUser(key, profile);
@@ -217,7 +217,7 @@ public class User extends Model {
 	}
 
 	public String getProviderId() {
-		return providerId;
+		return provider;
 	}
 
 	public Date getLastLogin() {
@@ -261,7 +261,7 @@ public class User extends Model {
 	}
 
 	public void setProviderId(String providerId) {
-		this.providerId = providerId;
+		this.provider = providerId;
 	}
 
 	@Override
