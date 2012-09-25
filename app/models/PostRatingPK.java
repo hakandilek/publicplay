@@ -23,6 +23,34 @@ public class PostRatingPK implements Serializable {
 	public PostRatingPK() {
 		super();
 	}
+	
+	/**
+	 * @return the userKey
+	 */
+	public String getUserKey() {
+		return userKey;
+	}
+
+	/**
+	 * @param userKey the userKey to set
+	 */
+	public void setUserKey(String userKey) {
+		this.userKey = userKey;
+	}
+
+	/**
+	 * @return the postKey
+	 */
+	public Long getPostKey() {
+		return postKey;
+	}
+
+	/**
+	 * @param postKey the postKey to set
+	 */
+	public void setPostKey(Long postKey) {
+		this.postKey = postKey;
+	}
 
 	/** {@inheritDoc} */
 	@Override
@@ -57,4 +85,12 @@ public class PostRatingPK implements Serializable {
 		return true;
 	}
 
+	/** {@inheritDoc} */
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("[userKey=").append(userKey)
+				.append(", postKey=").append(postKey).append("]");
+		return builder.toString();
+	}
 }

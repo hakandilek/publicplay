@@ -8,8 +8,8 @@ import org.brickred.socialauth.util.BirthDate;
 
 public class SocialUser {
 
-	public final String userKey;
-	public final Profile profile;
+	private final String userKey;
+	private final Profile profile;
 
 	public SocialUser(String userKey, Profile profile) {
 		this.userKey = userKey;

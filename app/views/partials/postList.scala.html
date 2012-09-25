@@ -25,21 +25,21 @@
         @for(post <- currentPage.getList) {
             <tr>
                 <td>
-                    <a href="@routes.PostController.rateUp(post.key)"><i class="icon-plus"></i></a>
-                    <a href="@routes.PostController.rateDown(post.key)"><i class="icon-minus"></i></a>
-                	<a href="@routes.PostController.show(post.key, sanitize(post.title))">@post.title (@post.rating)</a>
+                    <a href="@routes.PostController.rateUp(post.getKey())"><i class="icon-plus"></i></a>
+                    <a href="@routes.PostController.rateDown(post.getKey())"><i class="icon-minus"></i></a>
+                	<a href="@routes.PostController.show(post.getKey(), sanitize(post.getTitle()))">@post.getTitle() (@post.getRating())</a>
                	</td>
             </tr>
             <tr>
                 <td colspan="3">
-                    <blockquote>@nl2br(post.content)</blockquote>
+                    <blockquote>@nl2br(post.getContent())</blockquote>
                     <small>
-	                    @prettify(post.createdOn) @if(post.getCreatedBy() != null) {by @partials.userProfile(post.getCreatedBy())} 
-	                    @if(post.getUpdatedBy() != null) {updated @prettify(post.updatedOn) by @partials.userProfile(post.getUpdatedBy())} 
+	                    @prettify(post.getCreatedOn()) @if(post.getCreatedBy() != null) {by @partials.userProfile(post.getCreatedBy())} 
+	                    @if(post.getUpdatedBy() != null) {updated @prettify(post.getUpdatedOn()) by @partials.userProfile(post.getUpdatedBy())} 
                     </small> 
                     <br/>
-                    <a class="btn btn-mini" href="@routes.PostController.editForm(post.key)">edit</a>
-                    <a class="btn btn-mini btn-danger" href="@routes.PostController.delete(post.key)">delete</a>
+                    <a class="btn btn-mini" href="@routes.PostController.editForm(post.getKey())">edit</a>
+                    <a class="btn btn-mini btn-danger" href="@routes.PostController.delete(post.getKey())">delete</a>
                 </td>
             </tr>
         }

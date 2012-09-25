@@ -14,23 +14,23 @@ import play.db.ebean.Model;
 public class PostRating extends Model {
 
 	@EmbeddedId
-    public PostRatingPK key;
+	private PostRatingPK key;
     
 	@Required
-	public int value;
+	private int value;
 
 	@Basic
-	public Date createdOn;
+	private Date createdOn;
 
 	@Basic
-	public Date updatedOn;
+	private Date updatedOn;
 
-	public static Finder<PostRatingPK, PostRating> find = new Finder<PostRatingPK, PostRating>(
+	private static Finder<PostRatingPK, PostRating> find = new Finder<PostRatingPK, PostRating>(
 			PostRatingPK.class, PostRating.class);
 
 	public static PostRating get(User user, Post post) {
-		PostRating rating = find.where().eq("user_key", user.key)
-				.eq("post_key", post.key).findUnique();
+		PostRating rating = find.where().eq("user_key", user.getKey())
+				.eq("post_key", post.getKey()).findUnique();
 		return rating;
 	}
 
@@ -66,6 +66,22 @@ public class PostRating extends Model {
 
 	public void setUpdatedOn(Date updatedOn) {
 		this.updatedOn = updatedOn;
+	}
+	
+	public PostRatingPK getKey() {
+		return key;
+	}
+
+	public void setKey(PostRatingPK key) {
+		this.key = key;
+	}
+
+	public int getValue() {
+		return value;
+	}
+
+	public void setValue(int value) {
+		this.value = value;
 	}
 
 	@Override

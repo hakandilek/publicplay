@@ -24,28 +24,28 @@
         <dl class="dl-horizontal">
         
 	        <dt> Profile </dt> 
-	        <dd><a href="https://www.facebook.com/profile.php?id=@user.originalKey">@user.firstName @user.lastName</a></dd>
+	        <dd><a href="https://www.facebook.com/profile.php?id=@user.getOriginalKey()">@user.getFirstName() @user.getLastName()</a></dd>
 	        
 	        <dt> Logged in from </dt>
-	        <dd> @user.provider</dd>
+	        <dd> @user.getProvider()</dd>
 	        
 	        <dt> Email </dt>
-	        <dd> @if( user.email != null ) { @user.email } else { Not Available } </dd>
+	        <dd> @if( user.getEmail() != null ) { @user.getEmail() } else { Not Available } </dd>
 	        
 	        <dt> FirstName </dt>
-	        <dd> @user.firstName </dd>
+	        <dd> @user.getFirstName() </dd>
 	        
 	        <dt> LastName </dt>
-	        <dd> @user.lastName </dd>
+	        <dd> @user.getLastName() </dd>
 	        
 	        <dt> Date of Birth </dt> 
-	        <dd> @user.birthdate </dd>
+	        <dd> @user.getBirthdate() </dd>
 	        
 	        <dt> Gender </dt>
-	        <dd> @user.gender </dd>
+	        <dd> @user.getGender() </dd>
 	        
 	        <dt> Location </dt>
-	        <dd> @user.location </dd>
+	        <dd> @user.getLocation() </dd>
 	        
 	    </dl>
 	

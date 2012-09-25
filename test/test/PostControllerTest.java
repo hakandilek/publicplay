@@ -1,28 +1,21 @@
 package test;
 
-import static org.junit.Assert.*;
-
-import models.Post;
-
-import org.junit.*;
-
-import play.mvc.*;
-
+import static org.fest.assertions.Assertions.assertThat;
+import static org.junit.Assert.fail;
 import static play.mvc.Http.Status.OK;
-import static play.test.Helpers.*;
-import static org.fest.assertions.Assertions.*;
+import static play.test.Helpers.callAction;
+import static play.test.Helpers.charset;
+import static play.test.Helpers.contentAsString;
+import static play.test.Helpers.contentType;
+import static play.test.Helpers.fakeApplication;
+import static play.test.Helpers.running;
+import static play.test.Helpers.status;
+
+import org.junit.Test;
+
+import play.mvc.Result;
 
 public class PostControllerTest {
-
-	@Test
-	public void findById() {
-		running(fakeApplication(), new Runnable() {
-			public void run() {
-				Post post = Post.find.byId(-11l);
-				assertThat(post).isNotNull();
-			}
-		});
-	}
 
 	@Test
 	public void testNewForm() {

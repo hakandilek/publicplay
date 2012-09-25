@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Version;
 
 import play.data.validation.Constraints.Required;
 import play.db.ebean.Model;
@@ -22,35 +23,36 @@ import com.avaje.ebean.Page;
 public class Post extends Model {
 
 	@Id
-	public Long key;
+	private Long key;
 
 	@Required
-	public String title;
+	private String title;
 
 	@Required
-	public String content;
+	private String content;
 
     @Basic
-	public Integer rating = 0;
+    private Integer rating = 0;
 
     @Basic
-	public Date createdOn;
+    private Date createdOn;
 
     @Basic
-	public Date updatedOn;
+    private Date updatedOn;
 
     @OneToMany(cascade=CascadeType.ALL, mappedBy="post")
-    public Set<Comment> comments;
+    private Set<Comment> comments;
     
     @ManyToOne
     @JoinColumn(name="created_by", nullable=false)
-	public User createdBy;
+    private User createdBy;
 
+    @Version
     @ManyToOne
     @JoinColumn(name="updated_by", nullable=true)
-	public User updatedBy;
+    private User updatedBy;
 
-	public static Finder<Long, Post> find = new Finder<Long, Post>(Long.class, Post.class);
+    private static Finder<Long, Post> find = new Finder<Long, Post>(Long.class, Post.class);
 
 	public static List<Post> all() {
 		return find.all();
