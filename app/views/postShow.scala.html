@@ -7,7 +7,7 @@
     <p class="lead">
         <a href="@routes.PostController.rateUp(post.key)"><i class="icon-plus"></i></a>
         <a href="@routes.PostController.rateDown(post.key)"><i class="icon-minus"></i></a>
-        @post.getTitle()
+        @post.getTitle()  (@post.getRating())
     </p>
        
     <blockquote>@nl2br(post.content)</blockquote>

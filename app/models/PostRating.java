@@ -3,8 +3,8 @@ package models;
 import java.util.Date;
 
 import javax.persistence.Basic;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 
 import play.data.validation.Constraints.Required;
 import play.db.ebean.Model;
@@ -13,7 +13,7 @@ import play.db.ebean.Model;
 @SuppressWarnings("serial")
 public class PostRating extends Model {
 
-	@Id
+	@EmbeddedId
     public PostRatingPK key;
     
 	@Required
@@ -67,5 +67,16 @@ public class PostRating extends Model {
 	public void setUpdatedOn(Date updatedOn) {
 		this.updatedOn = updatedOn;
 	}
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("PostRating [key=").append(key).append(", value=")
+				.append(value).append(", createdOn=").append(createdOn)
+				.append(", updatedOn=").append(updatedOn).append("]");
+		return builder.toString();
+	}
+	
+	
 
 }

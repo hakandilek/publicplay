@@ -50,7 +50,7 @@ create table user (
   gender                    varchar(255),
   location                  varchar(255),
   profile_image_url         varchar(255),
-  provider_id               varchar(255),
+  provider                  varchar(255),
   revision                  integer not null,
   constraint pk_user primary key (key))
 ;

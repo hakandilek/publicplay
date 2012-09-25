@@ -18,7 +18,7 @@
   <logger name="play" level="INFO" />
   <logger name="application" level="INFO" />
   <logger name="controllers" level="DEBUG" />
-  <logger name="socialauth" level="DEBUG" />
+  <logger name="socialauth" level="INFO" />
   <!-- db logging -->
   <logger name="com.jolbox.bonecp" level="DEBUG" />
 
