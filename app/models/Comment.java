@@ -18,30 +18,30 @@ import com.avaje.ebean.Page;
 public class Comment extends Model {
 
 	@Id
-	public Long key;
+	private Long key;
 
 	@Required
-	public String content;
+	private String content;
 	
     @Basic
-	public Date createdOn;
+    private Date createdOn;
 
     @Basic
-	public Date updatedOn;
+    private Date updatedOn;
 	
     @ManyToOne
     @JoinColumn(name="postKey", nullable=false)
-	public Post post;
+    private Post post;
 
     @ManyToOne
     @JoinColumn(name="created_by", nullable=false)
-	public User createdBy;
+    private User createdBy;
 
     @ManyToOne
     @JoinColumn(name="updated_by", nullable=true)
-	public User updatedBy;
+    private User updatedBy;
 
-	public static Finder<Long, Comment> find = new Finder<Long, Comment>(Long.class, Comment.class);
+    private static Finder<Long, Comment> find = new Finder<Long, Comment>(Long.class, Comment.class);
 
 	/**
 	 * Return a page of comments

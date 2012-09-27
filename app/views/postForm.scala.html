@@ -17,7 +17,7 @@
         
     } else {
 
-	    @form(if(key != null) { routes.PostController.update(postForm.get().key) } 
+	    @form(if(key != null) { routes.PostController.update(postForm.get().getKey()) } 
 	          else            { routes.PostController.create() }) { 
 	        @inputText(postForm("title"))
 	        @textarea(postForm("content"))
@@ -26,6 +26,5 @@
 	           as @partials.userProfile(user)
 	        </div>
 	    } 
-
     }
 }

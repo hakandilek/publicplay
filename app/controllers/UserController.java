@@ -33,7 +33,7 @@ public class UserController extends Controller {
 			return badRequest(userShow.render(user, false));
 		}
 		boolean selfPage = false;
-		if (user != null && self != null && (user.key + "").equals(self.userKey)) {
+		if (user != null && self != null && (user.getKey() + "").equals(self.getUserKey())) {
 			selfPage  = true;
 		}
 		

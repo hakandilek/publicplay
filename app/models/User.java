@@ -23,60 +23,60 @@ import socialauth.core.SocialUser;
 public class User extends Model {
 
 	@Id
-	public String key;
+	private String key;
 
 	@Basic
-	public String originalKey;
+	private String originalKey;
 
 	@Basic
-	public Date createdOn;
+	private Date createdOn;
 
 	@Basic
-	public Date updatedOn;
+	private Date updatedOn;
 
 	@Version
-	public int revision;
+	private int revision;
 
 	@Basic
-	public int loginCount;
+	private int loginCount;
 
 	@Basic
-	public Date lastLogin;
+	private Date lastLogin;
 
 	@Basic
-	public String firstName;
+	private String firstName;
 
 	@Basic
-	public String lastName;
+	private String lastName;
 
 	@Basic
-	public Date birthdate;
+	private Date birthdate;
 
 	@Basic
-	public String email;
+	private String email;
 
 	@Basic
-	public String country;
+	private String country;
 
 	@Basic
-	public String gender;
+	private String gender;
 
 	@Basic
-	public String location;
+	private String location;
 
 	@Basic
-	public String profileImageURL;
+	private String profileImageURL;
 
 	@Basic
-	public String provider;
+	private String provider;
 	
     @OneToMany(cascade=CascadeType.ALL, mappedBy="createdBy")
-    public Set<Post> posts;
+    private Set<Post> posts;
     
     @OneToMany(cascade=CascadeType.ALL, mappedBy="createdBy")
-    public Set<Comment> comments;
+    private Set<Comment> comments;
 
-	public static Finder<String, User> find = new Finder<String, User>(
+	private static Finder<String, User> find = new Finder<String, User>(
 			String.class, User.class);
 
 	public User(SocialUser socialUser) {
@@ -262,6 +262,22 @@ public class User extends Model {
 
 	public void setProviderId(String providerId) {
 		this.provider = providerId;
+	}
+
+	public String getOriginalKey() {
+		return originalKey;
+	}
+
+	public void setOriginalKey(String originalKey) {
+		this.originalKey = originalKey;
+	}
+
+	public String getProvider() {
+		return provider;
+	}
+
+	public void setProvider(String provider) {
+		this.provider = provider;
 	}
 
 	@Override
