@@ -73,7 +73,7 @@ public class PostController extends Controller implements Constants {
 			return badRequest(postForm.render(null, filledForm, user));
 		} else {
 			Post post = filledForm.get();
-			post.createdBy = user;
+			post.setCreatedBy(user);
 			Post.create(post);
 			if (log.isDebugEnabled())
 				log.debug("entity created");
@@ -111,8 +111,10 @@ public class PostController extends Controller implements Constants {
 			
 			return badRequest(postForm.render(key, filledForm, user));
 		} else {
+			Post postData = Post.get(key);
 			Post post = filledForm.get();
-			post.updatedBy = user;
+			post.setRating(postData.getRating());
+			post.setUpdatedBy(user);
 			if (log.isDebugEnabled())
 				log.debug("post : " + post);
 			Post.update(key, post);
@@ -186,7 +188,7 @@ public class PostController extends Controller implements Constants {
 		} else {
 			Comment comment = filledForm.get();
 			comment.setPost(post);
-			comment.createdBy = user;
+			comment.setCreatedBy(user);
 			if (log.isDebugEnabled())
 				log.debug("comment : " + comment);
 
@@ -247,7 +249,7 @@ public class PostController extends Controller implements Constants {
 			return badRequest(postShow.render(post, commentKey, filledForm, selfUrl, user, pg));
 		} else {
 			Comment comment = filledForm.get();
-			comment.updatedBy = user;
+			comment.setUpdatedBy(user);
 			if (log.isDebugEnabled())
 				log.debug("comment : " + comment);
 			Comment.update(commentKey, comment);
@@ -315,34 +317,37 @@ public class PostController extends Controller implements Constants {
 		
 		if (post != null && user != null) {
 			//save/update rate
-			if (post.rating == null)
-				post.rating = 0;
-			if (log.isDebugEnabled())
-				log.debug("fetching PostRating...");
+			if (post.getRating() == null)
+				post.setRating(0);
 			PostRating pr = PostRating.get(user, post);
 			if (log.isDebugEnabled())
 				log.debug("pr : " + pr);
 			
-			PostRatingPK key = new PostRatingPK(user.key, post.key);
+			PostRatingPK key = new PostRatingPK(user.getKey(), post.getKey());
 			if (pr == null) {
 				pr = new PostRating();
-				pr.value = rating;
-				pr.key = key;
+				pr.setValue(rating);
+				pr.setKey(key);
 				PostRating.create(pr);
-				post.rating += rating;
+				post.setRating(post.getRating() + rating);
 			} else {
+				int ratingBefore = pr.getValue();
+				pr.setValue(rating);
 				PostRating.update(key, pr);
-				post.rating -= pr.value;
-				post.rating += rating;
+				if (log.isDebugEnabled())
+					log.debug("post.rating : " + post.getRating());
+				if (log.isDebugEnabled())
+					log.debug("pr.value    : " + ratingBefore);
+				post.setRating(post.getRating() - ratingBefore + rating);
 			}
 			
 			if (log.isDebugEnabled())
-				log.debug("updating post...");
-			post.update();
+				log.debug("updating post : " + post);
+			post.update(postKey);
 			if (log.isDebugEnabled())
 				log.debug("post : " + post);
 			
-			return ok(rate.render(post.rating));
+			return ok(rate.render(post.getRating()));
 		} else {
 			if (log.isDebugEnabled())
 				log.debug("no user");
@@ -356,7 +361,7 @@ public class PostController extends Controller implements Constants {
 			log.debug("post : " + post);
 		
 		if (post != null) {
-			return ok(rate.render(post.rating));
+			return ok(rate.render(post.getRating()));
 		}
 		
 		if (log.isDebugEnabled())

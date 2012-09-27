@@ -36,7 +36,7 @@ public class SocialUserService implements Plugin {
 			log.debug("user : " + user);
 		
 		if (user != null) {
-			user.loginCount++;
+			user.setLoginCount(user.getLoginCount() + 1);
 			user.setLastLogin(new Date());
 			user.update();
 		} else {

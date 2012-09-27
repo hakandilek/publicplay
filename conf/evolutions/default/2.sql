@@ -1,7 +1,7 @@
 # --- create default data
 
 # --- !Ups
-insert into user (key, original_key, created_on, updated_on, login_count, last_login, first_name, last_name, email, profile_image_url, provider, revision) values ('testuser', 'testKey', '2012-01-01', '2012-01-01', 1, '2012-01-01', 'Foo', 'Bar', 'foobar@test.com', 'http://goo.gl/lK8OO', 'somewhere', 1);
+insert into user (key, original_key, created_on, updated_on, login_count, last_login, first_name, last_name, email, profile_image_url, provider, revision) values ('testuser', 'testKey', '2012-01-01', '2012-01-01', 1, '2012-01-01', 'Foo', 'Bar', 'foobar@test.com', 'http://static.ak.fbcdn.net/rsrc.php/v2/yL/r/HsTZSDw4avx.gif', 'somewhere', 1);
     
 insert into post (key, rating, created_on, updated_on, created_by, updated_by, title, content) values (-11, 345, '2012-01-05 00:01:00', '2012-05-01 00:01:00', 'testuser', 'testuser', 'some post', 'and  content of it');
 insert into post (key, rating, created_on, updated_on, created_by, updated_by, title, content) values (-12, 123, '2012-01-04 00:02:00', '2012-04-01 00:02:00', 'testuser', 'testuser', 'another post', 'and another content');
