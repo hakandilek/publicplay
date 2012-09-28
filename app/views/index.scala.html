@@ -2,10 +2,9 @@
 
 @main("home") {
 
-    <h2> Welcome @partials.userProfile(user)! </h2> 
+    <h2>@Messages("hello") @partials.userProfile(user)! </h2> 
     @if(user != null) {<p><a class="btn" href="@socialauth.controllers.routes.SocialLogin.logout()">Logout</a> </p>}
-    <p>
-    	PublicPlay is a simple Forum application developed on 
+    <p>@Messages("definition")
     	<a href="http://github.com/playframework/play">Play Framework</a>.
     	It is aimed to be used as a starting point/skeleton for a Play application.
     	<br/>
