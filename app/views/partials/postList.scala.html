@@ -5,7 +5,7 @@
 
 	<h3>@currentPage.getTotalRowCount post(s)</h3>
 	
-	<h4><a href="@routes.PostController.newForm">Create a new post</a></h4>
+	<h4><a href="@routes.PostController.newForm">@Messages("CreateNewPost")</a></h4>
     
     @if(currentPage.getTotalRowCount == 0) {
         
@@ -18,7 +18,7 @@
     <table class="posts table table-striped table-bordered">
         <thead>
             <tr>
-                <th class="header">Posts</th>
+                <th class="header">@Messages("Posts")</th>
             </tr>
         </thead>
         <tbody>
@@ -39,8 +39,8 @@
 	                    @if(post.getUpdatedBy() != null) {updated @prettify(post.getUpdatedOn()) by @partials.userProfile(post.getUpdatedBy())} 
                     </small> 
                     <br/>
-                    <a class="btn btn-mini" href="@routes.PostController.editForm(post.getKey())">edit</a>
-                    <a class="btn btn-mini btn-danger" href="@routes.PostController.delete(post.getKey())">delete</a>
+                    <a class="btn btn-mini" href="@routes.PostController.editForm(post.getKey())">@Messages("edit")</a>
+                    <a class="btn btn-mini btn-danger" href="@routes.PostController.delete(post.getKey())">@Messages("delete")</a>
                 </td>
             </tr>
         }
@@ -51,11 +51,11 @@
         <ul>
             @if(currentPage.hasPrev) {
                 <li class="prev">
-                    <a href="@routes.PostController.list(currentPage.getPageIndex - 1)">&larr; Previous</a>
+                    <a href="@routes.PostController.list(currentPage.getPageIndex - 1)">&larr; @Messages("Previous")</a>
                 </li>
             } else {
                 <li class="prev disabled">
-                    <a>&larr; Previous</a>
+                    <a>&larr; @Messages("Previous")</a>
                 </li>
             }
             <li class="current">
@@ -63,11 +63,11 @@
             </li>
             @if(currentPage.hasNext) {
                 <li class="next">
-                    <a href="@routes.PostController.list(currentPage.getPageIndex + 1)">Next &rarr;</a>
+                    <a href="@routes.PostController.list(currentPage.getPageIndex + 1)">@Messages("Next") &rarr;</a>
                 </li>
             } else {
                 <li class="next disabled">
-                    <a>Next &rarr;</a>
+                    <a>@Messages("Next") &rarr;</a>
                 </li>
             }
         </ul>
