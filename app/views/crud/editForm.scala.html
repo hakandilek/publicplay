@@ -1,0 +1,17 @@
+@(modelName: String, key: Object, crudForm: CRUDForm)
+@import helper._ 
+@import helper.twitterBootstrap._
+@main((if(key != null) "update " else "new ") + modelName) {
+        
+	<h3>Add a new @modelName</h3>
+    
+    @form(if(key != null) { routes.AdminController.editForm(modelName, crudForm.get().getKey()) } 
+          else            { routes.AdminController.newForm(modelName) }) { 
+        @for(field  <- crudForm.getFieldNames()) {
+	        <dt> @inputText(crudForm(field)) </dt>
+        }
+        <div>
+           <input type="submit" class="btn btn-success" value="@if(key != null) { Update } else { Create }">
+        </div>
+    } 
+}

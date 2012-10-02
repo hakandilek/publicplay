@@ -37,32 +37,56 @@ public class CRUDController extends Controller {
 	}
 
 	protected Result doNewForm(String model) {
-		// TODO Auto-generated method stub
-		return null;
+		CRUD<?, ?> crud = models.get(model);
+		if (crud != null) {
+			return crud.newForm();
+		}
+		return notFound(model);
 	}
 
 	protected Result doCreate(String model) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	protected Result doEditForm(String model, String key) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	protected Result doUpdate(String model, String key) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	protected Result doDelete(String model, String key) {
-		// TODO Auto-generated method stub
-		return null;
+		CRUD<?, ?> crud = models.get(model);
+		if (crud != null) {
+			return crud.create();
+		}
+		return notFound(model);
 	}
 
 	@SuppressWarnings("unchecked")
-	public Result doShow(String model, String key) {
+	protected Result doEditForm(String model, String key) {
+		CRUD<? extends Serializable, ?> c = models.get(model);
+		try {
+			Long intKey = Long.getLong(key);
+			return ((CRUD<Long, ?>) c).editForm(intKey);
+		} catch (Exception e) {
+			return ((CRUD<String, ?>) c).editForm(key);
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	protected Result doUpdate(String model, String key) {
+		CRUD<? extends Serializable, ?> c = models.get(model);
+		try {
+			Long intKey = Long.getLong(key);
+			return ((CRUD<Long, ?>) c).update(intKey);
+		} catch (Exception e) {
+			return ((CRUD<String, ?>) c).update(key);
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	protected Result doDelete(String model, String key) {
+		CRUD<? extends Serializable, ?> c = models.get(model);
+		try {
+			Long intKey = Long.getLong(key);
+			return ((CRUD<Long, ?>) c).delete(intKey);
+		} catch (Exception e) {
+			return ((CRUD<String, ?>) c).delete(key);
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	protected Result doShow(String model, String key) {
 		CRUD<? extends Serializable, ?> c = models.get(model);
 		try {
 			Long intKey = Long.getLong(key);

@@ -1,5 +1,7 @@
 package models;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -12,14 +14,23 @@ public class CRUDModel {
 	private final Map<String, Object> fieldValues;
 	private final String keyFieldName;
 
+	public CRUDModel() {
+		this(null, null, new ArrayList<String>());
+	}
+
 	public CRUDModel(Model model, String keyFieldName, List<String> fieldNames) {
 		this.model = model;
-		this.keyFieldName = keyFieldName;
+		this.keyFieldName = keyFieldName + "";
 		this.fieldValues = new TreeMap<String, Object>();
-		for (int i = 0; i < fieldNames.size(); i++) {
-			String name = fieldNames.get(i);
-			Object value = model._ebean_getField(i, model);
-			fieldValues.put(name, value );
+		if (model != null) {
+			final String[] fields = model._ebean_getFieldNames();
+			for (int i = 0; i < fields.length; i++) {
+				String name = fields[i];
+				if (fieldNames.contains(name)) {
+					Object value = model._ebean_getField(i, model);
+					fieldValues.put(name, value);
+				}
+			}
 		}
 	}
 
@@ -27,20 +38,37 @@ public class CRUDModel {
 		return model;
 	}
 
+	public Collection<String> getFields() {
+		return fieldValues.keySet();
+	}
+
 	public Object getField(String name) {
 		return fieldValues.get(name);
 	}
-	
+
 	public String getKey() {
 		return "" + fieldValues.get(keyFieldName);
 	}
-	
+
+	public boolean isKeyField(String field)
+	{
+		return keyFieldName.equals(field); 
+	}
+
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
 		builder.append("[").append(model.getClass().getSimpleName())
 				.append(":").append(model).append("]");
 		return builder.toString();
+	}
+
+	public void save() {
+		model.save();
+	}
+
+	public void update(Object key) {
+		model.update(key);
 	}
 
 }
