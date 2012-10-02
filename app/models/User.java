@@ -76,7 +76,7 @@ public class User extends Model {
     @OneToMany(cascade=CascadeType.ALL, mappedBy="createdBy")
     private Set<Comment> comments;
 
-	private static Finder<String, User> find = new Finder<String, User>(
+	public static Finder<String, User> find = new Finder<String, User>(
 			String.class, User.class);
 
 	public User(SocialUser socialUser) {

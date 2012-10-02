@@ -52,7 +52,7 @@ public class Post extends Model {
     @JoinColumn(name="updated_by", nullable=true)
     private User updatedBy;
 
-    private static Finder<Long, Post> find = new Finder<Long, Post>(Long.class, Post.class);
+    public static Finder<Long, Post> find = new Finder<Long, Post>(Long.class, Post.class);
 
 	public static List<Post> all() {
 		return find.all();

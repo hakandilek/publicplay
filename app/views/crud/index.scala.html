@@ -1,0 +1,40 @@
+@(models: Set[String])
+@import helper._ 
+@import helper.twitterBootstrap._
+
+@main("admin") {
+
+    <h3>CRUD admin page</h3>
+    
+    <h3>@models.size() model(s)</h3>
+    
+    @if(models.size() == 0) {
+        
+        <div class="well">
+            <em>@Messages("Nothing to display")</em>
+        </div>
+        
+    } else {
+    
+    <table class="posts table table-striped table-bordered">
+        <thead>
+            <tr>
+                <th class="header">@Messages("Models")</th>
+                <th class="header">@Messages("create")</th>
+            </tr>
+        </thead>
+        <tbody>
+        @for(model <- models) {
+            <tr>
+                <td>
+                    <a href="@routes.AdminController.list(model)">@model</a>
+                </td>
+                <td>
+                    <a href="@routes.AdminController.newForm(model)"><i class="icon-plus-sign"></i></a>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+    }
+}

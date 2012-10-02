@@ -35,3 +35,14 @@ GET     /user/logout                    socialauth.controllers.SocialLogin.logou
 GET     /authenticate/:provider         socialauth.controllers.SocialLogin.authenticate(provider)
 POST    /authenticate/:provider         socialauth.controllers.SocialLogin.authenticate(provider)
 GET     /authenticate/:provider/done    socialauth.controllers.SocialLogin.authenticateDone(provider)
+
+# crud integration
+# ~~~~
+GET     /admin/                         controllers.AdminController.index()
+GET     /admin/:model/list              controllers.AdminController.list(model, p:Int ?= 0)
+POST    /admin/:model                   controllers.AdminController.create(model)
+GET     /admin/:model/new               controllers.AdminController.newForm(model)
+GET     /admin/:model/:key/edit         controllers.AdminController.editForm(model, key)
+POST    /admin/:model/:key/update       controllers.AdminController.update(model, key)
+GET     /admin/:model/:key/delete       controllers.AdminController.delete(model, key)
+GET     /admin/:model/:key/show         controllers.AdminController.show(model, key)

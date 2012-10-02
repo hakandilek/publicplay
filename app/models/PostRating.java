@@ -25,7 +25,7 @@ public class PostRating extends Model {
 	@Basic
 	private Date updatedOn;
 
-	private static Finder<PostRatingPK, PostRating> find = new Finder<PostRatingPK, PostRating>(
+	public static Finder<PostRatingPK, PostRating> find = new Finder<PostRatingPK, PostRating>(
 			PostRatingPK.class, PostRating.class);
 
 	public static PostRating get(User user, Post post) {

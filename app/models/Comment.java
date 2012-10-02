@@ -41,7 +41,7 @@ public class Comment extends Model {
     @JoinColumn(name="updated_by", nullable=true)
     private User updatedBy;
 
-    private static Finder<Long, Comment> find = new Finder<Long, Comment>(Long.class, Comment.class);
+    public static Finder<Long, Comment> find = new Finder<Long, Comment>(Long.class, Comment.class);
 
 	/**
 	 * Return a page of comments
