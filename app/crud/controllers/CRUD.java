@@ -37,8 +37,11 @@ public class CRUD<K extends Serializable, T extends Model> {
 	private final List<String> fieldNames;
 	private final String keyFieldName;
 
+	private final Class<T> clazz;
+
 	public CRUD(Class<T> cls, Finder<K, T> find) {
 		super();
+		this.clazz = cls;
 		this.name = cls.getSimpleName();
 		this.find = find;
 		this.fieldNames = new ArrayList<String>();
@@ -50,7 +53,7 @@ public class CRUD<K extends Serializable, T extends Model> {
             	keyField = f.getName();
         }
         this.keyFieldName = keyField; 
-		this.form = new CRUDForm(fieldNames);
+		this.form = new CRUDForm(clazz, keyFieldName, fieldNames);
 	}
 	
 	public String getName() {
@@ -70,7 +73,11 @@ public class CRUD<K extends Serializable, T extends Model> {
 	}
 
 	public Result editForm(K key) {
+		if (log.isDebugEnabled())
+			log.debug("editForm() <-" + key);
 		T t = find.byId(key);
+		if (log.isDebugEnabled())
+			log.debug("t : " + t);
 		if (t == null) {
 			return notFound();
 		}

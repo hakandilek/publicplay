@@ -6,10 +6,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+import play.Logger;
+import play.Logger.ALogger;
 import play.db.ebean.Model;
 
 public class CRUDModel {
 
+	private static ALogger log = Logger.of(CRUDModel.class);
+	
 	private final Model model;
 	private final Map<String, Object> fieldValues;
 	private final String keyFieldName;
@@ -58,7 +62,7 @@ public class CRUDModel {
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("[").append(model.getClass().getSimpleName())
+		builder.append("[").append(model == null ? null : model.getClass().getSimpleName())
 				.append(":").append(model).append("]");
 		return builder.toString();
 	}
@@ -68,6 +72,8 @@ public class CRUDModel {
 	}
 
 	public void update(Object key) {
+		if (log.isDebugEnabled())
+			log.debug("key : " + key + "(" + key.getClass() + ")");
 		model.update(key);
 	}
 

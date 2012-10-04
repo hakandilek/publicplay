@@ -5,8 +5,8 @@
         
 	<h3>Add a new @modelName</h3>
     
-    @form(if(key != null) { routes.AdminController.editForm(modelName, crudForm.get().getKey()) } 
-          else            { routes.AdminController.newForm(modelName) }) { 
+    @form(if(key != null) { routes.AdminController.update(modelName, crudForm.get().getKey()) } 
+          else            { routes.AdminController.create(modelName) }) { 
         @for(field  <- crudForm.getFieldNames()) {
 	        <dt> @inputText(crudForm(field)) </dt>
         }
