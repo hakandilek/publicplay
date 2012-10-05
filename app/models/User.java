@@ -17,6 +17,7 @@ import org.brickred.socialauth.util.BirthDate;
 
 import play.db.ebean.Model;
 import socialauth.core.SocialUser;
+import play.cache.*;
 
 @Entity
 @SuppressWarnings("serial")
@@ -76,9 +77,9 @@ public class User extends Model {
     @OneToMany(cascade=CascadeType.ALL, mappedBy="createdBy")
     private Set<Comment> comments;
 
-	public static Finder<String, User> find = new Finder<String, User>(
+	public static CachedFinder<String, User> find = new CachedFinder<String, User>(
 			String.class, User.class);
-
+	
 	public User(SocialUser socialUser) {
 		key = socialUser.getUserKey();
 		final Profile profile = socialUser.getProfile();
@@ -128,10 +129,12 @@ public class User extends Model {
 		user.setCreatedOn(now);
 		user.setUpdatedOn(now);
 		user.save();
+		find.put(user.getKey(), user);
 	}
 
 	public static void remove(String key) {
 		find.ref(key).delete();
+		find.clean(key);
 	}
 
 	public static User get(String key) {
@@ -142,6 +145,7 @@ public class User extends Model {
 		Date now = new Date();
 		user.setUpdatedOn(now);
 		user.update(key);
+		find.put(user.getKey(), user);
 	}
 
 	public String getKey() {

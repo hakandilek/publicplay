@@ -12,6 +12,7 @@ import play.data.validation.Constraints.Required;
 import play.db.ebean.Model;
 
 import com.avaje.ebean.Page;
+import play.cache.*;
 
 @Entity
 @SuppressWarnings("serial")
@@ -41,7 +42,7 @@ public class Comment extends Model {
     @JoinColumn(name="updated_by", nullable=true)
     private User updatedBy;
 
-    public static Finder<Long, Comment> find = new Finder<Long, Comment>(Long.class, Comment.class);
+    public static CachedFinder<Long, Comment> find = new CachedFinder<Long, Comment>(Long.class, Comment.class);
 
 	/**
 	 * Return a page of comments
@@ -54,8 +55,7 @@ public class Comment extends Model {
 	 *            Number of computers per page
 	 */
 	public static Page<Comment> page(Long postKey, int page, int pageSize) {
-		return find.where().eq("postKey", postKey).orderBy("createdOn desc")
-				.findPagingList(pageSize).getPage(page);
+		return find.page(page, pageSize, "createdOn desc", "postKey", postKey);
 	}
    
 	public static void create(Comment comment) {
@@ -63,10 +63,12 @@ public class Comment extends Model {
 		comment.setCreatedOn(now);
 		comment.setUpdatedOn(now);
 		comment.save();
+		find.put(comment.getKey(), comment);
 	}
 
 	public static void remove(Long key) {
 		find.ref(key).delete();
+		find.clean(key);
 	}
 
 	public static Comment get(Long key) {
@@ -77,6 +79,7 @@ public class Comment extends Model {
 		Date now = new Date();
 		comment.setUpdatedOn(now);
 		comment.update(key);
+		find.put(comment.getKey(), comment);
 	}
 	
 	public Long getKey() {

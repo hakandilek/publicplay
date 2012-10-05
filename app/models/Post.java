@@ -17,6 +17,7 @@ import play.data.validation.Constraints.Required;
 import play.db.ebean.Model;
 
 import com.avaje.ebean.Page;
+import play.cache.*;
 
 @Entity
 @SuppressWarnings("serial")
@@ -52,7 +53,7 @@ public class Post extends Model {
     @JoinColumn(name="updated_by", nullable=true)
     private User updatedBy;
 
-    public static Finder<Long, Post> find = new Finder<Long, Post>(Long.class, Post.class);
+    public static CachedFinder<Long, Post> find = new CachedFinder<Long, Post>(Long.class, Post.class);
 
 	public static List<Post> all() {
 		return find.all();
@@ -67,8 +68,7 @@ public class Post extends Model {
 	 *            Number of computers per page
 	 */
 	public static Page<Post> page(int page, int pageSize) {
-		return find.where().orderBy("createdOn desc").findPagingList(pageSize)
-				.getPage(page);
+		return find.page(page, pageSize, "createdOn desc");
 	}
    
 	public static void create(Post post) {
@@ -76,10 +76,12 @@ public class Post extends Model {
 		post.setCreatedOn(now);
 		post.setUpdatedOn(now);
 		post.save();
+		find.put(post.getKey(), post);
 	}
 
 	public static void remove(Long key) {
 		find.ref(key).delete();
+		find.clean(key);
 	}
 
 	public static Post get(Long key) {
@@ -90,6 +92,7 @@ public class Post extends Model {
 		Date now = new Date();
 		post.setUpdatedOn(now);
 		post.update(key);
+		find.put(post.getKey(), post);
 	}
 	
 	public Long getKey() {
