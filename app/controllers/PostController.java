@@ -43,9 +43,12 @@ public class PostController extends Controller implements Constants {
 			log.debug("page : " + page);
 
 		User user = HttpUtils.loginUser(ctx());
+		Page<Post> topDay = Post.topDayPage();
+		Page<Post> topWeek = Post.topWeekPage();
+		Page<Post> topAll = Post.topAllPage();
 
 		Page<Post> pg = Post.page(page, POSTS_PER_PAGE);
-		return ok(index.render(pg, user));
+		return ok(index.render(pg, topDay, topWeek, topAll, user));
 	}
 	
 	@SocialAware

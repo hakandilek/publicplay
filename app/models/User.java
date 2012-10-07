@@ -17,7 +17,7 @@ import org.brickred.socialauth.util.BirthDate;
 
 import play.db.ebean.Model;
 import socialauth.core.SocialUser;
-import play.cache.*;
+import play.utils.cache.CachedFinder;
 
 @Entity
 @SuppressWarnings("serial")

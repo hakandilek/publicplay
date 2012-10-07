@@ -14,7 +14,8 @@ object ApplicationBuild extends Build {
         //socialauth library
         "org.brickred" % "socialauth" % "2.3",
         "com.restfb" % "restfb" % "1.6.11",
-        "play2-cache" % "play2-cache_2.9.1" % "0.1.0-SNAPSHOT"
+        "play2-cache" % "play2-cache_2.9.1" % "0.2.0-SNAPSHOT",
+        "joda-time" % "joda-time"% "2.1"
     )
 
     val main = PlayProject(appName, appVersion, appDependencies, mainLang = JAVA).settings (
@@ -30,10 +31,10 @@ object ApplicationBuild extends Build {
         
         //play2-cache repository
         resolvers += Resolver.url("play2-cache release repository", url("http://hakandilek.github.com/play2-cache/releases/"))(Resolver.ivyStylePatterns),
-        resolvers += Resolver.url("play2-cache snapshot repository", url("http://hakandilek.github.com/play2-cache/snapshots/"))(Resolver.ivyStylePatterns),
+        resolvers += Resolver.url("play2-cache snapshot repository", url("http://hakandilek.github.com/play2-cache/snapshots/"))(Resolver.ivyStylePatterns)
         
         //ignore checksum check
-        checksums := Nil
+        //checksums := Nil
     )
 
 }

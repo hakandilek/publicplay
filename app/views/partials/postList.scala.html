@@ -26,21 +26,16 @@
             <tr>
                 <td>
                 	<a href="@routes.PostController.show(post.getKey(), sanitize(post.getTitle()))">@post.getTitle()</a>
-                	<strong class="rating" data-key="rate-@post.getKey()" >(@post.getRating())</strong>
-                    <a class="rate" data-key="rate-@post.getKey()" href="#" data-href="@routes.PostController.rateUp(post.getKey())"><i class="icon-thumbs-up"></i></a>
-                    <a class="rate" data-key="rate-@post.getKey()" href="#" data-href="@routes.PostController.rateDown(post.getKey())"><i class="icon-thumbs-down"></i></a>
+                	<strong class="rating spaced" data-key="rate-@post.getKey()" >(@post.getRating())</strong>
+                    <a class="rate spaced" data-key="rate-@post.getKey()" href="#" data-href="@routes.PostController.rateUp(post.getKey())"><i class="icon-thumbs-up"></i></a>
+                    <a class="rate spaced" data-key="rate-@post.getKey()" href="#" data-href="@routes.PostController.rateDown(post.getKey())"><i class="icon-thumbs-down"></i></a>
+                    <a class="btn btn-mini btn-danger pull-right spaced" href="@routes.PostController.delete(post.getKey())">@Messages("delete")</a>
+                    <a class="btn btn-mini pull-right spaced" href="@routes.PostController.editForm(post.getKey())">@Messages("edit")</a>
                	</td>
             </tr>
             <tr>
-                <td colspan="3">
+                <td>
                     <blockquote>@nl2br(post.getContent())</blockquote>
-                    <small>
-	                    @prettify(post.getCreatedOn()) @if(post.getCreatedBy() != null) {by @partials.userProfile(post.getCreatedBy())} 
-	                    @if(post.getUpdatedBy() != null) {updated @prettify(post.getUpdatedOn()) by @partials.userProfile(post.getUpdatedBy())} 
-                    </small> 
-                    <br/>
-                    <a class="btn btn-mini" href="@routes.PostController.editForm(post.getKey())">@Messages("edit")</a>
-                    <a class="btn btn-mini btn-danger" href="@routes.PostController.delete(post.getKey())">@Messages("delete")</a>
                 </td>
             </tr>
         }

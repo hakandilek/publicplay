@@ -3,6 +3,7 @@ package models;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.Callable;
 
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -13,15 +14,20 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Version;
 
+import org.joda.time.DateTime;
+
 import play.data.validation.Constraints.Required;
 import play.db.ebean.Model;
+import play.utils.cache.CachedFinder;
+import play.utils.cache.InterimCache;
 
 import com.avaje.ebean.Page;
-import play.cache.*;
 
 @Entity
 @SuppressWarnings("serial")
 public class Post extends Model {
+
+	private static final int TOP_10 = 10;
 
 	@Id
 	private Long key;
@@ -32,28 +38,32 @@ public class Post extends Model {
 	@Required
 	private String content;
 
-    @Basic
-    private Integer rating = 0;
+	@Basic
+	private Integer rating = 0;
 
-    @Basic
-    private Date createdOn;
+	@Basic
+	private Date createdOn;
 
-    @Basic
-    private Date updatedOn;
+	@Basic
+	private Date updatedOn;
 
-    @OneToMany(cascade=CascadeType.ALL, mappedBy="post")
-    private Set<Comment> comments;
-    
-    @ManyToOne
-    @JoinColumn(name="created_by", nullable=false)
-    private User createdBy;
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "post")
+	private Set<Comment> comments;
 
-    @Version
-    @ManyToOne
-    @JoinColumn(name="updated_by", nullable=true)
-    private User updatedBy;
+	@ManyToOne
+	@JoinColumn(name = "created_by", nullable = false)
+	private User createdBy;
 
-    public static CachedFinder<Long, Post> find = new CachedFinder<Long, Post>(Long.class, Post.class);
+	@Version
+	@ManyToOne
+	@JoinColumn(name = "updated_by", nullable = true)
+	private User updatedBy;
+
+	public static CachedFinder<Long, Post> find = new CachedFinder<Long, Post>(
+			Long.class, Post.class);
+
+	public static InterimCache<Post> cache = new InterimCache<Post>(Post.class,
+			3600);
 
 	public static List<Post> all() {
 		return find.all();
@@ -70,7 +80,40 @@ public class Post extends Model {
 	public static Page<Post> page(int page, int pageSize) {
 		return find.page(page, pageSize, "createdOn desc");
 	}
-   
+
+	public static Page<Post> topDayPage() {
+		return cache.page(".topDay", new Callable<Page<Post>>() {
+			public Page<Post> call() throws Exception {
+				DateTime now = new DateTime();
+				DateTime yesterday = now.minusDays(1);
+				return find.where().gt("createdOn", yesterday.toDate())
+						.orderBy("rating desc").findPagingList(TOP_10)
+						.getPage(0);
+			}
+		});
+	}
+
+	public static Page<Post> topWeekPage() {
+		return cache.page(".topWeek", new Callable<Page<Post>>() {
+			public Page<Post> call() throws Exception {
+				DateTime now = new DateTime();
+				DateTime lastWeek = now.minusDays(7);
+				return find.where().gt("createdOn", lastWeek.toDate())
+						.orderBy("rating desc").findPagingList(TOP_10)
+						.getPage(0);
+			}
+		});
+	}
+
+	public static Page<Post> topAllPage() {
+		return cache.page(".topAll", new Callable<Page<Post>>() {
+			public Page<Post> call() throws Exception {
+				return find.where().orderBy("rating desc")
+						.findPagingList(TOP_10).getPage(0);
+			}
+		});
+	}
+
 	public static void create(Post post) {
 		Date now = new Date();
 		post.setCreatedOn(now);
@@ -94,7 +137,7 @@ public class Post extends Model {
 		post.update(key);
 		find.put(post.getKey(), post);
 	}
-	
+
 	public Long getKey() {
 		return key;
 	}
@@ -142,7 +185,7 @@ public class Post extends Model {
 	public void setUpdatedOn(Date updatedOn) {
 		this.updatedOn = updatedOn;
 	}
-	
+
 	public User getCreatedBy() {
 		return createdBy;
 	}

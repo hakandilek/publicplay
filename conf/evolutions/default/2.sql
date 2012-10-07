@@ -8,6 +8,12 @@ insert into post (key, rating, created_on, updated_on, created_by, updated_by, t
 insert into post (key, rating, created_on, updated_on, created_by, title, content) values (-13, 23, '2012-01-03 00:03:00', '2012-03-01 00:03:00', 'testuser', 'yet another post', 'and yet another comment');
 insert into post (key, rating, created_on, updated_on, created_by, title, content) values (-14, 0, '2012-01-02 00:04:00', '2012-02-01 00:04:00', 'testuser', 'dummy post', 'some comment on dummy stuff');
 insert into post (key, rating, created_on, updated_on, created_by, title, content) values (-15, -42, '2012-01-01 00:05:00', '2012-01-01 00:05:00', 'testuser', 'wow it''s happening', 'yeah, sure!');
+insert into post (key, rating, created_on, updated_on, created_by, title, content) values (-16, 142, '2012-10-10 00:05:00', '2012-10-10 00:05:00', 'testuser', 'this is supposed to be a really long post in order to test the line sizes in posts', 'and that should be a really long content of the same post to see how it fits on the screen!');
+insert into post (key, rating, created_on, updated_on, created_by, title, content) values (-17, 420, '2012-10-10 00:05:00', '2012-10-10 00:05:00', 'testuser', 'this is supposed to be an another long post in order to test the line sizes in posts', 'and that should be another really long content of the same post to see how it fits on the screen!');
+insert into post (key, rating, created_on, updated_on, created_by, title, content) values (-18, 0, '2012-01-02 00:04:00', '2012-02-01 00:04:00', 'testuser', 'another dummy post', 'some comment on dummy stuff');
+insert into post (key, rating, created_on, updated_on, created_by, title, content) values (-19, 0, '2012-01-02 00:04:00', '2012-02-01 00:04:00', 'testuser', 'yet dummy post', 'some comment on dummy stuff');
+insert into post (key, rating, created_on, updated_on, created_by, title, content) values (-20, 0, '2012-01-02 00:04:00', '2012-02-01 00:04:00', 'testuser', 'this is a dummy post', 'some comment on dummy stuff');
+insert into post (key, rating, created_on, updated_on, created_by, title, content) values (-21, 0, '2012-01-02 00:04:00', '2012-02-01 00:04:00', 'testuser', 'this is another dummy post', 'some comment on dummy stuff');
 
 insert into comment (key, postKey, created_on, updated_on, created_by, content) values (-111, -11, '2012-01-01 00:01:00', '2012-01-01 00:01:00', 'testuser', 'some comment');
 insert into comment (key, postKey, created_on, updated_on, created_by, content) values (-112, -11, '2012-01-02 00:01:00', '2012-01-02 00:01:00', 'testuser', 'another comment');
@@ -30,6 +36,12 @@ insert into comment (key, postKey, created_on, updated_on, created_by, content) 
 insert into comment (key, postKey, created_on, updated_on, created_by, content) values (-151, -15, '2012-01-04 00:01:00', '2012-01-04 00:01:00', 'testuser', 'comment 1');
 insert into comment (key, postKey, created_on, updated_on, created_by, content) values (-152, -15, '2012-01-05 00:01:00', '2012-01-05 00:01:00', 'testuser', 'comment 2');
 insert into comment (key, postKey, created_on, updated_on, created_by, content) values (-153, -15, '2012-01-01 00:01:00', '2012-01-01 00:01:00', 'testuser', 'comment 3');
+insert into comment (key, postKey, created_on, updated_on, created_by, content) values (-161, -16, '2012-11-01 00:01:00', '2012-11-01 00:01:00', 'testuser', 'comment 1');
+insert into comment (key, postKey, created_on, updated_on, created_by, content) values (-162, -16, '2012-11-02 00:01:00', '2012-11-02 00:01:00', 'testuser', 'comment 2');
+insert into comment (key, postKey, created_on, updated_on, created_by, content) values (-163, -16, '2012-11-03 00:01:00', '2012-11-03 00:01:00', 'testuser', 'comment 3');
+insert into comment (key, postKey, created_on, updated_on, created_by, content) values (-171, -17, '2012-11-04 00:01:00', '2012-11-04 00:01:00', 'testuser', 'comment 1');
+insert into comment (key, postKey, created_on, updated_on, created_by, content) values (-172, -17, '2012-11-05 00:01:00', '2012-11-05 00:01:00', 'testuser', 'comment 2');
+insert into comment (key, postKey, created_on, updated_on, created_by, content) values (-173, -17, '2012-11-01 00:01:00', '2012-11-01 00:01:00', 'testuser', 'comment 3');
 
 # --- !Downs
 
