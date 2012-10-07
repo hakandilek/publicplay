@@ -1,0 +1,39 @@
+@(list: List[Category])
+@import helper._ 
+@import helper.twitterBootstrap._
+@import helper.H._
+@main("Categories") {
+
+	<h3>@list.size() category(s)</h3>
+	
+	<h4><a href="@routes.CategoryController.newForm">@Messages("Create new category")</a></h4>
+    
+    @if(list.size() == 0) {
+        
+        <div class="well">
+            <em>Nothing to display</em>
+        </div>
+        
+    } else {
+	
+    <table class="categories table table-striped table-bordered">
+        <thead>
+            <tr>
+                <th class="header">@Messages("Categories")</th>
+            </tr>
+        </thead>
+        <tbody>
+        @for(category <- list) {
+            <tr>
+                <td>
+                	<a href="@routes.CategoryController.show(category.getName())">@category.getName()</a>
+                    <a class="btn btn-mini btn-danger pull-right spaced" href="@routes.CategoryController.delete(category.getName())">@Messages("delete")</a>
+                    <a class="btn btn-mini pull-right spaced" href="@routes.CategoryController.editForm(category.getName())">@Messages("edit")</a>
+               	</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+    
+    }
+}

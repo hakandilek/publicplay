@@ -59,6 +59,10 @@ public class Post extends Model {
 	@JoinColumn(name = "updated_by", nullable = true)
 	private User updatedBy;
 
+	@ManyToOne
+	@JoinColumn(name = "category", nullable = false)
+	private Category category;
+
 	public static CachedFinder<Long, Post> find = new CachedFinder<Long, Post>(
 			Long.class, Post.class);
 
@@ -208,6 +212,14 @@ public class Post extends Model {
 
 	public void setRating(Integer rating) {
 		this.rating = rating;
+	}
+
+	public Category getCategory() {
+		return category;
+	}
+
+	public void setCategory(Category category) {
+		this.category = category;
 	}
 
 	@Override

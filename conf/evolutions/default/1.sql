@@ -3,6 +3,11 @@
 
 # --- !Ups
 
+create table category (
+  name                      varchar(255) not null,
+  constraint pk_category primary key (name))
+;
+
 create table comment (
   key                       bigint not null,
   content                   varchar(255),
@@ -22,6 +27,7 @@ create table post (
   created_on                timestamp,
   updated_on                timestamp,
   created_by                varchar(255),
+  category                  varchar(255),
   updated_by                varchar(255),
   constraint pk_post primary key (key))
 ;
@@ -55,6 +61,8 @@ create table user (
   constraint pk_user primary key (key))
 ;
 
+create sequence category_seq;
+
 create sequence comment_seq;
 
 create sequence post_seq;
@@ -71,14 +79,18 @@ alter table comment add constraint fk_comment_updatedBy_3 foreign key (updated_b
 create index ix_comment_updatedBy_3 on comment (updated_by);
 alter table post add constraint fk_post_createdBy_4 foreign key (created_by) references user (key) on delete restrict on update restrict;
 create index ix_post_createdBy_4 on post (created_by);
-alter table post add constraint fk_post_updatedBy_5 foreign key (updated_by) references user (key) on delete restrict on update restrict;
-create index ix_post_updatedBy_5 on post (updated_by);
+alter table post add constraint fk_post_category_5 foreign key (category) references category (name) on delete restrict on update restrict;
+create index ix_post_category_5 on post (category);
+alter table post add constraint fk_post_updatedBy_6 foreign key (updated_by) references user (key) on delete restrict on update restrict;
+create index ix_post_updatedBy_6 on post (updated_by);
 
 
 
 # --- !Downs
 
 SET REFERENTIAL_INTEGRITY FALSE;
+
+drop table if exists category;
 
 drop table if exists comment;
 
@@ -89,6 +101,8 @@ drop table if exists post_rating;
 drop table if exists user;
 
 SET REFERENTIAL_INTEGRITY TRUE;
+
+drop sequence if exists category_seq;
 
 drop sequence if exists comment_seq;
 

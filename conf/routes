@@ -23,6 +23,14 @@ POST    /posts/:postKey                             controllers.PostController.c
 GET     /posts/:postKey/comments/:commentKey/edit   controllers.PostController.editCommentForm(postKey: Long, commentKey: Long)
 POST    /posts/:postKey/comments/:commentKey        controllers.PostController.updateComment(postKey: Long, commentKey: Long)
 GET     /posts/:postKey/comments/:commentKey/delete controllers.PostController.deleteComment(postKey: Long, commentKey: Long)
+# Category
+GET     /categories                 controllers.CategoryController.list()
+POST    /categories                 controllers.CategoryController.create()
+GET     /categories/new             controllers.CategoryController.newForm()
+GET     /categories/:name/edit      controllers.CategoryController.editForm(name: String)
+POST    /categories/:name/update    controllers.CategoryController.update(name: String)
+GET     /categories/:name/delete    controllers.CategoryController.delete(name: String)
+GET     /categories/:name           controllers.CategoryController.show(name: String)
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
