@@ -18,7 +18,7 @@ import socialauth.core.Secure;
 import socialauth.core.SocialUser;
 import socialauth.core.SocialUtils;
 import socialauth.service.SocialUserService;
-import views.html.login;
+import views.html.userLogin;
 import views.html.userInfo;
 
 public class SocialLogin extends Controller {
@@ -87,7 +87,7 @@ public class SocialLogin extends Controller {
 		if (log.isDebugEnabled())
 			log.debug("login() <-");
 
-		return ok(login.render());
+		return ok(userLogin.render());
 	}
 
 	public static Result logout() {

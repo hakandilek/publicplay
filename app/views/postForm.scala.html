@@ -3,28 +3,15 @@
 @import helper.twitterBootstrap._
 @main(if(key != null) "update post" else "new post") {
         
-	<h3>Add a new post</h3>
-    
-    @if(user == null) {
-    
-    <br/>
-    
-        @***** no user in context *****@
-        <p>
-        You must login to add a new post.
-        </p>
-        @partials.login()
-        
-    } else {
+	<h3>@if(key != null) { Update a } else { Add a new } post</h3>
 
-	    @form(if(key != null) { routes.PostController.update(postForm.get().getKey()) } 
-	          else            { routes.PostController.create() }) { 
-	        @inputText(postForm("title"))
-	        @textarea(postForm("content"))
-	        <div>
-	           <input type="submit" class="btn btn-success" value="@if(key != null) { Update } else { Post }">
-	           as @partials.userProfile(user)
-	        </div>
-	    } 
-    }
+    @form(if(key != null) { routes.PostController.update(postForm.get().getKey()) } 
+          else            { routes.PostController.create() }) { 
+        @inputText(postForm("title"))
+        @textarea(postForm("content"))
+        <div>
+           <input type="submit" class="btn btn-success" value="@if(key != null) { Update } else { Post }">
+           as @partials.userProfile(user)
+        </div>
+    } 
 }

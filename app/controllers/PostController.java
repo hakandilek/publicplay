@@ -51,7 +51,7 @@ public class PostController extends Controller implements Constants {
 		return ok(index.render(pg, topDay, topWeek, topAll, user));
 	}
 	
-	@SocialAware
+	@Secure
 	public static Result newForm() {
 		if (log.isDebugEnabled())
 			log.debug("newForm() <-");
