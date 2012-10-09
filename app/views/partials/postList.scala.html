@@ -3,7 +3,7 @@
 @import helper.twitterBootstrap._
 @import helper.H._
 
-	<h3>@currentPage.getTotalRowCount post(s)</h3>
+	<h3>@Messages("numposts", currentPage.getTotalRowCount)</h3>
 	
 	<h4><a href="@routes.PostController.newForm">@Messages("CreateNewPost")</a></h4>
     
