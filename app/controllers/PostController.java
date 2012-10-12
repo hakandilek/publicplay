@@ -1,5 +1,7 @@
 package controllers;
 
+import be.objectify.deadbolt.actions.Restrict;
+
 import com.avaje.ebean.Page;
 
 import models.Comment;
@@ -86,6 +88,7 @@ public class PostController extends Controller implements Constants {
 	}
 
 	@Secure
+	@Restrict("admin")
 	public static Result editForm(Long key) {
 		if (log.isDebugEnabled())
 			log.debug("editForm() <-" + key);
@@ -101,6 +104,7 @@ public class PostController extends Controller implements Constants {
 	}
 
 	@Secure
+	@Restrict("admin")
 	public static Result update(Long key) {
 		if (log.isDebugEnabled())
 			log.debug("update() <-" + key);
@@ -154,6 +158,7 @@ public class PostController extends Controller implements Constants {
 	}
 
 	@Secure
+	@Restrict("admin")
 	public static Result delete(Long key) {
 		if (log.isDebugEnabled())
 			log.debug("delete() <-" + key);
@@ -205,6 +210,7 @@ public class PostController extends Controller implements Constants {
 	}
 
 	@Secure
+	@Restrict("admin")
 	public static Result editCommentForm(Long postKey, Long commentKey) {
 		if (log.isDebugEnabled())
 			log.debug("editCommentForm() <-");
@@ -229,6 +235,7 @@ public class PostController extends Controller implements Constants {
 	}
 
 	@Secure
+	@Restrict("admin")
 	public static Result updateComment(Long postKey, Long commentKey) {
 		if (log.isDebugEnabled())
 			log.debug("updateComment() <-");
@@ -265,6 +272,7 @@ public class PostController extends Controller implements Constants {
 	}
 
 	@Secure
+	@Restrict("admin")
 	public static Result deleteComment(Long postKey, Long commentKey) {
 		if (log.isDebugEnabled())
 			log.debug("deleteComment() <-");

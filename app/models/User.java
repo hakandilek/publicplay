@@ -1,14 +1,18 @@
 package models;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Version;
 
@@ -16,12 +20,19 @@ import org.brickred.socialauth.Profile;
 import org.brickred.socialauth.util.BirthDate;
 
 import play.db.ebean.Model;
-import socialauth.core.SocialUser;
 import play.utils.cache.CachedFinder;
+import security.CommentDeletePermission;
+import security.CommentEditPermission;
+import security.PostDeletePermission;
+import security.PostEditPermission;
+import socialauth.core.SocialUser;
+import be.objectify.deadbolt.models.Permission;
+import be.objectify.deadbolt.models.Role;
+import be.objectify.deadbolt.models.RoleHolder;
 
 @Entity
 @SuppressWarnings("serial")
-public class User extends Model {
+public class User extends Model implements RoleHolder {
 
 	@Id
 	private String key;
@@ -72,10 +83,13 @@ public class User extends Model {
 	private String provider;
 	
     @OneToMany(cascade=CascadeType.ALL, mappedBy="createdBy")
-    private Set<Post> posts;
+    private Set<Post> posts = new HashSet<Post>();
     
     @OneToMany(cascade=CascadeType.ALL, mappedBy="createdBy")
-    private Set<Comment> comments;
+    private Set<Comment> comments = new HashSet<Comment>();
+
+    @ManyToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
+    private List<SecurityRole> securityRoles = new ArrayList<SecurityRole>();
 
 	public static CachedFinder<String, User> find = new CachedFinder<String, User>(
 			String.class, User.class);
@@ -146,6 +160,25 @@ public class User extends Model {
 		user.setUpdatedOn(now);
 		user.update(key);
 		find.put(user.getKey(), user);
+	}
+
+	public List<? extends Permission> getPermissions() {
+		Set<Post> posts = getPosts();
+		Set<Comment> comments = getComments();
+		ArrayList<Permission> permissions = new ArrayList<Permission>();
+		for (Post post : posts) {
+			permissions.add(new PostDeletePermission(post.getKey()));
+			permissions.add(new PostEditPermission(post.getKey()));
+		}
+		for (Comment comment : comments) {
+			permissions.add(new CommentDeletePermission(comment.getKey()));
+			permissions.add(new CommentEditPermission(comment.getKey()));
+		}
+		return permissions;
+	}
+
+	public List<? extends Role> getRoles() {
+		return new ArrayList<SecurityRole>(securityRoles);
 	}
 
 	public String getKey() {
@@ -282,6 +315,18 @@ public class User extends Model {
 
 	public void setProvider(String provider) {
 		this.provider = provider;
+	}
+
+	public Set<Post> getPosts() {
+		return posts;
+	}
+
+	public Set<Comment> getComments() {
+		return comments;
+	}
+
+	public List<SecurityRole> getSecurityRoles() {
+		return securityRoles;
 	}
 
 	@Override

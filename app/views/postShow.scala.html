@@ -2,6 +2,7 @@
 @import helper._ 
 @import helper.twitterBootstrap._
 @import helper.H._
+@import be.objectify.deadbolt.views.html._
 
 @main(post.getTitle()) {
     <p class="lead">
@@ -40,10 +41,14 @@
                     <td>
                         <blockquote> @nl2br(comment.getContent()) </blockquote>
                         <br/>
-                        <a class="btn btn-mini" href="@routes.PostController.editCommentForm(post.getKey(), comment.getKey())">edit</a>
-                        <br/>
                         @prettify(comment.getCreatedOn()) @if(comment.getCreatedBy() != null) {by @partials.userProfile(comment.getCreatedBy())} 
                         @if(comment.getUpdatedBy() != null) {updated @prettify(comment.getUpdatedOn()) by @partials.userProfile(comment.getUpdatedBy())}
+                @deadboltPattern("models.Comment.edit." + comment.getKey()) {
+                        <a class="btn btn-mini" href="@routes.PostController.editCommentForm(post.getKey(), comment.getKey())">edit</a>
+                }
+                @deadboltPattern("models.Comment.delete." + comment.getKey()) {
+                        <a class="btn btn-mini btn-danger" href="@routes.PostController.deleteComment(post.getKey(), comment.getKey())">delete</a>
+                }
                     </td> 
                 </tr>
         }

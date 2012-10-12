@@ -15,7 +15,8 @@ object ApplicationBuild extends Build {
         "org.brickred" % "socialauth" % "2.3",
         "com.restfb" % "restfb" % "1.6.11",
         "play2-cache" % "play2-cache_2.9.1" % "0.2.0-SNAPSHOT",
-        "joda-time" % "joda-time"% "2.1"
+        "joda-time" % "joda-time"% "2.1",
+        "be.objectify" %% "deadbolt-2" % "1.1.2"
     )
 
     val main = PlayProject(appName, appVersion, appDependencies, mainLang = JAVA).settings (
@@ -31,7 +32,10 @@ object ApplicationBuild extends Build {
         
         //play2-cache repository
         resolvers += Resolver.url("play2-cache release repository", url("http://hakandilek.github.com/play2-cache/releases/"))(Resolver.ivyStylePatterns),
-        resolvers += Resolver.url("play2-cache snapshot repository", url("http://hakandilek.github.com/play2-cache/snapshots/"))(Resolver.ivyStylePatterns)
+        resolvers += Resolver.url("play2-cache snapshot repository", url("http://hakandilek.github.com/play2-cache/snapshots/"))(Resolver.ivyStylePatterns),
+        
+        // Objectify Repository for Deadbolt
+        resolvers += Resolver.url("Objectify Play Repository", url("http://schaloner.github.com/releases/"))(Resolver.ivyStylePatterns)
         
         //ignore checksum check
         //checksums := Nil

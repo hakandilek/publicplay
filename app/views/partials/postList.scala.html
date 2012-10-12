@@ -2,6 +2,7 @@
 @import helper._ 
 @import helper.twitterBootstrap._
 @import helper.H._
+@import be.objectify.deadbolt.views.html._
 
 	<h3>@Messages("numposts", currentPage.getTotalRowCount)</h3>
 	
@@ -29,8 +30,12 @@
                 	<strong class="rating spaced" data-key="rate-@post.getKey()" >(@post.getRating())</strong>
                     <a class="rate spaced" data-key="rate-@post.getKey()" href="#" data-href="@routes.PostController.rateUp(post.getKey())"><i class="icon-thumbs-up"></i></a>
                     <a class="rate spaced" data-key="rate-@post.getKey()" href="#" data-href="@routes.PostController.rateDown(post.getKey())"><i class="icon-thumbs-down"></i></a>
+                @deadboltPattern("models.Post.delete." + post.getKey()) {
                     <a class="btn btn-mini btn-danger pull-right spaced" href="@routes.PostController.delete(post.getKey())">@Messages("delete")</a>
+                }
+                @deadboltPattern("models.Post.edit." + post.getKey()) {
                     <a class="btn btn-mini pull-right spaced" href="@routes.PostController.editForm(post.getKey())">@Messages("edit")</a>
+                }
                	</td>
             </tr>
             <tr>

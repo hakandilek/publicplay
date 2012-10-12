@@ -41,6 +41,13 @@ create table post_rating (
   constraint pk_post_rating primary key (user_key, post_key))
 ;
 
+create table security_role (
+  key                       bigint not null,
+  name                      varchar(50),
+  constraint uq_security_role_name unique (name),
+  constraint pk_security_role primary key (key))
+;
+
 create table user (
   key                       varchar(255) not null,
   original_key              varchar(255),
@@ -61,6 +68,12 @@ create table user (
   constraint pk_user primary key (key))
 ;
 
+
+create table user_security_role (
+  user_key                       varchar(255) not null,
+  security_role_key              bigint not null,
+  constraint pk_user_security_role primary key (user_key, security_role_key))
+;
 create sequence category_seq;
 
 create sequence comment_seq;
@@ -68,6 +81,8 @@ create sequence comment_seq;
 create sequence post_seq;
 
 create sequence post_rating_seq;
+
+create sequence security_role_seq;
 
 create sequence user_seq;
 
@@ -86,6 +101,10 @@ create index ix_post_updatedBy_6 on post (updated_by);
 
 
 
+alter table user_security_role add constraint fk_user_security_role_user_01 foreign key (user_key) references user (key) on delete restrict on update restrict;
+
+alter table user_security_role add constraint fk_user_security_role_securit_02 foreign key (security_role_key) references security_role (key) on delete restrict on update restrict;
+
 # --- !Downs
 
 SET REFERENTIAL_INTEGRITY FALSE;
@@ -98,7 +117,11 @@ drop table if exists post;
 
 drop table if exists post_rating;
 
+drop table if exists security_role;
+
 drop table if exists user;
+
+drop table if exists user_security_role;
 
 SET REFERENTIAL_INTEGRITY TRUE;
 
@@ -109,6 +132,8 @@ drop sequence if exists comment_seq;
 drop sequence if exists post_seq;
 
 drop sequence if exists post_rating_seq;
+
+drop sequence if exists security_role_seq;
 
 drop sequence if exists user_seq;
 

@@ -18,6 +18,7 @@
   <logger name="play" level="INFO" />
   <logger name="application" level="INFO" />
   <logger name="controllers" level="DEBUG" />
+  <logger name="security" level="DEBUG" />
   <logger name="models" level="INFO" />
   <logger name="crud" level="INFO" />
   <logger name="socialauth" level="INFO" />

@@ -64,11 +64,20 @@ public class Comment extends Model {
 		comment.setUpdatedOn(now);
 		comment.save();
 		find.put(comment.getKey(), comment);
+		// clean user cache for a backlink update
+		User owner = comment.createdBy;
+		if (owner != null)
+			User.find.clean(owner.getKey());
 	}
 
 	public static void remove(Long key) {
-		find.ref(key).delete();
+		Comment comment = find.ref(key);
+		comment.delete();
 		find.clean(key);
+		// clean user cache for a backlink update
+		User owner = comment.createdBy;
+		if (owner != null)
+			User.find.clean(owner.getKey());
 	}
 
 	public static Comment get(Long key) {
@@ -80,6 +89,10 @@ public class Comment extends Model {
 		comment.setUpdatedOn(now);
 		comment.update(key);
 		find.put(comment.getKey(), comment);
+		// clean user cache for a backlink update
+		User owner = comment.createdBy;
+		if (owner != null)
+			User.find.clean(owner.getKey());
 	}
 	
 	public Long getKey() {

@@ -7,15 +7,20 @@ insert into category (name) values ('category3');
 insert into category (name) values ('category4');
 insert into category (name) values ('category5');
 
-insert into user (key, original_key, created_on, updated_on, login_count, last_login, first_name, last_name, email, profile_image_url, provider, revision) values ('testuser', 'testKey', '2012-01-01', '2012-01-01', 1, '2012-01-01', 'Foo', 'Bar', 'foobar@test.com', 'http://static.ak.fbcdn.net/rsrc.php/v2/yL/r/HsTZSDw4avx.gif', 'somewhere', 1);
+insert into security_role (key, name) values (-1, 'admin');
+
+insert into user (key, original_key, created_on, updated_on, login_count, last_login, first_name, last_name, email, profile_image_url, provider, revision) values ('testuser',           'testKey',   '2012-01-01', '2012-01-01', 1, '2012-01-01', 'Foo',   'Bar',   'foobar@test.com',      'http://static.ak.fbcdn.net/rsrc.php/v2/yL/r/HsTZSDw4avx.gif', 'somewhere', 1);
+insert into user (key, original_key, created_on, updated_on, login_count, last_login, first_name, last_name, email, profile_image_url, provider, revision) values ('facebook::807220003','807220003', '2012-10-11', '2012-10-11', 1, '2012-10-11', 'Hakan', 'Dilek', 'hakan@mailinator.com', 'http://graph.facebook.com/807220003/picture',                 'facebook',  1);
+
+insert into user_security_role (user_key, security_role_key) values ('facebook::807220003', -1);
 
 insert into post (key, category, rating, created_on, updated_on, created_by, updated_by, title, content) values (-11, 'category1', 345, '2012-01-05 00:01:00', '2012-05-01 00:01:00', 'testuser', 'testuser', 'some post', 'and  content of it');
 insert into post (key, category, rating, created_on, updated_on, created_by, updated_by, title, content) values (-12, 'category1', 123, '2012-01-04 00:02:00', '2012-04-01 00:02:00', 'testuser', 'testuser', 'another post', 'and another content');
 insert into post (key, category, rating, created_on, updated_on, created_by, title, content)             values (-13, 'category1',  23, '2012-01-03 00:03:00', '2012-03-01 00:03:00', 'testuser', 'yet another post', 'and yet another comment');
 insert into post (key, category, rating, created_on, updated_on, created_by, title, content)             values (-14, 'category2',   0, '2012-01-02 00:04:00', '2012-02-01 00:04:00', 'testuser', 'dummy post', 'some comment on dummy stuff');
 insert into post (key, category, rating, created_on, updated_on, created_by, title, content)             values (-15, 'category2', -42, '2012-01-01 00:05:00', '2012-01-01 00:05:00', 'testuser', 'wow it''s happening', 'yeah, sure!');
-insert into post (key, category, rating, created_on, updated_on, created_by, title, content)             values (-16, 'category2', 142, '2012-10-10 00:05:00', '2012-10-10 00:05:00', 'testuser', 'this is supposed to be a really long post in order to test the line sizes in posts', 'and that should be a really long content of the same post to see how it fits on the screen!');
-insert into post (key, category, rating, created_on, updated_on, created_by, title, content)             values (-17, 'category3', 420, '2012-10-10 00:05:00', '2012-10-10 00:05:00', 'testuser', 'this is supposed to be an another long post in order to test the line sizes in posts', 'and that should be another really long content of the same post to see how it fits on the screen!');
+insert into post (key, category, rating, created_on, updated_on, created_by, title, content)             values (-16, 'category2', 142, '2012-12-10 00:05:00', '2012-12-10 00:05:00', 'testuser', 'this is supposed to be a really long post in order to test the line sizes in posts', 'and that should be a really long content of the same post to see how it fits on the screen!');
+insert into post (key, category, rating, created_on, updated_on, created_by, title, content)             values (-17, 'category3', 420, '2012-12-10 00:05:00', '2012-12-10 00:05:00', 'testuser', 'this is supposed to be an another long post in order to test the line sizes in posts', 'and that should be another really long content of the same post to see how it fits on the screen!');
 insert into post (key, category, rating, created_on, updated_on, created_by, title, content)             values (-18, 'category2',   0, '2012-01-02 00:04:00', '2012-02-01 00:04:00', 'testuser', 'another dummy post', 'some comment on dummy stuff');
 insert into post (key, category, rating, created_on, updated_on, created_by, title, content)             values (-19, 'category4',   0, '2012-01-02 00:04:00', '2012-02-01 00:04:00', 'testuser', 'yet dummy post', 'some comment on dummy stuff');
 insert into post (key, category, rating, created_on, updated_on, created_by, title, content)             values (-20, 'category2',   0, '2012-01-02 00:04:00', '2012-02-01 00:04:00', 'testuser', 'this is a dummy post', 'some comment on dummy stuff');
@@ -77,7 +82,11 @@ delete from comment where key = -143;
 delete from comment where key = -151;
 delete from comment where key = -152;
 delete from comment where key = -153;
+delete from user_security_role where user_key = 'testuser';
+delete from user_security_role where user_key = 'facebook::807220003';
 delete from user where key = 'testuser';
+delete from user where key = 'facebook::807220003';
+delete from security_role where name = 'admin';
 delete from category where name = 'category1';
 delete from category where name = 'category2';
 delete from category where name = 'category3';

@@ -124,11 +124,20 @@ public class Post extends Model {
 		post.setUpdatedOn(now);
 		post.save();
 		find.put(post.getKey(), post);
+		// clean user cache for a backlink update
+		User owner = post.createdBy;
+		if (owner != null)
+			User.find.clean(owner.getKey());
 	}
 
 	public static void remove(Long key) {
-		find.ref(key).delete();
+		Post post = find.ref(key);
+		post.delete();
 		find.clean(key);
+		// clean user cache for a backlink update
+		User owner = post.createdBy;
+		if (owner != null)
+			User.find.clean(owner.getKey());
 	}
 
 	public static Post get(Long key) {
@@ -140,6 +149,10 @@ public class Post extends Model {
 		post.setUpdatedOn(now);
 		post.update(key);
 		find.put(post.getKey(), post);
+		// clean user cache for a backlink update
+		User owner = post.createdBy;
+		if (owner != null)
+			User.find.clean(owner.getKey());
 	}
 
 	public Long getKey() {
