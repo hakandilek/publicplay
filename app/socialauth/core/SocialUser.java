@@ -36,9 +36,11 @@ public class SocialUser {
 	}
 
 	public Date getBirthDate() {
-		final BirthDate dob = getProfile().getDob();
 		final Calendar cal = Calendar.getInstance();
-		cal.set(dob.getYear(), dob.getMonth(), dob.getDay(), 0, 0, 0);
+		final BirthDate dob = getProfile().getDob();
+		if (dob != null) {
+			cal.set(dob.getYear(), dob.getMonth(), dob.getDay(), 0, 0, 0);
+		}
 		return cal.getTime();
 	}
 }
