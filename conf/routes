@@ -5,8 +5,8 @@
 # Home page
 GET     /                           controllers.HomeController.index()
 #Users
-GET     /users/:key                 controllers.UserController.show(key: String)
 GET     /users/self                 controllers.UserController.showSelf()
+GET     /users/:key                 controllers.UserController.show(key: String)
 # Post
 GET     /posts                      controllers.PostController.list(p:Int ?= 0)
 POST    /posts                      controllers.PostController.create()
