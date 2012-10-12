@@ -26,8 +26,14 @@ public class HttpUtils {
 		if (log.isDebugEnabled())
 			log.debug("su : " + su);
 		User user = null;
-		if (su != null)
-			user  = new User(su);
+		if (su != null) {
+			user = User.get(su.getUserKey());
+			if (user == null) {
+				if (log.isDebugEnabled())
+					log.debug("user not found in DB, creating from session");
+				user  = new User(su);
+			}
+		}
 		if (log.isDebugEnabled())
 			log.debug("user : " + user);
 		return user;
