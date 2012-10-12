@@ -9,6 +9,7 @@ import socialauth.controllers.SocialLogin;
 import socialauth.core.Secure;
 import socialauth.core.SocialAware;
 import socialauth.core.SocialUser;
+import utils.HttpUtils;
 import views.html.userShow;
 
 public class UserController extends Controller {
@@ -18,15 +19,13 @@ public class UserController extends Controller {
 	@SocialAware
 	public static Result show(String key) {
 		if (log.isDebugEnabled())
-			log.debug("index() <-");
+			log.debug("show() <-");
 		if (log.isDebugEnabled())
 			log.debug("key : " + key);
 		
 		final SocialUser self = (SocialUser) ctx().args.get(SocialLogin.USER_KEY);
-		if (log.isDebugEnabled())
-			log.debug("self : " + self);
 		
-		User user = User.get(key);
+		User user = HttpUtils.loginUser(ctx());
 		if (log.isDebugEnabled())
 			log.debug("user : " + user);
 		if (user == null) {
@@ -43,13 +42,10 @@ public class UserController extends Controller {
 	@Secure
 	public static Result showSelf() {
 		if (log.isDebugEnabled())
-			log.debug("index() <-");
+			log.debug("showSelf() <-");
 		
-		final SocialUser self = (SocialUser) ctx().args.get(SocialLogin.USER_KEY);
-		if (log.isDebugEnabled())
-			log.debug("self : " + self);
+		User user = HttpUtils.loginUser(ctx());
 		
-		User user = new User(self);
 		if (log.isDebugEnabled())
 			log.debug("user : " + user);
 		boolean selfPage = true;
