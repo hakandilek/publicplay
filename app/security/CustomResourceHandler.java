@@ -19,7 +19,7 @@ public class CustomResourceHandler implements DynamicResourceHandler {
 	public boolean checkPermission(String permission, DeadboltHandler handler,
 			Context ctx) {
 		if (log.isDebugEnabled())
-			log.debug("checkPermission() <-");
+			log.debug("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ checkPermission() <-");
 		if (log.isDebugEnabled())
 			log.debug("permission : " + permission);
 		
@@ -43,7 +43,7 @@ public class CustomResourceHandler implements DynamicResourceHandler {
 	public boolean isAllowed(String name, String meta, DeadboltHandler handler,
 			Context ctx) {
 		if (log.isDebugEnabled())
-			log.debug("isAllowed() <-");
+			log.debug("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ isAllowed() <-");
 		if (log.isDebugEnabled())
 			log.debug("name : " + name);
 		if (log.isDebugEnabled())

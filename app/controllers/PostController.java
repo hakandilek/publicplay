@@ -1,9 +1,5 @@
 package controllers;
 
-import be.objectify.deadbolt.actions.Restrict;
-
-import com.avaje.ebean.Page;
-
 import models.Comment;
 import models.Post;
 import models.PostRating;
@@ -14,6 +10,11 @@ import play.Logger.ALogger;
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
+import security.CommentDeletePermission;
+import security.CommentEditPermission;
+import security.PostDeletePermission;
+import security.PostEditPermission;
+import security.RestrictCombine;
 import socialauth.core.Secure;
 import socialauth.core.SocialAware;
 import utils.HttpUtils;
@@ -21,6 +22,8 @@ import views.html.index;
 import views.html.postForm;
 import views.html.postShow;
 import views.html.rate;
+
+import com.avaje.ebean.Page;
 
 public class PostController extends Controller implements Constants {
 
@@ -88,7 +91,7 @@ public class PostController extends Controller implements Constants {
 	}
 
 	@Secure
-	@Restrict("admin")
+	@RestrictCombine(roles = "admin", with = PostEditPermission.class)
 	public static Result editForm(Long key) {
 		if (log.isDebugEnabled())
 			log.debug("editForm() <-" + key);
@@ -104,7 +107,7 @@ public class PostController extends Controller implements Constants {
 	}
 
 	@Secure
-	@Restrict("admin")
+	@RestrictCombine(roles = "admin", with = PostEditPermission.class)
 	public static Result update(Long key) {
 		if (log.isDebugEnabled())
 			log.debug("update() <-" + key);
@@ -158,7 +161,7 @@ public class PostController extends Controller implements Constants {
 	}
 
 	@Secure
-	@Restrict("admin")
+	@RestrictCombine(roles = "admin", with = PostDeletePermission.class)
 	public static Result delete(Long key) {
 		if (log.isDebugEnabled())
 			log.debug("delete() <-" + key);
@@ -210,7 +213,7 @@ public class PostController extends Controller implements Constants {
 	}
 
 	@Secure
-	@Restrict("admin")
+	@RestrictCombine(roles = "admin", with = CommentEditPermission.class)
 	public static Result editCommentForm(Long postKey, Long commentKey) {
 		if (log.isDebugEnabled())
 			log.debug("editCommentForm() <-");
@@ -235,7 +238,7 @@ public class PostController extends Controller implements Constants {
 	}
 
 	@Secure
-	@Restrict("admin")
+	@RestrictCombine(roles = "admin", with = CommentEditPermission.class)
 	public static Result updateComment(Long postKey, Long commentKey) {
 		if (log.isDebugEnabled())
 			log.debug("updateComment() <-");
@@ -272,7 +275,7 @@ public class PostController extends Controller implements Constants {
 	}
 
 	@Secure
-	@Restrict("admin")
+	@RestrictCombine(roles = "admin", with = CommentDeletePermission.class)
 	public static Result deleteComment(Long postKey, Long commentKey) {
 		if (log.isDebugEnabled())
 			log.debug("deleteComment() <-");

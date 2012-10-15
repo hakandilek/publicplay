@@ -1,11 +1,12 @@
 package security;
 
+import java.util.regex.Pattern;
+
 import models.Comment;
 
-public class CommentEditPermission extends EntityPermission<Comment, Long> {
+public class CommentEditPermission extends EntityRequestPermission {
 
-	public CommentEditPermission(Long key) {
-		super(Comment.class, "edit", key);
+	public CommentEditPermission() {
+		super(Pattern.compile("/posts/.*/comments/(.*)/edit"), Comment.class, "edit");
 	}
-
 }

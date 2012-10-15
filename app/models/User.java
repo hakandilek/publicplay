@@ -21,10 +21,7 @@ import org.brickred.socialauth.util.BirthDate;
 
 import play.db.ebean.Model;
 import play.utils.cache.CachedFinder;
-import security.CommentDeletePermission;
-import security.CommentEditPermission;
-import security.PostDeletePermission;
-import security.PostEditPermission;
+import security.EntityPermission;
 import socialauth.core.SocialUser;
 import be.objectify.deadbolt.models.Permission;
 import be.objectify.deadbolt.models.Role;
@@ -167,12 +164,12 @@ public class User extends Model implements RoleHolder {
 		Set<Comment> comments = getComments();
 		ArrayList<Permission> permissions = new ArrayList<Permission>();
 		for (Post post : posts) {
-			permissions.add(new PostDeletePermission(post.getKey()));
-			permissions.add(new PostEditPermission(post.getKey()));
+			permissions.add(new EntityPermission(Post.class, "delete", post.getKey()));
+			permissions.add(new EntityPermission(Post.class, "edit", post.getKey()));
 		}
 		for (Comment comment : comments) {
-			permissions.add(new CommentDeletePermission(comment.getKey()));
-			permissions.add(new CommentEditPermission(comment.getKey()));
+			permissions.add(new EntityPermission(Comment.class, "delete", comment.getKey()));
+			permissions.add(new EntityPermission(Comment.class, "edit", comment.getKey()));
 		}
 		return permissions;
 	}

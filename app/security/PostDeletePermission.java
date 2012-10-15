@@ -1,11 +1,13 @@
 package security;
 
+import java.util.regex.Pattern;
+
 import models.Post;
 
-public class PostDeletePermission extends EntityPermission<Post, Long> {
+public class PostDeletePermission  extends EntityRequestPermission {
 
-	public PostDeletePermission(Long key) {
-		super(Post.class, "delete", key);
+	public PostDeletePermission() {
+		super(Pattern.compile("/posts/(.*)/delete"), Post.class, "delete");
 	}
 
 }

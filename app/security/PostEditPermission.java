@@ -1,11 +1,13 @@
 package security;
 
+import java.util.regex.Pattern;
+
 import models.Post;
 
-public class PostEditPermission extends EntityPermission<Post, Long> {
+public class PostEditPermission  extends EntityRequestPermission {
 
-	public PostEditPermission(Long key) {
-		super(Post.class, "edit", key);
+	public PostEditPermission() {
+		super(Pattern.compile("/posts/(.*)/edit"), Post.class, "edit");
 	}
 
 }

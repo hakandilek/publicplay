@@ -3,11 +3,11 @@ package security;
 import scala.collection.mutable.StringBuilder;
 import be.objectify.deadbolt.models.Permission;
 
-public abstract class EntityPermission<T, K> implements Permission {
+public class EntityPermission implements Permission {
 
 	private final String value;
 
-	public EntityPermission(Class<T> entity, String action, K key) {
+	public <T, K> EntityPermission(Class<T> entity, String action, K key) {
 		this.value = new StringBuilder(entity.getName()).append('.')
 				.append(action).append('.').append(key).toString();
 	}
@@ -17,4 +17,12 @@ public abstract class EntityPermission<T, K> implements Permission {
 		return value;
 	}
 
+	@Override
+	public String toString() {
+		java.lang.StringBuilder builder = new java.lang.StringBuilder();
+		builder.append("EntityPermission [").append(value).append("]");
+		return builder.toString();
+	}
+
+	
 }
