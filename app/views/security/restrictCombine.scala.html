@@ -1,0 +1,5 @@
+@(roles: List[Array[String]], withPattern: String, patternType: be.objectify.deadbolt.PatternType = be.objectify.deadbolt.PatternType.EQUALITY)(body: => Html)
+
+@if(views.html.security.DeadboltUtils.viewRestrictCombine(roles, withPattern, patternType)) {
+@body
+}
