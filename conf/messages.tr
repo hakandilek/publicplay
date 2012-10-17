@@ -1,8 +1,79 @@
-hello=Hosgeldiniz
-definition=PublicPlay is a simple Forum application developed on
-CreateNewPost=Yeni mesaj olustur
-Posts=Mesajlar
-edit=düzenle
-delete=kaldir
+Page_title={0} - PublicPlay
+Brand_title=PublicPlay / {0}
+Welcome=Hoşgeldin {0}!
+Project_definition=PublicPlay <a href="http://github.com/playframework/play">Play Framework</a> ile geliştirilmiş basit bir forum uygulamasıdır. Yeni bir Play uygulamasına başlamak isteyenler için taslak olarak düşünülmüştür. <br/> Keyfini çıkarın!
+Access_failed=Erişim hatası
+Access_failed_detail=Anlaşılan buraya erişim hakkınız yok
+Go_back=Geri dön
+edit=değiştir
+delete=sil
 Previous=Önceki
 Next=Sonraki
+Update=Güncelle
+Create=Oluştur
+Post=Gönder
+Nothing_to_display=Gösterecek bir şey yok
+Not_Available=yok
+Logout=Çıkış
+displaying_num_of_num_pages={1} sayfadan {0}. görüntüleniyor
+as_profile={0} olarak
+login_with_facebook=Facebook ile giriş yapın
+Daily_Top10=Günün favorileri
+Weekly_Top10=Haftanın favorileri
+Overall_Top10=En beğenilenler
+
+# Post
+update_post=başlığı düzenle
+new_post=yeni başlık
+update_post_detail=Başlığı düzenle
+new_post_detail=Yeni bir başlık ekle
+Post_num={0} başlık
+Create_new_post=Yeni başlık aç
+Posts=Başlıklar
+Post.title.label=başlık
+Post.content.label=içerik
+# Comment
+no_comments_yet=Henüz yorum yapılmamış. İlk yorumu yapın: 
+Comments=Yorumlar
+drop_your_comment=yorum yapın:
+Comment.content.label=içerik
+# Category
+update_category=sınıfı düzenle
+new_category=yeni sınıf
+update_category_detail=Sınıfı düzenle
+new_category_detail=Yeni bir sınıf ekle
+Categories=Sınıflar
+Category_num={0} sınıf
+Create_new_category=Yeni sınıf oluştur
+Category.name.label=isim:
+
+CreatedOn_By={0} {1} yazdı
+UpdatedOn_By={0} {1} güncelledi
+
+# SocialUser
+user_information=Kullanıcı bilgileri
+User_Details=Kullanıcı detayları
+SocialUser.User_Id=Kullanici no
+SocialUser.Logged_in_from=Giriş yapılan yer 
+SocialUser.Email=Email
+SocialUser.FirstName=Adı
+SocialUser.LastName=Soyadı
+SocialUser.Language=Dili
+SocialUser.Date_of_Birth=Doğum tarihi
+SocialUser.Gender=Cinsiyeti
+SocialUser.Location=Bulunduğu yer
+
+You_must_login_to_perform_this_action=Bu işlem için giriş yapmalısınız
+# User
+User_not_found=Kullanıcı bulunamadı
+This_is_you=Bu kendi profiliniz
+Roles=Roller
+User.Profile=Profil
+User.Logged_in_from=Giriş yapılan yer
+User.Email=Email
+User.FirstName=Adı
+User.LastName=Soyadı
+User.Date_of_Birth=Doğum tarihi 
+User.Gender=Cinsiyeti
+User.Location=Bulunduğ yer
+

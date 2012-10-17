@@ -1,5 +1,5 @@
 @main("Access failed") {
-    <h3>Access failed</h3>
-    <p>Apparently you don't have access to this function.<p> 
-    <a href="@routes.HomeController.index">Go back</a>
+    <h3>@Messages("Access_failed")</h3>
+    <p>@Messages("Access_failed_detail")<p> 
+    <a href="@routes.HomeController.index">@Messages("Go_back")</a>
 }

@@ -4,7 +4,7 @@
 
 <html>
     <head>
-        <title>@title - PublicPlay</title>
+        <title>@Messages("Page_title", title)</title>
         <link rel="stylesheet" type="text/css" media="screen" href="@routes.Assets.at("stylesheets/bootstrap.min.css")"> 
         <link rel="stylesheet" type="text/css" media="screen" href="@routes.Assets.at("stylesheets/main.css")"> 
         <link rel="shortcut icon" type="image/png" href="@routes.Assets.at("images/favicon.png")">
@@ -28,7 +28,7 @@
             <div class="navbar-inner">
                 <div class="container">
 
-                <a class="brand" href="@routes.HomeController.index()">PublicPlay / @title</a>
+                <a class="brand" href="@routes.HomeController.index()">@Messages("Brand_title", title)</a>
                 
                 <!--  github ribbon -->
                 <a href="https://github.com/hakandilek/publicplay"><img

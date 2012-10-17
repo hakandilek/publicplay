@@ -1,5 +1,5 @@
 @(user: socialauth.core.SocialUser)
-@main("user information") {
+@main(Messages("user_information")) {
 	@if(user == null) {
 	
 		@***** no user in context *****@
@@ -12,19 +12,19 @@
 	</div>
 	
 	<div class="clearfix">
-	    <h3>User Details</h3>
+	    <h3>@Messages("User_Details")</h3>
 	
 	    <ul>
 	        <li> <a href="https://www.facebook.com/profile.php?id=@user.getProfile().getValidatedId()">Facebook Profile</a></li>
-	        <li> User Id: @user.getProfile().getValidatedId()</li>
-	        <li> Logged in from: @user.getProfile().getProviderId()</li>
-	        <li> Email: @if( user.getProfile().getEmail() != null ) { @user.getProfile().getEmail() } else { Not Available } </li>
-	        <li> FirstName: @user.getProfile().getFirstName() </li>
-	        <li> LastName: @user.getProfile().getLastName() </li>
-	        <li> Language: @user.getProfile().getLanguage() </li>
-	        <li> Date of Birth: @user.getProfile().getDob() </li>
-	        <li> Gender: @user.getProfile().getGender() </li>
-	        <li> Location: @user.getProfile().getLocation() </li>
+	        <li> @Messages("SocialUser.User_Id"): @user.getProfile().getValidatedId()</li>
+	        <li> @Messages("SocialUser.Logged_in_from"): @user.getProfile().getProviderId()</li>
+	        <li> @Messages("SocialUser.Email"): @if( user.getProfile().getEmail() != null ) { @user.getProfile().getEmail() } else { Not Available } </li>
+	        <li> @Messages("SocialUser.FirstName"): @user.getProfile().getFirstName() </li>
+	        <li> @Messages("SocialUser.LastName"): @user.getProfile().getLastName() </li>
+	        <li> @Messages("SocialUser.Language"): @user.getProfile().getLanguage() </li>
+	        <li> @Messages("SocialUser.Date_of_Birth"): @user.getProfile().getDob() </li>
+	        <li> @Messages("SocialUser.Gender"): @user.getProfile().getGender() </li>
+	        <li> @Messages("SocialUser.Location"): @user.getProfile().getLocation() </li>
 	    </ul>
 	
 	</div>

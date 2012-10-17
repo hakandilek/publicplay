@@ -1,18 +1,13 @@
 @(currentPage: Page[Post], topDayPage: Page[Post], topWeekPage: Page[Post], topAllPage: Page[Post], user: models.User)
 
-@main("home") {
+@main(Messages("home")) {
 <div class="container-fluid">
 	<div class="row-fluid">
 	    <div class="span12">
 	
-		    <h2>@Messages("hello") @partials.userProfile(user)! </h2> 
-		    @if(user != null) {<p><a class="btn" href="@socialauth.controllers.routes.SocialLogin.logout()">Logout</a> </p>}
-		    <p>@Messages("definition")
-		    	<a href="http://github.com/playframework/play">Play Framework</a>.
-		    	It is aimed to be used as a starting point/skeleton for a Play application.
-		    	<br/>
-		    	Enjoy!
-		   	</p>
+		    <h2>@Html(Messages("Welcome", partials.userProfile(user))) </h2> 
+		    @if(user != null) {<p><a class="btn" href="@socialauth.controllers.routes.SocialLogin.logout()">@Messages("Logout")</a> </p>}
+		    <p>@Html(Messages("Project_definition"))</p>
 		    
 			@if(user == null) {
 		    <br/>
@@ -29,9 +24,9 @@
 			    <div id="top-div" class="span4">
 					<!-- Top lists -->
 					<ul id="top-tab" class="nav nav-tabs" data-spy="scroll" data-target="#top-div">
-			  			<li class="active"><a data-toggle="tab" href="#top_day">@Messages("Daily Top10")</a></li>
-			  			<li><a data-toggle="tab" href="#top_week">@Messages("Weekly Top10")</a></li>
-			  			<li><a data-toggle="tab" href="#top_all">@Messages("Overall Top10")</a></li>
+			  			<li class="active"><a data-toggle="tab" href="#top_day">@Messages("Daily_Top10")</a></li>
+			  			<li><a data-toggle="tab" href="#top_week">@Messages("Weekly_Top10")</a></li>
+			  			<li><a data-toggle="tab" href="#top_all">@Messages("Overall_Top10")</a></li>
 					</ul>
 		            <div class="tab-content">
 		              	<div class="tab-pane fade in active" id="top_day">@partials.postTopList(topDayPage)</div>

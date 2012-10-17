@@ -1,11 +1,17 @@
 package views.html.helper;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 import org.ocpsoft.prettytime.PrettyTime;
 
+import com.avaje.ebean.Page;
+
 import play.api.templates.Html;
+import play.i18n.Lang;
+import play.i18n.Messages;
 
 /**
  * HTML Utils
@@ -14,8 +20,13 @@ import play.api.templates.Html;
  */
 public class H {
 
-	// TODO: use request locale
-	private static PrettyTime prettyTime = new PrettyTime(Locale.ENGLISH);
+	private final static Map<String, PrettyTime> prettyTimes = new HashMap<String, PrettyTime>();
+	private final static PrettyTime prettyTimeDefault = new PrettyTime(Locale.ENGLISH);
+	
+	static {
+		prettyTimes.put(Locale.ENGLISH.getLanguage(), new PrettyTime(Locale.ENGLISH));
+		prettyTimes.put(new Locale("tr").getLanguage(), new PrettyTime(new Locale("tr")));
+	}
 
 	/**
 	 * replace NLs in text with HTML br tags
@@ -54,7 +65,11 @@ public class H {
 	public static Html prettify(Date d) {
 		if (d == null)
 			return new Html("");
-		String s = prettyTime.format(d);
+		String language = getLang().language();
+		PrettyTime pt = prettyTimes.get(language);
+		if (pt == null)
+			pt = prettyTimeDefault;
+		String s = pt.format(d);
 		return new Html(s);
 	}
 
@@ -72,5 +87,27 @@ public class H {
 		s = s.toLowerCase(Locale.ENGLISH);
 		return s;
 	}
+	
+	public static <T> Html paging(Page<T> page) {
+		if (page == null)
+			return new Html("");
+		Lang lang = getLang();
+		int pageIndex = page.getPageIndex() + 1;
+		int totalPage = page.getTotalPageCount();
+
+		return new Html(Messages.get(lang, "displaying_num_of_num_pages", pageIndex, totalPage));
+	}
+	
+	private static Lang getLang() {
+        Lang lang = null;
+        if(play.mvc.Http.Context.current.get() != null) {
+            lang = play.mvc.Http.Context.Implicit.lang();
+        } else {
+            Locale defaultLocale = Locale.getDefault();
+            lang = new Lang(new play.api.i18n.Lang(defaultLocale.getLanguage(), defaultLocale.getCountry()));
+        }
+        return lang;
+	}
+	
 
 }

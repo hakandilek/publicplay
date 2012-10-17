@@ -5,14 +5,14 @@
 @import be.objectify.deadbolt.utils.TemplateUtils._
 @import views.html.security._
 
-	<h3>@Messages("numposts", currentPage.getTotalRowCount)</h3>
+	<h3>@Messages("Post_num", currentPage.getTotalRowCount)</h3>
 	
-	<h4><a href="@routes.PostController.newForm">@Messages("CreateNewPost")</a></h4>
+	<h4><a href="@routes.PostController.newForm">@Messages("Create_new_post")</a></h4>
     
     @if(currentPage.getTotalRowCount == 0) {
         
         <div class="well">
-            <em>Nothing to display</em>
+            <em>@Messages("Nothing_to_display")</em>
         </div>
         
     } else {
@@ -60,7 +60,7 @@
                 </li>
             }
             <li class="current">
-                <a>Displaying @currentPage.getDisplayXtoYofZ(" to "," of ")</a>
+                <a>@paging(currentPage)</a>
             </li>
             @if(currentPage.hasNext) {
                 <li class="next">

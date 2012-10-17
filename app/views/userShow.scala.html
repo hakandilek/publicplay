@@ -3,18 +3,18 @@
 @import be.objectify.deadbolt.utils.TemplateUtils._
 @import helper.H._
 
-@main("user information") {
+@main(Messages("user information")) {
 
     @if(user == null) {
     
     <div class="page-header">
-        <p class="text-error"> User not found! </p>
+        <p class="text-error"> @Messages("User not found") </p>
     </div>
     
     } else {
     
 	<div class="page-header">
-        <h3>User Details</h3>
+        <h3>@Messages("User_Details")</h3>
 	</div>
 	
 	<div class="clearfix">
@@ -22,37 +22,37 @@
             <img src="@user.getProfileImageURL()" alt="@user.getFirstName() @user.getLastName()" width="40px"/>
             @user.getFirstName() @user.getLastName()
         </h3>
-        <p class="text-info">@if(self) { This is you! }</p>
+        <p class="text-info">@if(self) { @Messages("This_is_you") }</p>
 	
         <dl class="dl-horizontal">
         
             @restrict(la(as("admin"))) {
-            <dt class="text-info"> Roles </dt>
+            <dt class="text-info"> @Messages("Roles") </dt>
             <dd class="text-info"> @if(user.getSecurityRoles().size == 0) { &nbsp; } @for(role <- user.getSecurityRoles()) { @role.getName() &nbsp; } </dd>
             }
             
-	        <dt> Profile </dt> 
+	        <dt> @Messages("User.Profile") </dt> 
 	        <dd><a href="https://www.facebook.com/profile.php?id=@user.getOriginalKey()">@user.getFirstName() @user.getLastName()</a></dd>
 	        
-	        <dt> Logged in from </dt>
+	        <dt> @Messages("User.Logged_in_from") </dt>
 	        <dd> @user.getProvider()</dd>
 	        
-	        <dt> Email </dt>
-	        <dd> @if( user.getEmail() != null ) { @user.getEmail() } else { Not Available } </dd>
+	        <dt> @Messages("User.Email") </dt>
+	        <dd> @if( user.getEmail() != null ) { @user.getEmail() } else { @Messages("Not_Available") } </dd>
 	        
-	        <dt> FirstName </dt>
+	        <dt> @Messages("User.FirstName") </dt>
 	        <dd> @user.getFirstName() </dd>
 	        
-	        <dt> LastName </dt>
+	        <dt> @Messages("User.LastName") </dt>
 	        <dd> @user.getLastName() </dd>
 	        
-	        <dt> Date of Birth </dt> 
+	        <dt> @Messages("User.Date_of_Birth") </dt> 
 	        <dd> @prettify(user.getBirthdate()) </dd>
 	        
-	        <dt> Gender </dt>
+	        <dt> @Messages("User.Gender") </dt>
 	        <dd> @user.getGender() </dd>
 	        
-	        <dt> Location </dt>
+	        <dt> @Messages("User.Location") </dt>
 	        <dd> @user.getLocation() </dd>
 	        
 	    </dl>

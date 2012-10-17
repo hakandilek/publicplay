@@ -1,15 +1,15 @@
 @(name: String, categoryForm: Form[Category])
 @import helper._ 
 @import helper.twitterBootstrap._
-@main(if(name != null) "update category" else "new category") {
+@main(if(name != null) Messages("update_category") else Messages("new_category")) {
         
-	<h3>@if(name != null) { Update a category } else { Add a new category } </h3>
+	<h3>@if(name != null) { @Messages("update_category_detail") } else { @Messages("new_category_detail") } </h3>
     
     @form(if(name != null) { routes.CategoryController.update(categoryForm.get().getName()) } 
           else             { routes.CategoryController.create() }) { 
-        @inputText(categoryForm("name"))
+        @inputText(categoryForm("name"), args = '_label -> Messages("Category.name.label"))
         <div>
-           <input type="submit" class="btn btn-success" value="@if(name != null) { Update } else { Create }">
+           <input type="submit" class="btn btn-success" value="@if(name != null) { @Messages("Update") } else { @Messages("Create") }">
         </div>
     } 
 }

@@ -14,8 +14,10 @@
        
     <blockquote>@nl2br(post.getContent())</blockquote>
     <small>
-        @prettify(post.getCreatedOn()) @if(post.getCreatedBy() != null) {by @partials.userProfile(post.getCreatedBy())}
-        @if(post.getUpdatedBy() != null) {updated @prettify(post.getUpdatedOn()) by @partials.userProfile(post.getUpdatedBy())}
+        @Html(Messages("CreatedOn_By", prettify(post.getCreatedOn()), partials.userProfile(post.getCreatedBy())))
+    @if(post.getUpdatedBy() != null) {
+        ,@Html(Messages("UpdatedOn_By", prettify(post.getUpdatedOn()), partials.userProfile(post.getUpdatedBy())))
+    }
     </small>
     <br />
     <div class="fb-like" data-href="@selfURL" data-send="false" data-width="550" data-show-faces="true"></div>
@@ -24,7 +26,7 @@
     @if(currentPage.getTotalRowCount == 0) {
         
         <div class="well">
-            <h4>no comments yet, be the first one:</h4>
+            <h4>@Messages("no_comments_yet")</h4>
         </div>
         
     } else {
@@ -32,7 +34,7 @@
         <table class="comments table table-striped table-bordered">
             <thead>
                 <tr>
-                    <th class="header">Comments</th>
+                    <th class="header">@Messages("Comments")</th>
                 </tr>
             </thead>
             <tbody>
@@ -41,14 +43,18 @@
                     <td>
                         <blockquote> @nl2br(comment.getContent()) </blockquote>
                         <br/>
-                        @prettify(comment.getCreatedOn()) @if(comment.getCreatedBy() != null) {by @partials.userProfile(comment.getCreatedBy())} 
-                        @if(comment.getUpdatedBy() != null) {updated @prettify(comment.getUpdatedOn()) by @partials.userProfile(comment.getUpdatedBy())}
-                @deadboltPattern("models.Comment.edit." + comment.getKey()) {
-                        <a class="btn btn-mini" href="@routes.PostController.editCommentForm(post.getKey(), comment.getKey())">edit</a>
-                }
-                @deadboltPattern("models.Comment.delete." + comment.getKey()) {
-                        <a class="btn btn-mini btn-danger" href="@routes.PostController.deleteComment(post.getKey(), comment.getKey())">delete</a>
-                }
+                        <small>
+                        @Html(Messages("CreatedOn_By", prettify(comment.getCreatedOn()), partials.userProfile(comment.getCreatedBy())))
+                    @if(comment.getUpdatedBy() != null) {
+                        ,@Html(Messages("UpdatedOn_By", prettify(comment.getUpdatedOn()), partials.userProfile(comment.getUpdatedBy())))
+                    }
+                        </small>
+                    @deadboltPattern("models.Comment.edit." + comment.getKey()) {
+                        <a class="btn btn-mini" href="@routes.PostController.editCommentForm(post.getKey(), comment.getKey())">@Messages("edit")</a>
+                    }
+                    @deadboltPattern("models.Comment.delete." + comment.getKey()) {
+                        <a class="btn btn-mini btn-danger" href="@routes.PostController.deleteComment(post.getKey(), comment.getKey())">@Messages("delete")</a>
+                    }
                     </td> 
                 </tr>
         }
@@ -59,29 +65,29 @@
             <ul>
                 @if(currentPage.hasPrev) {
                     <li class="prev">
-                        <a href="@routes.PostController.show(post.getKey(), sanitize(post.getTitle()), currentPage.getPageIndex - 1)">&larr; Previous</a>
+                        <a href="@routes.PostController.show(post.getKey(), sanitize(post.getTitle()), currentPage.getPageIndex - 1)">&larr; @Messages("Previous")</a>
                     </li>
                 } else {
                     <li class="prev disabled">
-                        <a>&larr; Previous</a>
+                        <a>&larr; @Messages("Previous")</a>
                     </li>
                 }
                 <li class="current">
-                    <a>Displaying @currentPage.getDisplayXtoYofZ(" to "," of ")</a>
+                    <a>@paging(currentPage)</a>
                 </li>
                 @if(currentPage.hasNext) {
                     <li class="next">
-                        <a href="@routes.PostController.show(post.getKey(), sanitize(post.getTitle()), currentPage.getPageIndex + 1)">Next &rarr;</a>
+                        <a href="@routes.PostController.show(post.getKey(), sanitize(post.getTitle()), currentPage.getPageIndex + 1)">@Messages("Next")" &rarr;</a>
                     </li>
                 } else {
                     <li class="next disabled">
-                        <a>Next &rarr;</a>
+                        <a>@Messages("Next") &rarr;</a>
                     </li>
                 }
             </ul>
         </div>
         
-        <h4>drop your comment:</h4>
+        <h4>@Messages("drop_your_comment")</h4>
     }
     
     @if(user == null) {
@@ -98,10 +104,10 @@
     
         @form(if(commentKey != null) { routes.PostController.updateComment(post.getKey(), commentKey) } 
               else                   { routes.PostController.createComment(post.getKey(), post.getTitle()) }) { 
-            @textarea(commentForm("content"))
+            @textarea(commentForm("content"), args = '_label -> Messages("Comment.content.label"))
             <div>
-               <input type="submit" value="@if(commentKey != null) { Update } else { Post }">
-               as @partials.userProfile(user)
+               <input type="submit" value="@if(commentKey != null) { @Messages("Update") } else { @Messages("Post") }">
+               @Html(Messages("as_profile", partials.userProfile(user)))
             </div>
         }
 

@@ -1,17 +1,17 @@
 @(key: Long, postForm: Form[Post], user: models.User)
 @import helper._ 
 @import helper.twitterBootstrap._
-@main(if(key != null) "update post" else "new post") {
+@main(if(key != null) Messages("update_post") else Messages("new_post")) {
         
-	<h3>@if(key != null) { Update a } else { Add a new } post</h3>
+	<h3>@if(key != null) { @Messages("update_post_detail") } else { @Messages("new_post_detail") } </h3>
 
     @form(if(key != null) { routes.PostController.update(postForm.get().getKey()) } 
           else            { routes.PostController.create() }) { 
-        @inputText(postForm("title"))
-        @textarea(postForm("content"))
+        @inputText(postForm("title"), args = '_label -> Messages("Post.title.label"))
+        @textarea(postForm("content"), args = '_label -> Messages("Post.content.label"))
         <div>
-           <input type="submit" class="btn btn-success" value="@if(key != null) { Update } else { Post }">
-           as @partials.userProfile(user)
+            <input type="submit" class="btn btn-success" value="@if(key != null) { @Messages("Update") } else { @Messages("Post") }">
+            @Html(Messages("as_profile", partials.userProfile(user)))
         </div>
     } 
 }
