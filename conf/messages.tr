@@ -2,6 +2,7 @@ Page_title={0} - PublicPlay
 Brand_title=PublicPlay / {0}
 Welcome=Hoşgeldin {0}!
 Project_definition=PublicPlay <a href="http://github.com/playframework/play">Play Framework</a> ile geliştirilmiş basit bir forum uygulamasıdır. Yeni bir Play uygulamasına başlamak isteyenler için taslak olarak düşünülmüştür. <br/> Keyfini çıkarın!
+home=giriş
 Access_failed=Erişim hatası
 Access_failed_detail=Anlaşılan buraya erişim hakkınız yok
 Go_back=Geri dön
@@ -51,7 +52,7 @@ CreatedOn_By={0} {1} yazdı
 UpdatedOn_By={0} {1} güncelledi
 
 # SocialUser
-user_information=Kullanıcı bilgileri
+user_information=kullanıcı bilgileri
 User_Details=Kullanıcı detayları
 SocialUser.User_Id=Kullanici no
 SocialUser.Logged_in_from=Giriş yapılan yer 
