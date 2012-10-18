@@ -1,41 +1,50 @@
 @(currentPage: Page[Post], topDayPage: Page[Post], topWeekPage: Page[Post], topAllPage: Page[Post], user: models.User)
 
 @main(Messages("home")) {
-<div class="container-fluid">
-	<div class="row-fluid">
-	    <div class="span12">
-	
-		    <h2>@Html(Messages("Welcome", partials.userProfile(user))) </h2> 
+<div class="container">
+	<div class="row">
+	    <div class="span10">
+		    <h3>@Html(Messages("Welcome", partials.userProfile(user))) </h3> 
 		    @if(user != null) {<p><a class="btn" href="@socialauth.controllers.routes.SocialLogin.logout()">@Messages("Logout")</a> </p>}
-		    <p>@Html(Messages("Project_definition"))</p>
+		    <p class="visible-desktop">@Html(Messages("Project_definition"))</p>
 		    
 			@if(user == null) {
 		    <br/>
 				@***** no user in context *****@
 				@partials.login()
 			}
-			
+        </div>
+    </div><!-- row -->
+    
+    <div class="row hidden-phone">
+        <div class="span11">
 			<hr/>
-			
-			<div class="row-fluid">
+        </div>
+    </div><!-- row -->
+    
+    <div class="row">
+        <div class="span11">
+			<div class="row-fluid show-grid">
 			    <div class="span7">
 					@partials.postList(currentPage)
 				</div>
-			    <div id="top-div" class="span4">
+			    <div class="span4" id="top-div">
 					<!-- Top lists -->
+					<h4>@Messages("Top_posts")</h4>
 					<ul id="top-tab" class="nav nav-tabs" data-spy="scroll" data-target="#top-div">
-			  			<li class="active"><a data-toggle="tab" href="#top_day">@Messages("Daily_Top10")</a></li>
+			  			<li class="active">
+			  			    <a data-toggle="tab" href="#top_day">@Messages("Daily_Top10")</a></li>
 			  			<li><a data-toggle="tab" href="#top_week">@Messages("Weekly_Top10")</a></li>
 			  			<li><a data-toggle="tab" href="#top_all">@Messages("Overall_Top10")</a></li>
 					</ul>
 		            <div class="tab-content">
-		              	<div class="tab-pane fade in active" id="top_day">@partials.postTopList(topDayPage)</div>
-		              	<div class="tab-pane fade" id="top_week">@partials.postTopList(topWeekPage)</div>
-		              	<div class="tab-pane fade" id="top_all">@partials.postTopList(topAllPage)</div>
+		              	<div id="top_day"  class="tab-pane fade in active">@partials.postTopList(topDayPage)</div>
+		              	<div id="top_week" class="tab-pane fade">@partials.postTopList(topWeekPage)</div>
+		              	<div id="top_all"  class="tab-pane fade">@partials.postTopList(topAllPage)</div>
 					</div>
 				</div>
 			</div>
-		</div>
-	</div>
-</div>
+        </div>
+    </div> <!-- row -->
+</div><!-- container -->
 }

@@ -5,10 +5,9 @@
 @import be.objectify.deadbolt.utils.TemplateUtils._
 @import views.html.security._
 
-	<h3>@Messages("Post_num", currentPage.getTotalRowCount)</h3>
-	
-	<h4><a href="@routes.PostController.newForm">@Messages("Create_new_post")</a></h4>
+<h4><a href="@routes.PostController.newForm">@Messages("Create_new_post")</a></h4>
     
+<div class="hidden-phone">
     @if(currentPage.getTotalRowCount == 0) {
         
         <div class="well">
@@ -75,3 +74,4 @@
     </div>
     
     }
+</div>

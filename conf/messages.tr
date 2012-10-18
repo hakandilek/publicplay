@@ -19,9 +19,10 @@ Logout=Çıkış
 displaying_num_of_num_pages={1} sayfadan {0}. görüntüleniyor
 as_profile={0} olarak
 login_with_facebook=Facebook ile giriş yapın
-Daily_Top10=Günün favorileri
-Weekly_Top10=Haftanın favorileri
-Overall_Top10=En beğenilenler
+Top_posts=En beğenilenler
+Daily_Top10=Bugün
+Weekly_Top10=Bu hafta
+Overall_Top10=Her zaman
 
 # Post
 update_post=başlığı düzenle

@@ -18,9 +18,10 @@ Logout=Logout
 displaying_num_of_num_pages=Displaying {0} of {1} pages
 as_profile=as {0} 
 login_with_facebook=Login with Facebook
-Daily_Top10=Daily Top10
-Weekly_Top10=Weekly Top10
-Overall_Top10=Overall Top10
+Top_posts=Top Posts
+Daily_Top10=Daily
+Weekly_Top10=Weekly
+Overall_Top10=Overall
 
 # Post
 update_post=update post

@@ -11,7 +11,7 @@ header h1 {
 
 section#main {
     position: relative;
-    padding: 5em 2em;
+    padding: 3em 2em;
     border-bottom: 1px solid #ccc;
     min-height: 600px;
 } 
