@@ -14,10 +14,10 @@ Those are some features of PublicPlay:
 
  * unit testing
  * logging 
- * <del> theming </del>
  * caching 
  * pagination
  * Facebook login with [social auth](http://code.google.com/p/socialauth)
- * <del> Facebook comments (posted comments appear on facebook) </del>
  * Facebook like
  * Rating posts (users can rate posts)
+ * <del> theming </del>
+ * <del> Facebook comments (posted comments appear on facebook) </del>
