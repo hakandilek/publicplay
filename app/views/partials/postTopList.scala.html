@@ -16,8 +16,10 @@
         @for(post <- currentPage.getList) {
             <tr>
                 <td>
+                    <strong class="pull-right" data-key="rate-@post.getKey()" >@post.getRating()</strong>
+                </td>
+                <td class="noborder-left">
                 	<a href="@routes.PostController.show(post.getKey(), sanitize(post.getTitle()))">@post.getTitle()</a>
-                	<strong class="rating spaced" data-key="rate-@post.getKey()" >(@post.getRating())</strong>
                	</td>
             </tr>
         }

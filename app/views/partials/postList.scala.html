@@ -17,22 +17,25 @@
     <table class="posts table table-striped table-bordered">
         <thead>
             <tr>
-                <th class="header">@Messages("Posts")</th>
+                <th class="header" colspan="2">@Messages("Posts")</th>
             </tr>
         </thead>
         <tbody>
         @for(post <- currentPage.getList) {
             <tr>
-                <td>
-                	<a href="@routes.PostController.show(post.getKey(), sanitize(post.getTitle()))">@post.getTitle()</a>
-                	<strong class="rating spaced" data-key="rate-@post.getKey()" >(@post.getRating())</strong>
+                <td id="rating-col">
+                    <strong data-key="rate-@post.getKey()" >@post.getRating()</strong>
+                    <br/>
                     <a class="rate spaced" data-key="rate-@post.getKey()" href="#" data-href="@routes.PostController.rateUp(post.getKey())"><i class="icon-thumbs-up"></i></a>
                     <a class="rate spaced" data-key="rate-@post.getKey()" href="#" data-href="@routes.PostController.rateDown(post.getKey())"><i class="icon-thumbs-down"></i></a>
+                </td>
+                <td class="noborder-left">
+                	<a href="@routes.PostController.show(post.getKey(), sanitize(post.getTitle()))">@post.getTitle()</a>
                	</td>
             </tr>
             <tr>
-                <td>
-                    <blockquote>@nl2br(post.getContent())</blockquote>
+                <td colspan="2" class="noborder-top">
+                    <blockquote class="noleft">@nl2br(post.getContent())</blockquote>
                 </td>
             </tr>
         }
