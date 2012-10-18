@@ -2,8 +2,6 @@
 @import helper._ 
 @import helper.twitterBootstrap._
 @import helper.H._
-@import be.objectify.deadbolt.utils.TemplateUtils._
-@import views.html.security._
 
 <h4><a href="@routes.PostController.newForm">@Messages("Create_new_post")</a></h4>
     
@@ -30,12 +28,6 @@
                 	<strong class="rating spaced" data-key="rate-@post.getKey()" >(@post.getRating())</strong>
                     <a class="rate spaced" data-key="rate-@post.getKey()" href="#" data-href="@routes.PostController.rateUp(post.getKey())"><i class="icon-thumbs-up"></i></a>
                     <a class="rate spaced" data-key="rate-@post.getKey()" href="#" data-href="@routes.PostController.rateDown(post.getKey())"><i class="icon-thumbs-down"></i></a>
-                @restrictCombine(la(as("admin")), "models.Post.delete." + post.getKey()) {
-                    <a class="btn btn-mini btn-danger pull-right spaced" href="@routes.PostController.delete(post.getKey())">@Messages("delete")</a>
-                }
-                @restrictCombine(la(as("admin")), "models.Post.edit." + post.getKey()) {
-                    <a class="btn btn-mini pull-right spaced" href="@routes.PostController.editForm(post.getKey())">@Messages("edit")</a>
-                }
                	</td>
             </tr>
             <tr>

@@ -3,6 +3,8 @@
 @import helper.twitterBootstrap._
 @import helper.H._
 @import be.objectify.deadbolt.views.html._
+@import be.objectify.deadbolt.utils.TemplateUtils._
+@import views.html.security._
 
 @main(post.getTitle()) {
     <p class="lead">
@@ -19,6 +21,12 @@
         ,@Html(Messages("UpdatedOn_By", prettify(post.getUpdatedOn()), partials.userProfile(post.getUpdatedBy())))
     }
     </small>
+    @restrictCombine(la(as("admin")), "models.Post.delete." + post.getKey()) {
+        <a class="btn btn-mini btn-danger pull-right spaced" href="@routes.PostController.delete(post.getKey())">@Messages("delete")</a>
+    }
+    @restrictCombine(la(as("admin")), "models.Post.edit." + post.getKey()) {
+        <a class="btn btn-mini pull-right spaced" href="@routes.PostController.editForm(post.getKey())">@Messages("edit")</a>
+    }
     <br />
     <div class="fb-like" data-href="@selfURL" data-send="false" data-width="550" data-show-faces="true"></div>
     
