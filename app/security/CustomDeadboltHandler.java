@@ -5,6 +5,7 @@ import models.User;
 import play.Logger;
 import play.Logger.ALogger;
 import play.mvc.Http.Context;
+import play.mvc.Http;
 import play.mvc.Result;
 import utils.HttpUtils;
 import views.html.accessFailed;
@@ -44,7 +45,8 @@ public class CustomDeadboltHandler extends AbstractDeadboltHandler {
 	public Result onAccessFailure(Context ctx, String content) {
 		if (log.isDebugEnabled())
 			log.debug("onAccessFailure() <-");
-		
+		//set HTTP context before redirecting
+		Http.Context.current.set(ctx);
 		return forbidden(accessFailed.render());
 	}
 
