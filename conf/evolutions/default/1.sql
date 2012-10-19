@@ -64,7 +64,9 @@ create table user (
   location                  varchar(255),
   profile_image_url         varchar(255),
   provider                  varchar(255),
+  status                    varchar(1),
   revision                  integer not null,
+  constraint ck_user_status check (status in ('N','S','A')),
   constraint pk_user primary key (key))
 ;
 

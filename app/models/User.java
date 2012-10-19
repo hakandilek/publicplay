@@ -10,6 +10,8 @@ import java.util.Set;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
@@ -27,9 +29,20 @@ import be.objectify.deadbolt.models.Permission;
 import be.objectify.deadbolt.models.Role;
 import be.objectify.deadbolt.models.RoleHolder;
 
+import com.avaje.ebean.annotation.EnumValue;
+
 @Entity
 @SuppressWarnings("serial")
 public class User extends Model implements RoleHolder {
+
+	public enum Status {
+		@EnumValue("N")
+		NEW, 
+		@EnumValue("A")
+		APPROVED, 
+		@EnumValue("S")
+		SUSPENDED,
+	}
 
 	@Id
 	private String key;
@@ -78,6 +91,9 @@ public class User extends Model implements RoleHolder {
 
 	@Basic
 	private String provider;
+	
+    @Enumerated(value=EnumType.STRING)
+    private Status status = Status.NEW;
 	
     @OneToMany(cascade=CascadeType.ALL, mappedBy="createdBy")
     private Set<Post> posts = new HashSet<Post>();
@@ -324,6 +340,14 @@ public class User extends Model implements RoleHolder {
 
 	public List<SecurityRole> getSecurityRoles() {
 		return securityRoles;
+	}
+
+	public Status getStatus() {
+		return status;
+	}
+
+	public void setStatus(Status status) {
+		this.status = status;
 	}
 
 	@Override

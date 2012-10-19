@@ -9,8 +9,8 @@ insert into category (name) values ('category5');
 
 insert into security_role (key, name) values (-1, 'admin');
 
-insert into user (key, original_key, created_on, updated_on, login_count, last_login, first_name, last_name, email, profile_image_url, provider, revision) values ('testuser',           'testKey',   '2012-01-01', '2012-01-01', 1, '2012-01-01', 'Foo',   'Bar',   'foobar@test.com',      'http://static.ak.fbcdn.net/rsrc.php/v2/yL/r/HsTZSDw4avx.gif', 'somewhere', 1);
-insert into user (key, original_key, created_on, updated_on, login_count, last_login, first_name, last_name, email, profile_image_url, provider, revision) values ('facebook::807220003','807220003', '2012-10-11', '2012-10-11', 1, '2012-10-11', 'Hakan', 'Dilek', 'hakan@mailinator.com', 'http://graph.facebook.com/807220003/picture',                 'facebook',  1);
+insert into user (key, original_key, created_on, updated_on, login_count, last_login, first_name, last_name, email, profile_image_url, provider, revision, status) values ('testuser',           'testKey',   '2012-01-01', '2012-01-01', 1, '2012-01-01', 'Foo',   'Bar',   'foobar@test.com',      'http://static.ak.fbcdn.net/rsrc.php/v2/yL/r/HsTZSDw4avx.gif', 'somewhere', 1, 'S');
+insert into user (key, original_key, created_on, updated_on, login_count, last_login, first_name, last_name, email, profile_image_url, provider, revision, status) values ('facebook::807220003','807220003', '2012-10-11', '2012-10-11', 1, '2012-10-11', 'Hakan', 'Dilek', 'hakan@mailinator.com', 'http://graph.facebook.com/807220003/picture',                 'facebook',  1, 'A');
 
 insert into user_security_role (user_key, security_role_key) values ('facebook::807220003', -1);
 
