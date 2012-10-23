@@ -168,10 +168,10 @@ public class User extends Model implements RoleHolder {
 		return find.byId(key);
 	}
 
-	public static void update(String key, User user) {
+	public static void update(User user) {
 		Date now = new Date();
 		user.setUpdatedOn(now);
-		user.update(key);
+		user.update();
 		find.put(user.getKey(), user);
 	}
 
@@ -350,6 +350,18 @@ public class User extends Model implements RoleHolder {
 		this.status = status;
 	}
 
+	public boolean isNew() {
+		return Status.NEW == this.status;
+	}
+	
+	public boolean isApproved() {
+		return Status.APPROVED == this.status;
+	}
+	
+	public boolean isSuspended() {
+		return Status.SUSPENDED == this.status;
+	}
+	
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();

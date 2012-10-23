@@ -1,4 +1,4 @@
-@(modelName: String, key: Object, crudForm: CRUDForm)
+@(modelName: String, key: Object, keyFieldName: String, crudForm: CRUDForm)
 @import helper._ 
 @import helper.twitterBootstrap._
 @main((if(key != null) "update " else "new ") + modelName) {
@@ -7,9 +7,17 @@
     
     @form(if(key != null) { routes.AdminController.update(modelName, crudForm.get().getKey()) } 
           else            { routes.AdminController.create(modelName) }) { 
+        <dl class="dl-horizontal">
         @for(field  <- crudForm.getFieldNames()) {
-	        <dt> @inputText(crudForm(field)) </dt>
+            @if(field.equals(keyFieldName)) {
+            <dt>@keyFieldName</dt>
+            <dd>@key</dd>
+            } else {
+            <dt> @field </dt>
+            <dd> @inputText(crudForm(field), args = '_label -> "") </dd>
+            }
         }
+        </dl>
         <div>
            <input type="submit" class="btn btn-success" value="@if(key != null) { Update } else { Create }">
         </div>

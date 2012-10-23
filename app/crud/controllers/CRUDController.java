@@ -8,7 +8,7 @@ import play.Logger;
 import play.Logger.ALogger;
 import play.mvc.Controller;
 import play.mvc.Result;
-import views.html.crud.*;
+import views.html.crud.index;
 
 public class CRUDController extends Controller {
 

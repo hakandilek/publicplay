@@ -1,26 +1,34 @@
 package controllers;
 
-import be.objectify.deadbolt.actions.Restrict;
-import play.mvc.Result;
-import socialauth.core.Secure;
 import models.Comment;
 import models.Post;
 import models.PostRating;
 import models.PostRatingPK;
 import models.User;
+import play.Logger;
+import play.Logger.ALogger;
+import play.mvc.Result;
+import socialauth.core.Secure;
+import admin.CommentAdminPage;
+import admin.PostAdminPage;
+import admin.PostRatingAdminPage;
+import admin.UserAdminPage;
+import be.objectify.deadbolt.actions.Restrict;
 import crud.controllers.CRUD;
 import crud.controllers.CRUDController;
 
 public class AdminController extends CRUDController {
 
+	private static ALogger log = Logger.of(AdminController.class);
+	
 	private final static AdminController instance = new AdminController();
 
 	public AdminController() {
 		super(new CRUD[] { 
-				new CRUD<Long, Post>(Post.class, Post.find),
-				new CRUD<Long, Comment>(Comment.class, Comment.find),
-				new CRUD<String, User>(User.class, User.find), 
-				new CRUD<PostRatingPK, PostRating>(PostRating.class, PostRating.find), 
+				new CRUD<String, User>(User.class, User.find, new UserAdminPage()),
+				new CRUD<Long, Post>(Post.class, Post.find, new PostAdminPage()),
+				new CRUD<Long, Comment>(Comment.class, Comment.find, new CommentAdminPage()),
+				new CRUD<PostRatingPK, PostRating>(PostRating.class, PostRating.find, new PostRatingAdminPage()),
 		});
 	}
 
@@ -70,5 +78,35 @@ public class AdminController extends CRUDController {
 	@Restrict("admin")
 	public static Result show(String model, String key) {
 		return instance.doShow(model, key);
+	}
+
+	@Secure
+	@Restrict("admin")
+	public static Result userApprove(String key, int page) {
+		if (log.isDebugEnabled())
+			log.debug("userApprove() <-");
+		
+		User user = User.get(key);
+		user.setStatus(User.Status.APPROVED);
+		if (log.isDebugEnabled())
+			log.debug("user : " + user);
+		
+		User.update(user);
+		return list("User", page);
+	}
+
+	@Secure
+	@Restrict("admin")
+	public static Result userSuspend(String key, int page) {
+		if (log.isDebugEnabled())
+			log.debug("userSuspend() <-");
+		
+		User user = User.get(key);
+		user.setStatus(User.Status.SUSPENDED);
+		if (log.isDebugEnabled())
+			log.debug("user : " + user);
+		
+		User.update(user);
+		return list("User", page);
 	}
 }

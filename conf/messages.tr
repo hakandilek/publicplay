@@ -66,8 +66,8 @@ SocialUser.Language=Dili
 SocialUser.Date_of_Birth=Doğum tarihi
 SocialUser.Gender=Cinsiyeti
 SocialUser.Location=Bulunduğu yer
-
 You_must_login_to_perform_this_action=Bu işlem için giriş yapmalısınız
+
 # User
 User_not_found=Kullanıcı bulunamadı
 This_is_you=Bu kendi profiliniz
@@ -81,3 +81,12 @@ User.Date_of_Birth=Doğum tarihi
 User.Gender=Cinsiyeti
 User.Location=Bulunduğ yer
 
+# Admin
+User.key=ID
+User.profile=Profil
+User.lastLogin=Son giriş
+User.loginCount=Giriş
+User.status=Durum
+User.status.SUSPENDED=Askıda
+User.status.NEW=Yeni
+User.status.APPROVED=Onaylı

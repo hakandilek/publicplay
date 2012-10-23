@@ -17,7 +17,7 @@
   
   <logger name="play" level="INFO" />
   <logger name="application" level="INFO" />
-  <logger name="utils" level="DEBUG" />
+  <logger name="utils" level="INFO" />
   <logger name="controllers" level="DEBUG" />
   <logger name="security" level="DEBUG" />
   <logger name="models" level="INFO" />

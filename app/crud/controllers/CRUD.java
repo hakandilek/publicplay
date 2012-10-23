@@ -17,9 +17,6 @@ import play.Logger.ALogger;
 import play.db.ebean.Model;
 import play.db.ebean.Model.Finder;
 import play.mvc.Result;
-import views.html.crud.editForm;
-import views.html.crud.list;
-import views.html.crud.show;
 
 import com.avaje.ebean.Page;
 
@@ -39,9 +36,12 @@ public class CRUD<K extends Serializable, T extends Model> {
 
 	private final Class<T> clazz;
 
-	public CRUD(Class<T> cls, Finder<K, T> find) {
+	private final CRUDPage<K> page;
+
+	public CRUD(Class<T> cls, Finder<K, T> find, CRUDPage<K> page) {
 		super();
 		this.clazz = cls;
+		this.page = page;
 		this.name = cls.getSimpleName();
 		this.find = find;
 		this.fieldNames = new ArrayList<String>();
@@ -65,11 +65,11 @@ public class CRUD<K extends Serializable, T extends Model> {
 			log.debug("list() <-");
 		Page<T> p = find.where().findPagingList(PAGE_SIZE).getPage(page);
 		Page<CRUDModel> metaPage = new MetaPage<T>(p, keyFieldName, fieldNames);
-		return ok(list.render(metaPage, name, keyFieldName, fieldNames));
+		return ok(this.page.renderListPage(metaPage, name, keyFieldName, fieldNames));
 	}
 
 	public Result newForm() {
-		return ok(editForm.render(name, null, form));
+		return ok(this.page.renderEditPage(name, null, keyFieldName, form));
 	}
 
 	public Result editForm(K key) {
@@ -83,7 +83,7 @@ public class CRUD<K extends Serializable, T extends Model> {
 		}
 		final CRUDModel model = new CRUDModel(t, keyFieldName, fieldNames);
 		CRUDForm frm = form.fillForm(model);
-		return ok(editForm.render(name, key, frm));
+		return ok(this.page.renderEditPage(name, key, keyFieldName, frm));
 	}
 
 	public Result create() {
@@ -104,7 +104,7 @@ public class CRUD<K extends Serializable, T extends Model> {
 			if (log.isDebugEnabled())
 				log.debug("validation errors occured");
 			
-			return badRequest(editForm.render(name, key, filledForm));
+			return badRequest(this.page.renderEditPage(name, key, keyFieldName, filledForm));
 		} else {
 			CRUDModel model = filledForm.get();
 			model.update(key);
@@ -119,7 +119,7 @@ public class CRUD<K extends Serializable, T extends Model> {
 		if (t == null) {
 			return notFound();
 		}
-		return ok(show.render(name, new CRUDModel(t, keyFieldName, fieldNames)));
+		return ok(this.page.renderShowPage(name, new CRUDModel(t, keyFieldName, fieldNames)));
 	}
 
 	public Result delete(K key) {
