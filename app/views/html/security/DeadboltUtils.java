@@ -4,6 +4,7 @@ import java.util.List;
 
 import play.mvc.Http;
 import play.mvc.Http.Context;
+import security.Approvable;
 import be.objectify.deadbolt.Deadbolt;
 import be.objectify.deadbolt.DeadboltHandler;
 import be.objectify.deadbolt.PatternType;
@@ -30,8 +31,29 @@ public class DeadboltUtils {
 	public static boolean viewRoleHolderNotPresent() throws Throwable {
 		DeadboltHandler handler = PluginUtils.getHandler();
 		Context ctx = Http.Context.current();
-		RoleHolder roleHolder = RequestUtils.getRoleHolder(
-				handler, ctx);
+		RoleHolder roleHolder = RequestUtils.getRoleHolder(handler, ctx);
 		return roleHolder == null;
+	}
+
+	public static boolean viewRestrictApproved() throws Throwable {
+		DeadboltHandler handler = PluginUtils.getHandler();
+		Context ctx = Http.Context.current();
+		RoleHolder roleHolder = RequestUtils.getRoleHolder(handler, ctx);
+		return isRoleHolderApproved(roleHolder);
+	}
+
+	public static boolean viewRestrictNotApproved() throws Throwable {
+		return !viewRestrictApproved();
+	}
+	
+	public static boolean isRoleHolderApproved(RoleHolder roleHolder) {
+		boolean approved = false;
+		if (roleHolder != null && roleHolder instanceof Approvable) {
+			Approvable approvable = (Approvable) roleHolder;
+
+			if (approvable.isApproved())
+				approved = true;
+		}
+		return approved;
 	}
 }

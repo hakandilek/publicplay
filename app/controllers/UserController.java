@@ -5,6 +5,7 @@ import play.Logger;
 import play.Logger.ALogger;
 import play.mvc.Controller;
 import play.mvc.Result;
+import security.RestrictApproved;
 import socialauth.controllers.SocialLogin;
 import socialauth.core.Secure;
 import socialauth.core.SocialAware;
@@ -17,6 +18,7 @@ public class UserController extends Controller {
 	private static ALogger log = Logger.of(UserController.class);
 	
 	@SocialAware
+	@RestrictApproved
 	public static Result show(String key) {
 		if (log.isDebugEnabled())
 			log.debug("show() <-");

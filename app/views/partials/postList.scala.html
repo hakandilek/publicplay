@@ -2,9 +2,19 @@
 @import helper._ 
 @import helper.twitterBootstrap._
 @import helper.H._
+@import views.html.security._
 
-<h4><a href="@routes.PostController.newForm">@Messages("Create_new_post")</a></h4>
-    
+@restrictApproved() {
+    <h4><a href="@routes.PostController.newForm">@Messages("Create_new_post")</a></h4>
+}
+@restrictNotApproved() {
+	@Messages("Only_registered_and_approved_users")
+    @roleHolderNotPresent(){
+	<br>
+	<h4>@Html(Messages("Login_to_register", partials.login()))</h4>
+	}
+}
+
 <div class="hidden-phone">
     @if(currentPage.getTotalRowCount == 0) {
         

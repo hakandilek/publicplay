@@ -8,6 +8,7 @@ import play.Logger.ALogger;
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
+import security.RestrictApproved;
 import socialauth.core.Secure;
 import views.html.categoryForm;
 import views.html.categoryList;
@@ -23,6 +24,7 @@ public class CategoryController extends Controller implements Constants {
 	 * Display list of categories
 	 */
 	@Secure
+	@RestrictApproved
 	public static Result list() {
 		if (log.isDebugEnabled())
 			log.debug("list <-");
@@ -31,6 +33,7 @@ public class CategoryController extends Controller implements Constants {
 	}
 	
 	@Secure
+	@RestrictApproved
 	public static Result newForm() {
 		if (log.isDebugEnabled())
 			log.debug("newForm() <-");
@@ -39,6 +42,7 @@ public class CategoryController extends Controller implements Constants {
 	}
 
 	@Secure
+	@RestrictApproved
 	public static Result create() {
 		if (log.isDebugEnabled())
 			log.debug("create() <-");
@@ -60,6 +64,7 @@ public class CategoryController extends Controller implements Constants {
 	}
 
 	@Secure
+	@RestrictApproved
 	public static Result editForm(String name) {
 		if (log.isDebugEnabled())
 			log.debug("editForm() <-" + name);
@@ -73,6 +78,7 @@ public class CategoryController extends Controller implements Constants {
 	}
 
 	@Secure
+	@RestrictApproved
 	public static Result update(String name) {
 		if (log.isDebugEnabled())
 			log.debug("update() <-" + name);
@@ -99,6 +105,7 @@ public class CategoryController extends Controller implements Constants {
 	 * Display a category
 	 */
 	@Secure
+	@RestrictApproved
 	public static Result show(String name) {
 		if (log.isDebugEnabled())
 			log.debug("show() <-" + name);
@@ -111,6 +118,7 @@ public class CategoryController extends Controller implements Constants {
 	}
 
 	@Secure
+	@RestrictApproved
 	public static Result delete(String name) {
 		if (log.isDebugEnabled())
 			log.debug("delete() <-" + name);

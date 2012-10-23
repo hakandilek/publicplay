@@ -14,6 +14,7 @@ import security.CommentDeletePermission;
 import security.CommentEditPermission;
 import security.PostDeletePermission;
 import security.PostEditPermission;
+import security.RestrictApproved;
 import security.RestrictCombine;
 import socialauth.core.Secure;
 import socialauth.core.SocialAware;
@@ -57,6 +58,7 @@ public class PostController extends Controller implements Constants {
 	}
 	
 	@Secure
+	@RestrictApproved
 	public static Result newForm() {
 		if (log.isDebugEnabled())
 			log.debug("newForm() <-");
@@ -67,6 +69,7 @@ public class PostController extends Controller implements Constants {
 	}
 
 	@Secure
+	@RestrictApproved
 	public static Result create() {
 		if (log.isDebugEnabled())
 			log.debug("create() <-");
@@ -92,6 +95,7 @@ public class PostController extends Controller implements Constants {
 
 	@Secure
 	@RestrictCombine(roles = "admin", with = PostEditPermission.class)
+	@RestrictApproved
 	public static Result editForm(Long key) {
 		if (log.isDebugEnabled())
 			log.debug("editForm() <-" + key);
@@ -108,6 +112,7 @@ public class PostController extends Controller implements Constants {
 
 	@Secure
 	@RestrictCombine(roles = "admin", with = PostEditPermission.class)
+	@RestrictApproved
 	public static Result update(Long key) {
 		if (log.isDebugEnabled())
 			log.debug("update() <-" + key);
@@ -142,6 +147,7 @@ public class PostController extends Controller implements Constants {
 	 *            Current page number (starts from 0)
 	 */
 	@SocialAware
+	@RestrictApproved
 	public static Result show(Long postKey, String title, int page) {
 		if (log.isDebugEnabled())
 			log.debug("show() <-" + postKey);
@@ -162,6 +168,7 @@ public class PostController extends Controller implements Constants {
 
 	@Secure
 	@RestrictCombine(roles = "admin", with = PostDeletePermission.class)
+	@RestrictApproved
 	public static Result delete(Long key) {
 		if (log.isDebugEnabled())
 			log.debug("delete() <-" + key);
@@ -175,6 +182,7 @@ public class PostController extends Controller implements Constants {
 
 	//Comment stuff
 	@Secure
+	@RestrictApproved
 	public static Result createComment(Long postKey, String title) {
 		if (log.isDebugEnabled())
 			log.debug("createComment() <-" + postKey);
@@ -214,6 +222,7 @@ public class PostController extends Controller implements Constants {
 
 	@Secure
 	@RestrictCombine(roles = "admin", with = CommentEditPermission.class)
+	@RestrictApproved
 	public static Result editCommentForm(Long postKey, Long commentKey) {
 		if (log.isDebugEnabled())
 			log.debug("editCommentForm() <-");
@@ -239,6 +248,7 @@ public class PostController extends Controller implements Constants {
 
 	@Secure
 	@RestrictCombine(roles = "admin", with = CommentEditPermission.class)
+	@RestrictApproved
 	public static Result updateComment(Long postKey, Long commentKey) {
 		if (log.isDebugEnabled())
 			log.debug("updateComment() <-");
@@ -276,6 +286,7 @@ public class PostController extends Controller implements Constants {
 
 	@Secure
 	@RestrictCombine(roles = "admin", with = CommentDeletePermission.class)
+	@RestrictApproved
 	public static Result deleteComment(Long postKey, Long commentKey) {
 		if (log.isDebugEnabled())
 			log.debug("deleteComment() <-");
@@ -302,6 +313,7 @@ public class PostController extends Controller implements Constants {
 	 * rating is done via ajax, therefore return simply the eventual rate sum
 	 */
 	@Secure
+	@RestrictApproved
 	public static Result rateUp(Long key) {
 		if (log.isDebugEnabled())
 			log.debug("rateUp <-" + key);
@@ -309,6 +321,7 @@ public class PostController extends Controller implements Constants {
 	}
 
 	@Secure
+	@RestrictApproved
 	public static Result rateDown(Long key) {
 		if (log.isDebugEnabled())
 			log.debug("rateDown <-" + key);

@@ -8,6 +8,7 @@ import models.User;
 import play.Logger;
 import play.Logger.ALogger;
 import play.mvc.Result;
+import security.RestrictApproved;
 import socialauth.core.Secure;
 import admin.CommentAdminPage;
 import admin.PostAdminPage;
@@ -34,54 +35,63 @@ public class AdminController extends CRUDController {
 
 	@Secure
 	@Restrict("admin")
+	@RestrictApproved
 	public static Result index() {
 		return instance.doIndex();
 	}
 
 	@Secure
 	@Restrict("admin")
+	@RestrictApproved
 	public static Result list(String model, int page) {
 		return instance.doList(model, page);
 	}
 
 	@Secure
 	@Restrict("admin")
+	@RestrictApproved
 	public static Result newForm(String model) {
 		return instance.doNewForm(model);
 	}
 	
 	@Secure
 	@Restrict("admin")
+	@RestrictApproved
 	public static Result create(String model) {
 		return instance.doCreate(model);
 	}
 	
 	@Secure
 	@Restrict("admin")
+	@RestrictApproved
 	public static Result editForm(String model, String key) {
 		return instance.doEditForm(model, key);
 	}
 	
 	@Secure
 	@Restrict("admin")
+	@RestrictApproved
 	public static Result update(String model, String key) {
 		return instance.doUpdate(model, key);
 	}
 	
 	@Secure
 	@Restrict("admin")
+	@RestrictApproved
 	public static Result delete(String model, String key) {
 		return instance.doDelete(model, key);
 	}
 	
 	@Secure
 	@Restrict("admin")
+	@RestrictApproved
 	public static Result show(String model, String key) {
 		return instance.doShow(model, key);
 	}
 
 	@Secure
 	@Restrict("admin")
+	@RestrictApproved
 	public static Result userApprove(String key, int page) {
 		if (log.isDebugEnabled())
 			log.debug("userApprove() <-");
@@ -97,6 +107,7 @@ public class AdminController extends CRUDController {
 
 	@Secure
 	@Restrict("admin")
+	@RestrictApproved
 	public static Result userSuspend(String key, int page) {
 		if (log.isDebugEnabled())
 			log.debug("userSuspend() <-");

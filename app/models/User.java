@@ -23,6 +23,7 @@ import org.brickred.socialauth.util.BirthDate;
 
 import play.db.ebean.Model;
 import play.utils.cache.CachedFinder;
+import security.Approvable;
 import security.EntityPermission;
 import socialauth.core.SocialUser;
 import be.objectify.deadbolt.models.Permission;
@@ -33,7 +34,7 @@ import com.avaje.ebean.annotation.EnumValue;
 
 @Entity
 @SuppressWarnings("serial")
-public class User extends Model implements RoleHolder {
+public class User extends Model implements RoleHolder, Approvable {
 
 	public enum Status {
 		@EnumValue("N")
