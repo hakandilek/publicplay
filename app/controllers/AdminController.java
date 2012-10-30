@@ -1,9 +1,12 @@
 package controllers;
 
+import java.util.UUID;
+
 import models.Comment;
 import models.Post;
 import models.PostRating;
 import models.PostRatingPK;
+import models.S3File;
 import models.User;
 import play.Logger;
 import play.Logger.ALogger;
@@ -13,6 +16,7 @@ import socialauth.core.Secure;
 import admin.CommentAdminPage;
 import admin.PostAdminPage;
 import admin.PostRatingAdminPage;
+import admin.S3FileAdminPage;
 import admin.UserAdminPage;
 import be.objectify.deadbolt.actions.Restrict;
 import crud.controllers.CRUD;
@@ -29,6 +33,7 @@ public class AdminController extends CRUDController {
 				new CRUD<String, User>(User.class, User.find, new UserAdminPage()),
 				new CRUD<Long, Post>(Post.class, Post.find, new PostAdminPage()),
 				new CRUD<Long, Comment>(Comment.class, Comment.find, new CommentAdminPage()),
+				new CRUD<UUID, S3File>(S3File.class, S3File.find, new S3FileAdminPage()),
 				new CRUD<PostRatingPK, PostRating>(PostRating.class, PostRating.find, new PostRatingAdminPage()),
 		});
 	}

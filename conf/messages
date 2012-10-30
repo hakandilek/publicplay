@@ -35,6 +35,12 @@ Login_to_register={0} to register
 Posts=Posts
 Post.title.label=title
 Post.content.label=content
+Post.image.label=image
+Post.image.no_image=no image
+Post.image.select_image=Select image
+Post.image.change_image=Change image
+Post.image.remove_image=Remove image
+
 # Comment
 no_comments_yet=no comments yet, be the first one:
 Comments=Comments

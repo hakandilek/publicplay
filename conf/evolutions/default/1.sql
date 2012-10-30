@@ -26,6 +26,7 @@ create table post (
   rating                    integer,
   created_on                timestamp,
   updated_on                timestamp,
+  image_id                  varchar(40),
   created_by                varchar(255),
   category                  varchar(255),
   updated_by                varchar(255),
@@ -39,6 +40,14 @@ create table post_rating (
   created_on                timestamp,
   updated_on                timestamp,
   constraint pk_post_rating primary key (user_key, post_key))
+;
+
+create table s3file (
+  id                        varchar(40) not null,
+  bucket                    varchar(255),
+  parent                    varchar(255),
+  name                      varchar(255),
+  constraint pk_s3file primary key (id))
 ;
 
 create table security_role (
@@ -94,12 +103,14 @@ alter table comment add constraint fk_comment_createdBy_2 foreign key (created_b
 create index ix_comment_createdBy_2 on comment (created_by);
 alter table comment add constraint fk_comment_updatedBy_3 foreign key (updated_by) references user (key) on delete restrict on update restrict;
 create index ix_comment_updatedBy_3 on comment (updated_by);
-alter table post add constraint fk_post_createdBy_4 foreign key (created_by) references user (key) on delete restrict on update restrict;
-create index ix_post_createdBy_4 on post (created_by);
-alter table post add constraint fk_post_category_5 foreign key (category) references category (name) on delete restrict on update restrict;
-create index ix_post_category_5 on post (category);
-alter table post add constraint fk_post_updatedBy_6 foreign key (updated_by) references user (key) on delete restrict on update restrict;
-create index ix_post_updatedBy_6 on post (updated_by);
+alter table post add constraint fk_post_image_4 foreign key (image_id) references s3file (id) on delete restrict on update restrict;
+create index ix_post_image_4 on post (image_id);
+alter table post add constraint fk_post_createdBy_5 foreign key (created_by) references user (key) on delete restrict on update restrict;
+create index ix_post_createdBy_5 on post (created_by);
+alter table post add constraint fk_post_category_6 foreign key (category) references category (name) on delete restrict on update restrict;
+create index ix_post_category_6 on post (category);
+alter table post add constraint fk_post_updatedBy_7 foreign key (updated_by) references user (key) on delete restrict on update restrict;
+create index ix_post_updatedBy_7 on post (updated_by);
 
 
 
@@ -118,6 +129,8 @@ drop table if exists comment;
 drop table if exists post;
 
 drop table if exists post_rating;
+
+drop table if exists s3file;
 
 drop table if exists security_role;
 

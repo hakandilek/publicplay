@@ -16,6 +16,7 @@
   </appender>
   
   <logger name="play" level="INFO" />
+  <logger name="plugins" level="INFO" />
   <logger name="application" level="INFO" />
   <logger name="utils" level="INFO" />
   <logger name="controllers" level="DEBUG" />

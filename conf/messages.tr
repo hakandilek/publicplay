@@ -38,6 +38,12 @@ Login_to_register=Kayıt olmak için {0}
 Posts=Başlıklar
 Post.title.label=başlık
 Post.content.label=içerik
+Post.image.label=resim
+Post.image.no_image=resim yok
+Post.image.select_image=Resim seç
+Post.image.change_image=Resim değiştir
+Post.image.remove_image=Resmi sil
+
 # Comment
 no_comments_yet=Henüz yorum yapılmamış. İlk yorumu yapın: 
 Comments=Yorumlar

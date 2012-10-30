@@ -6,9 +6,42 @@
 	<h3>@if(key != null) { @Messages("update_post_detail") } else { @Messages("new_post_detail") } </h3>
 
     @form(if(key != null) { routes.PostController.update(postForm.get().getKey()) } 
-          else            { routes.PostController.create() }) { 
+          else            { routes.PostController.create() },
+          'class -> "form-horizontal",
+          'enctype -> "multipart/form-data") {
+        
+        <div class="control-group"> 
         @inputText(postForm("title"), args = '_label -> Messages("Post.title.label"))
+        </div>
+        
+        <div class="control-group">
         @textarea(postForm("content"), args = '_label -> Messages("Post.content.label"))
+        </div>
+        
+        <div class="control-group">
+			<div class="clearfix  " id="content_field">
+			    <label for="image">@Messages("Post.image.label")</label>
+
+				<div class="fileupload fileupload-new" data-provides="fileupload">
+					<div class="fileupload-new thumbnail"
+						style="width: 200px; height: 150px;">
+						<img data-src="holder.js/200x150/#fefef9:#000/text:@Messages("Post.image.no_image")" />
+					</div>
+					<div class="fileupload-preview fileupload-exists thumbnail"
+						style="max-width: 200px; max-height: 150px; line-height: 20px;"></div>
+					<div>
+						<span class="btn btn-file">
+                            <span class="fileupload-new">@Messages("Post.image.select_image")</span>
+							<span class="fileupload-exists">@Messages("Post.image.change_image")</span>
+                            <input type="file" id="image" name="image" />
+						</span> 
+						<a href="#" class="btn fileupload-exists" 
+						      data-dismiss="fileupload">@Messages("Post.image.remove_image")</a>
+					</div>
+				</div>
+			</div>
+        </div>
+         
         <div>
             <input type="submit" class="btn btn-success" value="@if(key != null) { @Messages("Update") } else { @Messages("Post") }">
             @Html(Messages("as_profile", partials.userProfile(user)))

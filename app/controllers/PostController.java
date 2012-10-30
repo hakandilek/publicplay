@@ -4,6 +4,7 @@ import models.Comment;
 import models.Post;
 import models.PostRating;
 import models.PostRatingPK;
+import models.S3File;
 import models.User;
 import play.Logger;
 import play.Logger.ALogger;
@@ -85,9 +86,21 @@ public class PostController extends Controller implements Constants {
 		} else {
 			Post post = filledForm.get();
 			post.setCreatedBy(user);
+			
+			S3File image = HttpUtils.uploadFile(request(), "image");
+			if (log.isDebugEnabled())
+				log.debug("image : " + image);
+			
+			if (image != null) {
+				image.parent = "Post";
+				S3File.create(image);
+				if (log.isDebugEnabled())
+					log.debug("image : " + image);
+				post.setImage(image);
+			}
 			Post.create(post);
 			if (log.isDebugEnabled())
-				log.debug("entity created");
+				log.debug("entity created: " + post);
 			
 			return redirect(routes.HomeController.index());
 		}

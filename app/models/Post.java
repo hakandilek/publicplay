@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Version;
 
 import org.joda.time.DateTime;
@@ -46,6 +47,9 @@ public class Post extends Model {
 
 	@Basic
 	private Date updatedOn;
+
+	@OneToOne()
+	private S3File image;
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "post")
 	private Set<Comment> comments;
@@ -233,6 +237,14 @@ public class Post extends Model {
 
 	public void setCategory(Category category) {
 		this.category = category;
+	}
+
+	public S3File getImage() {
+		return image;
+	}
+
+	public void setImage(S3File image) {
+		this.image = image;
 	}
 
 	@Override
