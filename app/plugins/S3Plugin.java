@@ -13,6 +13,7 @@ import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
+import com.amazonaws.services.s3.model.Region;
 
 public class S3Plugin extends Plugin {
 
@@ -57,7 +58,7 @@ public class S3Plugin extends Plugin {
 					log.debug("bucket exists: " + s3Bucket);
 			} else {
 				log.debug("bucket does not exist: " + s3Bucket);
-				amazonS3.createBucket(s3Bucket);
+				amazonS3.createBucket(s3Bucket, Region.EU_Ireland);
 				log.debug("bucket created: " + s3Bucket);
 			}
 

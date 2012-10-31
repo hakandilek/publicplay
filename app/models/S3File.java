@@ -6,11 +6,13 @@ import java.net.URL;
 import java.util.List;
 import java.util.UUID;
 
+import javax.persistence.Basic;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Transient;
 
 import play.Logger;
+import play.data.validation.Constraints.Required;
 import play.db.ebean.Model;
 import play.utils.cache.CachedFinder;
 import plugins.S3Plugin;
@@ -26,10 +28,13 @@ public class S3File extends Model {
 	@Id
     public UUID id;
 
+	@Required
     private String bucket;
 
+	@Basic
     public String parent;
 
+	@Required
     public String name;
 
     @Transient
@@ -63,7 +68,9 @@ public class S3File extends Model {
 	}
 
     public URL getUrl() throws MalformedURLException {
-        return new URL("https://s3.amazonaws.com/" + bucket + "/" + getActualFileName());
+		StringBuilder sb = new StringBuilder("http://").append(bucket)
+				.append(".s3.amazonaws.com/").append(getActualFileName());
+		return new URL(sb.toString());
     }
 
     private String getActualFileName() {
