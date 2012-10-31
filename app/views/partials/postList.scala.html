@@ -42,7 +42,10 @@
                 <td class="noborder-left">
                 	<a href="@routes.PostController.show(post.getKey(), sanitize(post.getTitle()))">@post.getTitle()</a>
                	</td>
-            </tr>
+				<td rowspan="2">
+				    @partials.image(post.getImage())
+				</td>
+			</tr>
             <tr>
                 <td colspan="2" class="noborder-top">
                     <blockquote class="noleft">@nl2br(post.getContent())</blockquote>

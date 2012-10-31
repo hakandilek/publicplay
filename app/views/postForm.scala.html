@@ -23,19 +23,17 @@
 			    <label for="image">@Messages("Post.image.label")</label>
 
 				<div class="fileupload fileupload-new" data-provides="fileupload">
-					<div class="fileupload-new thumbnail"
-						style="width: 200px; height: 150px;">
-						<img data-src="holder.js/200x150/#fefef9:#000/text:@Messages("Post.image.no_image")" />
+					<div class="fileupload-new thumbnail post-img">
+						<img data-src="holder.js/120x90/#fefef9:#000/text:@Messages("Post.image.no_image")" />
 					</div>
-					<div class="fileupload-preview fileupload-exists thumbnail"
-						style="max-width: 200px; max-height: 150px; line-height: 20px;"></div>
+					<div class="fileupload-preview fileupload-exists thumbnail post-img-preview"></div>
 					<div>
-						<span class="btn btn-file">
+						<span class="btn btn-mini btn-warning btn-file">
                             <span class="fileupload-new">@Messages("Post.image.select_image")</span>
 							<span class="fileupload-exists">@Messages("Post.image.change_image")</span>
                             <input type="file" id="image" name="image" />
 						</span> 
-						<a href="#" class="btn fileupload-exists" 
+						<a href="#" class="btn btn-mini btn-danger fileupload-exists" 
 						      data-dismiss="fileupload">@Messages("Post.image.remove_image")</a>
 					</div>
 				</div>

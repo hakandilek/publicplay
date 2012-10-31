@@ -1,0 +1,11 @@
+@(image: S3File)
+@import helper._ 
+@import helper.twitterBootstrap._
+@import helper.H._
+	<div class="fileupload-preview fileupload-exists thumbnail post-img-preview">
+@if(image == null) {
+	    <img data-src='holder.js/120x90/#fefef9:#000/text:@Messages("Post.image.no_image")' />
+} else {
+        <img src="@image.getUrl()" alt='@Messages("Post.image.label")'/>
+}
+	</div>

@@ -62,3 +62,6 @@ h1 {padding-bottom: 1em; }
 h2 {padding-bottom: 1em; }
 h3 {padding-bottom: 1em; }
 h4 {padding-bottom: 1em; }
+
+.post-img {width: 120px; height: 90px; max-width: 120px; max-height: 90px; line-height: 20px;}
+.post-img-preview {max-width: 120px; max-height: 90px; line-height: 20px;}
