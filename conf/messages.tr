@@ -1,6 +1,8 @@
 Page_title={0} - PublicPlay
-Brand_title=PublicPlay
+Brand_title= - Opensource showcase 
 Welcome=Hoşgeldin {0}!
+
+
 Project_definition=PublicPlay <a href="http://github.com/playframework/play">Play Framework</a> ile geliştirilmiş basit bir forum uygulamasıdır. Yeni bir Play uygulamasına başlamak isteyenler için taslak olarak düşünülmüştür. <br/> Keyfini çıkarın!
 home=Ana sayfa
 Administration=Yönetim
@@ -41,7 +43,7 @@ Post.content.label=içerik
 Post.image.label=resim
 Post.image.no_image=resim yok
 Post.image.select_image=Resim seç
-Post.image.change_image=Resim değiştir
+Post.image.change_image=Resimi değiştir
 Post.image.remove_image=Resmi sil
 
 # Comment
