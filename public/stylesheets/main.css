@@ -46,7 +46,7 @@ section#main .topRight {
 }
 
 .profile { display:inline; }
-.profile img { height: 22px; }
+.profile img { max-height: 22px; max-width: 22px;}
 .spaced {margin-left:6px;}
 
 .table-bordered .noborder { border: 0px none; }

@@ -41,6 +41,9 @@ Post.image.no_image=no image
 Post.image.select_image=Select image
 Post.image.change_image=Change image
 Post.image.remove_image=Remove image
+Post.key=key
+Post.created=Created    
+Post.updated=Updated
 
 # Comment
 no_comments_yet=no comments yet, be the first one:

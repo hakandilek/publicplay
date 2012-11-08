@@ -1,5 +1,7 @@
 package views.html.helper;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
@@ -7,11 +9,11 @@ import java.util.Map;
 
 import org.ocpsoft.prettytime.PrettyTime;
 
-import com.avaje.ebean.Page;
-
 import play.api.templates.Html;
 import play.i18n.Lang;
 import play.i18n.Messages;
+
+import com.avaje.ebean.Page;
 
 /**
  * HTML Utils
@@ -22,6 +24,8 @@ public class H {
 
 	private final static Map<String, PrettyTime> prettyTimes = new HashMap<String, PrettyTime>();
 	private final static PrettyTime prettyTimeDefault = new PrettyTime(Locale.ENGLISH);
+	
+	private final static DateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy HH:mm");
 	
 	static {
 		prettyTimes.put(Locale.ENGLISH.getLanguage(), new PrettyTime(Locale.ENGLISH));
@@ -70,6 +74,20 @@ public class H {
 		if (pt == null)
 			pt = prettyTimeDefault;
 		String s = pt.format(d);
+		return new Html(s);
+	}
+
+	/**
+	 * simplifies the given date using a simple format
+	 * 
+	 * @param d
+	 *            date to show
+	 * @return HTML output
+	 */
+	public static Html simplify(Date d) {
+		if (d == null)
+			return new Html("");
+		String s = simpleDateFormat.format(d);
 		return new Html(s);
 	}
 

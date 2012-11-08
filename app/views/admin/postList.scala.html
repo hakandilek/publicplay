@@ -1,0 +1,67 @@
+@(page: Page[CRUDModel], modelName: String, keyFieldName: String, fieldNames: List[String], user: models.User)
+@import helper._ 
+@import helper.twitterBootstrap._
+@import helper.H._
+
+@main("admin", user) {
+    
+    <h3>@Messages("CRUD admin page")</h3>
+    
+    <h3>@page.getTotalRowCount @modelName (s)</h3>
+    
+    <h4><a href="@routes.AdminController.newForm(modelName)">@Messages("Create new")</a></h4>
+    
+    @if(page.getTotalRowCount == 0) {
+        
+        <div class="well">
+            <em>@Messages("Nothing to display")</em>
+        </div>
+        
+    } else {
+    
+    <table class="posts table table-striped table-bordered">
+        <thead>
+            <tr>
+        @for(fieldName <- fieldNames) {
+                <th class="header">@Messages(fieldName)</th>
+        }
+                <th class="header">@Messages("edit")</th>
+                <th class="header">@Messages("delete")</th>
+            </tr>
+        </thead>
+        <tbody>
+        @for(model <- page.getList) {
+            @defining(model.getModel().asInstanceOf[models.Post]) {post =>
+            <tr>
+                <td><a href="@routes.AdminController.show(modelName, model.getKey())">@string(model.getKey())</a></td>
+                <td class="noborder-left">
+                    <b>@post.getTitle()</b>
+                    <br>
+                    @nl2br(post.getContent())
+                </td>
+                <td>
+                    @simplify(post.getCreatedOn())
+                    <br>
+                    @partials.userProfile(post.getCreatedBy())
+                </td>
+                <td>
+                @if(post.getUpdatedBy() != null) {
+                    @simplify(post.getUpdatedOn())
+                    <br>
+                    @partials.userProfile(post.getUpdatedBy())
+                }
+                </td>
+                <td>
+                    <a href="@routes.AdminController.editForm(modelName, model.getKey())"><i class="icon-edit"></i></a>
+                </td>
+                <td>
+                    <a href="@routes.AdminController.delete(modelName, model.getKey())"><i class="icon-trash"></i></a>
+                </td>
+            </tr>
+            }
+        }
+        </tbody>
+    </table>
+    }
+    
+}
