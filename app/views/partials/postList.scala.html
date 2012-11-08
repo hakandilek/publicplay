@@ -33,8 +33,8 @@
         <tbody>
         @for(post <- currentPage.getList) {
             <tr>
-                <td id="rating-col">
-                    <strong class="pull-right" data-key="rate-@post.getKey()" >@post.getRating()</strong>
+                <td id="rating-col" class="center-horizontal">
+                    <strong class="center-horizontal" data-key="rate-@post.getKey()" >@post.getRating()</strong>
                     <br/>
                     <a class="rate spaced" data-key="rate-@post.getKey()" href="#" data-href="@routes.PostController.rateUp(post.getKey())"><i class="icon-thumbs-up"></i></a>
                     <a class="rate spaced" data-key="rate-@post.getKey()" href="#" data-href="@routes.PostController.rateDown(post.getKey())"><i class="icon-thumbs-down"></i></a>

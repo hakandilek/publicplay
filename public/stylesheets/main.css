@@ -47,7 +47,8 @@ section#main .topRight {
 
 .profile { display:inline; }
 .profile img { max-height: 22px; max-width: 22px;}
-.spaced {margin-left:6px;}
+.spaced {margin-left:3px;}
+.center-horizontal { margin-left:auto; margin-right:auto; text-align:center; }
 
 .table-bordered .noborder { border: 0px none; }
 .table-bordered .noborder-left { border-left: 0px none; }
@@ -56,7 +57,7 @@ section#main .topRight {
 .table-bordered .noborder-bottom { border-bottom: 0px none; }
 
 .noleft { padding-left: 50px; border-left: 0px none; }
-#rating-col {padding: 8px 2px;}
+#rating-col { padding: 8px 6px; text-align:center; }
 
 h1 {padding-bottom: 1em; }
 h2 {padding-bottom: 1em; }
