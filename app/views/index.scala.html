@@ -1,10 +1,9 @@
 @(currentPage: Page[Post], topDayPage: Page[Post], topWeekPage: Page[Post], topAllPage: Page[Post], user: models.User)
 
-@main(Messages("home")) {
+@main(Messages("home"), user) {
 <div class="container-fluid">
 	<div class="row">
 	    <div class="span12">
-		    <h3>@Html(Messages("Welcome", partials.userProfile(user))) </h3> 
 		    <p class="visible-desktop">@Html(Messages("Project_definition"))</p>
         </div>
     </div><!-- row -->

@@ -3,6 +3,7 @@ package controllers;
 import java.util.List;
 
 import models.Category;
+import models.User;
 import play.Logger;
 import play.Logger.ALogger;
 import play.data.Form;
@@ -10,6 +11,7 @@ import play.mvc.Controller;
 import play.mvc.Result;
 import security.RestrictApproved;
 import socialauth.core.Secure;
+import utils.HttpUtils;
 import views.html.categoryForm;
 import views.html.categoryList;
 import views.html.categoryShow;
@@ -28,8 +30,9 @@ public class CategoryController extends Controller implements Constants {
 	public static Result list() {
 		if (log.isDebugEnabled())
 			log.debug("list <-");
+		final User user = HttpUtils.loginUser(ctx());
 		final List<Category> all = Category.all();
-		return ok(categoryList.render(all));
+		return ok(categoryList.render(all, user));
 	}
 	
 	@Secure
@@ -38,7 +41,8 @@ public class CategoryController extends Controller implements Constants {
 		if (log.isDebugEnabled())
 			log.debug("newForm() <-");
 		
-		return ok(categoryForm.render(null, form));
+		User user = HttpUtils.loginUser(ctx());
+		return ok(categoryForm.render(null, form, user));
 	}
 
 	@Secure
@@ -52,7 +56,8 @@ public class CategoryController extends Controller implements Constants {
 			if (log.isDebugEnabled())
 				log.debug("validation errors occured");
 			
-			return badRequest(categoryForm.render(null, filledForm));
+			User user = HttpUtils.loginUser(ctx());
+			return badRequest(categoryForm.render(null, filledForm, user));
 		} else {
 			Category category = filledForm.get();
 			Category.create(category);
@@ -73,8 +78,10 @@ public class CategoryController extends Controller implements Constants {
 		if (log.isDebugEnabled())
 			log.debug("category : " + category);
 		
+		User user = HttpUtils.loginUser(ctx());
+		
 		Form<Category> frm = form.fill(category);
-		return ok(categoryForm.render(name, frm));
+		return ok(categoryForm.render(name, frm, user));
 	}
 
 	@Secure
@@ -88,7 +95,8 @@ public class CategoryController extends Controller implements Constants {
 			if (log.isDebugEnabled())
 				log.debug("validation errors occured");
 			
-			return badRequest(categoryForm.render(name, filledForm));
+			User user = HttpUtils.loginUser(ctx());
+			return badRequest(categoryForm.render(name, filledForm, user));
 		} else {
 			Category category = filledForm.get();
 			if (log.isDebugEnabled())
@@ -114,7 +122,9 @@ public class CategoryController extends Controller implements Constants {
 		if (log.isDebugEnabled())
 			log.debug("category : " + category);
 
-		return ok(categoryShow.render(category));
+		User user = HttpUtils.loginUser(ctx());
+		
+		return ok(categoryShow.render(category, user));
 	}
 
 	@Secure

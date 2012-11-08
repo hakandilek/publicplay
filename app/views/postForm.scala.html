@@ -1,7 +1,8 @@
 @(key: Long, postForm: Form[Post], user: models.User)
 @import helper._ 
 @import helper.twitterBootstrap._
-@main(if(key != null) Messages("update_post") else Messages("new_post")) {
+
+@main(if(key != null) Messages("update_post") else Messages("new_post"), user) {
         
 	<h3>@if(key != null) { @Messages("update_post_detail") } else { @Messages("new_post_detail") } </h3>
 

@@ -14,12 +14,10 @@ import play.Logger.ALogger;
 import play.api.mvc.Call;
 import play.mvc.Controller;
 import play.mvc.Result;
-import socialauth.core.Secure;
 import socialauth.core.SocialUser;
 import socialauth.core.SocialUtils;
 import socialauth.service.SocialUserService;
 import views.html.userLogin;
-import views.html.userInfo;
 
 public class SocialLogin extends Controller {
 	private static ALogger log = Logger.of(SocialLogin.class);
@@ -204,14 +202,6 @@ public class SocialLogin extends Controller {
 		if (log.isDebugEnabled())
 			log.debug("redirecting back to home");
 		return redirect(controllers.routes.HomeController.index());
-	}
-
-	@Secure
-	public static Result info() {
-		final SocialUser user = (SocialUser) ctx().args
-				.get(SocialLogin.USER_KEY);
-		log.info("user info = " + user);
-		return ok(userInfo.render(user));
 	}
 
 }

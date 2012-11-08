@@ -1,8 +1,9 @@
-@(list: List[Category])
+@(list: List[Category], user: models.User)
 @import helper._ 
 @import helper.twitterBootstrap._
 @import helper.H._
-@main(Messages("Categories")) {
+
+@main(Messages("Categories"), user) {
 
 	<h3>@Messages("Category_num", list.size())</h3>
 	

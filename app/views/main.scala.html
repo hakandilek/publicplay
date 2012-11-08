@@ -1,4 +1,4 @@
-@(title: String)(content: Html)
+@(title: String, user: models.User)(content: Html)
 @import be.objectify.deadbolt.views.html._
 @import be.objectify.deadbolt.utils.TemplateUtils._
 <!DOCTYPE html>
@@ -54,14 +54,27 @@
 					<div class="nav-collapse">
 						<!-- .nav, .navbar-search, .navbar-form, etc -->
 						<ul class="nav pull-right">
+						    <!-- home -->
 							<li><a href="@routes.HomeController.index()"><i class="icon-home icon-white"></i>&nbsp;@Messages("home")</a></li>
                         @views.html.security.roleHolderNotPresent(){
+                            <!-- login -->
 							<li><a href="@socialauth.controllers.routes.SocialLogin.authenticate("facebook")"><i class="icon-user icon-white"></i>&nbsp;@Messages("login")</a></li>
                         }
                         @restrict(la(as("admin"))) {
+                            <!-- admin -->
                             <li><a href="@routes.AdminController.index()"><i class="icon-wrench icon-white"></i>&nbsp;@Messages("Administration")</a></li>
                         }
                         @views.html.security.roleHolderPresent(){
+                            @if(user != null) {
+                            <!-- profile -->
+                            <li>
+                                <a href="@controllers.routes.UserController.show(user.getKey())" class="profile">
+                                    <img alt="@user.getProfileImageURL()" src="@user.getProfileImageURL()"  />
+						            @user.getFirstName() @user.getLastName()
+					            </a>
+                            </li>
+                            }
+                            <!-- logout -->
                             <li><a href="@socialauth.controllers.routes.SocialLogin.logout()"><i class="icon-off icon-white"></i>&nbsp;@Messages("Logout")</a></li>
                         }
 						</ul>

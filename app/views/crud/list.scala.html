@@ -1,9 +1,9 @@
-@(page: Page[CRUDModel], modelName: String, keyFieldName: String, fieldNames: List[String])
+@(page: Page[CRUDModel], modelName: String, keyFieldName: String, fieldNames: List[String], user: models.User)
 @import helper._ 
 @import helper.twitterBootstrap._
 @import helper.H._
 
-@main("admin") {
+@main("admin", user) {
     
     <h3>@Messages("CRUD admin page")</h3>
     

@@ -1,7 +1,8 @@
-@(modelName: String, key: Object, keyFieldName: String, crudForm: CRUDForm)
+@(modelName: String, key: Object, keyFieldName: String, crudForm: CRUDForm, user: models.User)
 @import helper._ 
 @import helper.twitterBootstrap._
-@main((if(key != null) "update " else "new ") + modelName) {
+
+@main((if(key != null) "update " else "new ") + modelName, user) {
         
 	<h3>Add a new @modelName</h3>
     

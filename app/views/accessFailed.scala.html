@@ -1,4 +1,5 @@
-@main("Access failed") {
+@(user: models.User)
+@main("Access failed", user) {
     <h3>@Messages("Access_failed")</h3>
     <p>@Messages("Access_failed_detail")<p> 
     <a href="@routes.HomeController.index">@Messages("Go_back")</a>

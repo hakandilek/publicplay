@@ -1,5 +1,6 @@
-@(modelName: String, model: CRUDModel)
-@main("admin") {
+@(modelName: String, model: CRUDModel, user: models.User)
+
+@main("admin", user) {
 
     
 	<div class="page-header">

@@ -3,7 +3,7 @@
 @import be.objectify.deadbolt.utils.TemplateUtils._
 @import helper.H._
 
-@main(Messages("user_information")) {
+@main(Messages("user_information"), user) {
 
     @if(user == null) {
     

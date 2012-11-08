@@ -31,7 +31,7 @@ public class CRUDController extends Controller {
 	protected Result doList(String model, int page) {
 		CRUD<?, ?> crud = models.get(model);
 		if (crud != null) {
-			return crud.list(page);
+			return crud.list(page, ctx());
 		}
 		return notFound(model);
 	}
@@ -39,7 +39,7 @@ public class CRUDController extends Controller {
 	protected Result doNewForm(String model) {
 		CRUD<?, ?> crud = models.get(model);
 		if (crud != null) {
-			return crud.newForm();
+			return crud.newForm(ctx());
 		}
 		return notFound(model);
 	}
@@ -47,7 +47,7 @@ public class CRUDController extends Controller {
 	protected Result doCreate(String model) {
 		CRUD<?, ?> crud = models.get(model);
 		if (crud != null) {
-			return crud.create();
+			return crud.create(ctx());
 		}
 		return notFound(model);
 	}
@@ -57,9 +57,9 @@ public class CRUDController extends Controller {
 		CRUD<? extends Serializable, ?> c = models.get(model);
 		try {
 			Long intKey = Long.getLong(key);
-			return ((CRUD<Long, ?>) c).editForm(intKey);
+			return ((CRUD<Long, ?>) c).editForm(intKey, ctx());
 		} catch (Exception e) {
-			return ((CRUD<String, ?>) c).editForm(key);
+			return ((CRUD<String, ?>) c).editForm(key, ctx());
 		}
 	}
 
@@ -68,9 +68,9 @@ public class CRUDController extends Controller {
 		CRUD<? extends Serializable, ?> c = models.get(model);
 		try {
 			Long intKey = Long.getLong(key);
-			return ((CRUD<Long, ?>) c).update(intKey);
+			return ((CRUD<Long, ?>) c).update(intKey, ctx());
 		} catch (Exception e) {
-			return ((CRUD<String, ?>) c).update(key);
+			return ((CRUD<String, ?>) c).update(key, ctx());
 		}
 	}
 
@@ -79,9 +79,9 @@ public class CRUDController extends Controller {
 		CRUD<? extends Serializable, ?> c = models.get(model);
 		try {
 			Long intKey = Long.getLong(key);
-			return ((CRUD<Long, ?>) c).delete(intKey);
+			return ((CRUD<Long, ?>) c).delete(intKey, ctx());
 		} catch (Exception e) {
-			return ((CRUD<String, ?>) c).delete(key);
+			return ((CRUD<String, ?>) c).delete(key, ctx());
 		}
 	}
 
@@ -90,9 +90,9 @@ public class CRUDController extends Controller {
 		CRUD<? extends Serializable, ?> c = models.get(model);
 		try {
 			Long intKey = Long.getLong(key);
-			return ((CRUD<Long, ?>) c).get(intKey);
+			return ((CRUD<Long, ?>) c).get(intKey, ctx());
 		} catch (Exception e) {
-			return ((CRUD<String, ?>) c).get(key);
+			return ((CRUD<String, ?>) c).get(key, ctx());
 		}
 	}
 

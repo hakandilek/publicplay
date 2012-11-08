@@ -1,10 +1,12 @@
-@(category: Category)
+@(category: Category, user: models.User)
 @import helper._ 
 @import helper.twitterBootstrap._
 @import helper.H._
 
-@main(category.getName()) {
+@main(category.getName(), user) {
+
     <p class="lead">
         @category.getName()
     </p>
+    
 }

@@ -16,6 +16,7 @@ import play.Logger;
 import play.Logger.ALogger;
 import play.db.ebean.Model;
 import play.db.ebean.Model.Finder;
+import play.mvc.Http.Context;
 import play.mvc.Result;
 
 import com.avaje.ebean.Page;
@@ -60,19 +61,19 @@ public class CRUD<K extends Serializable, T extends Model> {
 		return name;
 	}
 
-	public Result list(int page) {
+	public Result list(int page, Context context) {
 		if (log.isDebugEnabled())
 			log.debug("list() <-");
 		Page<T> p = find.where().findPagingList(PAGE_SIZE).getPage(page);
 		Page<CRUDModel> metaPage = new MetaPage<T>(p, keyFieldName, fieldNames);
-		return ok(this.page.renderListPage(metaPage, name, keyFieldName, fieldNames));
+		return ok(this.page.renderListPage(context, name, metaPage, keyFieldName, fieldNames));
 	}
 
-	public Result newForm() {
-		return ok(this.page.renderEditPage(name, null, keyFieldName, form));
+	public Result newForm(Context context) {
+		return ok(this.page.renderEditPage(context, name, null, keyFieldName, form));
 	}
 
-	public Result editForm(K key) {
+	public Result editForm(K key, Context context) {
 		if (log.isDebugEnabled())
 			log.debug("editForm() <-" + key);
 		T t = find.byId(key);
@@ -83,10 +84,10 @@ public class CRUD<K extends Serializable, T extends Model> {
 		}
 		final CRUDModel model = new CRUDModel(t, keyFieldName, fieldNames);
 		CRUDForm frm = form.fillForm(model);
-		return ok(this.page.renderEditPage(name, key, keyFieldName, frm));
+		return ok(this.page.renderEditPage(context, name, key, keyFieldName, frm));
 	}
 
-	public Result create() {
+	public Result create(Context context) {
 		if (log.isDebugEnabled())
 			log.debug("create() <-");
 		CRUDForm createForm = form.bindFromRequest();
@@ -98,13 +99,13 @@ public class CRUD<K extends Serializable, T extends Model> {
 		}
 	}
 
-	public Result update(K key) {
+	public Result update(K key, Context context) {
 		CRUDForm filledForm = form.bindFromRequest();
 		if (filledForm.hasErrors()) {
 			if (log.isDebugEnabled())
 				log.debug("validation errors occured");
 			
-			return badRequest(this.page.renderEditPage(name, key, keyFieldName, filledForm));
+			return badRequest(this.page.renderEditPage(context, name, key, keyFieldName, filledForm));
 		} else {
 			CRUDModel model = filledForm.get();
 			model.update(key);
@@ -112,17 +113,17 @@ public class CRUD<K extends Serializable, T extends Model> {
 		}
 	}
 
-	public Result get(K key) {
+	public Result get(K key, Context context) {
 		if (log.isDebugEnabled())
 			log.debug("get() <-" + key);
 		T t = find.byId(key);
 		if (t == null) {
 			return notFound();
 		}
-		return ok(this.page.renderShowPage(name, new CRUDModel(t, keyFieldName, fieldNames)));
+		return ok(this.page.renderShowPage(context, name, new CRUDModel(t, keyFieldName, fieldNames)));
 	}
 
-	public Result delete(K key) {
+	public Result delete(K key, Context context) {
 		find.ref(key).delete();
 		return redirect(routes.AdminController.list(name, 0));
 	}

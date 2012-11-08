@@ -47,7 +47,8 @@ public class CustomDeadboltHandler extends AbstractDeadboltHandler {
 			log.debug("onAccessFailure() <-");
 		//set HTTP context before redirecting
 		Http.Context.current.set(ctx);
-		return forbidden(accessFailed.render());
+		User user = HttpUtils.loginUser(ctx);
+		return forbidden(accessFailed.render(user));
 	}
 
 }
