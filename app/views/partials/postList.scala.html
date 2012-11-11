@@ -54,7 +54,7 @@
         }
         </tbody>
     </table>
-    
+     @if(currentPage.getTotalRowCount > Constants.POSTS_PER_PAGE) {
     <div id="pagination" class="pagination">
         <ul>
             @if(currentPage.hasPrev) {
@@ -80,6 +80,6 @@
             }
         </ul>
     </div>
-    
+     }
     }
 </div>
