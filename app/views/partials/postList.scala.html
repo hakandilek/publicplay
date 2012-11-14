@@ -42,7 +42,7 @@
                 <td class="noborder-left">
                 	<a href="@routes.PostController.show(post.getKey(), sanitize(post.getTitle()))">@post.getTitle()</a>
                	</td>
-				<td rowspan="2">
+				<td rowspan="2" class="noborder-left">
         			<a href="@routes.PostController.show(post.getKey(), sanitize(post.getTitle()))">@partials.image(post.getImage())</a>
 				</td>
 			</tr>
