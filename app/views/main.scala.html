@@ -61,7 +61,7 @@
 							<li><a href="@routes.HomeController.index()"><i class="icon-home icon-white"></i>&nbsp;@Messages("home")</a></li>
                         @views.html.security.roleHolderNotPresent(){
                             <!-- login -->
-							<li><a href="@socialauth.controllers.routes.SocialLogin.authenticate("facebook")"><i class="icon-user icon-white"></i>&nbsp;@Messages("login")</a></li>
+							<li><a href="@socialauth.controllers.routes.SocialLogin.authenticate("facebook")"><i class="icon-facebook icon-white"></i>&nbsp;@Messages("login")</a></li>
                         }
                         @restrict(la(as("admin"))) {
                             <!-- admin -->
