@@ -43,7 +43,7 @@
                 	<a href="@routes.PostController.show(post.getKey(), sanitize(post.getTitle()))">@post.getTitle()</a>
                	</td>
 				<td rowspan="2">
-				    @partials.image(post.getImage())
+        			<a href="@routes.PostController.show(post.getKey(), sanitize(post.getTitle()))">@partials.image(post.getImage())</a>
 				</td>
 			</tr>
             <tr>
@@ -54,7 +54,7 @@
         }
         </tbody>
     </table>
-    
+     @if(currentPage.getTotalRowCount > Constants.POSTS_PER_PAGE) {
     <div id="pagination" class="pagination">
         <ul>
             @if(currentPage.hasPrev) {
@@ -80,6 +80,6 @@
             }
         </ul>
     </div>
-    
+     }
     }
 </div>
