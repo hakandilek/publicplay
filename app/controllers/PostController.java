@@ -24,6 +24,7 @@ import views.html.index;
 import views.html.postForm;
 import views.html.postShow;
 import views.html.rate;
+import views.html.helper.H;
 
 import com.avaje.ebean.Page;
 
@@ -169,14 +170,10 @@ public class PostController extends Controller implements Constants {
 		if (log.isDebugEnabled())
 			log.debug("post : " + post);
 		
-		String selfUrl = HttpUtils.selfURL();
-		if (log.isDebugEnabled())
-			log.debug("selfUrl : " + selfUrl);
-		
 		User user = HttpUtils.loginUser(ctx());
 
 		final Page<Comment> pg = Comment.page(postKey, page, COMMENTS_PER_PAGE);
-		return ok(postShow.render(post, null, commentForm, selfUrl, user, pg));
+		return ok(postShow.render(post, null, commentForm, user, pg));
 	}
 
 	@Secure
@@ -206,17 +203,13 @@ public class PostController extends Controller implements Constants {
 		
 		User user = HttpUtils.loginUser(ctx());
 		
-		String selfUrl = HttpUtils.selfURL();
-		if (log.isDebugEnabled())
-			log.debug("selfUrl : " + selfUrl);
-		
 		Form<Comment> filledForm = commentForm.bindFromRequest();
 		if (filledForm.hasErrors() || user == null) {
 			if (log.isDebugEnabled())
 				log.debug("validation errors occured");
 			
 			final Page<Comment> pg = Comment.page(postKey, 0, COMMENTS_PER_PAGE);
-			return badRequest(postShow.render(post, null, filledForm, selfUrl, user, pg));
+			return badRequest(postShow.render(post, null, filledForm, user, pg));
 		} else {
 			Comment comment = filledForm.get();
 			comment.setPost(post);
@@ -228,8 +221,8 @@ public class PostController extends Controller implements Constants {
 			if (log.isDebugEnabled())
 				log.debug("comment created");
 			
-			final Page<Comment> pg = Comment.page(postKey, 0, COMMENTS_PER_PAGE);
-			return ok(postShow.render(post, null, commentForm, selfUrl, user, pg));
+			final Long key = post.getKey();
+			return redirect(routes.PostController.show(key, title, 0));
 		}
 	}
 
@@ -248,15 +241,11 @@ public class PostController extends Controller implements Constants {
 		if (log.isDebugEnabled())
 			log.debug("comment : " + comment);
 		
-		String selfUrl = HttpUtils.selfURL();
-		if (log.isDebugEnabled())
-			log.debug("selfUrl : " + selfUrl);
-		
 		User user = HttpUtils.loginUser(ctx());
 
 		Form<Comment> form = commentForm.fill(comment);
 		final Page<Comment> pg = Comment.page(postKey, 0, COMMENTS_PER_PAGE);
-		return ok(postShow.render(post, commentKey, form, selfUrl, user, pg));
+		return ok(postShow.render(post, commentKey, form, user, pg));
 	}
 
 	@Secure
@@ -272,17 +261,13 @@ public class PostController extends Controller implements Constants {
 		
 		User user = HttpUtils.loginUser(ctx());
 		
-		String selfUrl = HttpUtils.selfURL();
-		if (log.isDebugEnabled())
-			log.debug("selfUrl : " + selfUrl);
-		
 		Form<Comment> filledForm = commentForm.bindFromRequest();
 		if (filledForm.hasErrors() || user == null) {
 			if (log.isDebugEnabled())
 				log.debug("validation errors occured");
 			
 			final Page<Comment> pg = Comment.page(postKey, 0, COMMENTS_PER_PAGE);
-			return badRequest(postShow.render(post, commentKey, filledForm, selfUrl, user, pg));
+			return badRequest(postShow.render(post, commentKey, filledForm, user, pg));
 		} else {
 			Comment comment = filledForm.get();
 			comment.setUpdatedBy(user);
@@ -292,8 +277,9 @@ public class PostController extends Controller implements Constants {
 			if (log.isDebugEnabled())
 				log.debug("entity updated");
 			
-			final Page<Comment> pg = Comment.page(postKey, 0, COMMENTS_PER_PAGE);
-			return ok(postShow.render(post, commentKey, commentForm, selfUrl, user, pg));
+			final Long key = post.getKey();
+			final String title = H.sanitize(post.getTitle());
+			return redirect(routes.PostController.show(key, title, 0));
 		}
 	}
 
@@ -312,14 +298,9 @@ public class PostController extends Controller implements Constants {
 		if (log.isDebugEnabled())
 			log.debug("entity deleted");
 		
-		String selfUrl = HttpUtils.selfURL();
-		if (log.isDebugEnabled())
-			log.debug("selfUrl : " + selfUrl);
-		
-		User user = HttpUtils.loginUser(ctx());
-
-		final Page<Comment> pg = Comment.page(postKey, 0, COMMENTS_PER_PAGE);
-		return ok(views.html.postShow.render(post, null, commentForm, selfUrl, user, pg));
+		final Long key = post.getKey();
+		final String title = H.sanitize(post.getTitle());
+		return redirect(routes.PostController.show(key, title, 0));
 	}
 
 	/**

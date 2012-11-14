@@ -1,4 +1,4 @@
-@(post: Post, commentKey:Long, commentForm: Form[Comment], selfURL: String, user: models.User, currentPage: Page[Comment])
+@(post: Post, commentKey:Long, commentForm: Form[Comment], user: models.User, currentPage: Page[Comment])
 @import helper._ 
 @import helper.twitterBootstrap._
 @import helper.H._
@@ -53,7 +53,7 @@
     <div class="row">
         <div class="span12">
             <hr/>
-            <div class="fb-like" data-href="@selfURL" data-send="false" data-width="550" data-show-faces="true"></div>
+            <div class="fb-like" data-href="" data-send="false" data-width="550" data-show-faces="true"></div>
         </div>
     </div>
     
@@ -87,7 +87,7 @@
                     }
                         </small>
                     @deadboltPattern("models.Comment.edit." + comment.getKey()) {
-                        <a class="btn btn-mini" href="@routes.PostController.editCommentForm(post.getKey(), comment.getKey())">@Messages("edit")</a>
+                        <a class="btn btn-mini" href="@routes.PostController.editCommentForm(post.getKey(), comment.getKey())#form">@Messages("edit")</a>
                     }
                     @deadboltPattern("models.Comment.delete." + comment.getKey()) {
                         <a class="btn btn-mini btn-danger" href="@routes.PostController.deleteComment(post.getKey(), comment.getKey())">@Messages("delete")</a>
@@ -98,6 +98,8 @@
             </tbody>
         </table>
         
+     	@if(currentPage.getTotalRowCount > Constants.COMMENTS_PER_PAGE) {
+     	
         <div id="pagination" class="pagination">
             <ul>
                 @if(currentPage.hasPrev) {
@@ -114,7 +116,7 @@
                 </li>
                 @if(currentPage.hasNext) {
                     <li class="next">
-                        <a href="@routes.PostController.show(post.getKey(), sanitize(post.getTitle()), currentPage.getPageIndex + 1)">@Messages("Next")" &rarr;</a>
+                        <a href="@routes.PostController.show(post.getKey(), sanitize(post.getTitle()), currentPage.getPageIndex + 1)">@Messages("Next") &rarr;</a>
                     </li>
                 } else {
                     <li class="next disabled">
@@ -123,6 +125,8 @@
                 }
             </ul>
         </div>
+        
+        }
         
         <h4>@Messages("drop_your_comment")</h4>
     }
@@ -145,7 +149,7 @@
     } else {
     
         @form(if(commentKey != null) { routes.PostController.updateComment(post.getKey(), commentKey) } 
-              else                   { routes.PostController.createComment(post.getKey(), post.getTitle()) }) { 
+              else                   { routes.PostController.createComment(post.getKey(), sanitize(post.getTitle())) } , 'id -> "form") { 
             @textarea(commentForm("content"), args = '_label -> Messages("Comment.content.label"))
             <div>
                <input type="submit" value="@if(commentKey != null) { @Messages("Update") } else { @Messages("Post") }">
