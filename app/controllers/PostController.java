@@ -1,5 +1,7 @@
 package controllers;
 
+import java.util.Set;
+
 import models.Comment;
 import models.Post;
 import models.PostRating;
@@ -51,12 +53,14 @@ public class PostController extends Controller implements Constants {
 			log.debug("page : " + page);
 
 		User user = HttpUtils.loginUser(ctx());
+		final Set<Long> votedPostKeys = user.getVotedPostKeys();
+		
 		Page<Post> topDay = Post.topDayPage();
 		Page<Post> topWeek = Post.topWeekPage();
 		Page<Post> topAll = Post.topAllPage();
 
 		Page<Post> pg = Post.page(page, POSTS_PER_PAGE);
-		return ok(index.render(pg, topDay, topWeek, topAll, user));
+		return ok(index.render(pg, topDay, topWeek, topAll, user, votedPostKeys));
 	}
 	
 	@Secure
@@ -170,9 +174,10 @@ public class PostController extends Controller implements Constants {
 			log.debug("post : " + post);
 		
 		User user = HttpUtils.loginUser(ctx());
+		final Set<Long> votedPostKeys = user.getVotedPostKeys();
 
 		final Page<Comment> pg = Comment.page(postKey, page, COMMENTS_PER_PAGE);
-		return ok(postShow.render(post, null, commentForm, user, pg));
+		return ok(postShow.render(post, null, commentForm, user, pg, votedPostKeys));
 	}
 
 	@Secure
@@ -207,8 +212,10 @@ public class PostController extends Controller implements Constants {
 			if (log.isDebugEnabled())
 				log.debug("validation errors occured");
 			
+			final Set<Long> votedPostKeys = user.getVotedPostKeys();
+
 			final Page<Comment> pg = Comment.page(postKey, 0, COMMENTS_PER_PAGE);
-			return badRequest(postShow.render(post, null, filledForm, user, pg));
+			return badRequest(postShow.render(post, null, filledForm, user, pg, votedPostKeys));
 		} else {
 			Comment comment = filledForm.get();
 			comment.setPost(post);
@@ -241,10 +248,11 @@ public class PostController extends Controller implements Constants {
 			log.debug("comment : " + comment);
 		
 		User user = HttpUtils.loginUser(ctx());
+		final Set<Long> votedPostKeys = user.getVotedPostKeys();
 
 		Form<Comment> form = commentForm.fill(comment);
 		final Page<Comment> pg = Comment.page(postKey, 0, COMMENTS_PER_PAGE);
-		return ok(postShow.render(post, commentKey, form, user, pg));
+		return ok(postShow.render(post, commentKey, form, user, pg, votedPostKeys));
 	}
 
 	@Secure
@@ -264,9 +272,10 @@ public class PostController extends Controller implements Constants {
 		if (filledForm.hasErrors() || user == null) {
 			if (log.isDebugEnabled())
 				log.debug("validation errors occured");
-			
+			final Set<Long> votedPostKeys = user.getVotedPostKeys();
+
 			final Page<Comment> pg = Comment.page(postKey, 0, COMMENTS_PER_PAGE);
-			return badRequest(postShow.render(post, commentKey, filledForm, user, pg));
+			return badRequest(postShow.render(post, commentKey, filledForm, user, pg, votedPostKeys));
 		} else {
 			Comment comment = filledForm.get();
 			comment.setUpdatedBy(user);
@@ -360,6 +369,8 @@ public class PostController extends Controller implements Constants {
 					log.debug("pr.value    : " + ratingBefore);
 				post.setRating(post.getRating() - ratingBefore + rating);
 			}
+			
+			user.resetPostKeyCache();
 			
 			if (log.isDebugEnabled())
 				log.debug("updating post : " + post);

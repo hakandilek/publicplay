@@ -6,6 +6,8 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.TreeSet;
+import java.util.concurrent.Callable;
 
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -23,6 +25,7 @@ import org.brickred.socialauth.util.BirthDate;
 
 import play.db.ebean.Model;
 import play.utils.cache.CachedFinder;
+import play.utils.cache.InterimCache;
 import security.Approvable;
 import security.EntityPermission;
 import socialauth.core.SocialUser;
@@ -107,6 +110,8 @@ public class User extends Model implements RoleHolder, Approvable {
 
 	public static CachedFinder<String, User> find = new CachedFinder<String, User>(
 			String.class, User.class);
+	
+	public static InterimCache<Set<Long>> votedPostKeyCache = new InterimCache<Set<Long>>("VotedPostKeyCache", 600);//10 mins;
 	
 	public User(SocialUser socialUser) {
 		key = socialUser.getUserKey();
@@ -363,6 +368,25 @@ public class User extends Model implements RoleHolder, Approvable {
 		return Status.SUSPENDED == this.status;
 	}
 	
+	public Set<Long> getVotedPostKeys() {
+		final User u = this; 
+		final Set<Long> set = votedPostKeyCache.get("." + key, new Callable<Set<Long>>() {
+			public Set<Long> call() throws Exception {
+				Set<Long> s = new TreeSet<Long>();
+				final List<PostRating> prList = PostRating.get(u);
+				for (PostRating pr : prList) {
+					s.add(pr.getKey().postKey);
+				}
+				return s;
+			}
+		});
+		return set;
+	}
+	
+	public void resetPostKeyCache() {
+		votedPostKeyCache.set("." + key, null);
+	}
+	
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
@@ -371,5 +395,6 @@ public class User extends Model implements RoleHolder, Approvable {
 				.append(", email=").append(getEmail()).append("]");
 		return builder.toString();
 	}
+
 
 }

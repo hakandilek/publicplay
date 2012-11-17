@@ -1,4 +1,4 @@
-@(post: Post, commentKey:Long, commentForm: Form[Comment], user: models.User, currentPage: Page[Comment])
+@(post: Post, commentKey:Long, commentForm: Form[Comment], user: models.User, currentPage: Page[Comment], votedPostKeys:Set[Long])
 @import helper._ 
 @import helper.twitterBootstrap._
 @import helper.H._
@@ -20,7 +20,7 @@
         <div class="span12">
             <p class="lead">
                 <strong class="rating" data-key="rate-@post.getKey()" >@post.getRating()</strong>
-                @partials.rateButtons(post)                    
+                @partials.rateButtons(post, votedPostKeys)                    
             </p>
         </div>
     </div>

@@ -1,6 +1,7 @@
 package models;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Basic;
 import javax.persistence.EmbeddedId;
@@ -32,6 +33,12 @@ public class PostRating extends Model {
 		PostRating rating = find.where().eq("user_key", user.getKey())
 				.eq("post_key", post.getKey()).findUnique();
 		return rating;
+	}
+
+	public static List<PostRating> get(User user) {
+		List<PostRating> ratings = find.where().eq("user_key", user.getKey())
+				.findList();
+		return ratings;
 	}
 
 	public static PostRating get(String userKey, Long postKey) {

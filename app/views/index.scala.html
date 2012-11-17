@@ -1,4 +1,4 @@
-@(currentPage: Page[Post], topDayPage: Page[Post], topWeekPage: Page[Post], topAllPage: Page[Post], user: models.User)
+@(currentPage: Page[Post], topDayPage: Page[Post], topWeekPage: Page[Post], topAllPage: Page[Post], user: models.User, votedPostKeys:Set[Long])
 
 @main(Messages("home"), user) {
 <div class="container-fluid">
@@ -16,7 +16,7 @@
     
     <div class="row-fluid">
 	    <div class="span7">
-			@partials.postList(currentPage)
+			@partials.postList(currentPage, votedPostKeys)
 		</div>
 	    <div class="span5" id="top-div">
 			<!-- Top lists -->

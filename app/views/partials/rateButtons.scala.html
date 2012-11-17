@@ -1,10 +1,15 @@
-@(post: Post) 
+@(post: Post, votedPostKeys:Set[Long]) 
 @import helper._ 
 @import views.html.security._
+@import helper.PostHelper._
 
 @roleHolderPresent() {
+    @if(postIsVoted(post, votedPostKeys)) {
+	<i class="icon-ok"></i>
+    } else {
 	<a class="rate spaced" data-key="rate-@post.getKey()" href="#" data-href="@routes.PostController.rateUp(post.getKey())"><i class="icon-thumbs-up"></i></a>
 	<a class="rate spaced" data-key="rate-@post.getKey()" href="#" data-href="@routes.PostController.rateDown(post.getKey())"><i class="icon-thumbs-down"></i></a>
+	}
 }
 @roleHolderNotPresent() {
 	<a data-toggle="modal" href="#" data-target="#loginModal" class="spaced" data-key="rate-@post.getKey()"><i class="icon-thumbs-up"></i></a>
