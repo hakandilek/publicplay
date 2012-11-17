@@ -26,7 +26,7 @@ $(document).ready(function() {
                         $(elm).hide();
                     $(elm).bind('click', false);
                 });
-    		    $(selRating).html('(' + data + ')');
+    		    $(selRating).html(data);
     		},
     		error:function() {
     		    // failed request;
