@@ -2,7 +2,6 @@
 @import helper._ 
 @import helper.twitterBootstrap._
 @import helper.H._
-@import be.objectify.deadbolt.views.html._
 @import be.objectify.deadbolt.utils.TemplateUtils._
 @import views.html.security._
 
@@ -21,8 +20,7 @@
         <div class="span12">
             <p class="lead">
                 <strong class="rating" data-key="rate-@post.getKey()" >(@post.getRating())</strong>
-                <a class="rate" data-key="rate-@post.getKey()" href="#" data-href="@routes.PostController.rateUp(post.getKey())"><i class="icon-thumbs-up"></i></a>
-                <a class="rate" data-key="rate-@post.getKey()" href="#" data-href="@routes.PostController.rateDown(post.getKey())"><i class="icon-thumbs-down"></i></a>
+                @partials.rateButtons(post)                    
             </p>
         </div>
     </div>
@@ -136,29 +134,21 @@
     <div class="row">
         <div class="span12">
 
-    @if(user == null) {
-    
-    <br/>
-    
-        @***** no user in context *****@
-        <p class="text-warning">
-        You must login to comment.
-        </p>
-        @partials.login()
-        
-    } else {
-    
         @form(if(commentKey != null) { routes.PostController.updateComment(post.getKey(), commentKey) } 
               else                   { routes.PostController.createComment(post.getKey(), sanitize(post.getTitle())) } , 'id -> "form") { 
+            
             @textarea(commentForm("content"), args = '_label -> Messages("Comment.content.label"))
+            
             <div>
+			@roleHolderPresent() {
                <input type="submit" value="@if(commentKey != null) { @Messages("Update") } else { @Messages("Post") }">
                @Html(Messages("as_profile", partials.userProfile(user)))
-            </div>
-        }
-
-    }
+			}
+			@roleHolderNotPresent() {
+               <input type="submit" data-toggle="modal" data-target="#loginModal" value="@if(commentKey != null) { @Messages("Update") } else { @Messages("Post") }">
+			}
         </div>
+       }
     </div>
     
 </div>

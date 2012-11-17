@@ -161,7 +161,6 @@ public class PostController extends Controller implements Constants {
 	 *            Current page number (starts from 0)
 	 */
 	@SocialAware
-	@RestrictApproved
 	public static Result show(Long postKey, String title, int page) {
 		if (log.isDebugEnabled())
 			log.debug("show() <-" + postKey);

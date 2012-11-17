@@ -36,9 +36,8 @@
                 <td id="rating-col" class="center-horizontal">
                     <strong class="center-horizontal" data-key="rate-@post.getKey()" >@post.getRating()</strong>
                     <br/>
-                    <a class="rate spaced" data-key="rate-@post.getKey()" href="#" data-href="@routes.PostController.rateUp(post.getKey())"><i class="icon-thumbs-up"></i></a>
-                    <a class="rate spaced" data-key="rate-@post.getKey()" href="#" data-href="@routes.PostController.rateDown(post.getKey())"><i class="icon-thumbs-down"></i></a>
-                </td>
+                    @partials.rateButtons(post)                    
+				</td>
                 <td class="noborder-left">
                 	<a href="@routes.PostController.show(post.getKey(), sanitize(post.getTitle()))">@post.getTitle()</a>
                	</td>
