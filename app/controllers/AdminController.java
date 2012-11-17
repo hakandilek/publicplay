@@ -18,6 +18,7 @@ import admin.UserAdminPage;
 import be.objectify.deadbolt.actions.Restrict;
 import crud.controllers.CRUD;
 import crud.controllers.CRUDController;
+import crud.controllers.CachedCRUD;
 
 public class AdminController extends CRUDController {
 
@@ -27,10 +28,10 @@ public class AdminController extends CRUDController {
 
 	public AdminController() {
 		super(new CRUD[] { 
-				new CRUD<String, User>(User.class, User.find, new UserAdminPage()),
-				new CRUD<Long, Post>(Post.class, Post.find, new PostAdminPage()),
-				new CRUD<Long, Comment>(Comment.class, Comment.find, new CommentAdminPage()),
-				new CRUD<UUID, S3File>(S3File.class, S3File.find, new S3FileAdminPage()),
+				new CachedCRUD<String, User>(User.class, User.find, new UserAdminPage()),
+				new CachedCRUD<Long, Post>(Post.class, Post.find, new PostAdminPage()),
+				new CachedCRUD<Long, Comment>(Comment.class, Comment.find, new CommentAdminPage()),
+				new CachedCRUD<UUID, S3File>(S3File.class, S3File.find, new S3FileAdminPage()),
 		});
 	}
 
