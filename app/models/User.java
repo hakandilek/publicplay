@@ -16,8 +16,11 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import javax.persistence.Version;
 
 import org.brickred.socialauth.Profile;
@@ -36,6 +39,7 @@ import be.objectify.deadbolt.models.RoleHolder;
 import com.avaje.ebean.annotation.EnumValue;
 
 @Entity
+@Table(name="TBL_USER")
 @SuppressWarnings("serial")
 public class User extends Model implements RoleHolder, Approvable {
 
@@ -105,7 +109,8 @@ public class User extends Model implements RoleHolder, Approvable {
     @OneToMany(cascade=CascadeType.ALL, mappedBy="createdBy")
     private Set<Comment> comments = new HashSet<Comment>();
 
-    @ManyToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@JoinTable(name = "TBL_USER_SECURITY_ROLE", joinColumns = @JoinColumn(name = "user_key"), inverseJoinColumns = @JoinColumn(name = "security_role_key"))
     private List<SecurityRole> securityRoles = new ArrayList<SecurityRole>();
 
 	public static CachedFinder<String, User> find = new CachedFinder<String, User>(

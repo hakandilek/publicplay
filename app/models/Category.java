@@ -7,11 +7,13 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 import play.db.ebean.Model;
 import play.utils.cache.CachedFinder;
 
 @Entity
+@Table(name="TBL_CATEGORY")
 @SuppressWarnings("serial")
 public class Category extends Model {
 

@@ -13,6 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
 import javax.persistence.Version;
 
 import org.joda.time.DateTime;
@@ -25,6 +26,7 @@ import play.utils.cache.InterimCache;
 import com.avaje.ebean.Page;
 
 @Entity
+@Table(name="TBL_POST")
 @SuppressWarnings("serial")
 public class Post extends Model {
 

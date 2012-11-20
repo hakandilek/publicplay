@@ -6,11 +6,13 @@ import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.Table;
 
 import play.data.validation.Constraints.Required;
 import play.db.ebean.Model;
 
 @Entity
+@Table(name="TBL_POST_RATING")
 @SuppressWarnings("serial")
 public class PostRating extends Model {
 
