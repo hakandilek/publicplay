@@ -9,6 +9,7 @@ import java.util.UUID;
 import javax.persistence.Basic;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import play.Logger;
@@ -22,6 +23,7 @@ import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 
 @Entity
+@Table(name="TBL_S3FILE")
 @SuppressWarnings("serial")
 public class S3File extends Model {
 

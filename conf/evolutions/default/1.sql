@@ -3,12 +3,12 @@
 
 # --- !Ups
 
-create table category (
+create table TBL_CATEGORY (
   name                      varchar(255) not null,
-  constraint pk_category primary key (name))
+  constraint pk_TBL_CATEGORY primary key (name))
 ;
 
-create table comment (
+create table TBL_COMMENT (
   key                       bigint not null,
   content                   varchar(255),
   created_on                timestamp,
@@ -16,10 +16,10 @@ create table comment (
   postKey                   bigint,
   created_by                varchar(255),
   updated_by                varchar(255),
-  constraint pk_comment primary key (key))
+  constraint pk_TBL_COMMENT primary key (key))
 ;
 
-create table post (
+create table TBL_POST (
   key                       bigint not null,
   title                     varchar(255),
   content                   varchar(255),
@@ -30,34 +30,34 @@ create table post (
   created_by                varchar(255),
   category                  varchar(255),
   updated_by                varchar(255),
-  constraint pk_post primary key (key))
+  constraint pk_TBL_POST primary key (key))
 ;
 
-create table post_rating (
+create table TBL_POST_RATING (
   user_key                  varchar(255),
   post_key                  bigint,
   value                     integer,
   created_on                timestamp,
   updated_on                timestamp,
-  constraint pk_post_rating primary key (user_key, post_key))
+  constraint pk_TBL_POST_RATING primary key (user_key, post_key))
 ;
 
-create table s3file (
+create table TBL_S3FILE (
   id                        varchar(40) not null,
   bucket                    varchar(255),
   parent                    varchar(255),
   name                      varchar(255),
-  constraint pk_s3file primary key (id))
+  constraint pk_TBL_S3FILE primary key (id))
 ;
 
-create table security_role (
+create table TBL_SECURITY_ROLE (
   key                       bigint not null,
   name                      varchar(50),
-  constraint uq_security_role_name unique (name),
-  constraint pk_security_role primary key (key))
+  constraint uq_TBL_SECURITY_ROLE_name unique (name),
+  constraint pk_TBL_SECURITY_ROLE primary key (key))
 ;
 
-create table user (
+create table TBL_USER (
   key                       varchar(255) not null,
   original_key              varchar(255),
   created_on                timestamp,
@@ -75,80 +75,80 @@ create table user (
   provider                  varchar(255),
   status                    varchar(1),
   revision                  integer not null,
-  constraint ck_user_status check (status in ('N','S','A')),
-  constraint pk_user primary key (key))
+  constraint ck_TBL_USER_status check (status in ('N','S','A')),
+  constraint pk_TBL_USER primary key (key))
 ;
 
 
-create table user_security_role (
+create table TBL_USER_SECURITY_ROLE (
   user_key                       varchar(255) not null,
   security_role_key              bigint not null,
-  constraint pk_user_security_role primary key (user_key, security_role_key))
+  constraint pk_TBL_USER_SECURITY_ROLE primary key (user_key, security_role_key))
 ;
-create sequence category_seq;
+create sequence TBL_CATEGORY_seq;
 
-create sequence comment_seq;
+create sequence TBL_COMMENT_seq;
 
-create sequence post_seq;
+create sequence TBL_POST_seq;
 
-create sequence post_rating_seq;
+create sequence TBL_POST_RATING_seq;
 
-create sequence security_role_seq;
+create sequence TBL_SECURITY_ROLE_seq;
 
-create sequence user_seq;
+create sequence TBL_USER_seq;
 
-alter table comment add constraint fk_comment_post_1 foreign key (postKey) references post (key) on delete restrict on update restrict;
-create index ix_comment_post_1 on comment (postKey);
-alter table comment add constraint fk_comment_createdBy_2 foreign key (created_by) references user (key) on delete restrict on update restrict;
-create index ix_comment_createdBy_2 on comment (created_by);
-alter table comment add constraint fk_comment_updatedBy_3 foreign key (updated_by) references user (key) on delete restrict on update restrict;
-create index ix_comment_updatedBy_3 on comment (updated_by);
-alter table post add constraint fk_post_image_4 foreign key (image_id) references s3file (id) on delete restrict on update restrict;
-create index ix_post_image_4 on post (image_id);
-alter table post add constraint fk_post_createdBy_5 foreign key (created_by) references user (key) on delete restrict on update restrict;
-create index ix_post_createdBy_5 on post (created_by);
-alter table post add constraint fk_post_category_6 foreign key (category) references category (name) on delete restrict on update restrict;
-create index ix_post_category_6 on post (category);
-alter table post add constraint fk_post_updatedBy_7 foreign key (updated_by) references user (key) on delete restrict on update restrict;
-create index ix_post_updatedBy_7 on post (updated_by);
+alter table TBL_COMMENT add constraint fk_TBL_COMMENT_post_1 foreign key (postKey) references TBL_POST (key) on delete restrict on update restrict;
+create index ix_TBL_COMMENT_post_1 on TBL_COMMENT (postKey);
+alter table TBL_COMMENT add constraint fk_TBL_COMMENT_createdBy_2 foreign key (created_by) references TBL_USER (key) on delete restrict on update restrict;
+create index ix_TBL_COMMENT_createdBy_2 on TBL_COMMENT (created_by);
+alter table TBL_COMMENT add constraint fk_TBL_COMMENT_updatedBy_3 foreign key (updated_by) references TBL_USER (key) on delete restrict on update restrict;
+create index ix_TBL_COMMENT_updatedBy_3 on TBL_COMMENT (updated_by);
+alter table TBL_POST add constraint fk_TBL_POST_image_4 foreign key (image_id) references TBL_S3FILE (id) on delete restrict on update restrict;
+create index ix_TBL_POST_image_4 on TBL_POST (image_id);
+alter table TBL_POST add constraint fk_TBL_POST_createdBy_5 foreign key (created_by) references TBL_USER (key) on delete restrict on update restrict;
+create index ix_TBL_POST_createdBy_5 on TBL_POST (created_by);
+alter table TBL_POST add constraint fk_TBL_POST_category_6 foreign key (category) references TBL_CATEGORY (name) on delete restrict on update restrict;
+create index ix_TBL_POST_category_6 on TBL_POST (category);
+alter table TBL_POST add constraint fk_TBL_POST_updatedBy_7 foreign key (updated_by) references TBL_USER (key) on delete restrict on update restrict;
+create index ix_TBL_POST_updatedBy_7 on TBL_POST (updated_by);
 
 
 
-alter table user_security_role add constraint fk_user_security_role_user_01 foreign key (user_key) references user (key) on delete restrict on update restrict;
+alter table TBL_USER_SECURITY_ROLE add constraint fk_TBL_USER_SECURITY_ROLE_TBL_01 foreign key (user_key) references TBL_USER (key) on delete restrict on update restrict;
 
-alter table user_security_role add constraint fk_user_security_role_securit_02 foreign key (security_role_key) references security_role (key) on delete restrict on update restrict;
+alter table TBL_USER_SECURITY_ROLE add constraint fk_TBL_USER_SECURITY_ROLE_TBL_02 foreign key (security_role_key) references TBL_SECURITY_ROLE (key) on delete restrict on update restrict;
 
 # --- !Downs
 
 SET REFERENTIAL_INTEGRITY FALSE;
 
-drop table if exists category;
+drop table if exists TBL_CATEGORY;
 
-drop table if exists comment;
+drop table if exists TBL_COMMENT;
 
-drop table if exists post;
+drop table if exists TBL_POST;
 
-drop table if exists post_rating;
+drop table if exists TBL_POST_RATING;
 
-drop table if exists s3file;
+drop table if exists TBL_S3FILE;
 
-drop table if exists security_role;
+drop table if exists TBL_SECURITY_ROLE;
 
-drop table if exists user;
+drop table if exists TBL_USER;
 
-drop table if exists user_security_role;
+drop table if exists TBL_USER_SECURITY_ROLE;
 
 SET REFERENTIAL_INTEGRITY TRUE;
 
-drop sequence if exists category_seq;
+drop sequence if exists TBL_CATEGORY_seq;
 
-drop sequence if exists comment_seq;
+drop sequence if exists TBL_COMMENT_seq;
 
-drop sequence if exists post_seq;
+drop sequence if exists TBL_POST_seq;
 
-drop sequence if exists post_rating_seq;
+drop sequence if exists TBL_POST_RATING_seq;
 
-drop sequence if exists security_role_seq;
+drop sequence if exists TBL_SECURITY_ROLE_seq;
 
-drop sequence if exists user_seq;
+drop sequence if exists TBL_USER_seq;
 

@@ -6,6 +6,7 @@ import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 import play.data.validation.Constraints.MaxLength;
 import play.data.validation.Constraints.MinLength;
@@ -15,6 +16,7 @@ import play.utils.cache.CachedFinder;
 import be.objectify.deadbolt.models.Role;
 
 @Entity
+@Table(name="TBL_SECURITY_ROLE")
 public class SecurityRole extends Model implements Role {
 
 	/** serial id */

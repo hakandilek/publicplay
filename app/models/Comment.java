@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 import play.data.validation.Constraints.Required;
 import play.db.ebean.Model;
@@ -15,6 +16,7 @@ import com.avaje.ebean.Page;
 import play.utils.cache.CachedFinder;
 
 @Entity
+@Table(name="TBL_COMMENT")
 @SuppressWarnings("serial")
 public class Comment extends Model {
 
