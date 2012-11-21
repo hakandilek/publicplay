@@ -63,8 +63,8 @@ Category_num={0} sınıf
 Create_new_category=Yeni sınıf oluştur
 Category.name.label=isim:
 
-CreatedOn_By={0} {1} yazdı
-UpdatedOn_By={0} {1} güncelledi
+CreatedOn_By={1} {0} yazdı
+UpdatedOn_By={1} {0} güncelledi
 
 # SocialUser
 user_information=kullanıcı bilgileri
