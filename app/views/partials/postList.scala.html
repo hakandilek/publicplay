@@ -33,15 +33,15 @@
         <tbody>
         @for(post <- currentPage.getList) {
             <tr>
-                <td id="rating-col" class="center-horizontal">
+                <td id="rating-col" class="center-horizontal col-post-rate">
                     <strong class="center-horizontal rating" data-key="rate-@post.getKey()" >@post.getRating()</strong>
                     <br/>
                    	@partials.rateButtons(post, votedPostKeys)
 				</td>
-                <td class="noborder-left">
+                <td class="noborder-left col-post-title">
                 	<a href="@routes.PostController.show(post.getKey(), sanitizeURL(post.getTitle()))">@post.getTitle()</a>
                	</td>
-				<td rowspan="2" class="noborder-left">
+				<td rowspan="2" class="noborder-left col-post-image">
         			<a href="@routes.PostController.show(post.getKey(), sanitizeURL(post.getTitle()))">@partials.image(post.getImage())</a>
 				</td>
 			</tr>

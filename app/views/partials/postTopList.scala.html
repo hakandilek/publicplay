@@ -15,10 +15,10 @@
         <tbody>
         @for(post <- currentPage.getList) {
             <tr>
-                <td class="center-horizontal">
+                <td class="center-horizontal col-posttop-rate">
                     <strong class="center-horizontal" data-key="rate-@post.getKey()" >@post.getRating()</strong>
                 </td>
-                <td class="noborder-left">
+                <td class="noborder-left col-posttop-title">
                 	<a href="@routes.PostController.show(post.getKey(), sanitizeURL(post.getTitle()))">@post.getTitle()</a>
                	</td>
             </tr>
