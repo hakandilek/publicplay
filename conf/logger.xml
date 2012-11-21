@@ -20,12 +20,12 @@
   <logger name="application" level="INFO" />
   <logger name="utils" level="INFO" />
   <logger name="controllers" level="DEBUG" />
-  <logger name="security" level="DEBUG" />
+  <logger name="security" level="INFO" />
   <logger name="models" level="INFO" />
   <logger name="crud" level="INFO" />
   <logger name="socialauth" level="INFO" />
   <!-- db logging -->
-  <logger name="com.jolbox.bonecp" level="DEBUG" />
+  <logger name="com.jolbox.bonecp" level="INFO" />
 
   <root level="ERROR">
     <appender-ref ref="STDOUT" />
