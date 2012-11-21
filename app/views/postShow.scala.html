@@ -90,35 +90,9 @@
             </tbody>
         </table>
         
-     	@if(currentPage.getTotalRowCount > Constants.COMMENTS_PER_PAGE) {
-     	
-        <div id="pagination" class="pagination">
-            <ul>
-                @if(currentPage.hasPrev) {
-                    <li class="prev">
-                        <a href="@routes.PostController.show(post.getKey(), sanitizeURL(post.getTitle()), currentPage.getPageIndex - 1)">&larr; @Messages("Previous")</a>
-                    </li>
-                } else {
-                    <li class="prev disabled">
-                        <a>&larr; @Messages("Previous")</a>
-                    </li>
-                }
-                <li class="current">
-                    <a>@paging(currentPage)</a>
-                </li>
-                @if(currentPage.hasNext) {
-                    <li class="next">
-                        <a href="@routes.PostController.show(post.getKey(), sanitizeURL(post.getTitle()), currentPage.getPageIndex + 1)">@Messages("Next") &rarr;</a>
-                    </li>
-                } else {
-                    <li class="next disabled">
-                        <a>@Messages("Next") &rarr;</a>
-                    </li>
-                }
-            </ul>
-        </div>
-        
-        }
+        @partials.pagination(currentPage, Constants.COMMENTS_PER_PAGE, 
+            routes.PostController.show(post.getKey(), sanitizeURL(post.getTitle()), currentPage.getPageIndex - 1),
+            routes.PostController.show(post.getKey(), sanitizeURL(post.getTitle()), currentPage.getPageIndex + 1))
         
         <h4>@Messages("drop_your_comment")</h4>
     }
