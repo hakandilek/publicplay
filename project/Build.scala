@@ -12,7 +12,7 @@ object ApplicationBuild extends Build {
         //prettytime library
         "org.ocpsoft.prettytime" % "prettytime" % "2.0.0-SNAPSHOT",
         //socialauth library
-        "org.brickred" % "socialauth" % "2.3",
+        "org.brickred" % "socialauth" % "3.0",
         "com.restfb" % "restfb" % "1.6.11",
         "play2-cache" % "play2-cache_2.9.1" % "0.3.0-SNAPSHOT",
         "joda-time" % "joda-time"% "2.1",
