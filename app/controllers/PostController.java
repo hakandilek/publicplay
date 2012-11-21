@@ -226,7 +226,7 @@ public class PostController extends Controller implements Constants {
 
 			Comment.create(comment);
 			if (log.isDebugEnabled())
-				log.debug("comment created");
+				log.debug("comment created : " + comment);
 			
 			final Long key = post.getKey();
 			return redirect(routes.PostController.show(key, title, 0));
@@ -247,7 +247,7 @@ public class PostController extends Controller implements Constants {
 		Comment comment = Comment.get(commentKey);
 		if (log.isDebugEnabled())
 			log.debug("comment : " + comment);
-		
+
 		User user = HttpUtils.loginUser(ctx());
 		final Set<Long> votedPostKeys = user == null ? new TreeSet<Long>() : user.getVotedPostKeys();
 
@@ -288,7 +288,7 @@ public class PostController extends Controller implements Constants {
 				log.debug("entity updated");
 			
 			final Long key = post.getKey();
-			final String title = H.sanitize(post.getTitle());
+			final String title = H.sanitizeURL(post.getTitle());
 			return redirect(routes.PostController.show(key, title, 0));
 		}
 	}
@@ -309,7 +309,7 @@ public class PostController extends Controller implements Constants {
 			log.debug("entity deleted");
 		
 		final Long key = post.getKey();
-		final String title = H.sanitize(post.getTitle());
+		final String title = H.sanitizeURL(post.getTitle());
 		return redirect(routes.PostController.show(key, title, 0));
 	}
 

@@ -33,22 +33,6 @@ public class H {
 	}
 
 	/**
-	 * replace NLs in text with HTML br tags
-	 * 
-	 * @param s
-	 *            text to replace
-	 * @return HTML output
-	 */
-	public static Html nl2br(String s) {
-		if (s == null)
-			return new Html("");
-		s = s.replaceAll("\n\r", "<br/>");
-		s = s.replaceAll("\r", "<br/>");
-		s = s.replaceAll("\n", "<br/>");
-		return new Html(s);
-	}
-
-	/**
 	 * textual representation of the given object
 	 * 
 	 * @param s
@@ -95,12 +79,21 @@ public class H {
 	 * Sanitizes and replaces the given text to be used in an URL
 	 * 
 	 * @param s
-	 *            text to replace
-	 * @return HTML output
+	 *            url to sanitize
+	 * @return sanitized URL
 	 */
-	public static String sanitize(String s) {
+	public static String sanitizeURL(String s) {
 		if (s == null)
 			return "";
+		s = s.replaceAll("[\u00df]", "ss");
+		s = s.replaceAll("[\u00E4\u00C4]", "ae");
+		s = s.replaceAll("[\u011E\u011F]", "g");
+		s = s.replaceAll("[\u015E\u015F]", "s");
+		s = s.replaceAll("[\u00C7\u00E7]", "c");
+		s = s.replaceAll("[\u00F6\u00D6]", "o");
+		s = s.replaceAll("[\u00FC\u00DC]", "u");
+		s = s.replaceAll("[\u20AC]", "euro");
+		s = s.replaceAll("[\u0024]", "dollar");
 		s = s.replaceAll("[^A-Za-z0-9]", "_");
 		s = s.toLowerCase(Locale.ENGLISH);
 		return s;

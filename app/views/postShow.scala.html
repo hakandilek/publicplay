@@ -10,9 +10,7 @@
 
     <div class="row">
         <div class="span12">
-		    <p class="lead">
-		        @post.getTitle()
-		    </p>
+		    <p class="lead nl">@post.getTitle()</p>
 	    </div>
     </div>
        
@@ -29,15 +27,12 @@
         <div class="span2">
             @partials.image(post.getImage())
         </div>
-        <div class="span10">
-            <blockquote>
-                @nl2br(post.getContent())
-            </blockquote>
+        <div class="span8">
+            <p class="nl">@post.getContent()</p>
             <small>
-                @Html(Messages("CreatedOn_By", prettify(post.getCreatedOn()), partials.userProfile(post.getCreatedBy())))
-            @if(post.getUpdatedBy() != null) {
-                ,@Html(Messages("UpdatedOn_By", prettify(post.getUpdatedOn()), partials.userProfile(post.getUpdatedBy())))
-            }
+            @if(post.getUpdatedBy() == null) { 
+            @Html(Messages("CreatedOn_By", prettify(post.getCreatedOn()), partials.userProfile(post.getCreatedBy()))) } else { 
+            @Html(Messages("UpdatedOn_By", prettify(post.getUpdatedOn()), partials.userProfile(post.getUpdatedBy()))) }
             </small>
             @restrictCombine(la(as("admin")), "models.Post.delete." + post.getKey()) {
                 <a class="btn btn-mini btn-danger pull-right spaced" href="@routes.PostController.delete(post.getKey())">@Messages("delete")</a>
@@ -76,22 +71,21 @@
         @for(comment <- currentPage.getList.reverse) {
                 <tr>
                     <td>
-                        <blockquote> @nl2br(comment.getContent()) </blockquote>
-                        <br/>
                         <small>
-                        @Html(Messages("CreatedOn_By", prettify(comment.getCreatedOn()), partials.userProfile(comment.getCreatedBy())))
-                    @if(comment.getUpdatedBy() != null) {
-                        ,@Html(Messages("UpdatedOn_By", prettify(comment.getUpdatedOn()), partials.userProfile(comment.getUpdatedBy())))
-                    }
+                        @if(comment.getUpdatedBy() == null) { 
+                        @Html(Messages("CreatedOn_By", prettify(comment.getCreatedOn()), partials.userProfile(comment.getCreatedBy()))) } else { 
+                        @Html(Messages("UpdatedOn_By", prettify(comment.getUpdatedOn()), partials.userProfile(comment.getUpdatedBy()))) }
                         </small>
-                    @deadboltPattern("models.Comment.edit." + comment.getKey()) {
+                        @restrictCombine(la(as("admin")), "models.Comment.edit." + comment.getKey()) {
                         <a class="btn btn-mini" href="@routes.PostController.editCommentForm(post.getKey(), comment.getKey())#form">@Messages("edit")</a>
-                    }
-                    @deadboltPattern("models.Comment.delete." + comment.getKey()) {
+                        }
+                        @restrictCombine(la(as("admin")), "models.Comment.delete." + comment.getKey()) {
                         <a class="btn btn-mini btn-danger" href="@routes.PostController.deleteComment(post.getKey(), comment.getKey())">@Messages("delete")</a>
-                    }
+                        }
                     </td> 
                 </tr>
+
+                <tr><td><p class="nl">@comment.getContent()</p></td></tr>
         }
             </tbody>
         </table>
@@ -102,7 +96,7 @@
             <ul>
                 @if(currentPage.hasPrev) {
                     <li class="prev">
-                        <a href="@routes.PostController.show(post.getKey(), sanitize(post.getTitle()), currentPage.getPageIndex - 1)">&larr; @Messages("Previous")</a>
+                        <a href="@routes.PostController.show(post.getKey(), sanitizeURL(post.getTitle()), currentPage.getPageIndex - 1)">&larr; @Messages("Previous")</a>
                     </li>
                 } else {
                     <li class="prev disabled">
@@ -114,7 +108,7 @@
                 </li>
                 @if(currentPage.hasNext) {
                     <li class="next">
-                        <a href="@routes.PostController.show(post.getKey(), sanitize(post.getTitle()), currentPage.getPageIndex + 1)">@Messages("Next") &rarr;</a>
+                        <a href="@routes.PostController.show(post.getKey(), sanitizeURL(post.getTitle()), currentPage.getPageIndex + 1)">@Messages("Next") &rarr;</a>
                     </li>
                 } else {
                     <li class="next disabled">
@@ -135,17 +129,17 @@
         <div class="span12">
 
         @form(if(commentKey != null) { routes.PostController.updateComment(post.getKey(), commentKey) } 
-              else                   { routes.PostController.createComment(post.getKey(), sanitize(post.getTitle())) } , 'id -> "form") { 
+              else                   { routes.PostController.createComment(post.getKey(), sanitizeURL(post.getTitle())) } , 'id -> "form") { 
             
             @textarea(commentForm("content"), args = '_label -> Messages("Comment.content.label"))
             
             <div>
 			@roleHolderPresent() {
-               <input type="submit" value="@if(commentKey != null) { @Messages("Update") } else { @Messages("Post") }">
+               <input type="submit" class="btn btn-success" value="@if(commentKey != null) { @Messages("Update") } else { @Messages("Post") }">
                @Html(Messages("as_profile", partials.userProfile(user)))
 			}
 			@roleHolderNotPresent() {
-               <input type="submit" data-toggle="modal" data-target="#loginModal" value="@if(commentKey != null) { @Messages("Update") } else { @Messages("Post") }">
+               <input type="submit" class="btn btn-success" data-toggle="modal" data-target="#loginModal" value="@if(commentKey != null) { @Messages("Update") } else { @Messages("Post") }">
 			}
         </div>
        }

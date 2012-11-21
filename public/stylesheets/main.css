@@ -74,3 +74,6 @@ h4 {padding-bottom: 1em; }
 .icon-larger {
   font-size: 1.6666em;
 }
+
+/* preserve new lines in text*/ 
+.nl { white-space: pre-line; }

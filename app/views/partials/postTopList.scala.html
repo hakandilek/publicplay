@@ -19,7 +19,7 @@
                     <strong class="center-horizontal" data-key="rate-@post.getKey()" >@post.getRating()</strong>
                 </td>
                 <td class="noborder-left">
-                	<a href="@routes.PostController.show(post.getKey(), sanitize(post.getTitle()))">@post.getTitle()</a>
+                	<a href="@routes.PostController.show(post.getKey(), sanitizeURL(post.getTitle()))">@post.getTitle()</a>
                	</td>
             </tr>
         }

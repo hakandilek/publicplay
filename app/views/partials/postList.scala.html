@@ -39,15 +39,15 @@
                    	@partials.rateButtons(post, votedPostKeys)
 				</td>
                 <td class="noborder-left">
-                	<a href="@routes.PostController.show(post.getKey(), sanitize(post.getTitle()))">@post.getTitle()</a>
+                	<a href="@routes.PostController.show(post.getKey(), sanitizeURL(post.getTitle()))">@post.getTitle()</a>
                	</td>
 				<td rowspan="2" class="noborder-left">
-        			<a href="@routes.PostController.show(post.getKey(), sanitize(post.getTitle()))">@partials.image(post.getImage())</a>
+        			<a href="@routes.PostController.show(post.getKey(), sanitizeURL(post.getTitle()))">@partials.image(post.getImage())</a>
 				</td>
 			</tr>
             <tr>
                 <td colspan="2" class="noborder-top">
-                    <blockquote class="noleft">@nl2br(post.getContent())</blockquote>
+                    <p class="noleft nl">@post.getContent()</p>
                 </td>
             </tr>
         }
