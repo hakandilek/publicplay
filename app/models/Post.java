@@ -7,6 +7,7 @@ import java.util.concurrent.Callable;
 
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -36,9 +37,11 @@ public class Post extends Model {
 	private Long key;
 
 	@Required
+	@Column(columnDefinition = "nvarchar(1000)", nullable = true)
 	private String title;
 
 	@Required
+	@Column(columnDefinition = "nvarchar(1000)", nullable = true)
 	private String content;
 
 	@Basic

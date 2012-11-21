@@ -3,6 +3,7 @@ package models;
 import java.util.Date;
 
 import javax.persistence.Basic;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -23,7 +24,8 @@ public class Comment extends Model {
 	@Id
 	private Long key;
 
-	@Required
+    @Required
+    @Column(columnDefinition = "nvarchar(1000)", nullable = true)
 	private String content;
 	
     @Basic
