@@ -13,13 +13,13 @@ public class EntityRequestPermission implements RequestPermission {
 
 	private static ALogger log = Logger.of(EntityRequestPermission.class);
 	
-	private final Pattern findPattern;
+	private final Pattern[] findPatterns;
 	private final Class<?> entity;
 	private final String action;
 
-	public EntityRequestPermission(Pattern findPattern, Class<?> entity,
-			String action) {
-		this.findPattern = findPattern;
+	public EntityRequestPermission(Class<?> entity,
+			String action, Pattern... findPatterns) {
+		this.findPatterns = findPatterns;
 		this.entity = entity;
 		this.action = action;
 	}
@@ -48,10 +48,12 @@ public class EntityRequestPermission implements RequestPermission {
 
 	protected String requiresPermission(Request request) {
 		String path = request.path();
-		Matcher m = findPattern.matcher(path);
-		if (m.find()) {
-		    String val = m.group(1);
-		    return new EntityPermission(entity, action, val).getValue();
+		for (Pattern findPattern : findPatterns) {
+			Matcher m = findPattern.matcher(path);
+			if (m.find()) {
+			    String val = m.group(1);
+			    return new EntityPermission(entity, action, val).getValue();
+			}
 		}
 		return null;
 	}

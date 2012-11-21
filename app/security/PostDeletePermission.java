@@ -7,7 +7,7 @@ import models.Post;
 public class PostDeletePermission  extends EntityRequestPermission {
 
 	public PostDeletePermission() {
-		super(Pattern.compile("/posts/(.*)/delete"), Post.class, "delete");
+		super(Post.class, "delete", Pattern.compile("/posts/(.*)/delete"));
 	}
 
 }

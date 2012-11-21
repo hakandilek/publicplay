@@ -7,7 +7,7 @@ import models.Comment;
 public class CommentDeletePermission extends EntityRequestPermission {
 
 	public CommentDeletePermission() {
-		super(Pattern.compile("/posts/.*/comments/(.*)/delete"), Comment.class, "delete");
+		super(Comment.class, "delete", Pattern.compile("/posts/.*/comments/(.*)/delete"));
 	}
 
 }
