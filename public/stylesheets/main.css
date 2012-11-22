@@ -88,3 +88,5 @@ h4 {padding-bottom: 1em; }
 .col-post-image { min-width: 120px; max-width: 120px; }
 .col-posttop-rate { min-width: 34px; max-width: 34px; }
 .col-posttop-title { min-width: 370px; }
+
+div.fb-like {min-height: 30px; height: 80px; }
