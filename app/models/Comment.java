@@ -25,7 +25,7 @@ public class Comment extends Model {
 	private Long key;
 
     @Required
-    @Column(columnDefinition = "nvarchar(1000)", nullable = true)
+    @Column(length=2048, nullable = true)
 	private String content;
 	
     @Basic

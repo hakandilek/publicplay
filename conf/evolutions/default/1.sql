@@ -10,7 +10,7 @@ create table TBL_CATEGORY (
 
 create table TBL_COMMENT (
   key                       bigint not null,
-  content                   varchar(255),
+  content                   varchar(1024),
   created_on                timestamp,
   updated_on                timestamp,
   postKey                   bigint,
@@ -21,8 +21,8 @@ create table TBL_COMMENT (
 
 create table TBL_POST (
   key                       bigint not null,
-  title                     varchar(255),
-  content                   varchar(255),
+  title                     varchar(512),
+  content                   varchar(2048),
   rating                    integer,
   created_on                timestamp,
   updated_on                timestamp,
