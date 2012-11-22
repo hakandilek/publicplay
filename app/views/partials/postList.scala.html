@@ -1,4 +1,4 @@
-@(currentPage: Page[Post], votedPostKeys:Set[Long])
+@(currentPage: Page[Post], upVotedPostKeys:Set[Long], downVotedPostKeys:Set[Long])
 @import helper._ 
 @import helper.twitterBootstrap._
 @import helper.H._
@@ -36,7 +36,7 @@
                 <td id="rating-col" class="center-horizontal col-post-rate">
                     <strong class="center-horizontal rating" data-key="rate-@post.getKey()" >@post.getRating()</strong>
                     <br/>
-                   	@partials.rateButtons(post, votedPostKeys)
+                   	@partials.rateButtons(post, upVotedPostKeys, downVotedPostKeys)
 				</td>
                 <td class="noborder-left col-post-title">
                 	<a href="@routes.PostController.show(post.getKey(), sanitizeURL(post.getTitle()))">@post.getTitle()</a>

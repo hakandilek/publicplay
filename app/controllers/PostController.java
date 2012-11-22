@@ -54,14 +54,15 @@ public class PostController extends Controller implements Constants {
 			log.debug("page : " + page);
 
 		User user = HttpUtils.loginUser(ctx());		
-		final Set<Long> votedPostKeys = user == null ? new TreeSet<Long>() : user.getVotedPostKeys();
+		final Set<Long> upVotes = user == null ? new TreeSet<Long>() : user.getUpVotedPostKeys();
+		final Set<Long> downVotes = user == null ? new TreeSet<Long>() : user.getDownVotedPostKeys();
 		
 		Page<Post> topDay = Post.topDayPage();
 		Page<Post> topWeek = Post.topWeekPage();
 		Page<Post> topAll = Post.topAllPage();
 
 		Page<Post> pg = Post.page(page, POSTS_PER_PAGE);
-		return ok(index.render(pg, topDay, topWeek, topAll, user, votedPostKeys));
+		return ok(index.render(pg, topDay, topWeek, topAll, user, upVotes, downVotes));
 	}
 	
 	@Secure
@@ -175,10 +176,11 @@ public class PostController extends Controller implements Constants {
 			log.debug("post : " + post);
 		
 		User user = HttpUtils.loginUser(ctx());
-		final Set<Long> votedPostKeys = user == null ? new TreeSet<Long>() : user.getVotedPostKeys();
+		final Set<Long> upVotes = user == null ? new TreeSet<Long>() : user.getUpVotedPostKeys();
+		final Set<Long> downVotes = user == null ? new TreeSet<Long>() : user.getDownVotedPostKeys();
 
 		final Page<Comment> pg = Comment.page(postKey, page, COMMENTS_PER_PAGE);
-		return ok(postShow.render(post, null, commentForm, user, pg, votedPostKeys));
+		return ok(postShow.render(post, null, commentForm, user, pg, upVotes, downVotes));
 	}
 
 	@Secure
@@ -213,10 +215,11 @@ public class PostController extends Controller implements Constants {
 			if (log.isDebugEnabled())
 				log.debug("validation errors occured");
 			
-			final Set<Long> votedPostKeys = user == null ? new TreeSet<Long>() : user.getVotedPostKeys();
+			final Set<Long> upVotes = user == null ? new TreeSet<Long>() : user.getUpVotedPostKeys();
+			final Set<Long> downVotes = user == null ? new TreeSet<Long>() : user.getDownVotedPostKeys();
 
 			final Page<Comment> pg = Comment.page(postKey, 0, COMMENTS_PER_PAGE);
-			return badRequest(postShow.render(post, null, filledForm, user, pg, votedPostKeys));
+			return badRequest(postShow.render(post, null, filledForm, user, pg, upVotes, downVotes));
 		} else {
 			Comment comment = filledForm.get();
 			comment.setPost(post);
@@ -249,11 +252,12 @@ public class PostController extends Controller implements Constants {
 			log.debug("comment : " + comment);
 
 		User user = HttpUtils.loginUser(ctx());
-		final Set<Long> votedPostKeys = user == null ? new TreeSet<Long>() : user.getVotedPostKeys();
+		final Set<Long> upVotes = user == null ? new TreeSet<Long>() : user.getUpVotedPostKeys();
+		final Set<Long> downVotes = user == null ? new TreeSet<Long>() : user.getDownVotedPostKeys();
 
 		Form<Comment> form = commentForm.fill(comment);
 		final Page<Comment> pg = Comment.page(postKey, 0, COMMENTS_PER_PAGE);
-		return ok(postShow.render(post, commentKey, form, user, pg, votedPostKeys));
+		return ok(postShow.render(post, commentKey, form, user, pg, upVotes, downVotes));
 	}
 
 	@Secure
@@ -274,10 +278,11 @@ public class PostController extends Controller implements Constants {
 			if (log.isDebugEnabled())
 				log.debug("validation errors occured");
 			
-			final Set<Long> votedPostKeys = user == null ? new TreeSet<Long>() : user.getVotedPostKeys();
+			final Set<Long> upVotes = user == null ? new TreeSet<Long>() : user.getUpVotedPostKeys();
+			final Set<Long> downVotes = user == null ? new TreeSet<Long>() : user.getDownVotedPostKeys();
 
 			final Page<Comment> pg = Comment.page(postKey, 0, COMMENTS_PER_PAGE);
-			return badRequest(postShow.render(post, commentKey, filledForm, user, pg, votedPostKeys));
+			return badRequest(postShow.render(post, commentKey, filledForm, user, pg, upVotes, downVotes));
 		} else {
 			Comment comment = filledForm.get();
 			comment.setUpdatedBy(user);
@@ -372,7 +377,7 @@ public class PostController extends Controller implements Constants {
 				post.setRating(post.getRating() - ratingBefore + rating);
 			}
 			
-			user.resetPostKeyCache();
+			user.resetVotedPostKeyCache();
 			
 			if (log.isDebugEnabled())
 				log.debug("updating post : " + post);

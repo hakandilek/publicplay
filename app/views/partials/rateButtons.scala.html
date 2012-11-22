@@ -1,17 +1,22 @@
-@(post: Post, votedPostKeys:Set[Long]) 
+@(post: Post, upVotedPostKeys:Set[Long], downVotedPostKeys:Set[Long]) 
 @import helper._ 
 @import views.html.security._
 @import helper.PostHelper._
 
 @roleHolderPresent() {
-    @if(postIsVoted(post, votedPostKeys)) {
-	<i class="icon-ok"></i>
-    } else {
-	<a class="rate spaced" data-key="rate-@post.getKey()" href="#" data-href="@routes.PostController.rateUp(post.getKey())"><i class="icon-thumbs-up"></i></a>
-	<a class="rate spaced" data-key="rate-@post.getKey()" href="#" data-href="@routes.PostController.rateDown(post.getKey())"><i class="icon-thumbs-down"></i></a>
+	@if(postIsVotedUp(post, upVotedPostKeys)) {	 
+       <a class="btn-rate rate disabled" data-key="rate-@post.getKey()" href="javascript:void(0)" data-href="@routes.PostController.rateUp(post.getKey())"> <i class="icon-caret-up rated"></i></a>  
+	} else {
+	   <a class="btn-rate rate" data-key="rate-@post.getKey()" href="javascript:void(0)" data-href="@routes.PostController.rateUp(post.getKey())"> <i class="icon-caret-up unrated"></i></a>  
 	}
+    
+    @if(postIsVotedUp(post, downVotedPostKeys)) {
+       <a class="btn-rate rate disabled" data-key="rate-@post.getKey()" href="javascript:void(0)" data-href="@routes.PostController.rateDown(post.getKey())"> <i class="icon-caret-down rated"></i></a>
+    } else {
+	   <a class="btn-rate rate" data-key="rate-@post.getKey()" href="javascript:void(0)" data-href="@routes.PostController.rateDown(post.getKey())"> <i class="icon-caret-down unrated"></i></a>
+    }
 }
 @roleHolderNotPresent() {
-	<a data-toggle="modal" href="#" data-target="#loginModal" class="spaced" data-key="rate-@post.getKey()"><i class="icon-thumbs-up"></i></a>
-	<a data-toggle="modal" href="#" data-target="#loginModal" class="spaced" data-key="rate-@post.getKey()"><i class="icon-thumbs-down"></i></a>
+	<a data-toggle="modal" href="javascript:void(0)" data-target="#loginModal" class="rate" data-key="rate-@post.getKey()"><i class="icon-caret-up unrated"></i></a>
+	<a data-toggle="modal" href="javascript:void(0)" data-target="#loginModal" class="rate" data-key="rate-@post.getKey()"><i class="icon-caret-down unrated"></i></a>
 }

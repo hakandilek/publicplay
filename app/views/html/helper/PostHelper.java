@@ -6,9 +6,16 @@ import models.Post;
 
 public class PostHelper {
 
-	public static boolean postIsVoted(Post post, Set<Long> votedPostKeys) {
-		if (post != null && votedPostKeys != null) {
-			return votedPostKeys.contains(post.getKey());
+	public static boolean postIsVotedUp(Post post, Set<Long> upVotedPostKeys) {
+		if (post != null && upVotedPostKeys != null) {
+			return upVotedPostKeys.contains(post.getKey());
+		}
+		return false;
+	}
+
+	public static boolean postIsVotedDown(Post post, Set<Long> downVotedPostKeys) {
+		if (post != null && downVotedPostKeys != null) {
+			return downVotedPostKeys.contains(post.getKey());
 		}
 		return false;
 	}

@@ -373,14 +373,14 @@ public class User extends Model implements RoleHolder, Approvable {
 		return Status.SUSPENDED == this.status;
 	}
 	
-	public Set<Long> getVotedPostKeys() {
+	public Set<Long> getUpVotedPostKeys() {
 		final User u = this; 
-		final Set<Long> set = votedPostKeyCache.get("." + key, new Callable<Set<Long>>() {
+		final Set<Long> set = votedPostKeyCache.get(".+" + key, new Callable<Set<Long>>() {
 			public Set<Long> call() throws Exception {
 				Set<Long> s = new TreeSet<Long>();
 				final List<PostRating> prList = PostRating.get(u);
 				for (PostRating pr : prList) {
-					s.add(pr.getKey().postKey);
+					if (pr.getValue() > 0) s.add(pr.getKey().postKey);
 				}
 				return s;
 			}
@@ -388,8 +388,24 @@ public class User extends Model implements RoleHolder, Approvable {
 		return set;
 	}
 	
-	public void resetPostKeyCache() {
-		votedPostKeyCache.set("." + key, null);
+	public Set<Long> getDownVotedPostKeys() {
+		final User u = this; 
+		final Set<Long> set = votedPostKeyCache.get(".-" + key, new Callable<Set<Long>>() {
+			public Set<Long> call() throws Exception {
+				Set<Long> s = new TreeSet<Long>();
+				final List<PostRating> prList = PostRating.get(u);
+				for (PostRating pr : prList) {
+					if (pr.getValue() < 0) s.add(pr.getKey().postKey);
+				}
+				return s;
+			}
+		});
+		return set;
+	}
+	
+	public void resetVotedPostKeyCache() {
+		votedPostKeyCache.set(".+" + key, null);
+		votedPostKeyCache.set(".-" + key, null);
 	}
 	
 	@Override
