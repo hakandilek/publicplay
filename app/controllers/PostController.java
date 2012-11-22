@@ -381,7 +381,7 @@ public class PostController extends Controller implements Constants {
 			
 			if (log.isDebugEnabled())
 				log.debug("updating post : " + post);
-			post.update(postKey);
+			Post.update(postKey, post);
 			if (log.isDebugEnabled())
 				log.debug("post : " + post);
 			
