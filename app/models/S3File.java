@@ -69,10 +69,15 @@ public class S3File extends Model {
 		find.put(newFile.id, newFile);
 	}
 
-    public URL getUrl() throws MalformedURLException {
+    public URL getUrl() {
 		StringBuilder sb = new StringBuilder("http://").append(bucket)
 				.append(".s3.amazonaws.com/").append(getActualFileName());
-		return new URL(sb.toString());
+		try {
+			return new URL(sb.toString());
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+			return null;
+		}
     }
 
     private String getActualFileName() {
@@ -120,7 +125,7 @@ public class S3File extends Model {
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
 		builder.append("S3File [id=").append(id).append(", name=").append(name)
-				.append(", file=").append(file).append("]");
+				.append(", file=").append(file).append(", URL=").append(getUrl()).append("]");
 		return builder.toString();
 	}
 }

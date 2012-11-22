@@ -25,7 +25,11 @@
 
 				<div class="fileupload fileupload-new" data-provides="fileupload">
 					<div class="fileupload-new thumbnail post-img" data-dismiss="fileupload">
+					@if(postForm.get().getImage() == null) {
 						<img data-src="holder.js/120x90/#fefef9:#000/text:@Messages("Post.image.no_image")" />
+					} else {
+                        <img src="@postForm.get().getImage().getUrl()" />
+					}
 					</div>
 					<div class="fileupload-preview fileupload-exists thumbnail post-img-preview"></div>
 					<div>

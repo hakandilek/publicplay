@@ -150,6 +150,19 @@ public class PostController extends Controller implements Constants {
 			Post post = filledForm.get();
 			post.setRating(postData.getRating());
 			post.setUpdatedBy(user);
+
+			S3File image = HttpUtils.uploadFile(request(), "image");
+			if (log.isDebugEnabled())
+				log.debug("image : " + image);
+			
+			if (image != null) {
+				image.parent = "Post";
+				S3File.create(image);
+				if (log.isDebugEnabled())
+					log.debug("image : " + image);
+				post.setImage(image);
+			}
+			
 			if (log.isDebugEnabled())
 				log.debug("post : " + post);
 			Post.update(key, post);
