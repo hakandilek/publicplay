@@ -1,5 +1,7 @@
 package controllers;
 
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -12,6 +14,7 @@ import models.User;
 import play.Logger;
 import play.Logger.ALogger;
 import play.data.Form;
+import play.data.validation.ValidationError;
 import play.mvc.Controller;
 import play.mvc.Result;
 import security.CommentDeletePermission;
@@ -73,7 +76,8 @@ public class PostController extends Controller implements Constants {
 		
 		User user = HttpUtils.loginUser(ctx());
 
-		return ok(postForm.render(null, form, user));
+		S3File image = null;
+		return ok(postForm.render(null, form, user, image));
 	}
 
 	@Secure
@@ -84,19 +88,23 @@ public class PostController extends Controller implements Constants {
 		
 		User user = HttpUtils.loginUser(ctx());
 
+		S3File image = HttpUtils.uploadFile(request(), "image");
+		if (log.isDebugEnabled())
+			log.debug("image : " + image);
+		
 		Form<Post> filledForm = form.bindFromRequest();
 		if (filledForm.hasErrors() || user == null) {
 			if (log.isDebugEnabled())
 				log.debug("validation errors occured");
 			
-			return badRequest(postForm.render(null, filledForm, user));
+			Map<String, List<ValidationError>> errors = filledForm.errors();
+			if (log.isDebugEnabled())
+				log.debug("errors : " + errors);
+			
+			return badRequest(postForm.render(null, filledForm, user, image));
 		} else {
 			Post post = filledForm.get();
 			post.setCreatedBy(user);
-			
-			S3File image = HttpUtils.uploadFile(request(), "image");
-			if (log.isDebugEnabled())
-				log.debug("image : " + image);
 			
 			if (image != null) {
 				image.parent = "Post";
@@ -105,6 +113,7 @@ public class PostController extends Controller implements Constants {
 					log.debug("image : " + image);
 				post.setImage(image);
 			}
+
 			Post.create(post);
 			if (log.isDebugEnabled())
 				log.debug("entity created: " + post);
@@ -124,10 +133,14 @@ public class PostController extends Controller implements Constants {
 		if (log.isDebugEnabled())
 			log.debug("post : " + post);
 		
+		S3File image = post.getImage();
+		if (log.isDebugEnabled())
+			log.debug("image : " + image);
+		
 		User user = HttpUtils.loginUser(ctx());
 		
 		Form<Post> frm = form.fill(post);
-		return ok(postForm.render(key, frm, user));
+		return ok(postForm.render(key, frm, user, image));
 	}
 
 	@Secure
@@ -138,23 +151,32 @@ public class PostController extends Controller implements Constants {
 			log.debug("update() <-" + key);
 		
 		User user = HttpUtils.loginUser(ctx());
+
+		S3File image = HttpUtils.uploadFile(request(), "image");
+		if (log.isDebugEnabled())
+			log.debug("image : " + image);
 		
 		Form<Post> filledForm = form.bindFromRequest();
+		if (log.isDebugEnabled())
+			log.debug("filledForm : " + filledForm);
+		//ignore missing images
+		filledForm.errors().remove("image");
+		
 		if (filledForm.hasErrors() || user == null) {
 			if (log.isDebugEnabled())
 				log.debug("validation errors occured");
 			
-			return badRequest(postForm.render(key, filledForm, user));
+			Map<String, List<ValidationError>> errors = filledForm.errors();
+			if (log.isDebugEnabled())
+				log.debug("errors : " + errors);
+			
+			return badRequest(postForm.render(key, filledForm, user, image));
 		} else {
 			Post postData = Post.get(key);
 			Post post = filledForm.get();
 			post.setRating(postData.getRating());
 			post.setUpdatedBy(user);
 
-			S3File image = HttpUtils.uploadFile(request(), "image");
-			if (log.isDebugEnabled())
-				log.debug("image : " + image);
-			
 			if (image != null) {
 				image.parent = "Post";
 				S3File.create(image);
