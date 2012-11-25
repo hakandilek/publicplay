@@ -25,9 +25,13 @@ public class UserController extends Controller {
 		if (log.isDebugEnabled())
 			log.debug("key : " + key);
 		
+		User user = null;
+		if(null!=key){
+			user=User.get(key);
+		}
+		
 		final SocialUser self = (SocialUser) ctx().args.get(SocialLogin.USER_KEY);
 		
-		User user = HttpUtils.loginUser(ctx());
 		if (log.isDebugEnabled())
 			log.debug("user : " + user);
 		if (user == null) {
