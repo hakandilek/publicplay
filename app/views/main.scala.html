@@ -1,4 +1,4 @@
-@(title: String, user: models.User)(content: Html)
+@(title: String, loggedInUser: models.User)(content: Html)
 @import be.objectify.deadbolt.views.html._
 @import be.objectify.deadbolt.utils.TemplateUtils._
 <!DOCTYPE html>
@@ -70,12 +70,12 @@
                             <li><a href="@routes.AdminController.index()"><i class="icon-wrench icon-white"></i>&nbsp;@Messages("Administration")</a></li>
                         }
                         @views.html.security.roleHolderPresent(){
-                            @if(user != null) {
+                            @if(loggedInUser != null) {
                             <!-- profile -->
                             <li>
-                                <a href="@controllers.routes.UserController.show(user.getKey())" class="profile">
-                                    <img alt="@user.getProfileImageURL()" src="@user.getProfileImageURL()"  />
-						            @user.getFirstName() @user.getLastName()
+                                <a href="@controllers.routes.UserController.show(loggedInUser.getKey())" class="profile">
+                                    <img alt="@loggedInUser.getProfileImageURL()" src="@loggedInUser.getProfileImageURL()"  />
+						            @loggedInUser.getFirstName() @loggedInUser.getLastName()
 					            </a>
                             </li>
                             }
