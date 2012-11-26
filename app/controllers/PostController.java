@@ -105,6 +105,7 @@ public class PostController extends Controller implements Constants {
 		} else {
 			Post post = filledForm.get();
 			post.setCreatedBy(user);
+			post.setCreatorIp(request().remoteAddress());
 			
 			if (image != null) {
 				image.parent = "Post";
@@ -175,7 +176,11 @@ public class PostController extends Controller implements Constants {
 			Post postData = Post.get(key);
 			Post post = filledForm.get();
 			post.setRating(postData.getRating());
+			post.setCreatedBy(postData.getCreatedBy());
+			post.setCreatedOn(postData.getCreatedOn());
+			post.setCreatorIp(postData.getCreatorIp());
 			post.setUpdatedBy(user);
+			post.setModifierIp(request().remoteAddress());
 
 			if (image != null) {
 				image.parent = "Post";
@@ -259,6 +264,8 @@ public class PostController extends Controller implements Constants {
 			Comment comment = filledForm.get();
 			comment.setPost(post);
 			comment.setCreatedBy(user);
+			comment.setCreatorIp(request().remoteAddress());
+
 			if (log.isDebugEnabled())
 				log.debug("comment : " + comment);
 
@@ -319,8 +326,14 @@ public class PostController extends Controller implements Constants {
 			final Page<Comment> pg = Comment.page(postKey, 0, COMMENTS_PER_PAGE);
 			return badRequest(postShow.render(post, commentKey, filledForm, user, pg, upVotes, downVotes));
 		} else {
+			final Comment commentData = Comment.get(commentKey);
 			Comment comment = filledForm.get();
+			comment.setCreatedBy(commentData.getCreatedBy());
+			comment.setCreatedOn(commentData.getCreatedOn());
+			comment.setCreatorIp(commentData.getCreatorIp());
 			comment.setUpdatedBy(user);
+			comment.setModifierIp(request().remoteAddress());
+
 			if (log.isDebugEnabled())
 				log.debug("comment : " + comment);
 			Comment.update(commentKey, comment);

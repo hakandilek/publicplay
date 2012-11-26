@@ -15,7 +15,6 @@ import play.db.ebean.Model;
 
 import com.avaje.ebean.Page;
 
-import play.mvc.Http;
 import play.utils.cache.CachedFinder;
 
 @Entity
@@ -74,7 +73,6 @@ public class Comment extends Model {
 		Date now = new Date();
 		comment.setCreatedOn(now);
 		comment.setUpdatedOn(now);
-		comment.setCreatorIp(Http.Context.current().request().remoteAddress());
 		comment.save();
 		find.put(comment.getKey(), comment);
 		// clean user cache for a backlink update
@@ -100,7 +98,6 @@ public class Comment extends Model {
 	public static void update(Long key, Comment comment) {
 		Date now = new Date();
 		comment.setUpdatedOn(now);
-		comment.setModifierIp(Http.Context.current().request().remoteAddress());
 		comment.update(key);
 		find.put(comment.getKey(), comment);
 		// clean user cache for a backlink update
@@ -177,16 +174,20 @@ public class Comment extends Model {
 		return modifierIp;
 	}
 	
-	private void setModifierIp(String ipToSet) {
+	public void setModifierIp(String ipToSet) {
 		this.modifierIp=ipToSet;
-		
 	}
 
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("Comment [key=").append(key).append(", post=")
-				.append(post == null ? null : post.getKey()).append(", content=").append(content).append("]");
+		builder.append("Comment [key=").append(key).append(", content=")
+				.append(content).append(", createdOn=").append(createdOn)
+				.append(", updatedOn=").append(updatedOn)
+				.append(", creatorIp=").append(creatorIp)
+				.append(", modifierIp=").append(modifierIp).append(", post=")
+				.append(post).append(", createdBy=").append(createdBy)
+				.append(", updatedBy=").append(updatedBy).append("]");
 		return builder.toString();
 	}
 

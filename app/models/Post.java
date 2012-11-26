@@ -21,7 +21,6 @@ import org.joda.time.DateTime;
 
 import play.data.validation.Constraints.Required;
 import play.db.ebean.Model;
-import play.mvc.Http;
 import play.utils.cache.CachedFinder;
 import play.utils.cache.InterimCache;
 
@@ -138,7 +137,6 @@ public class Post extends Model {
 		Date now = new Date();
 		post.setCreatedOn(now);
 		post.setUpdatedOn(now);
-		post.setCreatorIp(Http.Context.current().request().remoteAddress());
 		post.save();
 		find.put(post.getKey(), post);
 		// clean user cache for a backlink update
@@ -164,7 +162,6 @@ public class Post extends Model {
 	public static void update(Long key, Post post) {
 		Date now = new Date();
 		post.setUpdatedOn(now);
-		post.setModifierIp(Http.Context.current().request().remoteAddress());
 		post.update(key);
 		find.put(post.getKey(), post);
 		// clean user cache for a backlink update
@@ -273,17 +270,23 @@ public class Post extends Model {
 		return modifierIp;
 	}
 	
-	private void setModifierIp(String ipToSet) {
+	public void setModifierIp(String ipToSet) {
 		this.modifierIp=ipToSet;
-		
 	}
 
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("Post [key=").append(key).append(", rating=")
-				.append(rating).append(", title=").append(title)
-				.append(", content=").append(content).append("]");
+		builder.append("Post [key=").append(key).append(", title=")
+				.append(title).append(", content=").append(content)
+				.append(", rating=").append(rating).append(", createdOn=")
+				.append(createdOn).append(", updatedOn=").append(updatedOn)
+				.append(", creatorIp=").append(creatorIp)
+				.append(", modifierIp=").append(modifierIp).append(", image=")
+				.append(image).append(", comments=").append(comments)
+				.append(", createdBy=").append(createdBy)
+				.append(", updatedBy=").append(updatedBy).append(", category=")
+				.append(category).append("]");
 		return builder.toString();
 	}
 
