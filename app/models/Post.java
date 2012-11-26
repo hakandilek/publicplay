@@ -21,6 +21,7 @@ import org.joda.time.DateTime;
 
 import play.data.validation.Constraints.Required;
 import play.db.ebean.Model;
+import play.mvc.Http;
 import play.utils.cache.CachedFinder;
 import play.utils.cache.InterimCache;
 
@@ -52,6 +53,12 @@ public class Post extends Model {
 
 	@Basic
 	private Date updatedOn;
+	
+	@Basic
+	private String creatorIp;
+	
+	@Basic
+	private String modifierIp;
 
 	@OneToOne()
 	private S3File image;
@@ -131,6 +138,7 @@ public class Post extends Model {
 		Date now = new Date();
 		post.setCreatedOn(now);
 		post.setUpdatedOn(now);
+		post.setCreatorIp(Http.Context.current().request().remoteAddress());
 		post.save();
 		find.put(post.getKey(), post);
 		// clean user cache for a backlink update
@@ -156,6 +164,7 @@ public class Post extends Model {
 	public static void update(Long key, Post post) {
 		Date now = new Date();
 		post.setUpdatedOn(now);
+		post.setModifierIp(Http.Context.current().request().remoteAddress());
 		post.update(key);
 		find.put(post.getKey(), post);
 		// clean user cache for a backlink update
@@ -250,6 +259,23 @@ public class Post extends Model {
 
 	public void setImage(S3File image) {
 		this.image = image;
+	}
+	
+	public String getCreatorIp() {
+		return creatorIp;
+	}
+	
+	public void setCreatorIp(String ipToSet) {
+		this.creatorIp = ipToSet;
+	}
+	
+	public String getModifierIp() {
+		return modifierIp;
+	}
+	
+	private void setModifierIp(String ipToSet) {
+		this.modifierIp=ipToSet;
+		
 	}
 
 	@Override

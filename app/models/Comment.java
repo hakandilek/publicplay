@@ -14,6 +14,8 @@ import play.data.validation.Constraints.Required;
 import play.db.ebean.Model;
 
 import com.avaje.ebean.Page;
+
+import play.mvc.Http;
 import play.utils.cache.CachedFinder;
 
 @Entity
@@ -33,6 +35,12 @@ public class Comment extends Model {
 
     @Basic
     private Date updatedOn;
+    
+    @Basic
+	private String creatorIp;
+	
+	@Basic
+	private String modifierIp;
 	
     @ManyToOne
     @JoinColumn(name="postKey", nullable=false)
@@ -66,6 +74,7 @@ public class Comment extends Model {
 		Date now = new Date();
 		comment.setCreatedOn(now);
 		comment.setUpdatedOn(now);
+		comment.setCreatorIp(Http.Context.current().request().remoteAddress());
 		comment.save();
 		find.put(comment.getKey(), comment);
 		// clean user cache for a backlink update
@@ -91,6 +100,7 @@ public class Comment extends Model {
 	public static void update(Long key, Comment comment) {
 		Date now = new Date();
 		comment.setUpdatedOn(now);
+		comment.setModifierIp(Http.Context.current().request().remoteAddress());
 		comment.update(key);
 		find.put(comment.getKey(), comment);
 		// clean user cache for a backlink update
@@ -153,6 +163,23 @@ public class Comment extends Model {
 
 	public void setUpdatedBy(User updatedBy) {
 		this.updatedBy = updatedBy;
+	}
+	
+	public String getCreatorIp() {
+		return creatorIp;
+	}
+	
+	public void setCreatorIp(String ipToSet) {
+		this.creatorIp = ipToSet;
+	}
+	
+	public String getModifierIp() {
+		return modifierIp;
+	}
+	
+	private void setModifierIp(String ipToSet) {
+		this.modifierIp=ipToSet;
+		
 	}
 
 	@Override
