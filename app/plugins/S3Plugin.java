@@ -6,7 +6,7 @@ import play.Application;
 import play.Configuration;
 import play.Logger;
 import play.Logger.ALogger;
-import play.Plugin;
+import play.api.Plugin;
 
 import com.amazonaws.ClientConfiguration;
 import com.amazonaws.auth.AWSCredentials;
@@ -15,7 +15,7 @@ import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.Region;
 
-public class S3Plugin extends Plugin {
+public class S3Plugin implements Plugin {
 
 	private static ALogger log = Logger.of(S3Plugin.class);
 
@@ -81,6 +81,11 @@ public class S3Plugin extends Plugin {
 			log.debug("result : " + result);
 		
 		return result;
+	}
+
+	@Override
+	public void onStop() {
+		amazonS3 = null;
 	}
 
 }
