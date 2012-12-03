@@ -90,3 +90,6 @@ h4 {padding-bottom: 1em; }
 .col-posttop-title { min-width: 370px; }
 
 div.fb-like {min-height: 30px; height: 80px; }
+
+/* for image thumbnails */
+.image .modal { display:none;padding:5px 5px 0 5px; width:80%; margin-left:-40%; }

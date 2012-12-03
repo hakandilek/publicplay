@@ -25,16 +25,7 @@
 
     <div class="row">
         <div class="span2">
-		@if(post.getImage() == null) { 
            @partials.image(post.getImage())
-        } else { 
-          <a data-toggle="modal" href="#myThumbnailModal" >
-        	<img class="thumbnail" src="@post.getImage().getUrl()"  alt="" title="" />
-         </a>
-          <div class="modal fade" id="myThumbnailModal" style="display:none;padding:5px 5px 0 5px;">
-        	<img src="@post.getImage().getUrl()" width="600" height="400" alt="" title="" />
-        </div> 
-		}
         </div>
         <div class="span8">
             <p class="nl">@post.getContent()</p>
