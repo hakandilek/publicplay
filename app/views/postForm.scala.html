@@ -12,19 +12,17 @@
           'enctype -> "multipart/form-data") {
         
         <div class="control-group"> 
-        @inputText(postForm("title"), args = '_label -> Messages("Post.title.label"))
+        @inputText(postForm("title"), args = '_label -> Messages("Post.title.label"), Symbol("data-maxchars") -> "120")
         </div>
         
         <div class="control-group">
-        @textarea(postForm("content"), args = '_label -> Messages("Post.content.label"))
+        @textarea(postForm("content"), args = '_label -> Messages("Post.content.label"), Symbol("data-maxchars") -> "2000")
         </div>
         
         <div class="control-group">
 			<div class="clearfix  " id="content_field">
 			    <label for="image">@Messages("Post.image.label")</label>
 
-                <script src="@routes.Assets.at("javascripts/image_upload.js")" type="text/javascript"></script>
-                
             @if(image == null) {
 				<div class="fileupload fileupload-new" data-provides="fileupload">
 					<div class="fileupload-new thumbnail post-img" data-dismiss="fileupload">

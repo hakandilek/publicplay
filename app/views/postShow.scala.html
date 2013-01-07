@@ -105,7 +105,7 @@
         @form(if(commentKey != null) { routes.PostController.updateComment(post.getKey(), commentKey) } 
               else                   { routes.PostController.createComment(post.getKey(), sanitizeURL(post.getTitle())) } , 'id -> "form") { 
             
-            @textarea(commentForm("content"), args = '_label -> Messages("Comment.content.label"))
+            @textarea(commentForm("content"), args = '_label -> Messages("Comment.content.label"), Symbol("data-maxchars") -> "2000")
             
             <div>
 			@roleHolderPresent() {
