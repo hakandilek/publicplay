@@ -25,7 +25,7 @@ import controllers.routes;
 
 public class CRUD<K extends Serializable, T extends Model> {
 
-	private static final int PAGE_SIZE = 10;
+	public static final int PAGE_SIZE = 10;
 
 	private static ALogger log = Logger.of(CRUD.class);
 

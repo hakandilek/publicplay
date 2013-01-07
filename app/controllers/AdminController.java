@@ -22,6 +22,8 @@ import crud.controllers.CachedCRUD;
 
 public class AdminController extends CRUDController {
 
+	public static final int PAGE_SIZE = CRUD.PAGE_SIZE;
+
 	private static ALogger log = Logger.of(AdminController.class);
 	
 	private final static AdminController instance = new AdminController();
