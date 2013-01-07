@@ -60,6 +60,18 @@ public class CRUD<K extends Serializable, T extends Model> {
 	public String getName() {
 		return name;
 	}
+	
+	public List<String> getFieldNames() {
+		return fieldNames;
+	}
+
+	public String getKeyFieldName() {
+		return keyFieldName;
+	}
+	
+	public CRUDPage<K> getPage() {
+		return page;
+	}
 
 	public Result list(int page, Context context) {
 		if (log.isDebugEnabled())

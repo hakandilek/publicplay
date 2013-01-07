@@ -36,6 +36,7 @@ import be.objectify.deadbolt.models.Permission;
 import be.objectify.deadbolt.models.Role;
 import be.objectify.deadbolt.models.RoleHolder;
 
+import com.avaje.ebean.Page;
 import com.avaje.ebean.annotation.EnumValue;
 
 @Entity
@@ -415,6 +416,13 @@ public class User extends Model implements RoleHolder, Approvable {
 				.append(getFirstName()).append(", lastName=").append(getLastName())
 				.append(", email=").append(getEmail()).append("]");
 		return builder.toString();
+	}
+
+	public static Page<User> page(int page, int pageSize,
+			Status status) {
+		return find.where().eq("status", status)
+				.orderBy("lastLogin desc").findPagingList(pageSize)
+				.getPage(page);
 	}
 
 

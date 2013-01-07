@@ -96,4 +96,7 @@ public class CRUDController extends Controller {
 		}
 	}
 
+	public CRUD<? extends Serializable, ?> getCRUD(String name) {
+		return models.get(name);
+	}
 }

@@ -1,4 +1,4 @@
-@(page: Page[CRUDModel], modelName: String, keyFieldName: String, fieldNames: List[String], user: models.User)
+@(page: Page[CRUDModel], modelName: String, keyFieldName: String, fieldNames: List[String], user: models.User, status: models.User.Status)
 @import helper._ 
 @import helper.twitterBootstrap._
 @import helper.H._
@@ -18,6 +18,14 @@
         </div>
         
     } else {
+
+    <!--     filter buttons     -->
+    @Messages("Filter:")
+    <div class="btn-group" data-toggle="buttons-radio">
+	    <a class="btn btn-inverse @if(status != null && status.name.equals("NEW")) {active}" href='@routes.AdminController.userList("NEW", 0)'>@Messages("User.status.NEW")</a>
+        <a class="btn btn-inverse @if(status != null && status.name.equals("APPROVED")) {active}" href='@routes.AdminController.userList("APPROVED", 0)'>@Messages("User.status.APPROVED")</a>
+        <a class="btn btn-inverse @if(status != null && status.name.equals("SUSPENDED")) {active}" href='@routes.AdminController.userList("SUSPENDED", 0)'>@Messages("User.status.SUSPENDED")</a>
+    </div>
     
     <table class="posts table table-striped table-bordered">
         <thead>

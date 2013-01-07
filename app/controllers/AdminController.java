@@ -1,7 +1,13 @@
 package controllers;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
+import com.avaje.ebean.Page;
+
+import models.CRUDModel;
 import models.Comment;
 import models.Post;
 import models.S3File;
@@ -9,8 +15,10 @@ import models.User;
 import play.Logger;
 import play.Logger.ALogger;
 import play.mvc.Result;
+import scala.actors.threadpool.Arrays;
 import security.RestrictApproved;
 import socialauth.core.Secure;
+import utils.HttpUtils;
 import admin.CommentAdminPage;
 import admin.PostAdminPage;
 import admin.S3FileAdminPage;
@@ -19,6 +27,7 @@ import be.objectify.deadbolt.actions.Restrict;
 import crud.controllers.CRUD;
 import crud.controllers.CRUDController;
 import crud.controllers.CachedCRUD;
+import crud.controllers.MetaPage;
 
 public class AdminController extends CRUDController {
 
@@ -124,4 +133,26 @@ public class AdminController extends CRUDController {
 		User.update(user);
 		return list("User", page);
 	}
+
+	@Secure
+	@Restrict("admin")
+	@RestrictApproved
+	public static Result userList(String status, int page) {
+		User user = HttpUtils.loginUser(ctx());
+		models.User.Status userStatus = models.User.Status.valueOf(status);
+		if (userStatus == null) userStatus = models.User.Status.NEW;
+		if (log.isDebugEnabled())
+			log.debug("userStatus : " + userStatus);
+		
+		CRUD<? extends Serializable, ?> crud = instance.getCRUD("User");
+		UserAdminPage uap = (UserAdminPage) crud.getPage();
+		String keyFieldName = "key";
+		List<String> fieldNames = Arrays.asList(new String[]{"key", "profile", "lastLogin", "loginCount"});
+		Page<User> pg = User.page(page, PAGE_SIZE, userStatus);
+		Page<CRUDModel> metaPage = new MetaPage<User>(pg, keyFieldName,
+				fieldNames);
+		return ok(views.html.admin.userList.render(metaPage, "User",
+				keyFieldName, fieldNames, user, userStatus));
+	}
+
 }
