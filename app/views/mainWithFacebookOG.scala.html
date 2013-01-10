@@ -12,7 +12,9 @@
 		<meta property="og:type"  content="publicplay:fiyat">
 		<meta property="og:url"  content="http://@request.host@request.uri">
 		<meta property="og:description"  content="@post.getContent()">
+		@if(post.getImage() != null) {
 		<meta property="og:image"  content="@post.getImage().getUrl()">
+		}
     </head>
 	<body>
     	@partials.mainBody(loggedInUser)
