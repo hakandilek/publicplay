@@ -25,14 +25,12 @@ public class UserAdminPage extends BaseCRUDPage<String>{
 		listFieldNames.add("User.lastLogin");
 		listFieldNames.add("User.loginCount");
 	}
-
 	
 	@Override
 	public Html renderListPage(Context context, String entityName,
 			Page<CRUDModel> page, String keyFieldName, List<String> fieldNames) {
 		User user = HttpUtils.loginUser(context);
-		return userList.render(page, entityName, keyFieldName, listFieldNames, user);
+		return userList.render(page, entityName, keyFieldName, listFieldNames, user, null);
 	}
-
 
 }

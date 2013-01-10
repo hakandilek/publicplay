@@ -56,3 +56,4 @@ GET     /admin/:model/:key/delete       controllers.AdminController.delete(model
 GET     /admin/:model/:key/show         controllers.AdminController.show(model, key)
 GET     /admin/User/:key/approve        controllers.AdminController.userApprove(key, page:Int ?= 0)
 GET     /admin/User/:key/suspend        controllers.AdminController.userSuspend(key, page:Int ?= 0)
+GET     /admin/User/Status.:status/list  controllers.AdminController.userList(status:String, page:Int ?= 0)

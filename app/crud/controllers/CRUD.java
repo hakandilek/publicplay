@@ -25,7 +25,7 @@ import controllers.routes;
 
 public class CRUD<K extends Serializable, T extends Model> {
 
-	private static final int PAGE_SIZE = 10;
+	public static final int PAGE_SIZE = 10;
 
 	private static ALogger log = Logger.of(CRUD.class);
 
@@ -59,6 +59,18 @@ public class CRUD<K extends Serializable, T extends Model> {
 	
 	public String getName() {
 		return name;
+	}
+	
+	public List<String> getFieldNames() {
+		return fieldNames;
+	}
+
+	public String getKeyFieldName() {
+		return keyFieldName;
+	}
+	
+	public CRUDPage<K> getPage() {
+		return page;
 	}
 
 	public Result list(int page, Context context) {
