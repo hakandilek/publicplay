@@ -95,6 +95,8 @@ public class PostController extends Controller implements Constants {
 		Form<Post> filledForm = form.bindFromRequest();
 		if (filledForm.hasErrors() || user == null) {
 			if (log.isDebugEnabled())
+				log.debug("form.data : " + form.data());
+			if (log.isDebugEnabled())
 				log.debug("validation errors occured");
 			
 			Map<String, List<ValidationError>> errors = filledForm.errors();

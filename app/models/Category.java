@@ -1,7 +1,9 @@
 package models;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -26,6 +28,15 @@ public class Category extends Model {
 	public static CachedFinder<String, Category> find = new CachedFinder<String, Category>(
 			String.class, Category.class);
 
+	public static Map<String, String> options() {
+		Map<String, String> m = new TreeMap<String, String>();
+		final List<Category> all = all();
+		for (Category cat: all) {
+			m.put(cat.getName(), cat.getName());
+		}
+		return m;
+	}
+	
 	public static List<Category> all() {
 		return find.all();
 	}

@@ -34,6 +34,7 @@ Create_new_post=Create new post
 Only_registered_and_approved_users=Only registered and approved users can create a new Post.
 Login_to_register={0} to register
 Posts=Posts
+Post.category.label=category
 Post.title.label=title
 Post.content.label=content
 Post.image.label=image
@@ -50,6 +51,9 @@ no_comments_yet=no comments yet, be the first one:
 Comments=Comments
 drop_your_comment=drop your comment:
 Comment.content.label=content
+CreatedOn_By=created on {0} by {1}
+UpdatedOn_By=updated on {0} by {1}
+
 # Category
 update_category=update category
 new_category=new category
@@ -59,9 +63,11 @@ Categories=Categories
 Category_num={0} Categori(es)
 Create_new_category=Create new category
 Category.name.label=name:
-
-CreatedOn_By=created on {0} by {1}
-UpdatedOn_By=updated on {0} by {1}
+Category.category1=Category1
+Category.category2=Category2
+Category.category3=Category3
+Category.category4=Category4
+Category.category5=Category5
 
 # SocialUser
 user_information=user information

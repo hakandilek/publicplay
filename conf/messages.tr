@@ -37,6 +37,7 @@ Create_new_post=Yeni başlık aç
 Only_registered_and_approved_users=Sadece kayıtlı ve onaylı kullanıcılar başlık açabilir.
 Login_to_register=Kayıt olmak için {0}
 Posts=Başlıklar
+Post.category.label=kategori
 Post.title.label=başlık
 Post.content.label=içerik
 Post.image.label=resim
@@ -53,18 +54,23 @@ no_comments_yet=Henüz yorum yapılmamış. İlk yorumu yapın:
 Comments=Yorumlar
 drop_your_comment=yorum yapın:
 Comment.content.label=içerik
-# Category
-update_category=sınıfı düzenle
-new_category=yeni sınıf
-update_category_detail=Sınıfı düzenle
-new_category_detail=Yeni bir sınıf ekle
-Categories=Sınıflar
-Category_num={0} sınıf
-Create_new_category=Yeni sınıf oluştur
-Category.name.label=isim:
-
 CreatedOn_By={1} {0} yazdı
 UpdatedOn_By={1} {0} güncelledi
+
+# Category
+update_category=kategoriyi düzenle
+new_category=yeni kategori
+update_category_detail=Kategoriyi düzenle
+new_category_detail=Yeni bir kategori ekle
+Categories=Kategoriler
+Category_num={0} kategori
+Create_new_category=Yeni kategori oluştur
+Category.name.label=isim:
+Category.category1=Kategori1
+Category.category2=Kategori2
+Category.category3=Kategori3
+Category.category4=Kategori4
+Category.category5=Kategori5
 
 # SocialUser
 user_information=kullanıcı bilgileri
@@ -102,3 +108,25 @@ User.status=Durum
 User.status.SUSPENDED=Askıda
 User.status.NEW=Yeni
 User.status.APPROVED=Onaylı
+
+# === Default messages
+# --- Constraints
+constraint.required=* Gerekli alan
+constraint.min=Minimum value: {0}
+constraint.max=Maximum value: {0}
+constraint.minLength=Minimum length: {0}
+constraint.maxLength=Maximum length: {0}
+constraint.email=Email
+# --- Formats
+format.date=Date (''{0}'')
+format.numeric=Numeric
+# --- Errors
+error.invalid=Geçersiz değer
+error.required=Bu alan gerekli
+error.number=Sayısal değer değil
+error.min=Must be greater or equal to {0}
+error.max=Must be less or equal to {0}
+error.minLength=Minimum length is {0}
+error.maxLength=Maximum length is {0}
+error.email=Valid email required
+error.pattern=Must satisfy {0}

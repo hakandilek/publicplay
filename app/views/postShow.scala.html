@@ -7,50 +7,52 @@
 
 @mainWithFacebookOG(post, user) {
   <div class="container-fluid">
-    <div class="row">
-        <div class="span12">
-		    <p class="lead nl">@post.getTitle()</p>
-	    </div>
-    </div>
-       
-    <div class="row">
-        <div class="span12">
-            <p class="lead">
+    <div class="row-fluid">
+        <div class="span2">
+		    <p>
+        		@partials.image(post.getImage())
+        	</p>
+        	@if(post.getCategory() != null) {
+		    <p>
+        		<span class="label">@Messages("Category." + post.getCategory().getName())</span>
+		    </p>
+        	}
+		    <p class="lead">
                 <strong class="rating" data-key="rate-@post.getKey()" >@post.getRating()</strong>
                 @partials.rateButtons(post, upVotedPostKeys, downVotedPostKeys)                    
-            </p>
+		    </p>
         </div>
+        
+        <div class="span6">
+		    <div class="row">
+		    	<p class="lead nl">@post.getTitle()</p>
+		    </div>
+    		<div class="row">
+       			<p class="nl">@post.getContent()</p>
+       			<small>
+ 			        @if(post.getUpdatedBy() == null) { 
+			        @Html(Messages("CreatedOn_By", prettify(post.getCreatedOn()), partials.userProfile(post.getCreatedBy()))) } else { 
+			        @Html(Messages("UpdatedOn_By", prettify(post.getUpdatedOn()), partials.userProfile(post.getUpdatedBy()))) }
+       			</small>
+		        @restrictCombine(la(as("admin")), "models.Post.delete." + post.getKey()) {
+		        <a class="btn btn-mini btn-danger pull-right spaced" href="@routes.PostController.delete(post.getKey())">@Messages("delete")</a>
+		        }
+		        @restrictCombine(la(as("admin")), "models.Post.edit." + post.getKey()) {
+		        <a class="btn btn-mini pull-right spaced" href="@routes.PostController.editForm(post.getKey())">@Messages("edit")</a>
+		        }
+    		</div>
+	    </div>
     </div>
 
-    <div class="row">
-        <div class="span2">
-           @partials.image(post.getImage())
-        </div>
-        <div class="span8">
-            <p class="nl">@post.getContent()</p>
-            <small>
-            @if(post.getUpdatedBy() == null) { 
-            @Html(Messages("CreatedOn_By", prettify(post.getCreatedOn()), partials.userProfile(post.getCreatedBy()))) } else { 
-            @Html(Messages("UpdatedOn_By", prettify(post.getUpdatedOn()), partials.userProfile(post.getUpdatedBy()))) }
-            </small>
-            @restrictCombine(la(as("admin")), "models.Post.delete." + post.getKey()) {
-                <a class="btn btn-mini btn-danger pull-right spaced" href="@routes.PostController.delete(post.getKey())">@Messages("delete")</a>
-            }
-            @restrictCombine(la(as("admin")), "models.Post.edit." + post.getKey()) {
-                <a class="btn btn-mini pull-right spaced" href="@routes.PostController.editForm(post.getKey())">@Messages("edit")</a>
-            }
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="span12">
-            <hr/>
-            <div class="fb-like" data-href="" data-send="false" data-width="550"  data-show-faces="true"></div>
+    <div class="row-fluid">
+        <div class="span9">
+        <hr/>
+        <div class="fb-like" data-href="" data-send="false" data-width="550"  data-show-faces="true"></div>
         </div>
     </div>
     
-    <div class="row">
-        <div class="span12">
+    <div class="row-fluid">
+        <div class="span9">
     @* comments *@
     @if(currentPage.getTotalRowCount == 0) {
         
@@ -98,8 +100,8 @@
         </div>
     </div>
     
-    <div class="row">
-        <div class="span12">
+    <div class="row-fluid">
+        <div class="span9">
 
         @form(if(commentKey != null) { routes.PostController.updateComment(post.getKey(), commentKey) } 
               else                   { routes.PostController.createComment(post.getKey(), sanitizeURL(post.getTitle())) } , 'id -> "form") { 
@@ -114,10 +116,11 @@
 			@roleHolderNotPresent() {
                <input type="submit" class="btn btn-success" data-toggle="modal" data-target="#loginModal" value="@if(commentKey != null) { @Messages("Update") } else { @Messages("Post") }">
 			}
-        </div>
+        	</div>
        }
-    </div>
-    
+    	</div>
+	</div>
+	
 </div>
     
 }

@@ -12,6 +12,11 @@
           'enctype -> "multipart/form-data") {
         
         <div class="control-group"> 
+        @select(postForm("category.name"), args = '_label -> Messages("Post.category.label"), 
+        	options=Category.all().map{ c => c.getName() -> (Messages("Category." + c.getName())) })
+        </div>
+        
+        <div class="control-group"> 
         @inputText(postForm("title"), args = '_label -> Messages("Post.title.label"), Symbol("data-maxchars") -> "120")
         </div>
         
