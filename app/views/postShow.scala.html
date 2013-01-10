@@ -5,9 +5,8 @@
 @import be.objectify.deadbolt.utils.TemplateUtils._
 @import views.html.security._
 
-@main(post.getTitle(), user) {
-<div class="container-fluid">
-
+@mainWithFacebookOG(post, user) {
+  <div class="container-fluid">
     <div class="row">
         <div class="span12">
 		    <p class="lead nl">@post.getTitle()</p>
@@ -46,7 +45,7 @@
     <div class="row">
         <div class="span12">
             <hr/>
-            <div class="fb-like" data-href="" data-send="false" data-width="550" data-show-faces="true"></div>
+            <div class="fb-like" data-href="" data-send="false" data-width="550"  data-show-faces="true"></div>
         </div>
     </div>
     
