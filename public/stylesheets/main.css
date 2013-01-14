@@ -93,3 +93,18 @@ div.fb-like {min-height: 30px; height: 80px; }
 
 /* for image thumbnails */
 .image .modal { display:none;padding:5px 5px 0 5px; width:80%; margin-left:-40%; }
+
+.modal-header-withoutBorder {
+  margin-bottom: -20px;
+}
+.closeForModal {
+  float: right;
+  font-size: 30px;
+  font-weight: bold;
+  line-height: 20px;
+  color: #ff0000;
+  background-color: transparent;
+  border: 0;
+  opacity: 0.8;
+}
+

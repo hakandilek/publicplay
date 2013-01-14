@@ -8,8 +8,13 @@
         <a data-toggle="modal" href="#imageModal-@image.id" >
             <img src="@image.getUrl()" alt='@Messages("Post.image.label")'/>
         </a>
+		
         <div class="image modal fade" id="imageModal-@image.id">
-            <img src="@image.getUrl()" />
+			<div class="modal-header-withoutBorder">
+			<button type="button" class="closeForModal" data-dismiss="modal" aria-hidden="true">&times;</button>
+		</div>
+        	<img src="@image.getUrl()" />
         </div>         
+  
 }
 	</div>
