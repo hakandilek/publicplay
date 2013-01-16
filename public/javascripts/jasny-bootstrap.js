@@ -358,7 +358,7 @@
     })
   })
 
-}(window.jQuery)/* ============================================================
+}(window.jQuery);/* ============================================================
  * bootstrap-rowlink.js j1
  * http://jasny.github.com/bootstrap/javascript.html#rowlink
  * ============================================================
@@ -383,7 +383,7 @@
 
   var Rowlink = function (element, options) {
     options = $.extend({}, $.fn.rowlink.defaults, options)
-    var tr = element.nodeName == 'tr' ? $(element) : $(element).find('tr:has(td)')
+    var tr = element.nodeName.toLowerCase() == 'tr' ? $(element) : $(element).find('tr:has(td)')
     
     tr.each(function() {
       var link = $(this).find(options.target).first()
@@ -428,7 +428,7 @@
     })
   })
   
-}(window.jQuery)
+}(window.jQuery);
 /* ===========================================================
  * bootstrap-fileupload.js j2
  * http://jasny.github.com/bootstrap/javascript.html#fileupload
@@ -452,7 +452,7 @@
 
   "use strict"; // jshint ;_
 
- /* INPUTMASK PUBLIC CLASS DEFINITION
+ /* FILEUPLOAD PUBLIC CLASS DEFINITION
   * ================================= */
 
   var Fileupload = function (element, options) {
@@ -464,7 +464,7 @@
 
     this.name = this.$input.attr('name') || options.name
 
-    this.$hidden = this.$element.find(':hidden[name="'+this.name+'"]')
+    this.$hidden = this.$element.find('input[type=hidden][name="'+this.name+'"]')
     if (this.$hidden.length === 0) {
       this.$hidden = $('<input type="hidden" />')
       this.$element.prepend(this.$hidden)
@@ -474,6 +474,12 @@
     var height = this.$preview.css('height')
     if (this.$preview.css('display') != 'inline' && height != '0px' && height != 'none') this.$preview.css('line-height', height)
 
+    this.original = {
+      'exists': this.$element.hasClass('fileupload-exists'),
+      'preview': this.$preview.html(),
+      'hiddenVal': this.$hidden.val()
+    }
+    
     this.$remove = this.$element.find('[data-dismiss="fileupload"]')
 
     this.$element.find('[data-trigger="fileupload"]').on('click.fileupload', $.proxy(this.trigger, this))
@@ -485,6 +491,7 @@
     
     listen: function() {
       this.$input.on('change.fileupload', $.proxy(this.change, this))
+      $(this.$input[0].form).on('reset.fileupload', $.proxy(this.reset, this))
       if (this.$remove) this.$remove.on('click.fileupload', $.proxy(this.clear, this))
     },
     
@@ -522,7 +529,16 @@
       this.$hidden.val('')
       this.$hidden.attr('name', this.name)
       this.$input.attr('name', '')
-      this.$input.val('') // Doesn't work in IE, which causes issues when selecting the same file twice
+
+      //ie8+ doesn't support changing the value of input with type=file so clone instead
+      if($.browser.msie){
+          var inputClone = this.$input.clone(true);
+          this.$input.after(inputClone);
+          this.$input.remove();
+          this.$input = inputClone;
+      }else{
+          this.$input.val('')
+      }
 
       this.$preview.html('')
       this.$element.addClass('fileupload-new').removeClass('fileupload-exists')
@@ -533,6 +549,16 @@
       }
     },
     
+    reset: function(e) {
+      this.clear()
+      
+      this.$hidden.val(this.original.hiddenVal)
+      this.$preview.html(this.original.preview)
+      
+      if (this.original.exists) this.$element.addClass('fileupload-exists').removeClass('fileupload-new')
+       else this.$element.addClass('fileupload-new').removeClass('fileupload-exists')
+    },
+    
     trigger: function(e) {
       this.$input.trigger('click')
       e.preventDefault()
@@ -540,7 +566,7 @@
   }
 
   
- /* INPUTMASK PLUGIN DEFINITION
+ /* FILEUPLOAD PLUGIN DEFINITION
   * =========================== */
 
   $.fn.fileupload = function (options) {
@@ -548,13 +574,14 @@
       var $this = $(this)
       , data = $this.data('fileupload')
       if (!data) $this.data('fileupload', (data = new Fileupload(this, options)))
+      if (typeof options == 'string') data[options]()
     })
   }
 
   $.fn.fileupload.Constructor = Fileupload
 
 
- /* INPUTMASK DATA-API
+ /* FILEUPLOAD DATA-API
   * ================== */
 
   $(function () {
@@ -563,7 +590,8 @@
       if ($this.data('fileupload')) return
       $this.fileupload($this.data())
       
-      var $target = $(e.target).parents('[data-dismiss=fileupload],[data-trigger=fileupload]').first()
+      var $target = $(e.target).is('[data-dismiss=fileupload],[data-trigger=fileupload]') ?
+        $(e.target) : $(e.target).parents('[data-dismiss=fileupload],[data-trigger=fileupload]').first()
       if ($target.length > 0) {
           $target.trigger('click.fileupload')
           e.preventDefault()
@@ -571,4 +599,4 @@
     })
   })
 
-}(window.jQuery)
+}(window.jQuery);

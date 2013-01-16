@@ -1,5 +1,5 @@
 /*!
- * Jasny Bootstrap Extensions j2
+ * Jasny Bootstrap Extensions j3
  *
  * Copyright 2012 Jasny BV
  * Licensed under the Apache License v2.0
@@ -68,6 +68,10 @@ label input[type="image"],
 label input[type="checkbox"],
 label input[type="radio"] {
   vertical-align: middle;
+}
+
+select {
+  padding-left: 2px;
 }
 
 .small-labels .control-group > label {
@@ -145,9 +149,9 @@ textarea.editor-html {
   cursor: not-allowed;
   background-color: #ffffff;
   border: 1px solid #eee;
-  -webkit-border-radius: 3px;
-     -moz-border-radius: 3px;
-          border-radius: 3px;
+  -webkit-border-radius: 4px;
+     -moz-border-radius: 4px;
+          border-radius: 4px;
   -webkit-box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.025);
   -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
      -moz-box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.025);
@@ -579,15 +583,15 @@ a.rowlink {
 @font-face {
   font-family: IconicStroke;
   font-weight: normal;
-  src: url('../fonts/iconic_stroke.eot');
-  src: local('IconicStroke'), url('iconic_stroke.eot?#iefix') format('../fonts/embedded-opentype'), url('../fonts/iconic_stroke.woff') format('woff'), url('../fonts/iconic_stroke.ttf') format('truetype'), url('iconic_stroke.svg#iconic') format('svg'), url('../fonts/iconic_stroke.otf') format('opentype');
+  src: url('../font/iconic_stroke.eot');
+  src: local('IconicStroke'), url('iconic_stroke.eot?#iefix') format('../font/embedded-opentype'), url('../font/iconic_stroke.woff') format('woff'), url('../font/iconic_stroke.ttf') format('truetype'), url('iconic_stroke.svg#iconic') format('svg'), url('../font/iconic_stroke.otf') format('opentype');
 }
 
 @font-face {
   font-family: IconicFill;
   font-weight: normal;
-  src: url('../fonts/iconic_fill.eot');
-  src: local('IconicFill'), url('../fonts/iconic_fill.eot?#iefix') format('embedded-opentype'), url('../fonts/iconic_fill.woff') format('woff'), url('../fonts/iconic_fill.ttf') format('truetype'), url('iconic_fill.svg#iconic') format('svg'), url('../fonts/iconic_fill.otf') format('opentype');
+  src: url('../font/iconic_fill.eot');
+  src: local('IconicFill'), url('../font/iconic_fill.eot?#iefix') format('embedded-opentype'), url('../font/iconic_fill.woff') format('woff'), url('../font/iconic_fill.ttf') format('truetype'), url('iconic_fill.svg#iconic') format('svg'), url('../font/iconic_fill.otf') format('opentype');
 }
 
 @media screen, print {
@@ -1176,12 +1180,11 @@ body > .page-alert {
   top: 0;
   right: 0;
   margin: 0;
+  font-size: 23px;
   cursor: pointer;
-  border: solid transparent;
-  border-width: 0 0 100px 200px;
   opacity: 0;
   filter: alpha(opacity=0);
-  -moz-transform: translate(-300px, 0) scale(4);
+  transform: translate(-300px, 0) scale(4);
   direction: ltr;
 }
 
@@ -1443,8 +1446,4 @@ body > .container.tabs-right.tabbable-bodered > .tab-content {
   -webkit-border-radius: 0 0 0 4px;
      -moz-border-radius: 0 0 0 4px;
           border-radius: 0 0 0 4px;
-}
-
-.modal form {
-  margin-bottom: 0;
 }
