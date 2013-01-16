@@ -29,7 +29,6 @@ public class Comment extends Model {
 
     @Required
     @Column(length=2048, nullable = true)
-    @MinLength(10)
     @MaxLength(2000)
 	private String content;
 	
