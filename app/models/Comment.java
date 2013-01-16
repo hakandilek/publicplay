@@ -10,6 +10,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import play.data.validation.Constraints.MaxLength;
+import play.data.validation.Constraints.MinLength;
 import play.data.validation.Constraints.Required;
 import play.db.ebean.Model;
 
@@ -27,6 +29,8 @@ public class Comment extends Model {
 
     @Required
     @Column(length=2048, nullable = true)
+    @MinLength(10)
+    @MaxLength(2000)
 	private String content;
 	
     @Basic
