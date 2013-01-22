@@ -4,9 +4,10 @@ $(document).ready(function() {
 	$("[data-maxchars]").each(function() {
 	    var $this = $(this);
 	    var maxLength = parseInt($this.attr('data-maxchars'));
+	    var remaining = maxLength-$this.val().length;
 	    $this.attr('data-maxchars', null);
 	    
-	    var el = $('<span class="maxchars"> ' + maxLength + '</span>');
+	    var el = $('<span class="maxchars"> ' + remaining + '</span>');
 	    el.insertAfter($this);
 	    
 	    $this.bind(supportOnInput ? 'input' : 'keyup', function() {
