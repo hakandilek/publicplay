@@ -47,7 +47,11 @@
 			</tr>
             <tr>
                 <td colspan="2" class="noborder-top">
+        			@if(post.getContent().length < 200){
                     <p class="noleft nl">@post.getContent()</p>
+        			}else{
+        			  <p class="noleft nl">@post.getContent().take(200) ... <a href="@routes.PostController.show(post.getKey(), sanitizeURL(post.getTitle()))">→ @Messages("Read_More")</a></p>
+        			}
                 </td>
             </tr>
         }
