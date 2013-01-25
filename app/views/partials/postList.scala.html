@@ -38,7 +38,7 @@
                     <br/>
                    	@partials.rateButtons(post, upVotedPostKeys, downVotedPostKeys)
 				</td>
-                <td class="noborder-left col-post-title">
+                <td class="noborder-left col-post-title nl-withoutSpace">
                 	<a href="@routes.PostController.show(post.getKey(), sanitizeURL(post.getTitle()))">@post.getTitle()</a>
                	</td>
 				<td rowspan="2" class="noborder-left col-post-image">
@@ -48,9 +48,9 @@
             <tr>
                 <td colspan="2" class="noborder-top">
         			@if(post.getContent().length < 200){
-                    <p class="noleft nl">@post.getContent()</p>
+                    <p class="noleft nl-withoutSpace">@post.getContent()</p>
         			}else{
-        			  <p class="noleft nl">@post.getContent().take(200) ... <a href="@routes.PostController.show(post.getKey(), sanitizeURL(post.getTitle()))">→ @Messages("Read_More")</a></p>
+        			  <p class="noleft nl-withoutSpace">@post.getContent().take(200) ... <a href="@routes.PostController.show(post.getKey(), sanitizeURL(post.getTitle()))">→ @Messages("Read_More")</a></p>
         			}
                 </td>
             </tr>
