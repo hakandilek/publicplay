@@ -16,7 +16,7 @@ object ApplicationBuild extends Build {
         "com.restfb" % "restfb" % "1.6.11",
         "play2-cache" % "play2-cache_2.9.1" % "0.3.0-SNAPSHOT",
         "joda-time" % "joda-time"% "2.1",
-        "be.objectify" %% "deadbolt-2" % "1.1.2",
+        "be.objectify" %% "deadbolt-2" % "1.1.3",
         "com.amazonaws" % "aws-java-sdk" % "1.3.11"
     )
 
