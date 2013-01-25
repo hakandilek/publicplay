@@ -25,10 +25,10 @@
         
         <div class="span6">
 		    <div class="row">
-		    	<p class="lead nl">@post.getTitle()</p>
+		    	<p class="lead nl-withoutSpace">@post.getTitle()</p>
 		    </div>
     		<div class="row">
-       			<p class="nl">@post.getContent()</p>
+       			<p class="nl-withoutSpace">@post.getContent()</p>
        			<small>
  			        @if(post.getUpdatedBy() == null) { 
 			        @Html(Messages("CreatedOn_By", prettify(post.getCreatedOn()), partials.userProfile(post.getCreatedBy()))) } else { 
@@ -86,7 +86,7 @@
                     </td> 
                 </tr>
 
-                <tr><td><p class="nl">@comment.getContent()</p></td></tr>
+                <tr><td><p class="nl-withoutSpace">@comment.getContent()</p></td></tr>
         }
             </tbody>
         </table>
