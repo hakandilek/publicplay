@@ -1,16 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-  <name>PublicPlay</name>
-  <buildSpec>
-    <buildCommand>
-      <name>
-        <name>org.eclipse.jdt.core.javabuilder</name>
-      </name>
-    </buildCommand>
-  </buildSpec>
-  <natures>
-    <nature>
-      <name></name>
-    </nature>
-    <nature>org.eclipse.jdt.core.javanature</nature>
-  </natures>
+	<name>PublicPlay</name>
+	<comment></comment>
+	<projects>
+	</projects>
+	<buildSpec>
+		<buildCommand>
+			<name>org.scala-ide.sdt.core.scalabuilder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
+	</buildSpec>
+	<natures>
+		<nature>org.scala-ide.sdt.core.scalanature</nature>
+		<nature></nature>
+		<nature>org.eclipse.jdt.core.javanature</nature>
+	</natures>
 </projectDescription>

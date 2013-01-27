@@ -51,7 +51,7 @@
                     <p class="noleft nl-withoutSpace">@post.getContent()</p>
         			}else{
         			<p class="noleft nl-withoutSpace">@post.getContent().take(200) ...</p>
-        			<a class="noleft" href="@routes.PostController.show(post.getKey(), sanitizeURL(post.getTitle()))"> @Messages("Read_More") <i class="icon-double-angle-right"></i></a>
+        			<a class="noleft" href="@routes.PostController.show(post.getKey(), sanitizeURL(post.getTitle()))"> @Messages("Read_More") <i class="icon-double-angle-right" style="text-decoration: none"></i></a>
         			}
                 </td>
             </tr>
