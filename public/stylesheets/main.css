@@ -98,3 +98,5 @@ div.fb-like {min-height: 30px; height: 80px; }
 /* makes new line without space*/ 
 .nl-withoutSpace{word-break: break-all; word-wrap: break-word;}
 
+a:focus { outline:none }
+
