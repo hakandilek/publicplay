@@ -1,4 +1,4 @@
-@(loggedInUser: models.User, userToBeShowed: models.User,self: Boolean)
+@(loggedInUser: models.User, userToBeShowed: models.User,self: Boolean,upVotedPostKeys:Set[Long], downVotedPostKeys:Set[Long])
 @import be.objectify.deadbolt.views.html._
 @import be.objectify.deadbolt.utils.TemplateUtils._
 @import helper.H._
@@ -16,47 +16,82 @@
 	<div class="page-header">
         <h3>@Messages("User_Details")</h3>
 	</div>
-	
-	<div class="clearfix">
-        <h3>
-            <img src="@userToBeShowed.getProfileImageURL()" alt="@userToBeShowed.getFirstName() @userToBeShowed.getLastName()" width="40px"/>
-            @userToBeShowed.getFirstName() @userToBeShowed.getLastName()
-        </h3>
-        <p class="text-info">@if(self) { @Messages("This_is_you") }</p>
-	
-        <dl class="dl-horizontal">
+	<div class="container-fluid">
+    	<div class="row-fluid">
+    		<div class="span3">
+    			<div class="clearfix">
+        			<h3>
+            			<img src="@userToBeShowed.getProfileImageURL()" alt="@userToBeShowed.getFirstName() @userToBeShowed.getLastName()" width="40px"/>
+            			@userToBeShowed.getFirstName() @userToBeShowed.getLastName()
+        			</h3>
+    				<p class="text-info">@if(self) { @Messages("This_is_you") }</p>
         
-            @restrict(la(as("admin"))) {
-            <dt class="text-info"> @Messages("Roles") </dt>
-            <dd class="text-info"> @if(userToBeShowed.getSecurityRoles().size == 0) { &nbsp; } @for(role <- userToBeShowed.getSecurityRoles()) { @role.getName() &nbsp; } </dd>
-            }
+    				<dl class="dl-horizontal">
+        
+    					@restrict(la(as("admin"))) {
+    						<dt class="text-info"> @Messages("Roles") </dt>
+    						<dd class="text-info"> @if(userToBeShowed.getSecurityRoles().size == 0) { &nbsp; } @for(role <- userToBeShowed.getSecurityRoles()) { @role.getName() &nbsp; } </dd>
+    						}
             
-	        <dt> @Messages("User.Profile") </dt> 
-	        <dd><a href="https://www.facebook.com/profile.php?id=@userToBeShowed.getOriginalKey()">@userToBeShowed.getFirstName() @userToBeShowed.getLastName()</a></dd>
+    						<dt> @Messages("User.Profile") </dt> 
+    						<dd><a href="https://www.facebook.com/profile.php?id=@userToBeShowed.getOriginalKey()">@userToBeShowed.getFirstName() @userToBeShowed.getLastName()</a></dd>
+    						
+    						<dt> @Messages("User.Logged_in_from") </dt>
+    						<dd> @userToBeShowed.getProvider()</dd>
 	        
-	        <dt> @Messages("User.Logged_in_from") </dt>
-	        <dd> @userToBeShowed.getProvider()</dd>
+    						<dt> @Messages("User.Email") </dt>
+    						<dd> @if( userToBeShowed.getEmail() != null ) { @userToBeShowed.getEmail() } else { @Messages("Not_Available") } </dd>
 	        
-	        <dt> @Messages("User.Email") </dt>
-	        <dd> @if( userToBeShowed.getEmail() != null ) { @userToBeShowed.getEmail() } else { @Messages("Not_Available") } </dd>
+    						<dt> @Messages("User.FirstName") </dt>
+    						<dd> @userToBeShowed.getFirstName() </dd>
 	        
-	        <dt> @Messages("User.FirstName") </dt>
-	        <dd> @userToBeShowed.getFirstName() </dd>
+    						<dt> @Messages("User.LastName") </dt>
+    						<dd> @userToBeShowed.getLastName() </dd>
 	        
-	        <dt> @Messages("User.LastName") </dt>
-	        <dd> @userToBeShowed.getLastName() </dd>
+    						<dt> @Messages("User.Date_of_Birth") </dt> 
+    						<dd> @prettify(userToBeShowed.getBirthdate()) </dd>
 	        
-	        <dt> @Messages("User.Date_of_Birth") </dt> 
-	        <dd> @prettify(userToBeShowed.getBirthdate()) </dd>
+    						<dt> @Messages("User.Gender") </dt>
+    						<dd> @userToBeShowed.getGender() </dd>
 	        
-	        <dt> @Messages("User.Gender") </dt>
-	        <dd> @userToBeShowed.getGender() </dd>
+    						<dt> @Messages("User.Location") </dt>
+    						<dd> @userToBeShowed.getLocation() </dd>
 	        
-	        <dt> @Messages("User.Location") </dt>
-	        <dd> @userToBeShowed.getLocation() </dd>
-	        
-	    </dl>
-	
+    						</dl>
+    				</div>
+	        </div>
+	        <div class="span9" id="top-div">
+	        	<ul id="top-tab" class="nav nav-tabs" data-target="#top-div">
+	  				<li class="active">
+	        		<a data-toggle="tab" href="#user_Posts">Posts</a></li>
+	  				<li><a data-toggle="tab" href="#user_Comments">Comments</a></li>
+				</ul>
+
+	        	<div class="tab-content">
+	             	<div id="user_Posts"  class="tab-pane fade in active">             	
+	        			<table class="posts table table-striped table-bordered">   		
+	        				<tbody>
+	        					@for(post <- userToBeShowed.getPosts) {
+	        						@partials.postTable(post, upVotedPostKeys, downVotedPostKeys)
+	        					}
+	        				</tbody>
+	        			</table>
+	        		</div>
+	        		<div id="user_Comments" class="tab-pane fade">        	
+	        			<table class="posts table table-striped table-bordered">   		
+	        				<tbody>
+	        					@for(comment <- userToBeShowed.getComments) {
+	        						<tr>
+	        							<td class="nl-withoutSpace">
+	        							<a href="@routes.PostController.show(comment.getPost().getKey(), sanitizeURL(comment.getPost().getTitle()))#@comment.getKey()">@comment.getContent()</a>
+	        							</td>
+	        						</tr>
+	        					}
+	        				</tbody>
+	        			</table>
+	        		</div>
+	        </div>
+	    </div>
 	</div>
     }
 }

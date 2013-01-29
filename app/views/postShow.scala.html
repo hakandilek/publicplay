@@ -70,7 +70,7 @@
             </thead>
             <tbody>
         @for(comment <- currentPage.getList.reverse) {
-                <tr>
+                <tr id="@comment.getKey()">
                     <td>
                         <small>
                         @if(comment.getUpdatedBy() == null) { 

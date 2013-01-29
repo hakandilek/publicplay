@@ -32,29 +32,7 @@
         </thead>
         <tbody>
         @for(post <- currentPage.getList) {
-            <tr>
-                <td id="rating-col" class="center-horizontal col-post-rate">
-                    <strong class="center-horizontal rating" data-key="rate-@post.getKey()" >@post.getRating()</strong>
-                    <br/>
-                   	@partials.rateButtons(post, upVotedPostKeys, downVotedPostKeys)
-				</td>
-                <td class="noborder-left col-post-title nl-withoutSpace">
-                	<a href="@routes.PostController.show(post.getKey(), sanitizeURL(post.getTitle()))">@post.getTitle()</a>
-               	</td>
-				<td rowspan="2" class="noborder-left col-post-image">
-        			<a href="@routes.PostController.show(post.getKey(), sanitizeURL(post.getTitle()))">@partials.image(post.getImage())</a>
-				</td>
-			</tr>
-            <tr>
-                <td colspan="2" class="noborder-top">
-        			@if(post.getContent().length < 200){
-                    <p class="noleft nl-withoutSpace">@post.getContent()</p>
-        			}else{
-        			<p class="noleft nl-withoutSpace">@post.getContent().take(200) ...</p>
-        			<a class="noleft" href="@routes.PostController.show(post.getKey(), sanitizeURL(post.getTitle()))"> @Messages("Read_More") <i class="icon-double-angle-right" style="text-decoration: none"></i></a>
-        			}
-                </td>
-            </tr>
+            @partials.postTable(post, upVotedPostKeys, downVotedPostKeys)
         }
         </tbody>
     </table>

@@ -1,5 +1,8 @@
 package controllers;
 
+import java.util.Set;
+import java.util.TreeSet;
+
 import models.User;
 import play.Logger;
 import play.Logger.ALogger;
@@ -27,13 +30,15 @@ public class UserController extends Controller {
 		if (null != key) {
 			userToBeShowed = User.get(key);
 		}
+		final Set<Long> upVotes = userToBeShowed == null ? new TreeSet<Long>() : userToBeShowed.getUpVotedPostKeys();
+		final Set<Long> downVotes = userToBeShowed == null ? new TreeSet<Long>() : userToBeShowed.getDownVotedPostKeys();
 
 		User loggedInUser = HttpUtils.loginUser(ctx());
 		if (log.isDebugEnabled())
 			log.debug("user : " + loggedInUser);
 		if (loggedInUser == null || userToBeShowed == null) {
 			return badRequest(userShow.render(loggedInUser, userToBeShowed,
-					false));
+					false,upVotes, downVotes));
 		}
 		boolean selfPage = false;
 		if (loggedInUser != null && userToBeShowed != null
@@ -41,7 +46,7 @@ public class UserController extends Controller {
 			selfPage = true;
 		}
 
-		return ok(userShow.render(loggedInUser, userToBeShowed, selfPage));
+		return ok(userShow.render(loggedInUser, userToBeShowed, selfPage,upVotes, downVotes));
 	}
 
 	@Secure
@@ -50,11 +55,13 @@ public class UserController extends Controller {
 			log.debug("showSelf() <-");
 
 		User loggedInUser = HttpUtils.loginUser(ctx());
+		final Set<Long> upVotes = loggedInUser == null ? new TreeSet<Long>() : loggedInUser.getUpVotedPostKeys();
+		final Set<Long> downVotes = loggedInUser == null ? new TreeSet<Long>() : loggedInUser.getDownVotedPostKeys();
 
 		if (log.isDebugEnabled())
 			log.debug("user : " + loggedInUser);
 		boolean selfPage = true;
 
-		return ok(userShow.render(loggedInUser, loggedInUser, selfPage));
+		return ok(userShow.render(loggedInUser, loggedInUser, selfPage,upVotes, downVotes));
 	}
 }
