@@ -24,6 +24,7 @@ Daily_Top10=Daily
 Weekly_Top10=Weekly
 Overall_Top10=Overall
 Read_More=read more
+joinedOn=Joined on
 
 # Post
 update_post=update post
@@ -96,5 +97,5 @@ User.LastName=Lastname
 User.Date_of_Birth=Date of birth 
 User.Gender=Gender
 User.Location=location
-
+User.Favorites=Favorites
 

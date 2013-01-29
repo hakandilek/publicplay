@@ -27,6 +27,7 @@ Daily_Top10=Bugün
 Weekly_Top10=Bu hafta
 Overall_Top10=Her zaman
 Read_More=devamını oku
+joinedOn=Giris:
 
 # Post
 update_post=başlığı düzenle
@@ -98,7 +99,8 @@ User.FirstName=Adı
 User.LastName=Soyadı
 User.Date_of_Birth=Doğum tarihi 
 User.Gender=Cinsiyeti
-User.Location=Bulunduğ yer
+User.Location=Bulunduğu yer
+User.Favorites=Favoriler
 
 # Admin
 User.key=ID

@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
+import models.User;
+
 import org.ocpsoft.prettytime.PrettyTime;
 
 import play.api.templates.Html;
@@ -107,6 +109,15 @@ public class H {
 		int totalPage = page.getTotalPageCount();
 
 		return new Html(Messages.get(lang, "displaying_num_of_num_pages", pageIndex, totalPage));
+	}
+	
+	public static String getProfileImageURLWithNormalSize(User user){
+		return user.getProfileImageURL() +"?type=normal";
+	}
+	
+	public static String formatDateToDayAndYear(Date dateToFormat){
+		DateFormat df = new SimpleDateFormat("dd.MM.yyyy");
+		return df.format(dateToFormat);
 	}
 	
 	private static Lang getLang() {
