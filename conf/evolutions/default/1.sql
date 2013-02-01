@@ -32,8 +32,9 @@ create table TBL_POST (
   modifier_ip               varchar(255),
   image_id                  varchar(40),
   created_by                varchar(255),
-  category                  varchar(255),
   updated_by                varchar(255),
+  category                  varchar(255),
+  revision                  integer not null,
   constraint pk_TBL_POST primary key (key))
 ;
 
@@ -111,10 +112,10 @@ alter table TBL_POST add constraint fk_TBL_POST_image_4 foreign key (image_id) r
 create index ix_TBL_POST_image_4 on TBL_POST (image_id);
 alter table TBL_POST add constraint fk_TBL_POST_createdBy_5 foreign key (created_by) references TBL_USER (key) on delete restrict on update restrict;
 create index ix_TBL_POST_createdBy_5 on TBL_POST (created_by);
-alter table TBL_POST add constraint fk_TBL_POST_category_6 foreign key (category) references TBL_CATEGORY (name) on delete restrict on update restrict;
-create index ix_TBL_POST_category_6 on TBL_POST (category);
-alter table TBL_POST add constraint fk_TBL_POST_updatedBy_7 foreign key (updated_by) references TBL_USER (key) on delete restrict on update restrict;
-create index ix_TBL_POST_updatedBy_7 on TBL_POST (updated_by);
+alter table TBL_POST add constraint fk_TBL_POST_updatedBy_6 foreign key (updated_by) references TBL_USER (key) on delete restrict on update restrict;
+create index ix_TBL_POST_updatedBy_6 on TBL_POST (updated_by);
+alter table TBL_POST add constraint fk_TBL_POST_category_7 foreign key (category) references TBL_CATEGORY (name) on delete restrict on update restrict;
+create index ix_TBL_POST_category_7 on TBL_POST (category);
 
 
 

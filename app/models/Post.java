@@ -53,6 +53,9 @@ public class Post extends Model {
 	@Basic
 	private Date updatedOn;
 	
+	@Version
+	private int revision;
+
 	@Basic
 	private String creatorIp;
 	
@@ -69,7 +72,6 @@ public class Post extends Model {
 	@JoinColumn(name = "created_by", nullable = false)
 	private User createdBy;
 
-	@Version
 	@ManyToOne
 	@JoinColumn(name = "updated_by", nullable = true)
 	private User updatedBy;
@@ -232,6 +234,14 @@ public class Post extends Model {
 
 	public void setUpdatedBy(User updatedBy) {
 		this.updatedBy = updatedBy;
+	}
+
+	public int getRevision() {
+		return revision;
+	}
+
+	public void setRevision(int revision) {
+		this.revision = revision;
 	}
 
 	public Integer getRating() {
