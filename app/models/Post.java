@@ -23,13 +23,14 @@ import play.data.validation.Constraints.Required;
 import play.db.ebean.Model;
 import play.utils.cache.CachedFinder;
 import play.utils.cache.InterimCache;
+import play.utils.dao.TimestampModel;
 
 import com.avaje.ebean.Page;
 
 @Entity
 @Table(name="TBL_POST")
 @SuppressWarnings("serial")
-public class Post extends Model {
+public class Post extends Model implements TimestampModel<Long> {
 
 	private static final int TOP_10 = 10;
 
@@ -53,6 +54,9 @@ public class Post extends Model {
 	@Basic
 	private Date updatedOn;
 	
+	@Version
+	private int revision;
+
 	@Basic
 	private String creatorIp;
 	
@@ -272,6 +276,14 @@ public class Post extends Model {
 	
 	public void setModifierIp(String ipToSet) {
 		this.modifierIp=ipToSet;
+	}
+
+	public int getRevision() {
+		return revision;
+	}
+
+	public void setRevision(int revision) {
+		this.revision = revision;
 	}
 
 	@Override

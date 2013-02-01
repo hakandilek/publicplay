@@ -93,4 +93,13 @@ public class PostRatingPK implements Serializable {
 				.append(", postKey=").append(postKey).append("]");
 		return builder.toString();
 	}
+
+	public static PostRatingPK fromString(String string) {
+		if (string == null || "".equals(string) || string.indexOf('.') > 1)
+			return null;
+		String[] parts = string.split("\\.");
+		String uk = parts[0];
+		Long pk = Long.parseLong(parts[1], 10);
+		return new PostRatingPK(uk, pk);
+	}
 }

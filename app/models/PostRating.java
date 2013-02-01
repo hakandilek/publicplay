@@ -10,11 +10,12 @@ import javax.persistence.Table;
 
 import play.data.validation.Constraints.Required;
 import play.db.ebean.Model;
+import play.utils.dao.BasicModel;
 
 @Entity
 @Table(name="TBL_POST_RATING")
 @SuppressWarnings("serial")
-public class PostRating extends Model {
+public class PostRating extends Model implements BasicModel<PostRatingPK> {
 
 	@EmbeddedId
 	private PostRatingPK key;

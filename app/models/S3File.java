@@ -3,6 +3,7 @@ package models;
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -11,11 +12,13 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.persistence.Version;
 
 import play.Logger;
 import play.data.validation.Constraints.Required;
 import play.db.ebean.Model;
 import play.utils.cache.CachedFinder;
+import play.utils.dao.TimestampModel;
 import plugins.S3Plugin;
 
 import com.amazonaws.services.s3.AmazonS3;
@@ -25,7 +28,7 @@ import com.amazonaws.services.s3.model.PutObjectRequest;
 @Entity
 @Table(name="TBL_S3FILE")
 @SuppressWarnings("serial")
-public class S3File extends Model {
+public class S3File extends Model implements TimestampModel<UUID> {
 
 	@Id
     public UUID id;
@@ -39,11 +42,51 @@ public class S3File extends Model {
 	@Required
     public String name;
 
+	@Basic
+	private Date createdOn;
+
+	@Basic
+	private Date updatedOn;
+	
+	@Version
+	private int revision;
+
+
     @Transient
     public File file;
 
 	public static CachedFinder<UUID, S3File> find = new CachedFinder<UUID, S3File>(
 			UUID.class, S3File.class);
+
+	
+	@Override
+	public UUID getKey() {
+		return id;
+	}
+
+	public Date getCreatedOn() {
+		return createdOn;
+	}
+
+	public void setCreatedOn(Date createdOn) {
+		this.createdOn = createdOn;
+	}
+
+	public Date getUpdatedOn() {
+		return updatedOn;
+	}
+
+	public void setUpdatedOn(Date updatedOn) {
+		this.updatedOn = updatedOn;
+	}
+
+	public int getRevision() {
+		return revision;
+	}
+
+	public void setRevision(int revision) {
+		this.revision = revision;
+	}
 
 	public static List<S3File> all() {
 		return find.all();

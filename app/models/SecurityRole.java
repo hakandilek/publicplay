@@ -13,11 +13,12 @@ import play.data.validation.Constraints.MinLength;
 import play.data.validation.Constraints.Required;
 import play.db.ebean.Model;
 import play.utils.cache.CachedFinder;
+import play.utils.dao.BasicModel;
 import be.objectify.deadbolt.models.Role;
 
 @Entity
 @Table(name="TBL_SECURITY_ROLE")
-public class SecurityRole extends Model implements Role {
+public class SecurityRole extends Model implements Role, BasicModel<Long> {
 
 	/** serial id */
 	private static final long serialVersionUID = 1L;

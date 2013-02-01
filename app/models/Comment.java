@@ -9,18 +9,20 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Version;
 
 import play.data.validation.Constraints.MaxLength;
 import play.data.validation.Constraints.Required;
 import play.db.ebean.Model;
 import play.utils.cache.CachedFinder;
+import play.utils.dao.TimestampModel;
 
 import com.avaje.ebean.Page;
 
 @Entity
 @Table(name="TBL_COMMENT")
 @SuppressWarnings("serial")
-public class Comment extends Model {
+public class Comment extends Model implements TimestampModel<Long>{
 
 	@Id
 	private Long key;
@@ -39,6 +41,9 @@ public class Comment extends Model {
     @Basic
 	private String creatorIp;
 	
+	@Version
+	private int revision;
+
 	@Basic
 	private String modifierIp;
 	
@@ -147,6 +152,14 @@ public class Comment extends Model {
 		this.updatedOn = updatedOn;
 	}
 
+	public int getRevision() {
+		return revision;
+	}
+
+	public void setRevision(int revision) {
+		this.revision = revision;
+	}
+
 	public User getCreatedBy() {
 		return createdBy;
 	}
@@ -191,5 +204,6 @@ public class Comment extends Model {
 				.append(", updatedBy=").append(updatedBy).append("]");
 		return builder.toString();
 	}
+
 
 }

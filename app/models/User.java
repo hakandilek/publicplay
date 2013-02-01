@@ -29,6 +29,7 @@ import org.brickred.socialauth.util.BirthDate;
 import play.db.ebean.Model;
 import play.utils.cache.CachedFinder;
 import play.utils.cache.InterimCache;
+import play.utils.dao.TimestampModel;
 import security.Approvable;
 import security.EntityPermission;
 import socialauth.core.SocialUser;
@@ -42,7 +43,7 @@ import com.avaje.ebean.annotation.EnumValue;
 @Entity
 @Table(name="TBL_USER")
 @SuppressWarnings("serial")
-public class User extends Model implements RoleHolder, Approvable {
+public class User extends Model implements RoleHolder, Approvable, TimestampModel<String> {
 
 	public enum Status {
 		@EnumValue("N")

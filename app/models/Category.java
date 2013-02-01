@@ -13,11 +13,12 @@ import javax.persistence.Table;
 
 import play.db.ebean.Model;
 import play.utils.cache.CachedFinder;
+import play.utils.dao.BasicModel;
 
 @Entity
 @Table(name="TBL_CATEGORY")
 @SuppressWarnings("serial")
-public class Category extends Model {
+public class Category extends Model implements BasicModel<String> {
 
 	@Id
 	private String name;
@@ -90,5 +91,9 @@ public class Category extends Model {
 		return builder.toString();
 	}
 
+	@Override
+	public String getKey() {
+		return name;
+	}
 
 }
