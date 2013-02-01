@@ -1,11 +1,7 @@
 package controllers;
 
-import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-
-import com.avaje.ebean.Page;
 
 import models.CRUDModel;
 import models.Comment;
@@ -24,6 +20,9 @@ import admin.PostAdminPage;
 import admin.S3FileAdminPage;
 import admin.UserAdminPage;
 import be.objectify.deadbolt.actions.Restrict;
+
+import com.avaje.ebean.Page;
+
 import crud.controllers.CRUD;
 import crud.controllers.CRUDController;
 import crud.controllers.CachedCRUD;
@@ -144,10 +143,10 @@ public class AdminController extends CRUDController {
 		if (log.isDebugEnabled())
 			log.debug("userStatus : " + userStatus);
 		
-		CRUD<? extends Serializable, ?> crud = instance.getCRUD("User");
-		UserAdminPage uap = (UserAdminPage) crud.getPage();
 		String keyFieldName = "key";
-		List<String> fieldNames = Arrays.asList(new String[]{"key", "profile", "lastLogin", "loginCount"});
+		String[] strings = new String[]{"key", "profile", "lastLogin", "loginCount"};
+		@SuppressWarnings("unchecked")
+		List<String> fieldNames = Arrays.asList(strings);
 		Page<User> pg = User.page(page, PAGE_SIZE, userStatus);
 		Page<CRUDModel> metaPage = new MetaPage<User>(pg, keyFieldName,
 				fieldNames);

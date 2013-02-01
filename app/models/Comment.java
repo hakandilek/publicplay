@@ -11,13 +11,11 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import play.data.validation.Constraints.MaxLength;
-import play.data.validation.Constraints.MinLength;
 import play.data.validation.Constraints.Required;
 import play.db.ebean.Model;
+import play.utils.cache.CachedFinder;
 
 import com.avaje.ebean.Page;
-
-import play.utils.cache.CachedFinder;
 
 @Entity
 @Table(name="TBL_COMMENT")
