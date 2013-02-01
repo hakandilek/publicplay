@@ -1,0 +1,37 @@
+@(title: String)(content: Html)
+<!DOCTYPE html>
+
+<html>
+    <head>
+    	<title>@title</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="shortcut icon" type="image/png" href="@routes.Assets.at("images/favicon.png")">
+        <link rel="stylesheet" type="text/css" media="screen" href="@routes.Assets.at("stylesheets/bootstrap.min.css")"> 
+        <link rel="stylesheet" type="text/css" media="screen" href="@routes.Assets.at("stylesheets/main.css")"> 
+    </head>
+    <body>
+		
+		<div class="navbar navbar-fixed-top">
+			<div class="navbar-inner">
+				<div class="container-fluid">
+					<div class="offset1">
+						<!-- Be sure to leave the brand out there if you want it shown -->
+						<a class="brand" href="/"><img alt="publicplay" src="@routes.Assets.at("images/logo.png")"> @Messages("Brand_title")</a>
+					</div>	
+			     </div>
+			</div>
+		</div>
+
+		<section id="main">
+			<div class="container-fluid">
+				<div class="row">
+					<div class="offset1 span10">
+					@content
+					</div>
+				</div>
+				<!-- row -->
+			</div><!-- container -->
+		</section>
+		
+	</body>
+</html>
