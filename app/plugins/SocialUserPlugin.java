@@ -1,4 +1,4 @@
-package socialauth.service;
+package plugins;
 
 import java.util.Date;
 
@@ -12,13 +12,13 @@ import play.Logger.ALogger;
 import play.api.Plugin;
 import socialauth.core.SocialUser;
 
-public class SocialUserService implements Plugin {
+public class SocialUserPlugin implements Plugin {
 	
-	private static ALogger log = Logger.of(SocialUserService.class);
+	private static ALogger log = Logger.of(SocialUserPlugin.class);
 
-	private static SocialUserService instance;// plugin instance
+	private static SocialUserPlugin instance;// plugin instance
 
-	public SocialUserService(Application app) {
+	public SocialUserPlugin(Application app) {
 		if (log.isInfoEnabled())
 			log.debug(getClass().getSimpleName() + " created.");
 	}
@@ -87,7 +87,7 @@ public class SocialUserService implements Plugin {
 			log.debug(getClass().getSimpleName() + " stopped.");
 	}
 
-	public static SocialUserService getInstance() {
+	public static SocialUserPlugin getInstance() {
 		return instance;
 	}
 
