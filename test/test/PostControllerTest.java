@@ -21,8 +21,7 @@ public class PostControllerTest {
 	public void testNewForm() {
 		running(fakeApplication(), new Runnable() {
 			public void run() {
-				Result result = callAction(controllers.routes.ref.PostController
-						.newForm());
+				Result result = callAction(controllers.routes.ref.App.postNewForm());
 				assertThat(status(result)).isEqualTo(OK);
 				assertThat(contentType(result)).isEqualTo("text/html");
 				assertThat(charset(result)).isEqualTo("utf-8");
@@ -40,8 +39,7 @@ public class PostControllerTest {
 	public void testEditForm() {
 		running(fakeApplication(), new Runnable() {
 			public void run() {
-				Result result = callAction(controllers.routes.ref.PostController
-						.editForm(-11l));
+				Result result = callAction(controllers.routes.ref.App.postEditForm(-11l));
 				assertThat(status(result)).isEqualTo(OK);
 				assertThat(contentType(result)).isEqualTo("text/html");
 				assertThat(charset(result)).isEqualTo("utf-8");
@@ -59,8 +57,8 @@ public class PostControllerTest {
 	public void testShow() {
 		running(fakeApplication(), new Runnable() {
 			public void run() {
-				Result result = callAction(controllers.routes.ref.PostController
-						.show(-11l, "title", 0));
+				Result result = callAction(controllers.routes.ref.App
+						.postShow(-11l, "title", 0));
 				assertThat(status(result)).isEqualTo(OK);
 				assertThat(contentType(result)).isEqualTo("text/html");
 				assertThat(charset(result)).isEqualTo("utf-8");
@@ -83,8 +81,7 @@ public class PostControllerTest {
 	public void testEditCommentForm() {
 		running(fakeApplication(), new Runnable() {
 			public void run() {
-				Result result = callAction(controllers.routes.ref.PostController
-						.editCommentForm(-11l, -111l));
+				Result result = callAction(controllers.routes.ref.App.commentEditForm(-11l, -111l));
 				assertThat(status(result)).isEqualTo(OK);
 				assertThat(contentType(result)).isEqualTo("text/html");
 				assertThat(charset(result)).isEqualTo("utf-8");

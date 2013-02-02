@@ -3,26 +3,27 @@
 # ~~~~
 
 # Home page
-GET     /                           controllers.HomeController.index()
+GET     /                           controllers.App.index()
 #Users
 GET     /users/self                 controllers.UserController.showSelf()
 GET     /users/:key                 controllers.UserController.show(key: String)
 # Post
-GET     /posts                      controllers.PostController.list(p:Int ?= 0)
-POST    /posts                      controllers.PostController.create()
-GET     /posts/new                  controllers.PostController.newForm()
-GET     /posts/:key/rateUp          controllers.PostController.rateUp(key: Long)
-GET     /posts/:key/rateDown        controllers.PostController.rateDown(key: Long)
-GET     /posts/:key/rate            controllers.PostController.rateShow(key: Long)
-GET     /posts/:key/edit            controllers.PostController.editForm(key: Long)
-POST    /posts/:key/update          controllers.PostController.update(key: Long)
-GET     /posts/:key/delete          controllers.PostController.delete(key: Long)
-GET     /posts/:key/:title          controllers.PostController.show(key: Long, title: String, p:Int ?= 0)
+GET     /posts                      controllers.App.postList(p:Int ?= 0)
+POST    /posts                      controllers.App.postCreate()
+GET     /posts/new                  controllers.App.postNewForm()
+GET     /posts/:key/edit            controllers.App.postEditForm(key: Long)
+POST    /posts/:key/update          controllers.App.postUpdate(key: Long)
+GET     /posts/:key/delete          controllers.App.postDelete(key: Long)
+GET     /posts/:key/:title          controllers.App.postShow(key: Long, title: String, p:Int ?= 0)
 # Comment
-POST    /posts/:postKey/:title                             		controllers.PostController.createComment(postKey: Long, title: String)
-GET     /posts/:postKey/comments/:commentKey/edit/   controllers.PostController.editCommentForm(postKey: Long, commentKey: Long)
-POST    /posts/:postKey/comments/:commentKey        		controllers.PostController.updateComment(postKey: Long, commentKey: Long)
-GET     /posts/:postKey/comments/:commentKey/delete 			controllers.PostController.deleteComment(postKey: Long, commentKey: Long)
+POST    /posts/:postKey/:title                    	controllers.App.commentCreate(postKey: Long, title: String)
+GET     /posts/:postKey/comments/:commentKey/edit/  controllers.App.commentEditForm(postKey: Long, commentKey: Long)
+POST    /posts/:postKey/comments/:commentKey        controllers.App.commentUpdate(postKey: Long, commentKey: Long)
+GET     /posts/:postKey/comments/:commentKey/delete controllers.App.commentDelete(postKey: Long, commentKey: Long)
+# rates
+GET     /posts/:key/rateUp          controllers.App.rateUp(key: Long)
+GET     /posts/:key/rateDown        controllers.App.rateDown(key: Long)
+GET     /posts/:key/rate            controllers.App.rateShow(key: Long)
 
 
 # Map static resources from the /public folder to the /assets URL path

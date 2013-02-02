@@ -6,8 +6,8 @@
         
 	<h3>@if(key != null) { @Messages("update_post_detail") } else { @Messages("new_post_detail") } </h3>
 
-    @form(if(key != null) { routes.PostController.update(key) } 
-          else            { routes.PostController.create() },
+    @form(if(key != null) { routes.App.postUpdate(key) } 
+          else            { routes.App.postCreate() },
           'class -> "form-horizontal",
           'enctype -> "multipart/form-data") {
         

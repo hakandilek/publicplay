@@ -8,7 +8,7 @@ import play.mvc.Http.Context;
 import play.mvc.Http;
 import play.mvc.Result;
 import utils.HttpUtils;
-import views.html.accessFailed;
+import views.html.errors.accessFailed;
 import be.objectify.deadbolt.AbstractDeadboltHandler;
 import be.objectify.deadbolt.DynamicResourceHandler;
 import be.objectify.deadbolt.models.RoleHolder;

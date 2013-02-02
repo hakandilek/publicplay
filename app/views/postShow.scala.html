@@ -35,10 +35,10 @@
 			        @Html(Messages("UpdatedOn_By", prettify(post.getUpdatedOn()), partials.userProfile(post.getUpdatedBy()))) }
        			</small>
 		        @restrictCombine(la(as("admin")), "models.Post.delete." + post.getKey()) {
-		        <a class="btn btn-mini btn-danger pull-right spaced" href="@routes.PostController.delete(post.getKey())">@Messages("delete")</a>
+		        <a class="btn btn-mini btn-danger pull-right spaced" href="@routes.App.postDelete(post.getKey())">@Messages("delete")</a>
 		        }
 		        @restrictCombine(la(as("admin")), "models.Post.edit." + post.getKey()) {
-		        <a class="btn btn-mini pull-right spaced" href="@routes.PostController.editForm(post.getKey())">@Messages("edit")</a>
+		        <a class="btn btn-mini pull-right spaced" href="@routes.App.postEditForm(post.getKey())">@Messages("edit")</a>
 		        }
     		</div>
 	    </div>
@@ -78,10 +78,10 @@
                         @Html(Messages("UpdatedOn_By", prettify(comment.getUpdatedOn()), partials.userProfile(comment.getUpdatedBy()))) }
                         </small>
                         @restrictCombine(la(as("admin")), "models.Comment.edit." + comment.getKey()) {
-                        <a class="btn btn-mini" href="@routes.PostController.editCommentForm(post.getKey(), comment.getKey())#form">@Messages("edit")</a>
+                        <a class="btn btn-mini" href="@routes.App.commentEditForm(post.getKey(), comment.getKey())#form">@Messages("edit")</a>
                         }
                         @restrictCombine(la(as("admin")), "models.Comment.delete." + comment.getKey()) {
-                        <a class="btn btn-mini btn-danger" href="@routes.PostController.deleteComment(post.getKey(), comment.getKey())">@Messages("delete")</a>
+                        <a class="btn btn-mini btn-danger" href="@routes.App.commentDelete(post.getKey(), comment.getKey())">@Messages("delete")</a>
                         }
                     </td> 
                 </tr>
@@ -92,8 +92,8 @@
         </table>
         
         @partials.pagination(currentPage, Constants.COMMENTS_PER_PAGE, 
-            routes.PostController.show(post.getKey(), sanitizeURL(post.getTitle()), currentPage.getPageIndex - 1),
-            routes.PostController.show(post.getKey(), sanitizeURL(post.getTitle()), currentPage.getPageIndex + 1))
+            routes.App.postShow(post.getKey(), sanitizeURL(post.getTitle()), currentPage.getPageIndex - 1),
+            routes.App.postShow(post.getKey(), sanitizeURL(post.getTitle()), currentPage.getPageIndex + 1))
         
         <h4>@Messages("drop_your_comment")</h4>
     }
@@ -103,8 +103,8 @@
     <div class="row-fluid">
         <div class="span9">
 
-        @form(if(commentKey != null) { routes.PostController.updateComment(post.getKey(), commentKey) } 
-              else                   { routes.PostController.createComment(post.getKey(), sanitizeURL(post.getTitle())) } , 'id -> "form") { 
+        @form(if(commentKey != null) { routes.App.commentUpdate(post.getKey(), commentKey) } 
+              else                   { routes.App.commentCreate(post.getKey(), sanitizeURL(post.getTitle())) } , 'id -> "form") { 
             
             @textarea(commentForm("content"), args = '_label -> Messages("Comment.content.label"),'rows -> 4,'class->"input-xxlarge", Symbol("data-maxchars") -> "2000", '_showConstraints -> false)
             

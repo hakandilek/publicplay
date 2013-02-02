@@ -95,7 +95,7 @@ public class SocialLogin extends Controller {
 		// TODO: log user logout into DB
 		session().remove(USER_KEY);
 		session().remove(ORIGINAL_URL);
-		return redirect(controllers.routes.HomeController.index());
+		return redirect(controllers.routes.App.index());
 	}
 
 	private static String authSuccessURL(String provider) {
@@ -201,7 +201,7 @@ public class SocialLogin extends Controller {
 		}
 		if (log.isDebugEnabled())
 			log.debug("redirecting back to home");
-		return redirect(controllers.routes.HomeController.index());
+		return redirect(controllers.routes.App.index());
 	}
 
 }
