@@ -1,5 +1,8 @@
 package controllers.crud;
 
+import javax.inject.Inject;
+
+import controllers.routes;
 import models.PostRating;
 import models.PostRatingPK;
 import models.dao.PostRatingDAO;
@@ -8,6 +11,7 @@ import play.utils.crud.CRUDController;
 
 public class PostRatingController extends CRUDController<PostRatingPK, PostRating> {
 
+	@Inject
 	public PostRatingController(PostRatingDAO dao) {
 		super(dao, form(PostRating.class), PostRatingPK.class, PostRating.class);
 	}
@@ -33,7 +37,7 @@ public class PostRatingController extends CRUDController<PostRatingPK, PostRatin
 	}
 
 	public static Call crudIndex() {
-		return CategoryController.crudIndex();
+		return routes.Admin.index();
 	}
 
 }

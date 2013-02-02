@@ -18,6 +18,7 @@ create table TBL_COMMENT (
   postKey                   bigint,
   created_by                varchar(255),
   updated_by                varchar(255),
+  revision                  integer not null,
   constraint pk_TBL_COMMENT primary key (key))
 ;
 
@@ -33,6 +34,7 @@ create table TBL_POST (
   image_id                  varchar(40),
   created_by                varchar(255),
   category                  varchar(255),
+  revision                  integer not null,
   updated_by                varchar(255),
   constraint pk_TBL_POST primary key (key))
 ;
@@ -51,6 +53,9 @@ create table TBL_S3FILE (
   bucket                    varchar(255),
   parent                    varchar(255),
   name                      varchar(255),
+  created_on                timestamp,
+  updated_on                timestamp,
+  revision                  integer not null,
   constraint pk_TBL_S3FILE primary key (id))
 ;
 
@@ -59,6 +64,30 @@ create table TBL_SECURITY_ROLE (
   name                      varchar(50),
   constraint uq_TBL_SECURITY_ROLE_name unique (name),
   constraint pk_TBL_SECURITY_ROLE primary key (key))
+;
+
+create table TBL_SOURCE_CONFIG (
+  key                       bigint not null,
+  source_key                varchar(255),
+  name_selector             varchar(255),
+  name_value                varchar(255),
+  name_required             boolean,
+  description_selector      varchar(255),
+  description_value         varchar(255),
+  description_required      boolean,
+  price_selector            varchar(255),
+  price_value               varchar(255),
+  price_required            boolean,
+  discount_price_selector   varchar(255),
+  discount_price_value      varchar(255),
+  discount_price_required   boolean,
+  image_link_selector       varchar(255),
+  image_link_value          varchar(255),
+  image_link_required       boolean,
+  created_on                timestamp,
+  updated_on                timestamp,
+  revision                  integer not null,
+  constraint pk_TBL_SOURCE_CONFIG primary key (key))
 ;
 
 create table TBL_USER (
@@ -99,6 +128,8 @@ create sequence TBL_POST_RATING_seq;
 
 create sequence TBL_SECURITY_ROLE_seq;
 
+create sequence TBL_SOURCE_CONFIG_seq;
+
 create sequence TBL_USER_seq;
 
 alter table TBL_COMMENT add constraint fk_TBL_COMMENT_post_1 foreign key (postKey) references TBL_POST (key) on delete restrict on update restrict;
@@ -138,6 +169,8 @@ drop table if exists TBL_S3FILE;
 
 drop table if exists TBL_SECURITY_ROLE;
 
+drop table if exists TBL_SOURCE_CONFIG;
+
 drop table if exists TBL_USER;
 
 drop table if exists TBL_USER_SECURITY_ROLE;
@@ -153,6 +186,8 @@ drop sequence if exists TBL_POST_seq;
 drop sequence if exists TBL_POST_RATING_seq;
 
 drop sequence if exists TBL_SECURITY_ROLE_seq;
+
+drop sequence if exists TBL_SOURCE_CONFIG_seq;
 
 drop sequence if exists TBL_USER_seq;
 

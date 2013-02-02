@@ -47,7 +47,7 @@
                         }
                         @restrict(la(as("admin"))) {
                             <!-- admin -->
-                            <li><a href="@routes.AdminController.index()"><i class="icon-wrench icon-white"></i>&nbsp;@Messages("Administration")</a></li>
+                            <li><a href="@routes.Admin.index()"><i class="icon-wrench icon-white"></i>&nbsp;@Messages("Administration")</a></li>
                         }
                         @views.html.security.roleHolderPresent(){
                             @if(loggedInUser != null) {

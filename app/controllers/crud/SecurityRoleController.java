@@ -1,5 +1,8 @@
 package controllers.crud;
 
+import javax.inject.Inject;
+
+import controllers.routes;
 import models.SecurityRole;
 import models.dao.SecurityRoleDAO;
 import play.mvc.Call;
@@ -7,6 +10,7 @@ import play.utils.crud.CRUDController;
 
 public class SecurityRoleController extends CRUDController<Long, SecurityRole> {
 
+	@Inject
 	public SecurityRoleController(SecurityRoleDAO dao) {
 		super(dao, form(SecurityRole.class), Long.class, SecurityRole.class);
 	}
@@ -32,7 +36,7 @@ public class SecurityRoleController extends CRUDController<Long, SecurityRole> {
 	}
 
 	public static Call crudIndex() {
-		return CategoryController.crudIndex();
+		return routes.Admin.securityRoleList();
 	}
 
 }
