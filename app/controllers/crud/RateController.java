@@ -14,9 +14,9 @@ import play.mvc.Controller;
 import play.mvc.Result;
 import security.RestrictApproved;
 import socialauth.core.Secure;
-import utils.HttpUtils;
 import views.html.rate;
 import controllers.Constants;
+import controllers.HttpUtils;
 
 public class RateController extends Controller implements Constants {
 
@@ -25,11 +25,14 @@ public class RateController extends Controller implements Constants {
 	PostDAO postDAO;
 	PostRatingDAO postRatingDAO;
 
+	private HttpUtils httpUtils;
+
 	@Inject
-	public RateController(PostDAO postDAO, PostRatingDAO postRatingDAO) {
+	public RateController(PostDAO postDAO, PostRatingDAO postRatingDAO, HttpUtils httpUtils) {
 		super();
 		this.postDAO = postDAO;
 		this.postRatingDAO = postRatingDAO;
+		this.httpUtils = httpUtils;
 	}
 
 	/**
@@ -57,11 +60,11 @@ public class RateController extends Controller implements Constants {
 		if (log.isDebugEnabled())
 			log.debug("rating : " + rating);
 
-		Post post = Post.get(postKey);
+		Post post = postDAO.get(postKey);
 		if (log.isDebugEnabled())
 			log.debug("post : " + post);
 
-		User user = HttpUtils.loginUser(ctx());
+		User user = httpUtils.loginUser(ctx());
 		if (log.isDebugEnabled())
 			log.debug("user : " + user);
 
@@ -69,7 +72,7 @@ public class RateController extends Controller implements Constants {
 			// save/update rate
 			if (post.getRating() == null)
 				post.setRating(0);
-			PostRating pr = PostRating.get(user, post);
+			PostRating pr = postRatingDAO.get(user, post);
 			if (log.isDebugEnabled())
 				log.debug("pr : " + pr);
 
@@ -78,12 +81,12 @@ public class RateController extends Controller implements Constants {
 				pr = new PostRating();
 				pr.setValue(rating);
 				pr.setKey(key);
-				PostRating.create(pr);
+				postRatingDAO.create(pr);
 				post.setRating(post.getRating() + rating);
 			} else {
 				int ratingBefore = pr.getValue();
 				pr.setValue(rating);
-				PostRating.update(key, pr);
+				postRatingDAO.update(key, pr);
 				if (log.isDebugEnabled())
 					log.debug("post.rating : " + post.getRating());
 				if (log.isDebugEnabled())
@@ -91,11 +94,11 @@ public class RateController extends Controller implements Constants {
 				post.setRating(post.getRating() - ratingBefore + rating);
 			}
 
-			user.resetVotedPostKeyCache();
+			postRatingDAO.resetVotedPostKeyCache(user);
 
 			if (log.isDebugEnabled())
 				log.debug("updating post : " + post);
-			Post.update(postKey, post);
+			postDAO.update(postKey, post);
 			if (log.isDebugEnabled())
 				log.debug("post : " + post);
 
@@ -108,7 +111,7 @@ public class RateController extends Controller implements Constants {
 	}
 
 	public Result rateShow(Long postKey) {
-		Post post = Post.get(postKey);
+		Post post = postDAO.get(postKey);
 		if (log.isDebugEnabled())
 			log.debug("post : " + post);
 

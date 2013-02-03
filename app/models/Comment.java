@@ -14,10 +14,7 @@ import javax.persistence.Version;
 import play.data.validation.Constraints.MaxLength;
 import play.data.validation.Constraints.Required;
 import play.db.ebean.Model;
-import play.utils.cache.CachedFinder;
 import play.utils.dao.TimestampModel;
-
-import com.avaje.ebean.Page;
 
 @Entity
 @Table(name="TBL_COMMENT")
@@ -59,59 +56,6 @@ public class Comment extends Model implements TimestampModel<Long>{
     @JoinColumn(name="updated_by", nullable=true)
     private User updatedBy;
 
-    public static CachedFinder<Long, Comment> find = new CachedFinder<Long, Comment>(Long.class, Comment.class);
-
-	/**
-	 * Return a page of comments
-	 * 
-	 * @param postKey
-	 *            post key
-	 * @param page
-	 *            Page to display
-	 * @param pageSize
-	 *            Number of computers per page
-	 */
-	public static Page<Comment> page(Long postKey, int page, int pageSize) {
-		return find.page(page, pageSize, "createdOn desc", "postKey", postKey);
-	}
-   
-	public static void create(Comment comment) {
-		Date now = new Date();
-		comment.setCreatedOn(now);
-		comment.setUpdatedOn(now);
-		comment.save();
-		find.put(comment.getKey(), comment);
-		// clean user cache for a backlink update
-		User owner = comment.createdBy;
-		if (owner != null)
-			User.find.clean(owner.getKey());
-	}
-
-	public static void remove(Long key) {
-		Comment comment = find.ref(key);
-		comment.delete();
-		find.clean(key);
-		// clean user cache for a backlink update
-		User owner = comment.createdBy;
-		if (owner != null)
-			User.find.clean(owner.getKey());
-	}
-
-	public static Comment get(Long key) {
-		return find.byId(key);
-	}
-
-	public static void update(Long key, Comment comment) {
-		Date now = new Date();
-		comment.setUpdatedOn(now);
-		comment.update(key);
-		find.put(comment.getKey(), comment);
-		// clean user cache for a backlink update
-		User owner = comment.createdBy;
-		if (owner != null)
-			User.find.clean(owner.getKey());
-	}
-	
 	public Long getKey() {
 		return key;
 	}

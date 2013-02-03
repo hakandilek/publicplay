@@ -1,21 +1,21 @@
 package models;
 
 import java.util.Date;
-import java.util.List;
 
 import javax.persistence.Basic;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.persistence.Version;
 
 import play.data.validation.Constraints.Required;
 import play.db.ebean.Model;
-import play.utils.dao.BasicModel;
+import play.utils.dao.TimestampModel;
 
 @Entity
 @Table(name="TBL_POST_RATING")
 @SuppressWarnings("serial")
-public class PostRating extends Model implements BasicModel<PostRatingPK> {
+public class PostRating extends Model implements TimestampModel<PostRatingPK> {
 
 	@EmbeddedId
 	private PostRatingPK key;
@@ -28,39 +28,9 @@ public class PostRating extends Model implements BasicModel<PostRatingPK> {
 
 	@Basic
 	private Date updatedOn;
-
-	public static Finder<PostRatingPK, PostRating> find = new Finder<PostRatingPK, PostRating>(
-			PostRatingPK.class, PostRating.class);
-
-	public static PostRating get(User user, Post post) {
-		PostRating rating = find.where().eq("user_key", user.getKey())
-				.eq("post_key", post.getKey()).findUnique();
-		return rating;
-	}
-
-	public static List<PostRating> get(User user) {
-		List<PostRating> ratings = find.where().eq("user_key", user.getKey())
-				.findList();
-		return ratings;
-	}
-
-	public static PostRating get(String userKey, Long postKey) {
-		PostRatingPK key = new PostRatingPK(userKey, postKey);
-		return find.byId(key);
-	}
-
-	public static void create(PostRating rating) {
-		Date now = new Date();
-		rating.setCreatedOn(now);
-		rating.setUpdatedOn(now);
-		rating.save();
-	}
-
-	public static void update(PostRatingPK key, PostRating rating) {
-		Date now = new Date();
-		rating.setUpdatedOn(now);
-		rating.update();
-	}
+	
+	@Version
+	private int revision;
 
 	public Date getCreatedOn() {
 		return createdOn;
@@ -94,6 +64,14 @@ public class PostRating extends Model implements BasicModel<PostRatingPK> {
 		this.value = value;
 	}
 
+	public int getRevision() {
+		return revision;
+	}
+
+	public void setRevision(int revision) {
+		this.revision = revision;
+	}
+
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
@@ -102,7 +80,4 @@ public class PostRating extends Model implements BasicModel<PostRatingPK> {
 				.append(", updatedOn=").append(updatedOn).append("]");
 		return builder.toString();
 	}
-	
-	
-
 }

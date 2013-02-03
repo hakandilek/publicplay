@@ -45,6 +45,7 @@ create table TBL_POST_RATING (
   value                     integer,
   created_on                timestamp,
   updated_on                timestamp,
+  revision                  integer not null,
   constraint pk_TBL_POST_RATING primary key (user_key, post_key))
 ;
 

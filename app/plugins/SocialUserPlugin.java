@@ -3,6 +3,7 @@ package plugins;
 import java.util.Date;
 
 import models.User;
+import models.dao.UserDAO;
 
 import org.brickred.socialauth.Profile;
 
@@ -18,6 +19,8 @@ public class SocialUserPlugin implements Plugin {
 
 	private static SocialUserPlugin instance;// plugin instance
 
+	private UserDAO userDAO;
+
 	public SocialUserPlugin(Application app) {
 		if (log.isInfoEnabled())
 			log.debug(getClass().getSimpleName() + " created.");
@@ -31,7 +34,7 @@ public class SocialUserPlugin implements Plugin {
 		if (log.isDebugEnabled())
 			log.debug("profile : " + profile);
 		
-		User user = User.get(userKey);
+		User user = userDAO.get(userKey);
 		if (log.isDebugEnabled())
 			log.debug("user : " + user);
 		
@@ -42,7 +45,7 @@ public class SocialUserPlugin implements Plugin {
 		} else {
 			SocialUser socialUser = new SocialUser(profile);
 			user = new User(socialUser);
-			User.create(user);
+			userDAO.create(user);
 		}
 		
 		if (log.isDebugEnabled())
@@ -55,7 +58,7 @@ public class SocialUserPlugin implements Plugin {
 		if (log.isDebugEnabled())
 			log.debug("userKey : " + userKey);
 		
-		final User user = User.get(userKey);
+		final User user = userDAO.get(userKey);
 		if (log.isDebugEnabled())
 			log.debug("user : " + user);
 		SocialUser socialUser = null;
@@ -75,6 +78,8 @@ public class SocialUserPlugin implements Plugin {
 	@Override
 	public void onStart() {
 		instance = this;
+		userDAO = GuicePlugin.getInstance().getInstance(UserDAO.class);
+
 		if (log.isInfoEnabled())
 			log.debug(getClass().getSimpleName() + " started.");
 
@@ -83,6 +88,8 @@ public class SocialUserPlugin implements Plugin {
 	@Override
 	public void onStop() {
 		instance = null;
+		userDAO = null;
+		
 		if (log.isInfoEnabled())
 			log.debug(getClass().getSimpleName() + " stopped.");
 	}

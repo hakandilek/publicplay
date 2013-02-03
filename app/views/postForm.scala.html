@@ -1,6 +1,7 @@
-@(key: Long, postForm: Form[Post], user: models.User, image: S3File)
+@(key: Long, postForm: Form[Post], user: models.User, image: S3File, categories:List[String])
 @import helper._ 
 @import helper.twitterBootstrap._
+@import helper.PostHelper._
 
 @main(if(key != null) Messages("update_post") else Messages("new_post"), user) {
         
@@ -10,10 +11,9 @@
           else            { routes.App.postCreate() },
           'class -> "form-horizontal",
           'enctype -> "multipart/form-data") {
-        
         <div class="control-group"> 
         @select(postForm("category.name"), args = '_label -> Messages("Post.category.label"), 
-        	options=Category.all().map{ c => c.getName() -> (Messages("Category." + c.getName())) })
+        	options=categories.map{ c => c -> (Messages("Category." + c)) })
         </div>
         
         <div class="control-group"> 
@@ -48,7 +48,7 @@
             } else {
                 <div class="fileupload fileupload-exists" data-provides="fileupload">
                     <div class="fileupload-new thumbnail post-img" data-dismiss="fileupload">
-                        <img data-src="holder.js/120x90/#fefef9:#000/text:@Messages("Post.image.no_image")" />
+                        <img data-src='holder.js/120x90/#fefef9:#000/text:@Messages("Post.image.no_image")' />
                     </div>
                     <div class="fileupload-preview fileupload-exists thumbnail post-img-preview">
                         <img alt="@image.name" src="@image.getUrl()">
@@ -71,7 +71,7 @@
         </div>
          
         <div>
-            <input type="submit" class="btn btn-success" value="@if(key != null) { @Messages("Update") } else { @Messages("Post") }">
+            <input type="submit" class="btn btn-success" value='@if(key != null) { @Messages("Update") } else { @Messages("Post") }'>
             @Html(Messages("as_profile", partials.userProfile(user)))
         </div>
     } 

@@ -2,6 +2,7 @@ package module;
 
 import models.SourceConfiguration;
 import models.dao.SourceConfigurationDAO;
+import models.dao.UserDAO;
 
 import com.google.inject.AbstractModule;
 import com.pickleproject.Configuration;
@@ -16,6 +17,8 @@ public class Dependencies extends AbstractModule {
 		bind(ConfigurationDAO.class).toInstance(sourceConfigurationDAO);
 		bind(SourceConfigurationDAO.class).toInstance(sourceConfigurationDAO);
 		bind(Configuration.class).toInstance(new ProductDAOConfiguration<Long, SourceConfiguration>(sourceConfigurationDAO));
+		
+		bind(UserDAO.class).toInstance(new UserDAO());
 	}
 
 

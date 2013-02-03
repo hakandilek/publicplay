@@ -19,6 +19,8 @@ public class GuicePlugin extends InjectPlugin {
 
 	private Injector injector = null;
 
+	private static GuicePlugin instance;
+
 	public GuicePlugin(Application app) {
 		super(app);
 	}
@@ -46,6 +48,15 @@ public class GuicePlugin extends InjectPlugin {
 		this.injector = Guice.createInjector(modules);
 
 		log.info("started " + getClass().getSimpleName());
+		
+		instance = this;
+	}
+
+	
+	@Override
+	public void onStop() {
+		super.onStop();
+		instance = null;
 	}
 
 	private List<Module> convertToModules(List<Object> moduleList,
@@ -57,6 +68,10 @@ public class GuicePlugin extends InjectPlugin {
 			list.add((Module) module);
 		}
 		return list;
+	}
+
+	public static GuicePlugin getInstance() {
+		return instance;
 	}
 
 }

@@ -6,24 +6,30 @@ import java.util.TreeSet;
 import javax.inject.Inject;
 
 import models.User;
+import models.dao.PostRatingDAO;
 import models.dao.UserDAO;
 import play.Logger;
 import play.Logger.ALogger;
 import play.mvc.Call;
 import play.mvc.Result;
 import play.utils.crud.CRUDController;
-import socialauth.core.Secure;
-import utils.HttpUtils;
 import views.html.userShow;
+import controllers.HttpUtils;
 import controllers.routes;
 
 public class UserController extends CRUDController<String, User> {
 
 	private static ALogger log = Logger.of(UserController.class);
+	private PostRatingDAO postRatingDAO;
+	private UserDAO userDAO;
+	private HttpUtils httpUtils;
 
 	@Inject
-	public UserController(UserDAO dao) {
-		super(dao, form(User.class), String.class, User.class);
+	public UserController(UserDAO userDAO, PostRatingDAO postRatingDAO, HttpUtils httpUtils) {
+		super(userDAO, form(User.class), String.class, User.class);
+		this.userDAO = userDAO;
+		this.postRatingDAO = postRatingDAO;
+		this.httpUtils = httpUtils;
 	}
 
 	@Override
@@ -48,59 +54,55 @@ public class UserController extends CRUDController<String, User> {
 
 	public Result show(String key) {
 		if (log.isDebugEnabled())
-			log.debug("show() <-");
-		if (log.isDebugEnabled())
-			log.debug("key : " + key);
-
-		User userToBeShowed = null;
-		if (null != key) {
-			userToBeShowed = User.get(key);
-		}
-		final Set<Long> upVotes = userToBeShowed == null ? new TreeSet<Long>() : userToBeShowed.getUpVotedPostKeys();
-		final Set<Long> downVotes = userToBeShowed == null ? new TreeSet<Long>() : userToBeShowed.getDownVotedPostKeys();
-
-		User loggedInUser = HttpUtils.loginUser(ctx());
-		if (log.isDebugEnabled())
-			log.debug("user : " + loggedInUser);
-		if (loggedInUser == null || userToBeShowed == null) {
-			return badRequest(userShow.render(loggedInUser, userToBeShowed,
-					false,upVotes, downVotes));
-		}
-		boolean selfPage = false;
-		if (loggedInUser != null && userToBeShowed != null
-				&& (loggedInUser.getKey() + "").equals(userToBeShowed.getKey())) {
-			selfPage = true;
-		}
-
-		return ok(userShow.render(loggedInUser, userToBeShowed, selfPage,upVotes, downVotes));
+			log.debug("show() <- " + key);
+		User loginUser = httpUtils.loginUser(ctx());
+		User userToShow = null;
+		if (null != key)
+			userToShow = userDAO.get(key);
+		return show(loginUser, userToShow);
 	}
 
-	@Secure
 	public Result showSelf() {
 		if (log.isDebugEnabled())
 			log.debug("showSelf() <-");
+		User loginUser = httpUtils.loginUser(ctx());
+		return show(loginUser, loginUser);
+	}
 
-		User loggedInUser = HttpUtils.loginUser(ctx());
-		final Set<Long> upVotes = loggedInUser == null ? new TreeSet<Long>() : loggedInUser.getUpVotedPostKeys();
-		final Set<Long> downVotes = loggedInUser == null ? new TreeSet<Long>() : loggedInUser.getDownVotedPostKeys();
+	private Result show(User loginUser, User userToShow) {
+
+		Set<Long> upVotes = userToShow == null ? new TreeSet<Long>()
+				: postRatingDAO.getUpVotedPostKeys(userToShow);
+		Set<Long> downVotes = userToShow == null ? new TreeSet<Long>()
+				: postRatingDAO.getDownVotedPostKeys(userToShow);
 
 		if (log.isDebugEnabled())
-			log.debug("user : " + loggedInUser);
-		boolean selfPage = true;
+			log.debug("user : " + loginUser);
+		if (loginUser == null || userToShow == null) {
+			return badRequest(userShow.render(loginUser, userToShow, false,
+					upVotes, downVotes));
+		}
 
-		return ok(userShow.render(loggedInUser, loggedInUser, selfPage,upVotes, downVotes));
+		boolean selfPage = false;
+		if (loginUser != null && userToShow != null
+				&& (loginUser.getKey() + "").equals(userToShow.getKey())) {
+			selfPage = true;
+		}
+
+		return ok(userShow.render(loginUser, userToShow, selfPage, upVotes,
+				downVotes));
 	}
 
 	public Result approve(String key, int page) {
 		if (log.isDebugEnabled())
 			log.debug("userApprove() <-");
 		
-		User user = User.get(key);
+		User user = userDAO.get(key);
 		user.setStatus(User.Status.APPROVED);
 		if (log.isDebugEnabled())
 			log.debug("user : " + user);
 		
-		User.update(user);
+		userDAO.update(key, user);
 		return listAll();
 	}
 
@@ -108,12 +110,12 @@ public class UserController extends CRUDController<String, User> {
 		if (log.isDebugEnabled())
 			log.debug("userSuspend() <-");
 		
-		User user = User.get(key);
+		User user = userDAO.get(key);
 		user.setStatus(User.Status.SUSPENDED);
 		if (log.isDebugEnabled())
 			log.debug("user : " + user);
 		
-		User.update(user);
+		userDAO.update(key, user);
 		return listAll();
 	}
 

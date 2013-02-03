@@ -19,7 +19,6 @@ import play.mvc.Controller;
 import play.mvc.Result;
 import security.RestrictApproved;
 import socialauth.core.Secure;
-import utils.HttpUtils;
 import be.objectify.deadbolt.actions.Restrict;
 import controllers.crud.CategoryController;
 import controllers.crud.CommentController;
@@ -41,6 +40,7 @@ public class Admin extends Controller {
 	@Inject static UserDAO userDAO;
 	@Inject static SourceConfigurationDAO sourceConfigurationDAO;
 	
+	@Inject static HttpUtils httpUtils;
 	@Inject static CategoryController category;
 	@Inject static CommentController comment;
 	@Inject static controllers.crud.PostController post;
@@ -51,7 +51,7 @@ public class Admin extends Controller {
 	@Inject static SourceConfigurationController sourceConfiguration;
 
 	@Secure @Restrict("admin") @RestrictApproved public static Result index() {
-		User user = HttpUtils.loginUser(ctx());		
+		User user = httpUtils.loginUser(ctx());		
 		return ok(views.html.admin.index.render(user));
 	}
 

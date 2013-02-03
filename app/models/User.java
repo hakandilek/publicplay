@@ -6,8 +6,6 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.TreeSet;
-import java.util.concurrent.Callable;
 
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -28,7 +26,6 @@ import org.brickred.socialauth.util.BirthDate;
 
 import play.db.ebean.Model;
 import play.utils.cache.CachedFinder;
-import play.utils.cache.InterimCache;
 import play.utils.dao.TimestampModel;
 import security.Approvable;
 import security.EntityPermission;
@@ -37,7 +34,6 @@ import be.objectify.deadbolt.models.Permission;
 import be.objectify.deadbolt.models.Role;
 import be.objectify.deadbolt.models.RoleHolder;
 
-import com.avaje.ebean.Page;
 import com.avaje.ebean.annotation.EnumValue;
 
 @Entity
@@ -117,9 +113,7 @@ public class User extends Model implements RoleHolder, Approvable, TimestampMode
 
 	public static CachedFinder<String, User> find = new CachedFinder<String, User>(
 			String.class, User.class);
-	
-	public static InterimCache<Set<Long>> votedPostKeyCache = new InterimCache<Set<Long>>("VotedPostKeyCache", 600);//10 mins;
-	
+
 	public User(SocialUser socialUser) {
 		key = socialUser.getUserKey();
 		final Profile profile = socialUser.getProfile();
@@ -158,34 +152,6 @@ public class User extends Model implements RoleHolder, Approvable, TimestampMode
 
 		SocialUser su = new SocialUser(key, profile);
 		return su;
-	}
-
-	public static List<User> all() {
-		return find.all();
-	}
-
-	public static void create(User user) {
-		Date now = new Date();
-		user.setCreatedOn(now);
-		user.setUpdatedOn(now);
-		user.save();
-		find.put(user.getKey(), user);
-	}
-
-	public static void remove(String key) {
-		find.ref(key).delete();
-		find.clean(key);
-	}
-
-	public static User get(String key) {
-		return find.byId(key);
-	}
-
-	public static void update(User user) {
-		Date now = new Date();
-		user.setUpdatedOn(now);
-		user.update();
-		find.put(user.getKey(), user);
 	}
 
 	public List<? extends Permission> getPermissions() {
@@ -375,41 +341,6 @@ public class User extends Model implements RoleHolder, Approvable, TimestampMode
 		return Status.SUSPENDED == this.status;
 	}
 	
-	public Set<Long> getUpVotedPostKeys() {
-		final User u = this; 
-		final Set<Long> set = votedPostKeyCache.get(".+" + key, new Callable<Set<Long>>() {
-			public Set<Long> call() throws Exception {
-				Set<Long> s = new TreeSet<Long>();
-				final List<PostRating> prList = PostRating.get(u);
-				for (PostRating pr : prList) {
-					if (pr.getValue() > 0) s.add(pr.getKey().postKey);
-				}
-				return s;
-			}
-		});
-		return set;
-	}
-	
-	public Set<Long> getDownVotedPostKeys() {
-		final User u = this; 
-		final Set<Long> set = votedPostKeyCache.get(".-" + key, new Callable<Set<Long>>() {
-			public Set<Long> call() throws Exception {
-				Set<Long> s = new TreeSet<Long>();
-				final List<PostRating> prList = PostRating.get(u);
-				for (PostRating pr : prList) {
-					if (pr.getValue() < 0) s.add(pr.getKey().postKey);
-				}
-				return s;
-			}
-		});
-		return set;
-	}
-	
-	public void resetVotedPostKeyCache() {
-		votedPostKeyCache.set(".+" + key, null);
-		votedPostKeyCache.set(".-" + key, null);
-	}
-	
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
@@ -418,13 +349,5 @@ public class User extends Model implements RoleHolder, Approvable, TimestampMode
 				.append(", email=").append(getEmail()).append("]");
 		return builder.toString();
 	}
-
-	public static Page<User> page(int page, int pageSize,
-			Status status) {
-		return find.where().eq("status", status)
-				.orderBy("lastLogin desc").findPagingList(pageSize)
-				.getPage(page);
-	}
-
 
 }
