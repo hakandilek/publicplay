@@ -4,12 +4,11 @@ import java.util.UUID;
 
 import javax.inject.Inject;
 
-import controllers.routes;
-
 import models.S3File;
 import models.dao.S3FileDAO;
 import play.mvc.Call;
 import play.utils.crud.CRUDController;
+import controllers.routes;
 
 public class S3FileController extends CRUDController<UUID, S3File> {
 

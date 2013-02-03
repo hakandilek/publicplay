@@ -2,8 +2,6 @@ package models.dao;
 
 import java.util.concurrent.Callable;
 
-import com.pickleproject.shopping.ConfigurationDAO;
-
 import models.SourceConfiguration;
 import play.Logger;
 import play.Logger.ALogger;
@@ -12,6 +10,8 @@ import play.utils.cache.CachedFinder;
 import play.utils.dao.CachedDAO;
 import play.utils.dao.EntityNotFoundException;
 import play.utils.dao.TimestampDAO;
+
+import com.pickleproject.shopping.ConfigurationDAO;
 
 public class SourceConfigurationDAO extends TimestampDAO<Long, SourceConfiguration> implements ConfigurationDAO<Long, SourceConfiguration> {
 	

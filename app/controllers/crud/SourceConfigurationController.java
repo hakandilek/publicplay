@@ -2,14 +2,13 @@ package controllers.crud;
 
 import javax.inject.Inject;
 
-import controllers.routes;
-
 import models.SourceConfiguration;
 import models.dao.SourceConfigurationDAO;
 import play.data.Form;
 import play.mvc.Call;
 import play.mvc.Result;
 import play.utils.crud.CRUDController;
+import controllers.routes;
 import forms.BulkConfiguration;
 
 public class SourceConfigurationController extends

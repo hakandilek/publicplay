@@ -87,6 +87,8 @@ public class PostController extends CRUDController<Long, Post> implements Consta
 		Page<Post> topAll = Post.topAllPage();
 
 		Page<Post> pg = Post.page(page, POSTS_PER_PAGE);
+		if (Logger.isDebugEnabled())
+			Logger.debug("pg : " + pg);
 		return ok(index.render(pg, topDay, topWeek, topAll, user, upVotes, downVotes));
 	}
 	

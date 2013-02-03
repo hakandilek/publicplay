@@ -5,7 +5,7 @@ import play.Logger.ALogger;
 import play.mvc.Action;
 import play.mvc.Http.Context;
 import play.mvc.Result;
-import socialauth.controllers.SocialLogin;
+import controllers.crud.SocialController;
 
 public class SocialAwareAction extends Action<SocialAware> {
 
@@ -19,7 +19,7 @@ public class SocialAwareAction extends Action<SocialAware> {
 		if (log.isDebugEnabled())
 			log.debug("user : " + user);
 		if (user != null) {
-			ctx.args.put(SocialLogin.USER_KEY, user);
+			ctx.args.put(SocialController.USER_KEY, user);
 		}
 		if (log.isDebugEnabled())
 			log.debug("calling delegate action");

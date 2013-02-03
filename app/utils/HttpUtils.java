@@ -6,11 +6,11 @@ import play.Logger;
 import play.Logger.ALogger;
 import play.mvc.Http.Context;
 import play.mvc.Http.MultipartFormData;
+import play.mvc.Http.MultipartFormData.FilePart;
 import play.mvc.Http.Request;
 import play.mvc.Http.RequestBody;
-import play.mvc.Http.MultipartFormData.FilePart;
-import socialauth.controllers.SocialLogin;
 import socialauth.core.SocialUser;
+import controllers.crud.SocialController;
 
 public class HttpUtils {
 
@@ -27,7 +27,7 @@ public class HttpUtils {
 	 * @return login user, or null
 	 */
 	public static User loginUser(Context ctx) {
-		final SocialUser su = (SocialUser) ctx.args.get(SocialLogin.USER_KEY);
+		final SocialUser su = (SocialUser) ctx.args.get(SocialController.USER_KEY);
 		if (log.isDebugEnabled())
 			log.debug("su : " + su);
 		User user = null;

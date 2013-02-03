@@ -7,8 +7,8 @@ import models.dao.CategoryDAO;
 import play.Logger;
 import play.mvc.Call;
 import play.mvc.Result;
-import play.utils.crud.Parameters;
 import play.utils.crud.CRUDController;
+import play.utils.crud.Parameters;
 import controllers.routes;
 
 public class CategoryController extends CRUDController<String, Category> {

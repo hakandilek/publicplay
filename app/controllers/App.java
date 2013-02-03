@@ -13,10 +13,12 @@ import security.RestrictCombine;
 import socialauth.core.Secure;
 import socialauth.core.SocialAware;
 import controllers.crud.RateController;
+import controllers.crud.SocialController;
 
 public class App extends Admin {
 
 	@Inject static RateController rate;
+	@Inject static SocialController social;
 
 	@SocialAware public static Result index() {
 		return post.list(0);
@@ -108,6 +110,32 @@ public class App extends Admin {
 		return rate.rateShow(postKey);
 	}
 
+	@SocialAware
+	@RestrictApproved
+	public static Result userShow(String key) {
+		return user.show(key);
+	}
+
+	@Secure
+	public static Result userShowSelf() {
+		return user.showSelf();
+	}
+
+	public static Result login() {
+		return social.login();
+	}
+
+	public static Result logout() {
+		return social.logout();
+	}
+
+	public static Result authenticate(String provider) {
+		return social.authenticate(provider);
+	}
+
+	public static Result authenticateDone(String provider) {
+		return social.authenticateDone(provider);
+	}
 
 	/*
 	@Secure @Restrict("admin") @RestrictApproved public static Result fetch() {

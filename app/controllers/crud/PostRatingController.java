@@ -2,12 +2,12 @@ package controllers.crud;
 
 import javax.inject.Inject;
 
-import controllers.routes;
 import models.PostRating;
 import models.PostRatingPK;
 import models.dao.PostRatingDAO;
 import play.mvc.Call;
 import play.utils.crud.CRUDController;
+import controllers.routes;
 
 public class PostRatingController extends CRUDController<PostRatingPK, PostRating> {
 

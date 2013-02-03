@@ -4,9 +4,6 @@
 
 # Home page
 GET     /                           					controllers.App.index()
-#Users
-GET     /users/self                 controllers.UserController.showSelf()
-GET     /users/:key                 controllers.UserController.show(key: String)
 # Post
 GET     /posts                      					controllers.App.postList(p:Int ?= 0)
 POST    /posts                      					controllers.App.postCreate()
@@ -24,16 +21,15 @@ GET     /posts/:postKey/comments/:commentKey/delete 	controllers.App.commentDele
 GET     /posts/:key/rateUp          					controllers.App.rateUp(key: Long)
 GET     /posts/:key/rateDown        					controllers.App.rateDown(key: Long)
 GET     /posts/:key/rate            					controllers.App.rateShow(key: Long)
-
-
+#Users
+GET     /users/self                 					controllers.App.userShowSelf()
+GET     /users/:key                 					controllers.App.userShow(key: String)
 # socialauth integration
-# ~~~~
-GET     /user/login                     socialauth.controllers.SocialLogin.login
-#GET     /user/info                      socialauth.controllers.SocialLogin.info
-GET     /user/logout                    socialauth.controllers.SocialLogin.logout
-GET     /authenticate/:provider         socialauth.controllers.SocialLogin.authenticate(provider)
-POST    /authenticate/:provider         socialauth.controllers.SocialLogin.authenticate(provider)
-GET     /authenticate/:provider/done    socialauth.controllers.SocialLogin.authenticateDone(provider)
+GET     /user/login                     				controllers.App.login
+GET     /user/logout                    				controllers.App.logout
+GET     /authenticate/:provider         				controllers.App.authenticate(provider)
+POST    /authenticate/:provider         				controllers.App.authenticate(provider)
+GET     /authenticate/:provider/done    				controllers.App.authenticateDone(provider)
 
 # crud integration
 # ~~~~
@@ -91,17 +87,9 @@ POST    /admin/config/bulk              				controllers.Admin.sourceConfiguratio
 GET     /admin/config/bulk/new          				controllers.Admin.sourceConfigurationNewBulkForm()
 GET     /admin/config/bulk/:key/edit    				controllers.Admin.sourceConfigurationEditBulkForm(key: Long)
 POST    /admin/config/bulk/:key/update  				controllers.Admin.sourceConfigurationUpdateBulk(key: Long)
-
-GET     /admin/:model/list              controllers.AdminController.list(model, p:Int ?= 0)
-POST    /admin/:model                   controllers.AdminController.create(model)
-GET     /admin/:model/new               controllers.AdminController.newForm(model)
-GET     /admin/:model/:key/edit         controllers.AdminController.editForm(model, key)
-POST    /admin/:model/:key/update       controllers.AdminController.update(model, key)
-GET     /admin/:model/:key/delete       controllers.AdminController.delete(model, key)
-GET     /admin/:model/:key/show         controllers.AdminController.show(model, key)
-GET     /admin/User/:key/approve        controllers.AdminController.userApprove(key, page:Int ?= 0)
-GET     /admin/User/:key/suspend        controllers.AdminController.userSuspend(key, page:Int ?= 0)
-GET     /admin/User/Status.:status/list controllers.AdminController.userList(status:String, page:Int ?= 0)
+GET     /admin/User/:key/approve        				controllers.Admin.userApprove(key, page:Int ?= 0)
+GET     /admin/User/:key/suspend        				controllers.Admin.userSuspend(key, page:Int ?= 0)
+#GET     /admin/User/Status.:status/list 				controllers.Admin.userList(status:String, page:Int ?= 0)
 
 # JSON API
 PUT     /api/category/:key              				controllers.Api.categoryUpdate(key: String)

@@ -30,6 +30,8 @@ import controllers.crud.SourceConfigurationController;
 
 public class Admin extends Controller {
 
+	public static final int PAGE_SIZE = 20;
+
 	@Inject static CategoryDAO categoryDAO;
 	@Inject static CommentDAO commentDAO;
 	@Inject static PostDAO postDAO;
@@ -292,6 +294,28 @@ public class Admin extends Controller {
 	@Secure @Restrict("admin") @RestrictApproved public static Result sourceConfigurationUpdateBulk(Long key) {
 		return sourceConfiguration.updateBulk(key);
 	}
+	
+	@Secure
+	@Restrict("admin")
+	@RestrictApproved
+	public static Result userApprove(String key, int page) {
+		return user.approve(key, page);
+	}
+
+	@Secure
+	@Restrict("admin")
+	@RestrictApproved
+	public static Result userSuspend(String key, int page) {
+		return user.suspend(key, page);
+	}
+
+	@Secure
+	@Restrict("admin")
+	@RestrictApproved
+	public static Result userList(String status, int page) {
+		return user.list(status, page);
+	}
+
 
 	/*
 	@Secure @Restrict("admin") @RestrictApproved public static Result fetch() {

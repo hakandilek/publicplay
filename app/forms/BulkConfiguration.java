@@ -6,10 +6,10 @@ import java.io.StringWriter;
 import java.io.Writer;
 import java.util.Properties;
 
-import com.pickleproject.Selectors;
-
-import play.data.validation.Constraints.Required;
 import models.SourceConfiguration;
+import play.data.validation.Constraints.Required;
+
+import com.pickleproject.Selectors;
 
 public class BulkConfiguration {
 

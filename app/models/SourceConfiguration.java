@@ -8,11 +8,11 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Version;
 
-import com.pickleproject.shopping.ProductConfigurationModel;
-
 import play.data.validation.Constraints.Required;
 import play.db.ebean.Model;
 import play.utils.dao.TimestampModel;
+
+import com.pickleproject.shopping.ProductConfigurationModel;
 
 @Entity
 @Table(name = "TBL_SOURCE_CONFIG")

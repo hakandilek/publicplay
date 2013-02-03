@@ -7,7 +7,7 @@
 	@if(postIsVotedUp(post, upVotedPostKeys)) {	 
        <a class="btn-rate rate disabled" data-key="rate-@post.getKey()" href="javascript:void(0)" data-href="@routes.App.rateUp(post.getKey())"> <i class="icon-caret-up rated"></i></a>  
 	} else {
-	   <a class="btn-rate rate" data-key="rate-@post.getKey()" href="javascript:void(0)" data-href="@routes.App.rateUp(post.getKey())"> <i class="icon-caret-up unrated"></i></a>  
+	   <a class="btn-rate rate" data-key="rate-@post.getKey()" href="javascript:void(0)" data-href="@routes.App.rateUp(post.getKey())"> <i class="icon-caret-up unrated"></i></a>
 	}
     
     @if(postIsVotedUp(post, downVotedPostKeys)) {

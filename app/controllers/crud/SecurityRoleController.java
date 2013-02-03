@@ -2,11 +2,11 @@ package controllers.crud;
 
 import javax.inject.Inject;
 
-import controllers.routes;
 import models.SecurityRole;
 import models.dao.SecurityRoleDAO;
 import play.mvc.Call;
 import play.utils.crud.CRUDController;
+import controllers.routes;
 
 public class SecurityRoleController extends CRUDController<Long, SecurityRole> {
 

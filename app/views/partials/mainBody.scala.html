@@ -53,14 +53,14 @@
                             @if(loggedInUser != null) {
                             <!-- profile -->
                             <li>
-                                <a href="@controllers.routes.UserController.show(loggedInUser.getKey())" class="profile">
+                                <a href="@controllers.routes.App.userShow(loggedInUser.getKey())" class="profile">
                                     <img alt="@loggedInUser.getProfileImageURL()" src="@loggedInUser.getProfileImageURL()"  />
 						            @loggedInUser.getFirstName() @loggedInUser.getLastName()
 					            </a>
                             </li>
                             }
                             <!-- logout -->
-                            <li><a href="@socialauth.controllers.routes.SocialLogin.logout()"><i class="icon-off icon-white"></i>&nbsp;@Messages("Logout")</a></li>
+                            <li><a href="@controllers.routes.App.logout()"><i class="icon-off icon-white"></i>&nbsp;@Messages("Logout")</a></li>
                         }
 						</ul>
 					</div>

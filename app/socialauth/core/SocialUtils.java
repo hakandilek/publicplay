@@ -7,17 +7,17 @@ import java.util.Set;
 import play.mvc.Http.Context;
 import play.mvc.Http.Request;
 import play.mvc.Http.Session;
-import socialauth.controllers.SocialLogin;
-import socialauth.service.SocialUserService;
+import plugins.SocialUserPlugin;
+import controllers.crud.SocialController;
 
 public class SocialUtils {
 
 	public static SocialUser currentUser(Context ctx) {
 		final Session session = ctx.session();
 		if (session != null) {
-			final String userKey = session.get(SocialLogin.USER_KEY);
+			final String userKey = session.get(SocialController.USER_KEY);
 			if (!emptyOrNull(userKey)) {
-				final SocialUserService userService = SocialUserService
+				final SocialUserPlugin userService = SocialUserPlugin
 						.getInstance();
 				final SocialUser user = userService.find(userKey);
 				return user;
@@ -29,7 +29,7 @@ public class SocialUtils {
 	public static String getUserKeyFromSession(Context ctx) {
 		final Session session = ctx.session();
 		if (session != null) {
-			final String userKey = session.get(SocialLogin.USER_KEY);
+			final String userKey = session.get(SocialController.USER_KEY);
 			if (!emptyOrNull(userKey))
 				return userKey;
 		}

@@ -2,8 +2,8 @@ package security;
 
 import java.util.List;
 
-import be.objectify.deadbolt.models.Permission;
 import play.mvc.Http.Request;
+import be.objectify.deadbolt.models.Permission;
 
 public interface RequestPermission {
 
