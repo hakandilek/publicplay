@@ -19,7 +19,7 @@ import play.utils.dao.TimestampModel;
 @Entity
 @Table(name="TBL_COMMENT")
 @SuppressWarnings("serial")
-public class Comment extends Model implements TimestampModel<Long>{
+public class Comment extends Model implements TimestampModel<Long>, Owned<Long> {
 
 	@Id
 	private Long key;

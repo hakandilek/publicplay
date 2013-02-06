@@ -25,7 +25,6 @@ import org.brickred.socialauth.Profile;
 import org.brickred.socialauth.util.BirthDate;
 
 import play.db.ebean.Model;
-import play.utils.cache.CachedFinder;
 import play.utils.dao.TimestampModel;
 import security.Approvable;
 import security.EntityPermission;
@@ -110,9 +109,6 @@ public class User extends Model implements RoleHolder, Approvable, TimestampMode
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinTable(name = "TBL_USER_SECURITY_ROLE", joinColumns = @JoinColumn(name = "user_key"), inverseJoinColumns = @JoinColumn(name = "security_role_key"))
     private List<SecurityRole> securityRoles = new ArrayList<SecurityRole>();
-
-	public static CachedFinder<String, User> find = new CachedFinder<String, User>(
-			String.class, User.class);
 
 	public User(SocialUser socialUser) {
 		key = socialUser.getUserKey();

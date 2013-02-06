@@ -1,19 +1,21 @@
 package models.dao;
 
+import javax.inject.Inject;
+
 import models.Comment;
-import models.User;
 import play.utils.cache.CachedFinder;
 import play.utils.dao.CachedDAO;
-import play.utils.dao.EntityNotFoundException;
 import play.utils.dao.TimestampListener;
 
 import com.avaje.ebean.Page;
 
 public class CommentDAO extends CachedDAO<Long, Comment> {
 
-	public CommentDAO() {
+	@Inject
+	public CommentDAO(OwnerCacheCleaner<Long, Comment> cacheCleaner) {
 		super(Long.class, Comment.class);
 		addListener(new TimestampListener<Long, Comment>());
+		addListener(cacheCleaner);
 	}
 
 	/**
@@ -31,34 +33,4 @@ public class CommentDAO extends CachedDAO<Long, Comment> {
 		return find.page(page, pageSize, "createdOn desc", "postKey", postKey);
 	}
    
-	public Long create(Comment comment) {
-		Long key = super.create(comment);
-		
-		// clean user cache for a backlink update
-		User owner = comment.getCreatedBy();
-		if (owner != null)
-			User.find.clean(owner.getKey());
-		return key;
-	}
-
-	public void remove(Long key) throws EntityNotFoundException {
-		Comment comment = find().ref(key);
-		super.remove(key);
-		
-		// clean user cache for a backlink update
-		User owner = comment.getCreatedBy();
-		if (owner != null)
-			User.find.clean(owner.getKey());
-	}
-
-	public void update(Long key, Comment comment) {
-		super.update(key, comment);
-		
-		// clean user cache for a backlink update
-		User owner = comment.getCreatedBy();
-		if (owner != null)
-			User.find.clean(owner.getKey());
-	}
-	
-
 }

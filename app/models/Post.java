@@ -22,7 +22,7 @@ import play.utils.dao.TimestampModel;
 @Entity
 @Table(name="TBL_POST")
 @SuppressWarnings("serial")
-public class Post extends Model implements TimestampModel<Long> {
+public class Post extends Model implements TimestampModel<Long>, Owned<Long> {
 
 	@Id
 	private Long key;

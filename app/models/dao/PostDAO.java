@@ -2,15 +2,15 @@ package models.dao;
 
 import java.util.concurrent.Callable;
 
+import javax.inject.Inject;
+
 import models.Post;
-import models.User;
 
 import org.joda.time.DateTime;
 
 import play.utils.cache.CachedFinder;
 import play.utils.cache.InterimCache;
 import play.utils.dao.CachedDAO;
-import play.utils.dao.EntityNotFoundException;
 import play.utils.dao.TimestampListener;
 
 import com.avaje.ebean.Page;
@@ -24,9 +24,11 @@ public class PostDAO extends CachedDAO<Long, Post> {
 	
 	private CachedFinder<Long, Post> find;
 
-	public PostDAO() {
+	@Inject
+	public PostDAO(OwnerCacheCleaner<Long, Post> cacheCleaner) {
 		super(Long.class, Post.class);
 		addListener(new TimestampListener<Long, Post>());
+		addListener(cacheCleaner);
 		find = cacheFind();
 	}
 
@@ -75,34 +77,4 @@ public class PostDAO extends CachedDAO<Long, Post> {
 		});
 	}
 
-	public Long create(Post post) {
-		Long key = super.create(post);
-		
-		// clean user cache for a backlink update
-		User owner = post.getCreatedBy();
-		if (owner != null)
-			User.find.clean(owner.getKey());
-		return key;
-	}
-
-	public void remove(Long key) throws EntityNotFoundException {
-		Post post = find.ref(key);
-		super.remove(key);
-		
-		// clean user cache for a backlink update
-		User owner = post.getCreatedBy();
-		if (owner != null)
-			User.find.clean(owner.getKey());
-	}
-
-	public void update(Long key, Post post) {
-		super.update(key, post);
-
-		// clean user cache for a backlink update
-		User owner = post.getCreatedBy();
-		if (owner != null)
-			User.find.clean(owner.getKey());
-	}
-
-	
 }

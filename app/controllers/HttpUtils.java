@@ -40,7 +40,7 @@ public class HttpUtils {
 	public User loginUser(Context ctx) {
 		final SocialUser su = (SocialUser) ctx.args.get(SocialController.USER_KEY);
 		if (log.isDebugEnabled())
-			log.debug("su : " + su);
+			log.debug("su : " + (su == null ? null : su.getUserKey()));
 		User user = null;
 		if (su != null) {
 			user = userDAO.get(su.getUserKey());
