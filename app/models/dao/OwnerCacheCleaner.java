@@ -24,19 +24,22 @@ public class OwnerCacheCleaner<K, M extends Owned<K>> implements
 	@Override
 	public void afterCreate(K key, M m) {
 		User owner = m.getCreatedBy();
-		ownerCache.clean(owner.getKey());
+		if (owner != null)
+			ownerCache.clean(owner.getKey());
 	}
 
 	@Override
 	public void afterRemove(K key, M m) {
 		User owner = m.getCreatedBy();
-		ownerCache.clean(owner.getKey());
+		if (owner != null)
+			ownerCache.clean(owner.getKey());
 	}
 
 	@Override
 	public void afterUpdate(K key, M m) {
 		User owner = m.getCreatedBy();
-		ownerCache.clean(owner.getKey());
+		if (owner != null)
+			ownerCache.clean(owner.getKey());
 	}
 
 	@Override
