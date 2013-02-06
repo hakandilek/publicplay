@@ -59,13 +59,13 @@ GET     /admin/User/:key/suspend        controllers.AdminController.userSuspend(
 GET     /admin/User/Status.:status/list  controllers.AdminController.userList(status:String, page:Int ?= 0)
 
 # JSON API
-PUT     /api/category/:key              controllers.Api.categoryUpdate(key: Long)
+PUT     /api/category/:key              controllers.Api.categoryUpdate(key: String)
 PUT     /api/comment/:key               controllers.Api.commentUpdate(key: Long)
-PUT     /api/postRating/:key            controllers.Api.postRatingUpdate(key: Long)
+PUT     /api/postRating/:key            controllers.Api.postRatingUpdate(key: String)
 PUT     /api/post/:key                  controllers.Api.postUpdate(key: Long)
-PUT     /api/s3File/:key                controllers.Api.s3FileUpdate(key: Long)
+PUT     /api/s3File/:key                controllers.Api.s3FileUpdate(key: String)
 PUT     /api/securityRole/:key          controllers.Api.securityRoleUpdate(key: Long)
-PUT     /api/user/:key                  controllers.Api.userUpdate(key: Long)
+PUT     /api/user/:key                  controllers.Api.userUpdate(key: String)
 # API fallback
 GET     /api/*resource                 controllers.Api.invalid(resource: String)
 POST    /api/*resource                 controllers.Api.invalid(resource: String)
