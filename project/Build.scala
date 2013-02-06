@@ -12,7 +12,7 @@ object ApplicationBuild extends Build {
         //prettytime library
         "org.ocpsoft.prettytime" % "prettytime" % "2.0.0-SNAPSHOT",
         //socialauth library
-        "org.brickred" % "socialauth" % "3.0",
+        "org.brickred" % "socialauth" % "4.0",
         "com.restfb" % "restfb" % "1.6.11",
         "play2-cache" % "play2-cache_2.9.1" % "0.3.0-SNAPSHOT",
         "joda-time" % "joda-time"% "2.1",
@@ -20,7 +20,7 @@ object ApplicationBuild extends Build {
         "com.amazonaws" % "aws-java-sdk" % "1.3.11",
         "com.typesafe" % "play-plugins-guice" % "2.0.3",
         "play2-cache" % "play2-cache_2.9.1" % "0.3.0-SNAPSHOT",
-        "play2-crud" % "play2-crud_2.9.1" % "0.1.0-SNAPSHOT",
+        "play2-crud" % "play2-crud_2.9.1" % "0.2.0-SNAPSHOT",
         "com.pickleproject" % "pickle-core" % "0.5-SNAPSHOT",
         "com.pickleproject" % "pickle-shopping" % "0.5-SNAPSHOT"
     )
@@ -29,6 +29,9 @@ object ApplicationBuild extends Build {
         // Add your own project settings here
         // The Typesafe repository
         resolvers += "Typesafe repository" at "http://repo.typesafe.com/typesafe/releases/",
+        
+        //Maven central repo
+        resolvers += "Maven repository" at "http://repo1.maven.org/maven/", 
 
         // The Ocpsoft repository for PrettyTime
         resolvers += "ocpsoft repository" at "http://ocpsoft.org/repository/",
