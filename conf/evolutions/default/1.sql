@@ -18,6 +18,7 @@ create table TBL_COMMENT (
   postKey                   bigint,
   created_by                varchar(255),
   updated_by                varchar(255),
+  revision                  integer not null,
   constraint pk_TBL_COMMENT primary key (key))
 ;
 
@@ -33,6 +34,7 @@ create table TBL_POST (
   image_id                  varchar(40),
   created_by                varchar(255),
   category                  varchar(255),
+  revision                  integer not null,
   updated_by                varchar(255),
   constraint pk_TBL_POST primary key (key))
 ;
@@ -51,6 +53,9 @@ create table TBL_S3FILE (
   bucket                    varchar(255),
   parent                    varchar(255),
   name                      varchar(255),
+  created_on                timestamp,
+  updated_on                timestamp,
+  revision                  integer not null,
   constraint pk_TBL_S3FILE primary key (id))
 ;
 
