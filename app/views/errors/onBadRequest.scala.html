@@ -1,0 +1,6 @@
+@(request: play.mvc.Http.RequestHeader, error:String)
+
+@errors.error("bad request") {
+  <h1>bad request: @error</h1>	
+  <p class="well">You requested: @request.path</p>
+}

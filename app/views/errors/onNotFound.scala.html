@@ -1,0 +1,6 @@
+@(request: play.mvc.Http.RequestHeader)
+
+@errors.error("not found") {
+  <h1>Page Not Found</h1>	
+  <p class="well">You requested: @request.path</p>
+}

@@ -63,7 +63,6 @@ public class Post extends Model implements TimestampModel<Long>, Owned<Long> {
 	@JoinColumn(name = "created_by", nullable = false)
 	private User createdBy;
 
-	@Version
 	@ManyToOne
 	@JoinColumn(name = "updated_by", nullable = true)
 	private User updatedBy;
