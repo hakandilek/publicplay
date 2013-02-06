@@ -33,10 +33,6 @@ public class PostRatingController extends CRUDController<PostRatingPK, PostRatin
 
 	@Override
 	protected Call toIndex() {
-		return crudIndex();
-	}
-
-	public static Call crudIndex() {
 		return routes.Admin.index();
 	}
 

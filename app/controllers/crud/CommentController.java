@@ -58,7 +58,7 @@ public class CommentController extends CRUDController<Long, Comment> implements 
 
 	@Override
 	protected Call toIndex() {
-		return routes.Admin.commentList();
+		return routes.App.index();
 	}
 
 	public Result create(Long postKey, String title) {

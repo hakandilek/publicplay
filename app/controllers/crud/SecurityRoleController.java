@@ -32,10 +32,6 @@ public class SecurityRoleController extends CRUDController<Long, SecurityRole> {
 
 	@Override
 	protected Call toIndex() {
-		return crudIndex();
-	}
-
-	public static Call crudIndex() {
 		return routes.Admin.securityRoleList();
 	}
 

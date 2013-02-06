@@ -35,10 +35,6 @@ public class CategoryController extends CRUDController<String, Category> {
 
 	@Override
 	protected Call toIndex() {
-		return crudIndex();
-	}
-
-	public static Call crudIndex() {
 		return routes.Admin.categoryList();
 	}
 

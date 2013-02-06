@@ -34,10 +34,6 @@ public class S3FileController extends CRUDController<UUID, S3File> {
 
 	@Override
 	protected Call toIndex() {
-		return crudIndex();
-	}
-
-	public static Call crudIndex() {
 		return routes.Admin.s3FileList();
 	}
 

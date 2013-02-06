@@ -82,7 +82,7 @@ public class PostController extends CRUDController<Long, Post> implements
 
 	@Override
 	protected Call toIndex() {
-		return routes.Admin.postList();
+		return routes.App.index();
 	}
 
 	/**
