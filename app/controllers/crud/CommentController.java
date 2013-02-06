@@ -43,17 +43,17 @@ public class CommentController extends CRUDController<Long, Comment> implements 
 
 	@Override
 	protected String templateForForm() {
-		return "getForm()";
+		return "admin.commentForm";
 	}
 
 	@Override
 	protected String templateForList() {
-		return "commentList";
+		return "admin.commentList";
 	}
 
 	@Override
 	protected String templateForShow() {
-		return "commentShow";
+		return "admin.commentShow";
 	}
 
 	@Override

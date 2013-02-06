@@ -1,0 +1,42 @@
+@(currentPage: Page[Post])
+@import helper._ 
+@import helper.twitterBootstrap._
+@import helper.H._
+
+@main(Messages("Posts"), null) {
+
+	<h3>@Messages("Post_num", currentPage.getTotalRowCount())</h3>
+	
+	<h4><a href="@routes.Admin.postNewForm">@Messages("Create_new_post")</a></h4>
+    
+    @if(currentPage.getTotalRowCount() == 0) {
+        
+        <div class="well">
+            <em>@Messages("Nothing_to_display")</em>
+        </div>
+        
+    } else {
+	
+    <table class="categories table table-striped table-bordered">
+        <thead>
+            <tr>
+                <th class="header">@Messages("Categories")</th>
+            </tr>
+        </thead>
+        <tbody>
+        @for(post <- currentPage.getList) {
+            <tr>
+                <td>
+                	<a href="@routes.Admin.postShow(post.getKey())">@post.getKey()</a>
+                </td>
+                <td>
+                    <a class="btn btn-mini btn-danger pull-right spaced" href="@routes.Admin.postDelete(post.getKey())">@Messages("delete")</a>
+                    <a class="btn btn-mini pull-right spaced" href="@routes.Admin.postEditForm(post.getKey())">@Messages("edit")</a>
+               	</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+    
+    }
+}

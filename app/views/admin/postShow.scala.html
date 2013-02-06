@@ -1,0 +1,12 @@
+@(post: Post)
+@import helper._ 
+@import helper.twitterBootstrap._
+@import helper.H._
+
+@main("Post:" + post.getContent().take(20), null) {
+
+    <p class="lead">
+        @post.getContent()
+    </p>
+    
+}

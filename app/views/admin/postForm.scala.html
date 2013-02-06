@@ -1,0 +1,19 @@
+@(key: Long, modelForm: Form[Post])
+@import helper._ 
+@import helper.twitterBootstrap._
+
+@main(if(key != null) Messages("update_post") else Messages("new_post"), null) {
+
+	<h3>@if(key != null) { @Messages("update_post") } else { @Messages("new_post") } </h3>
+    
+    @form(if(key != null) { routes.Admin.postUpdate(modelForm.get().getKey()) } 
+          else             { routes.Admin.postCreate() }) { 
+    @if(key != null) {  
+        @inputText(modelForm("revision"), args = 'readonly -> "readonly", '_label -> Messages("revision.label"))
+    }
+        @inputText(modelForm("content"), args = '_label -> Messages("Post.content.label"))
+        <div>
+           <input type="submit" class="btn btn-success" value="@if(key != null) { @Messages("Update") } else { @Messages("Create") }">
+        </div>
+    } 
+}

@@ -1,0 +1,12 @@
+@(comment: Comment)
+@import helper._ 
+@import helper.twitterBootstrap._
+@import helper.H._
+
+@main("Comment:" + comment.getContent().take(20), null) {
+
+    <p class="lead">
+        @comment.getContent()
+    </p>
+    
+}

@@ -145,7 +145,8 @@ public class Comment extends Model implements TimestampModel<Long>, Owned<Long> 
 				.append(", creatorIp=").append(creatorIp)
 				.append(", modifierIp=").append(modifierIp).append(", post=")
 				.append(post).append(", createdBy=").append(createdBy)
-				.append(", updatedBy=").append(updatedBy).append("]");
+				.append(", updatedBy=").append(updatedBy)
+				.append(", revision=").append(revision).append("]");
 		return builder.toString();
 	}
 

@@ -67,17 +67,17 @@ public class PostController extends CRUDController<Long, Post> implements
 
 	@Override
 	protected String templateForForm() {
-		return "postForm";
+		return "admin.postForm";
 	}
 
 	@Override
 	protected String templateForList() {
-		return "postList";
+		return "admin.postList";
 	}
 
 	@Override
 	protected String templateForShow() {
-		return "postShow";
+		return "admin.postShow";
 	}
 
 	@Override

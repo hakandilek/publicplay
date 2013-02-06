@@ -1,0 +1,19 @@
+@(key: Long, modelForm: Form[Comment])
+@import helper._ 
+@import helper.twitterBootstrap._
+
+@main(if(key != null) Messages("update_comment") else Messages("new_comment"), null) {
+
+	<h3>@if(key != null) { @Messages("update_comment") } else { @Messages("new_comment") } </h3>
+    
+    @form(if(key != null) { routes.Admin.commentUpdate(modelForm.get().getKey()) } 
+          else             { routes.Admin.commentCreate() }) { 
+    @if(key != null) {  
+        @inputText(modelForm("revision"), args = 'readonly -> "readonly", '_label -> Messages("revision.label"))
+    }
+        @inputText(modelForm("content"), args = '_label -> Messages("Comment.content.label"))
+        <div>
+           <input type="submit" class="btn btn-success" value="@if(key != null) { @Messages("Update") } else { @Messages("Create") }">
+        </div>
+    } 
+}
