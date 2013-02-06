@@ -2,12 +2,13 @@ package models.dao;
 
 import models.User;
 import play.utils.dao.CachedDAO;
-import play.utils.dao.TimestampDAO;
+import play.utils.dao.TimestampListener;
 
-public class UserDAO extends TimestampDAO<String, User> {
+public class UserDAO extends CachedDAO<String, User> {
 
 	public UserDAO() {
-		super(new CachedDAO<String, User>(String.class, User.class));
+		super(String.class, User.class);
+		addListener(new TimestampListener<String, User>());
 	}
 
 }

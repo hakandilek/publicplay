@@ -4,12 +4,13 @@ import java.util.UUID;
 
 import models.S3File;
 import play.utils.dao.CachedDAO;
-import play.utils.dao.TimestampDAO;
+import play.utils.dao.TimestampListener;
 
-public class S3FileDAO extends TimestampDAO<UUID, S3File> {
+public class S3FileDAO extends CachedDAO<UUID, S3File> {
 
 	public S3FileDAO() {
-		super(new CachedDAO<UUID, S3File>(UUID.class, S3File.class));
+		super(UUID.class, S3File.class);
+		addListener(new TimestampListener<UUID, S3File>());
 	}
 
 }

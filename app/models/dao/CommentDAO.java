@@ -2,12 +2,13 @@ package models.dao;
 
 import models.Comment;
 import play.utils.dao.CachedDAO;
-import play.utils.dao.TimestampDAO;
+import play.utils.dao.TimestampListener;
 
-public class CommentDAO extends TimestampDAO<Long, Comment> {
+public class CommentDAO extends CachedDAO<Long, Comment> {
 
 	public CommentDAO() {
-		super(new CachedDAO<Long, Comment>(Long.class, Comment.class));
+		super(Long.class, Comment.class);
+		addListener(new TimestampListener<Long, Comment>());
 	}
 
 }
