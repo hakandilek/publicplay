@@ -1,4 +1,4 @@
-package socialauth.controllers;
+package controllers.crud;
 
 import java.io.InputStream;
 import java.util.Map;
@@ -14,22 +14,23 @@ import play.Logger.ALogger;
 import play.api.mvc.Call;
 import play.mvc.Controller;
 import play.mvc.Result;
+import plugins.SocialUserPlugin;
 import socialauth.core.SocialUser;
 import socialauth.core.SocialUtils;
-import socialauth.service.SocialUserService;
 import views.html.userLogin;
+import controllers.routes;
 
-public class SocialLogin extends Controller {
-	private static ALogger log = Logger.of(SocialLogin.class);
+public class SocialController extends Controller {
+	private static ALogger log = Logger.of(SocialController.class);
 
 	/** session key for authenticated user */
 	public static final String USER_KEY = "socialUser";
 
 	public static final String ORIGINAL_URL = "originalURL";
 
-	private static SocialAuthConfig authConfig;
+	private SocialAuthConfig authConfig;
 
-	private static SocialAuthManager createAuthManager(String provider) {
+	private SocialAuthManager createAuthManager(String provider) {
 		if (log.isDebugEnabled())
 			log.debug("Creating AuthManager ...");
 
@@ -50,7 +51,7 @@ public class SocialLogin extends Controller {
 		}
 	}
 
-	private static SocialAuthConfig getAuthConfig() {
+	private SocialAuthConfig getAuthConfig() {
 		if (authConfig == null) {
 			// Create an instance of SocialAuthConfgi object
 			Properties properties = new Properties();
@@ -81,33 +82,32 @@ public class SocialLogin extends Controller {
 		return authConfig;
 	}
 
-	public static Result login() {
+	public Result login() {
 		if (log.isDebugEnabled())
 			log.debug("login() <-");
 
 		return ok(userLogin.render());
 	}
 
-	public static Result logout() {
+	public Result logout() {
 		if (log.isDebugEnabled())
 			log.debug("logout() <-");
 
 		// TODO: log user logout into DB
 		session().remove(USER_KEY);
 		session().remove(ORIGINAL_URL);
-		return redirect(controllers.routes.HomeController.index());
+		return redirect(routes.App.index());
 	}
 
-	private static String authSuccessURL(String provider) {
+	private String authSuccessURL(String provider) {
 		// URL of YOUR application which will be called after authentication
-		final Call successCall = routes.SocialLogin
-				.authenticateDone(provider);
+		final Call successCall = routes.App.authenticateDone(provider);
 		String successUrl = "http://" + request().host()
 				+ successCall.url();
 		return successUrl;
 	}
 	
-	public static Result authenticate(String provider) {
+	public Result authenticate(String provider) {
 		if (log.isDebugEnabled())
 			log.debug("authenticate() with provider = " + provider);
 
@@ -144,7 +144,7 @@ public class SocialLogin extends Controller {
 		}
 	}
 
-	public static Result authenticateDone(String provider) {
+	public Result authenticateDone(String provider) {
 		if (log.isDebugEnabled())
 			log.debug("authenticateDone() <-" + provider);
 
@@ -177,7 +177,7 @@ public class SocialLogin extends Controller {
 				session(USER_KEY, userKey);
 
 			// save profile information
-			SocialUserService userService = SocialUserService.getInstance();
+			SocialUserPlugin userService = SocialUserPlugin.getInstance();
 			if (log.isDebugEnabled())
 				log.debug("userService : " + userService);
 			if (userService != null)
@@ -201,7 +201,7 @@ public class SocialLogin extends Controller {
 		}
 		if (log.isDebugEnabled())
 			log.debug("redirecting back to home");
-		return redirect(controllers.routes.HomeController.index());
+		return redirect(routes.App.index());
 	}
 
 }

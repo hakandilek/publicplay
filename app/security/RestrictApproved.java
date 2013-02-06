@@ -7,9 +7,8 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import be.objectify.deadbolt.DeadboltHandler;
-
 import play.mvc.With;
+import be.objectify.deadbolt.DeadboltHandler;
 
 @With(RestrictApprovedAction.class)
 @Retention(RetentionPolicy.RUNTIME)

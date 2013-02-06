@@ -27,7 +27,7 @@
 					</a>
 	
 					<!-- Be sure to leave the brand out there if you want it shown -->
-					<a class="brand" href="@routes.HomeController.index()"><img alt="publicplay" src="@routes.Assets.at("images/logo.png")"> @Messages("Brand_title")</a>
+					<a class="brand" href="@routes.App.index()"><img alt="publicplay" src="@routes.Assets.at("images/logo.png")"> @Messages("Brand_title")</a>
 	
 	                <!--  github ribbon -->
 					<a class="visible-desktop" href="https://github.com/hakandilek/publicplay">
@@ -40,27 +40,27 @@
 						<!-- .nav, .navbar-search, .navbar-form, etc -->
 						<ul class="nav pull-right">
 						    <!-- home -->
-							<li><a href="@routes.HomeController.index()"><i class="icon-home icon-white"></i>&nbsp;@Messages("home")</a></li>
+							<li><a href="@routes.App.index()"><i class="icon-home icon-white"></i>&nbsp;@Messages("home")</a></li>
                         @views.html.security.roleHolderNotPresent(){
                             <!-- login -->
 							<li><a href="#" data-toggle="modal" data-target="#loginModal"><i class="icon-facebook icon-white"></i>&nbsp;@Messages("login")</a></li>
                         }
                         @restrict(la(as("admin"))) {
                             <!-- admin -->
-                            <li><a href="@routes.AdminController.index()"><i class="icon-wrench icon-white"></i>&nbsp;@Messages("Administration")</a></li>
+                            <li><a href="@routes.Admin.index()"><i class="icon-wrench icon-white"></i>&nbsp;@Messages("Administration")</a></li>
                         }
                         @views.html.security.roleHolderPresent(){
                             @if(loggedInUser != null) {
                             <!-- profile -->
                             <li>
-                                <a href="@controllers.routes.UserController.show(loggedInUser.getKey())" class="profile">
+                                <a href="@controllers.routes.App.userShow(loggedInUser.getKey())" class="profile">
                                     <img alt="@loggedInUser.getProfileImageURL()" src="@loggedInUser.getProfileImageURL()"  />
 						            @loggedInUser.getFirstName() @loggedInUser.getLastName()
 					            </a>
                             </li>
                             }
                             <!-- logout -->
-                            <li><a href="@socialauth.controllers.routes.SocialLogin.logout()"><i class="icon-off icon-white"></i>&nbsp;@Messages("Logout")</a></li>
+                            <li><a href="@controllers.routes.App.logout()"><i class="icon-off icon-white"></i>&nbsp;@Messages("Logout")</a></li>
                         }
 						</ul>
 					</div>

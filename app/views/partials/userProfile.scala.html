@@ -3,7 +3,7 @@
 @if(user != null) {
     <div class="profile">
 	    <img alt="@user.getProfileImageURL()" src="@user.getProfileImageURL()"  /> 
-	    <a href="@controllers.routes.UserController.show(user.getKey())">@user.getFirstName() @user.getLastName()</a>
+	    <a href="@controllers.routes.App.userShow(user.getKey())">@user.getFirstName() @user.getLastName()</a>
     </div>
 } else {
     @if(login) {

@@ -81,7 +81,7 @@
 	        					@for(comment <- userToBeShowed.getComments) {
 	        						<tr>
 	        							<td class="nl-withoutSpace">
-	        							<a href="@routes.PostController.show(comment.getPost().getKey(), sanitizeURL(comment.getPost().getTitle()))#@comment.getKey()">@comment.getContent()</a>
+	        							<a href="@routes.App.postShow(comment.getPost().getKey(), sanitizeURL(comment.getPost().getTitle()))#@comment.getKey()">@comment.getContent()</a>
 	        							</td>
 	        						</tr>
 	        					}
@@ -94,7 +94,7 @@
 	        					@for(comment <- userToBeShowed.getComments) {
 	        						<tr>
 	        							<td class="nl-withoutSpace">
-	        							<a href="@routes.PostController.show(comment.getPost().getKey(), sanitizeURL(comment.getPost().getTitle()))#@comment.getKey()">@comment.getContent()</a>
+	        							<a href="@routes.App.postShow(comment.getPost().getKey(), sanitizeURL(comment.getPost().getTitle()))#@comment.getKey()">@comment.getContent()</a>
 	        							</td>
 	        						</tr>
 	        					}

@@ -1,3 +1,4 @@
 1500:plugins.S3Plugin
-9998:socialauth.service.SocialUserService
+1500:plugins.GuicePlugin
+9998:plugins.SocialUserPlugin
 10000:be.objectify.deadbolt.DeadboltPlugin

@@ -7,8 +7,8 @@ import play.mvc.Action;
 import play.mvc.Http;
 import play.mvc.Http.Context;
 import play.mvc.Result;
-import socialauth.controllers.SocialLogin;
-import socialauth.controllers.routes;
+import controllers.routes;
+import controllers.crud.SocialController;
 
 public class SecureAction extends Action<Secure> {
 	private static ALogger log = Logger.of(SecureAction.class);
@@ -41,17 +41,17 @@ public class SecureAction extends Action<Secure> {
 				{
 					if (log.isDebugEnabled())
 						log.debug("save original URL in session = " + requestURI);
-					ctx.session().put(SocialLogin.ORIGINAL_URL, requestURI);
+					ctx.session().put(SocialController.ORIGINAL_URL, requestURI);
 				}
 				if (log.isDebugEnabled())
 					log.debug("redirecting to login page");
-				return redirect(routes.SocialLogin.login());
+				return redirect(routes.App.login());
 			} else {
 				SocialUser user = SocialUtils.currentUser(ctx);
 				if (log.isDebugEnabled())
 					log.debug("user : " + user);
 				if (user != null) {
-					ctx.args.put(SocialLogin.USER_KEY, user);
+					ctx.args.put(SocialController.USER_KEY, user);
 					if (log.isDebugEnabled())
 						log.debug("calling delegate action");
 					return delegate.call(ctx);
@@ -60,7 +60,7 @@ public class SecureAction extends Action<Secure> {
 					// sent by the client. Remove the credentials from the session
 					if (log.isDebugEnabled())
 						log.debug("redirecting to logout page");
-					return redirect(routes.SocialLogin.logout());
+					return redirect(routes.App.logout());
 				}
 			}
 		} finally {

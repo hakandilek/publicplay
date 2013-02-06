@@ -10,7 +10,6 @@ import play.utils.crud.APIController;
 
 public class CategoryAPIController extends APIController<String, Category> {
 
-
 	@Inject
 	public CategoryAPIController(CategoryDAO categoryDAO) {
 		super(categoryDAO);

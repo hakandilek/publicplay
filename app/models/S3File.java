@@ -4,7 +4,6 @@ import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Date;
-import java.util.List;
 import java.util.UUID;
 
 import javax.persistence.Basic;
@@ -17,7 +16,6 @@ import javax.persistence.Version;
 import play.Logger;
 import play.data.validation.Constraints.Required;
 import play.db.ebean.Model;
-import play.utils.cache.CachedFinder;
 import play.utils.dao.TimestampModel;
 import plugins.S3Plugin;
 
@@ -55,10 +53,6 @@ public class S3File extends Model implements TimestampModel<UUID> {
     @Transient
     public File file;
 
-	public static CachedFinder<UUID, S3File> find = new CachedFinder<UUID, S3File>(
-			UUID.class, S3File.class);
-
-	
 	@Override
 	public UUID getKey() {
 		return id;
@@ -86,30 +80,6 @@ public class S3File extends Model implements TimestampModel<UUID> {
 
 	public void setRevision(int revision) {
 		this.revision = revision;
-	}
-
-	public static List<S3File> all() {
-		return find.all();
-	}
-
-	public static void create(S3File c) {
-		c.save();
-		find.put(c.id, c);
-	}
-
-	public static void remove(UUID key) {
-		find.ref(key).delete();
-		find.clean(key);
-	}
-
-	public static S3File get(UUID key) {
-		return find.byId(key);
-	}
-
-	public static void update(UUID key, S3File newFile) {
-		remove(key);
-		create(newFile);
-		find.put(newFile.id, newFile);
 	}
 
     public URL getUrl() {

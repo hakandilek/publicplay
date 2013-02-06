@@ -5,7 +5,7 @@
 @import views.html.security._
 
 @restrictApproved() {
-    <h4><a href="@routes.PostController.newForm">@Messages("Create_new_post")</a></h4>
+    <h4><a href="@routes.App.postNewForm">@Messages("Create_new_post")</a></h4>
 }
 @restrictNotApproved() {
 	@Messages("Only_registered_and_approved_users")
@@ -38,8 +38,8 @@
     </table>
 
     @partials.pagination(currentPage, Constants.POSTS_PER_PAGE, 
-	    routes.PostController.list(currentPage.getPageIndex - 1),
-	    routes.PostController.list(currentPage.getPageIndex + 1))
+	    routes.App.postList(currentPage.getPageIndex - 1),
+	    routes.App.postList(currentPage.getPageIndex + 1))
     
     }
 </div>

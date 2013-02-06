@@ -1,13 +1,13 @@
-@(list: List[Category], user: models.User)
+@(list: List[Category])
 @import helper._ 
 @import helper.twitterBootstrap._
 @import helper.H._
 
-@main(Messages("Categories"), user) {
+@main(Messages("Categories"), null) {
 
 	<h3>@Messages("Category_num", list.size())</h3>
 	
-	<h4><a href="@routes.CategoryController.newForm">@Messages("Create_new_category")</a></h4>
+	<h4><a href="@routes.Admin.categoryNewForm">@Messages("Create_new_category")</a></h4>
     
     @if(list.size() == 0) {
         
@@ -27,9 +27,9 @@
         @for(category <- list) {
             <tr>
                 <td>
-                	<a href="@routes.CategoryController.show(category.getName())">@category.getName()</a>
-                    <a class="btn btn-mini btn-danger pull-right spaced" href="@routes.CategoryController.delete(category.getName())">@Messages("delete")</a>
-                    <a class="btn btn-mini pull-right spaced" href="@routes.CategoryController.editForm(category.getName())">@Messages("edit")</a>
+                	<a href="@routes.Admin.categoryShow(category.getName())">@category.getName()</a>
+                    <a class="btn btn-mini btn-danger pull-right spaced" href="@routes.Admin.categoryDelete(category.getName())">@Messages("delete")</a>
+                    <a class="btn btn-mini pull-right spaced" href="@routes.Admin.categoryEditForm(category.getName())">@Messages("edit")</a>
                	</td>
             </tr>
         }

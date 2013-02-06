@@ -100,11 +100,6 @@ public class Api extends App {
 	}
 
 	@BodyParser.Of(Json.class)
-	public static Result sourceConfigurationUpdate(Long key) {
-		return sourceConfiguration.update(key);
-	}
-
-	@BodyParser.Of(Json.class)
 	public static Result productScrapUpdate(Long key) {
 		return productScrap.update(key);
 	}
@@ -157,4 +152,11 @@ public class Api extends App {
 	public static Result userUpdate(String key) {
 		return userAPI.update(key);
 	}
+	
+	@BodyParser.Of(Json.class)
+	public static Result sourceConfigurationUpdate(Long key) {
+		return sourceConfiguration.update(key);
+	}
+
+
 }

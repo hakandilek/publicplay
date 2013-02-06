@@ -10,8 +10,6 @@ Features
 
 Those are some features of PublicPlay:
 
-(either already implemented or <del>planned</del>)
-
  * unit testing
  * logging 
  * caching 
@@ -19,5 +17,19 @@ Those are some features of PublicPlay:
  * Facebook login with [social auth](http://code.google.com/p/socialauth)
  * Facebook like
  * Rating posts (users can rate posts)
- * <del> theming </del>
- * <del> Facebook comments (posted comments appear on facebook) </del>
+ * theming via [bootswatch](http://bootswatch.com/)
+ 
+Uses
+----
+
+PublicPlay takes benefit of the following libraries:
+
+ * [google guice](http://code.google.com/p/google-guice/)
+ * [socialauth](http://code.google.com/p/socialauth/)
+ * [restfb](http://restfb.com/)
+ * [deadbolt-2](https://github.com/schaloner/deadbolt-2)
+ * [amazon-aws S3](http://aws.amazon.com/sdkforjava/)
+ * [play2-cache](https://github.com/hakandilek/play2-cache)
+ * [play2-crud](https://github.com/hakandilek/play2-crud)
+
+ 
