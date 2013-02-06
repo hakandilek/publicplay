@@ -55,8 +55,8 @@ public class Admin extends Controller {
 		return ok(views.html.admin.index.render(user));
 	}
 
-	@Secure @Restrict("admin") @RestrictApproved public static Result categoryList() {
-		return category.listAll();
+	@Secure @Restrict("admin") @RestrictApproved public static Result categoryList(int page) {
+		return category.list(page);
 	}
 
 	@Secure @Restrict("admin") @RestrictApproved public static Result categoryNewForm() {
@@ -83,8 +83,8 @@ public class Admin extends Controller {
 		return category.show(key);
 	}
 	
-	@Secure @Restrict("admin") @RestrictApproved public static Result commentList() {
-		return comment.listAll();
+	@Secure @Restrict("admin") @RestrictApproved public static Result commentList(int page) {
+		return comment.list(page);
 	}
 
 	@Secure @Restrict("admin") @RestrictApproved public static Result commentNewForm() {
@@ -111,8 +111,8 @@ public class Admin extends Controller {
 		return comment.show(key);
 	}
 
-	@Secure @Restrict("admin") @RestrictApproved public static Result postList() {
-		return post.listAll();
+	@Secure @Restrict("admin") @RestrictApproved public static Result postList(int page) {
+		return post.list(page);
 	}
 
 	@Secure @Restrict("admin") @RestrictApproved public static Result postNewForm() {
@@ -139,8 +139,8 @@ public class Admin extends Controller {
 		return post.show(key);
 	}
 
-	@Secure @Restrict("admin") @RestrictApproved public static Result postRatingList() {
-		return postRating.listAll();
+	@Secure @Restrict("admin") @RestrictApproved public static Result postRatingList(int page) {
+		return postRating.list(page);
 	}
 
 	@Secure @Restrict("admin") @RestrictApproved public static Result postRatingNewForm() {
@@ -167,8 +167,8 @@ public class Admin extends Controller {
 		return postRating.show(PostRatingPK.fromString(key));
 	}
 
-	@Secure @Restrict("admin") @RestrictApproved public static Result s3FileList() {
-		return s3File.listAll();
+	@Secure @Restrict("admin") @RestrictApproved public static Result s3FileList(int page) {
+		return s3File.list(page);
 	}
 
 	@Secure @Restrict("admin") @RestrictApproved public static Result s3FileNewForm() {
@@ -195,8 +195,8 @@ public class Admin extends Controller {
 		return s3File.show(UUID.fromString(key));
 	}
 
-	@Secure @Restrict("admin") @RestrictApproved public static Result securityRoleList() {
-		return securityRole.listAll();
+	@Secure @Restrict("admin") @RestrictApproved public static Result securityRoleList(int page) {
+		return securityRole.list(page);
 	}
 
 	@Secure @Restrict("admin") @RestrictApproved public static Result securityRoleNewForm() {
@@ -223,8 +223,8 @@ public class Admin extends Controller {
 		return securityRole.show(key);
 	}
 
-	@Secure @Restrict("admin") @RestrictApproved public static Result userList() {
-		return user.listAll();
+	@Secure @Restrict("admin") @RestrictApproved public static Result userList(int page) {
+		return user.list(page);
 	}
 
 	@Secure @Restrict("admin") @RestrictApproved public static Result userNewForm() {
@@ -251,8 +251,8 @@ public class Admin extends Controller {
 		return user.show(key);
 	}
 
-	@Secure @Restrict("admin") @RestrictApproved public static Result sourceConfigurationList() {
-		return sourceConfiguration.listAll();
+	@Secure @Restrict("admin") @RestrictApproved public static Result sourceConfigurationList(int page) {
+		return sourceConfiguration.list(page);
 	}
 
 	@Secure @Restrict("admin") @RestrictApproved public static Result sourceConfigurationCreate() {
@@ -331,7 +331,7 @@ public class Admin extends Controller {
 	}
 
 	@Secure @Restrict("admin") @RestrictApproved public static Result productScrapList() {
-		return productScrap.listAll();
+		return productScrap.list(page);
 	}
 
 	@Secure @Restrict("admin") @RestrictApproved public static Result productScrapNewForm() {
@@ -359,7 +359,7 @@ public class Admin extends Controller {
 	}
 
 	@Secure @Restrict("admin") @RestrictApproved public static Result linkSourceList() {
-		return linkSource.listAll();
+		return linkSource.list(page);
 	}
 
 	@Secure @Restrict("admin") @RestrictApproved public static Result linkSourceCreate() {
@@ -387,7 +387,7 @@ public class Admin extends Controller {
 	}
 
 	@Secure @Restrict("admin") @RestrictApproved public static Result s3FileList() {
-		return s3File.listAll();
+		return s3File.list(page);
 	}
 
 	@Secure @Restrict("admin") @RestrictApproved public static Result s3FileCreate() {
@@ -415,7 +415,7 @@ public class Admin extends Controller {
 	}
 	
 	@Secure @Restrict("admin") @RestrictApproved public static Result productRecordList() {
-		return productRecord.listAll();
+		return productRecord.list(page);
 	}
 
 	@Secure @Restrict("admin") @RestrictApproved public static Result productRecordNewForm() {

@@ -20,7 +20,7 @@ public class SourceConfigurationController extends
 	@Inject
 	public SourceConfigurationController(SourceConfigurationDAO dao) {
 		super(dao, form(SourceConfiguration.class), Long.class,
-				SourceConfiguration.class);
+				SourceConfiguration.class, 20, "sourceKey");
 		sourceConfigurationDAO = dao;
 	}
 
@@ -41,7 +41,7 @@ public class SourceConfigurationController extends
 
 	@Override
 	protected Call toIndex() {
-		return routes.Admin.sourceConfigurationList();
+		return routes.Admin.sourceConfigurationList(0);
 	}
 
 	protected String templateForBulkForm() {

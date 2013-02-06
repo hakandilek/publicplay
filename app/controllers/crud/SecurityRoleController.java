@@ -12,7 +12,7 @@ public class SecurityRoleController extends CRUDController<Long, SecurityRole> {
 
 	@Inject
 	public SecurityRoleController(SecurityRoleDAO dao) {
-		super(dao, form(SecurityRole.class), Long.class, SecurityRole.class);
+		super(dao, form(SecurityRole.class), Long.class, SecurityRole.class, 20, "name");
 	}
 
 	@Override
@@ -32,7 +32,7 @@ public class SecurityRoleController extends CRUDController<Long, SecurityRole> {
 
 	@Override
 	protected Call toIndex() {
-		return routes.Admin.securityRoleList();
+		return routes.Admin.securityRoleList(0);
 	}
 
 }

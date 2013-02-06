@@ -56,7 +56,7 @@ public class PostController extends CRUDController<Long, Post> implements
 
 	@Inject
 	public PostController(PostDAO postDAO, CommentDAO commentDAO, PostRatingDAO postRatingDAO, CategoryDAO categoryDAO, S3FileDAO s3FileDAO, HttpUtils httpUtils) {
-		super(postDAO, form(Post.class), Long.class, Post.class);
+		super(postDAO, form(Post.class), Long.class, Post.class, 20, "updatedOn desc");
 		this.postDAO = postDAO;
 		this.commentDAO = commentDAO;
 		this.postRatingDAO = postRatingDAO;

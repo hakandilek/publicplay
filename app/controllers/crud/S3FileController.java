@@ -14,7 +14,7 @@ public class S3FileController extends CRUDController<UUID, S3File> {
 
 	@Inject
 	public S3FileController(S3FileDAO dao) {
-		super(dao, form(S3File.class), UUID.class, S3File.class);
+		super(dao, form(S3File.class), UUID.class, S3File.class, 20, "updatedOn desc");
 	}
 
 	@Override
@@ -34,7 +34,7 @@ public class S3FileController extends CRUDController<UUID, S3File> {
 
 	@Override
 	protected Call toIndex() {
-		return routes.Admin.s3FileList();
+		return routes.Admin.s3FileList(0);
 	}
 
 }

@@ -26,7 +26,7 @@ public class UserController extends CRUDController<String, User> {
 
 	@Inject
 	public UserController(UserDAO userDAO, PostRatingDAO postRatingDAO, HttpUtils httpUtils) {
-		super(userDAO, form(User.class), String.class, User.class);
+		super(userDAO, form(User.class), String.class, User.class, 20, "lastLogin desc");
 		this.userDAO = userDAO;
 		this.postRatingDAO = postRatingDAO;
 		this.httpUtils = httpUtils;
@@ -49,7 +49,7 @@ public class UserController extends CRUDController<String, User> {
 
 	@Override
 	protected Call toIndex() {
-		return routes.Admin.userList();
+		return routes.Admin.userList(0);
 	}
 
 	public Result show(String key) {
@@ -103,7 +103,7 @@ public class UserController extends CRUDController<String, User> {
 			log.debug("user : " + user);
 		
 		userDAO.update(key, user);
-		return listAll();
+		return list(page);
 	}
 
 	public Result suspend(String key, int page) {
@@ -116,7 +116,7 @@ public class UserController extends CRUDController<String, User> {
 			log.debug("user : " + user);
 		
 		userDAO.update(key, user);
-		return listAll();
+		return list(page);
 	}
 
 	public Result list(String status, int page) {

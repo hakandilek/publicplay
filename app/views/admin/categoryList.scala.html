@@ -1,15 +1,15 @@
-@(list: List[Category])
+@(currentPage: Page[Category])
 @import helper._ 
 @import helper.twitterBootstrap._
 @import helper.H._
 
 @main(Messages("Categories"), null) {
 
-	<h3>@Messages("Category_num", list.size())</h3>
+	<h3>@Messages("Category_num", currentPage.getTotalRowCount())</h3>
 	
 	<h4><a href="@routes.Admin.categoryNewForm">@Messages("Create_new_category")</a></h4>
     
-    @if(list.size() == 0) {
+    @if(currentPage.getTotalRowCount() == 0) {
         
         <div class="well">
             <em>@Messages("Nothing_to_display")</em>
@@ -24,7 +24,7 @@
             </tr>
         </thead>
         <tbody>
-        @for(category <- list) {
+        @for(category <- currentPage.getList) {
             <tr>
                 <td>
                 	<a href="@routes.Admin.categoryShow(category.getName())">@category.getName()</a>

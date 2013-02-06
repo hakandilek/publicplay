@@ -34,7 +34,7 @@ public class CommentController extends CRUDController<Long, Comment> implements 
 
 	@Inject
 	public CommentController(PostDAO postDAO, CommentDAO dao, PostRatingDAO postRatingDAO, HttpUtils httpUtils) {
-		super(dao, form(Comment.class), Long.class, Comment.class);
+		super(dao, form(Comment.class), Long.class, Comment.class, 20, "updatedOn desc");
 		this.postDAO = postDAO;
 		this.commentDAO = dao;
 		this.postRatingDAO = postRatingDAO;

@@ -13,7 +13,7 @@ public class PostRatingController extends CRUDController<PostRatingPK, PostRatin
 
 	@Inject
 	public PostRatingController(PostRatingDAO dao) {
-		super(dao, form(PostRating.class), PostRatingPK.class, PostRating.class);
+		super(dao, form(PostRating.class), PostRatingPK.class, PostRating.class, 20, "updatedOn desc");
 	}
 
 	@Override
