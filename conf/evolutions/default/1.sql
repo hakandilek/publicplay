@@ -35,7 +35,7 @@ create table TBL_POST (
   created_by                varchar(255),
   updated_by                varchar(255),
   category                  varchar(255),
-  revision                  integer not null,
+  version                   integer not null,
   constraint pk_TBL_POST primary key (key))
 ;
 
