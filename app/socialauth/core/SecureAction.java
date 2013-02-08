@@ -51,7 +51,7 @@ public class SecureAction extends Action<Secure> {
 				if (log.isDebugEnabled())
 					log.debug("user : " + user);
 				if (user != null) {
-					ctx.args.put(SocialController.USER_KEY, user);
+					ctx.args.put(SocialController.USER, user);
 					if (log.isDebugEnabled())
 						log.debug("calling delegate action");
 					return delegate.call(ctx);
