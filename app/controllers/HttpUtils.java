@@ -7,6 +7,7 @@ import models.User;
 import models.dao.UserDAO;
 import play.Logger;
 import play.Logger.ALogger;
+import play.mvc.Http;
 import play.mvc.Http.Context;
 import play.mvc.Http.MultipartFormData;
 import play.mvc.Http.MultipartFormData.FilePart;
@@ -34,6 +35,15 @@ public class HttpUtils {
 
 	/**
 	 * extract login user from the context if available
+	 * @return login user, or null
+	 */
+	public User loginUser() {
+		Context ctx = Http.Context.current();
+		return loginUser(ctx);
+	}
+	
+	/**
+	 * extract login user from the context if available
 	 * @param ctx http context
 	 * @return login user, or null
 	 */
@@ -43,6 +53,8 @@ public class HttpUtils {
 			log.debug("su : " + (su == null ? null : su.getUserKey()));
 		User user = null;
 		if (su != null) {
+			if (log.isDebugEnabled())
+				log.debug("get user from DB");
 			user = userDAO.get(su.getUserKey());
 			if (user == null) {
 				if (log.isDebugEnabled())

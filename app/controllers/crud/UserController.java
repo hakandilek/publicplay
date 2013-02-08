@@ -55,7 +55,7 @@ public class UserController extends CRUDController<String, User> {
 	public Result show(String key) {
 		if (log.isDebugEnabled())
 			log.debug("show() <- " + key);
-		User loginUser = httpUtils.loginUser(ctx());
+		User loginUser = httpUtils.loginUser();
 		User userToShow = null;
 		if (null != key)
 			userToShow = userDAO.get(key);
@@ -79,7 +79,7 @@ public class UserController extends CRUDController<String, User> {
 		if (log.isDebugEnabled())
 			log.debug("user : " + loginUser);
 		if (loginUser == null || userToShow == null) {
-			return badRequest(userShow.render(loginUser, userToShow, false,
+			return badRequest(userShow.render(userToShow, false,
 					upVotes, downVotes));
 		}
 
@@ -89,7 +89,7 @@ public class UserController extends CRUDController<String, User> {
 			selfPage = true;
 		}
 
-		return ok(userShow.render(loginUser, userToShow, selfPage, upVotes,
+		return ok(userShow.render(userToShow, selfPage, upVotes,
 				downVotes));
 	}
 

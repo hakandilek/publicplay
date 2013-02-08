@@ -69,7 +69,7 @@ public class CommentController extends CRUDController<Long, Comment> implements 
 		if (log.isDebugEnabled())
 			log.debug("post : " + post);
 
-		User user = httpUtils.loginUser(ctx());
+		User user = httpUtils.loginUser();
 
 		Form<Comment> filledForm = getForm().bindFromRequest();
 		if (filledForm.hasErrors() || user == null) {
@@ -83,7 +83,7 @@ public class CommentController extends CRUDController<Long, Comment> implements 
 
 			Page<Comment> pg = commentDAO
 					.page(postKey, 0, COMMENTS_PER_PAGE);
-			return badRequest(postShow.render(post, null, filledForm, user, pg,
+			return badRequest(postShow.render(post, null, filledForm, pg,
 					upVotes, downVotes));
 		} else {
 			Comment comment = filledForm.get();
@@ -115,7 +115,7 @@ public class CommentController extends CRUDController<Long, Comment> implements 
 		if (log.isDebugEnabled())
 			log.debug("comment : " + comment);
 
-		User user = httpUtils.loginUser(ctx());
+		User user = httpUtils.loginUser();
 		Set<Long> upVotes = user == null ? new TreeSet<Long>()
 				: postRatingDAO.getUpVotedPostKeys(user);
 		Set<Long> downVotes = user == null ? new TreeSet<Long>()
@@ -123,7 +123,7 @@ public class CommentController extends CRUDController<Long, Comment> implements 
 
 		Form<Comment> form = getForm().fill(comment);
 		Page<Comment> pg = commentDAO.page(postKey, 0, COMMENTS_PER_PAGE);
-		return ok(postShow.render(post, commentKey, form, user, pg, upVotes,
+		return ok(postShow.render(post, commentKey, form, pg, upVotes,
 				downVotes));
 	}
 
@@ -135,7 +135,7 @@ public class CommentController extends CRUDController<Long, Comment> implements 
 		if (log.isDebugEnabled())
 			log.debug("post : " + post);
 
-		User user = httpUtils.loginUser(ctx());
+		User user = httpUtils.loginUser();
 
 		Form<Comment> filledForm = getForm().bindFromRequest();
 		if (filledForm.hasErrors() || user == null) {
@@ -150,7 +150,7 @@ public class CommentController extends CRUDController<Long, Comment> implements 
 			Page<Comment> pg = commentDAO
 					.page(postKey, 0, COMMENTS_PER_PAGE);
 			return badRequest(postShow.render(post, commentKey, filledForm,
-					user, pg, upVotes, downVotes));
+					pg, upVotes, downVotes));
 		} else {
 			final Comment commentData = commentDAO.get(commentKey);
 			Comment comment = filledForm.get();
