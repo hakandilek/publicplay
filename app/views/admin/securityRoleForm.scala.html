@@ -1,0 +1,16 @@
+@(key: Long, modelForm: Form[SecurityRole])
+@import helper._ 
+@import helper.twitterBootstrap._
+
+@main(if(key != null) Messages("update_securityRole") else Messages("new_securityRole")) {
+
+	<h3>@if(key != null) { @Messages("update_securityRole") } else { @Messages("new_securityRole") } </h3>
+    
+    @form(if(key != null) { routes.Admin.securityRoleUpdate(modelForm.get().getKey()) } 
+          else             { routes.Admin.securityRoleCreate() }) { 
+        @inputText(modelForm("name"), args = '_label -> Messages("SecurityRole.name.label"))
+        <div>
+           <input type="submit" class="btn btn-success" value="@if(key != null) { @Messages("Update") } else { @Messages("Create") }">
+        </div>
+    } 
+}

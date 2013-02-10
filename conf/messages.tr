@@ -112,6 +112,13 @@ User.status.SUSPENDED=Askıda
 User.status.NEW=Yeni
 User.status.APPROVED=Onaylı
 
+# SecurityRole
+SecurityRole_num={0} rol
+SecurityRoles=roller
+Create_new_securityRole=yeni rol tanımla
+update_securityRole=rol güncelle
+SecurityRole.name.label=rol adı
+
 # === Default messages
 # --- Constraints
 constraint.required=* Gerekli alan

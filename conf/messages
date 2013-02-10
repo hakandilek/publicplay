@@ -99,3 +99,9 @@ User.Gender=Gender
 User.Location=location
 User.Favorites=Favorites
 
+# SecurityRole
+SecurityRole_num={0} roles
+SecurityRoles=roles
+Create_new_securityRole=define new role
+update_securityRole=update role
+SecurityRole.name.label=role name
