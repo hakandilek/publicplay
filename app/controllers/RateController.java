@@ -1,4 +1,4 @@
-package controllers.crud;
+package controllers;
 
 import javax.inject.Inject;
 
@@ -15,8 +15,6 @@ import play.mvc.Result;
 import security.RestrictApproved;
 import socialauth.core.Secure;
 import views.html.rate;
-import controllers.Constants;
-import controllers.HttpUtils;
 
 public class RateController extends Controller implements Constants {
 

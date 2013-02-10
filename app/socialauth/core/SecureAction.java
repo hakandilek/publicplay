@@ -7,8 +7,8 @@ import play.mvc.Action;
 import play.mvc.Http;
 import play.mvc.Http.Context;
 import play.mvc.Result;
+import controllers.SocialController;
 import controllers.routes;
-import controllers.crud.SocialController;
 
 public class SecureAction extends Action<Secure> {
 	private static ALogger log = Logger.of(SecureAction.class);

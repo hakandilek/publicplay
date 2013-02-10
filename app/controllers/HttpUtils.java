@@ -10,7 +10,6 @@ import play.mvc.Http.MultipartFormData;
 import play.mvc.Http.MultipartFormData.FilePart;
 import play.mvc.Http.Request;
 import play.mvc.Http.RequestBody;
-import controllers.crud.SocialController;
 
 public class HttpUtils {
 

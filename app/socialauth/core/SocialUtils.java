@@ -10,7 +10,7 @@ import play.mvc.Http.Context;
 import play.mvc.Http.Request;
 import play.mvc.Http.Session;
 import plugins.SocialUserPlugin;
-import controllers.crud.SocialController;
+import controllers.SocialController;
 
 public class SocialUtils {
 	

@@ -5,7 +5,7 @@ import play.Logger.ALogger;
 import play.mvc.Action;
 import play.mvc.Http.Context;
 import play.mvc.Result;
-import controllers.crud.SocialController;
+import controllers.SocialController;
 
 public class SocialAwareAction extends Action<SocialAware> {
 

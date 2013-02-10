@@ -1,4 +1,4 @@
-package controllers.crud;
+package controllers;
 
 import java.io.InputStream;
 import java.util.Date;

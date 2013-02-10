@@ -12,8 +12,6 @@ import security.RestrictApproved;
 import security.RestrictCombine;
 import socialauth.core.Secure;
 import socialauth.core.SocialAware;
-import controllers.crud.RateController;
-import controllers.crud.SocialController;
 
 public class App extends Admin {
 
