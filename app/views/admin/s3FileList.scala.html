@@ -1,0 +1,51 @@
+@(currentPage: Page[S3File])
+@import helper._ 
+@import helper.twitterBootstrap._
+@import helper.H._
+
+@main(Messages("S3Files")) {
+
+	<h3>@Messages("S3File_num", currentPage.getTotalRowCount())</h3>
+	
+    @if(currentPage.getTotalRowCount() == 0) {
+        
+        <div class="well">
+            <em>@Messages("Nothing_to_display")</em>
+        </div>
+        
+    } else {
+	
+    <table class="categories table table-striped table-bordered">
+        <thead>
+            <tr>
+                <th class="header">@Messages("S3File.bucket.label")</th>
+                <th class="header">@Messages("S3File.file.label")</th>
+                <th class="header">@Messages("S3File.url.label")</th>
+                <th class="header">@Messages("createdOn.label")</th>
+                <th class="header">@Messages("updatedOn.label")</th>
+                <th class="header">@Messages("revision.label")</th>
+                <th class="header">@Messages("Delete")</th>
+                
+            </tr>
+        </thead>
+        <tbody>
+        @for(s3File <- currentPage.getList) {
+            <tr>
+            	<td>@s3File.getBucket()</td>
+                <td>
+                	<a href='@routes.Admin.s3FileShow(s3File.getKey() + "")'> @s3File.getKey()</a>
+                </td>
+                <td><a href="@s3File.getUrl()"><i class="icon-external-link"></i></a></td>
+                <td>@s3File.getCreatedOn()</td>
+                <td>@s3File.getUpdatedOn()</td>
+                <td>@s3File.getRevision()</td>
+                <td>
+                    <a class="btn btn-mini btn-danger pull-right spaced" href="@routes.Admin.s3FileDelete(s3File.getKey() + "")">@Messages("delete")</a>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+    
+    }
+}

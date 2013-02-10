@@ -53,6 +53,10 @@ public class S3File extends Model implements TimestampModel<UUID> {
     @Transient
     public File file;
 
+	public String getBucket() {
+		return bucket;
+	}
+
 	@Override
 	public UUID getKey() {
 		return id;

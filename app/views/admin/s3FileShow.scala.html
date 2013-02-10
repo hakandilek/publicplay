@@ -1,0 +1,31 @@
+@(s3File: S3File)
+@import helper._ 
+@import helper.twitterBootstrap._
+@import helper.H._
+
+@main("S3File") {
+     <dl class="dl-horizontal">
+         <dt>@Messages("S3File.bucket.label")</dt>
+         <dd>@s3File.getBucket()</dd>
+     </dl>
+     <dl class="dl-horizontal">
+         <dt>@Messages("S3File.key.label")</dt>
+         <dd>@s3File.getKey()</dd>
+     </dl>
+     <dl class="dl-horizontal">
+         <dt>@Messages("S3File.url.label")</dt>
+         <dd><a href="@s3File.getUrl()"><i class="icon-external-link"></i></a></dd>
+     </dl>
+     <dl class="dl-horizontal">
+         <dt>@Messages("createdOn.label")</dt>
+         <dd>@s3File.getCreatedOn()</dd>
+     </dl>
+     <dl class="dl-horizontal">
+         <dt>@Messages("updatedOn.label")</dt>
+         <dd>@s3File.getUpdatedOn()</dd>
+     </dl>
+     <dl class="dl-horizontal">
+         <dt>@Messages("revision.label")</dt>
+         <dd>@s3File.getRevision()</dd>
+     </dl>
+}

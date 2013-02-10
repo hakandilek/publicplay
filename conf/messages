@@ -26,6 +26,11 @@ Overall_Top10=Overall
 Read_More=read more
 joinedOn=Joined on
 
+
+revision.label=revision
+createdOn.label=created
+updatedOn.label=updated
+
 # Post
 update_post=update post
 new_post=new post
@@ -105,3 +110,11 @@ SecurityRoles=roles
 Create_new_securityRole=define new role
 update_securityRole=update role
 SecurityRole.name.label=role name
+
+# S3File
+S3File_num={0} files
+S3Files=S3File
+S3File.key.label=key
+S3File.bucket.label=bucket
+S3File.file.label=file
+S3File.url.label=URL
