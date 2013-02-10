@@ -1,6 +1,7 @@
-@(title: String, loggedInUser: models.User)(content: Html)
+@(title: String)(content: Html)
 @import be.objectify.deadbolt.views.html._
 @import be.objectify.deadbolt.utils.TemplateUtils._
+
 <!DOCTYPE html>
 
 <html>
@@ -8,7 +9,7 @@
 		@partials.mainHead(title)
     </head>
     <body>
-    	@partials.mainBody(loggedInUser)
+    	@partials.mainBody()
 		<section id="main">
             @content
         </section>

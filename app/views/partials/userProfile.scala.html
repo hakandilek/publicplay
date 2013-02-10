@@ -1,5 +1,6 @@
-@(user: models.User, login: Boolean = false) 
-@import helper._ 
+@(user:models.User, login: Boolean = false) 
+@import helper._
+     
 @if(user != null) {
     <div class="profile">
 	    <img alt="@user.getProfileImageURL()" src="@user.getProfileImageURL()"  /> 

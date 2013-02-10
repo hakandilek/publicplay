@@ -1,46 +1,29 @@
 package socialauth.core;
 
-import java.util.Calendar;
 import java.util.Date;
 
-import org.brickred.socialauth.Profile;
-import org.brickred.socialauth.util.BirthDate;
+public interface SocialUser {
 
-public class SocialUser {
+	String getUserKey();
 
-	private final String userKey;
-	private final Profile profile;
+	Date getBirthdate();
 
-	public SocialUser(String userKey, Profile profile) {
-		this.userKey = userKey;
-		this.profile = profile;
-	}
+	String getValidatedId();
 
-	public SocialUser(Profile profile) {
-		this(profile.getProviderId() + "::" + profile.getValidatedId(), profile);
-	}
+	String getFirstName();
 
-	public String getUserKey() {
-		return userKey;
-	}
+	String getLastName();
 
-	public Profile getProfile() {
-		return profile;
-	}
+	String getEmail();
 
-	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("SocialUser [").append(userKey)
-				.append(" = ").append(profile).append("]");
-		return builder.toString();
-	}
+	String getCountry();
 
-	public Date getBirthDate() {
-		final Calendar cal = Calendar.getInstance();
-		final BirthDate dob = getProfile().getDob();
-		if (dob != null) {
-			cal.set(dob.getYear(), dob.getMonth(), dob.getDay(), 0, 0, 0);
-		}
-		return cal.getTime();
-	}
+	String getGender();
+
+	String getLocation();
+
+	String getProfileImageURL();
+
+	String getProviderId();
+
 }

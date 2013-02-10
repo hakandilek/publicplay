@@ -1,7 +1,7 @@
-@(loggedInUser: models.User)
+@()
 @import be.objectify.deadbolt.views.html._
 @import be.objectify.deadbolt.utils.TemplateUtils._
-
+@import helper.UserHelper._
                
         <div id="fb-root"></div>
         <script>(function(d, s, id) {
@@ -50,7 +50,8 @@
                             <li><a href="@routes.Admin.index()"><i class="icon-wrench icon-white"></i>&nbsp;@Messages("Administration")</a></li>
                         }
                         @views.html.security.roleHolderPresent(){
-                            @if(loggedInUser != null) {
+                            @if(userPresent()) {
+                            @defining(user()) { loggedInUser =>
                             <!-- profile -->
                             <li>
                                 <a href="@controllers.routes.App.userShow(loggedInUser.getKey())" class="profile">
@@ -58,6 +59,7 @@
 						            @loggedInUser.getFirstName() @loggedInUser.getLastName()
 					            </a>
                             </li>
+                            }
                             }
                             <!-- logout -->
                             <li><a href="@controllers.routes.App.logout()"><i class="icon-off icon-white"></i>&nbsp;@Messages("Logout")</a></li>

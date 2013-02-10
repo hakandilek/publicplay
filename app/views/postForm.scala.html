@@ -1,9 +1,10 @@
-@(key: Long, postForm: Form[Post], user: models.User, image: S3File, categories:List[String])
+@(key: Long, postForm: Form[Post], image: S3File, categories:List[String])
 @import helper._ 
 @import helper.twitterBootstrap._
 @import helper.PostHelper._
+@import helper.UserHelper._
 
-@main(if(key != null) Messages("update_post") else Messages("new_post"), user) {
+@main(if(key != null) Messages("update_post") else Messages("new_post")) {
         
 	<h3>@if(key != null) { @Messages("update_post_detail") } else { @Messages("new_post_detail") } </h3>
 
@@ -72,7 +73,7 @@
          
         <div>
             <input type="submit" class="btn btn-success" value='@if(key != null) { @Messages("Update") } else { @Messages("Post") }'>
-            @Html(Messages("as_profile", partials.userProfile(user)))
+            @Html(Messages("as_profile", partials.userProfile(user())))
         </div>
     } 
 }

@@ -64,7 +64,7 @@ public class RateController extends Controller implements Constants {
 		if (log.isDebugEnabled())
 			log.debug("post : " + post);
 
-		User user = httpUtils.loginUser(ctx());
+		User user = httpUtils.loginUser();
 		if (log.isDebugEnabled())
 			log.debug("user : " + user);
 

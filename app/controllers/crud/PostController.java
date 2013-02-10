@@ -98,7 +98,7 @@ public class PostController extends CRUDController<Long, Post> implements
 		if (log.isDebugEnabled())
 			log.debug("page : " + page);
 
-		User user = httpUtils.loginUser(ctx());
+		User user = httpUtils.loginUser();
 		Set<Long> upVotes = user == null ? new TreeSet<Long>()
 				: postRatingDAO.getUpVotedPostKeys(user);
 		Set<Long> downVotes = user == null ? new TreeSet<Long>()
@@ -111,7 +111,7 @@ public class PostController extends CRUDController<Long, Post> implements
 		Page<Post> pg = postDAO.page(page, POSTS_PER_PAGE);
 		if (Logger.isDebugEnabled())
 			Logger.debug("pg : " + pg);
-		return ok(index.render(pg, topDay, topWeek, topAll, user, upVotes,
+		return ok(index.render(pg, topDay, topWeek, topAll, upVotes,
 				downVotes));
 	}
 
@@ -119,17 +119,15 @@ public class PostController extends CRUDController<Long, Post> implements
 		if (log.isDebugEnabled())
 			log.debug("newForm() <-");
 
-		User user = httpUtils.loginUser(ctx());
-
 		S3File image = null;
-		return ok(postForm.render(null, getForm(), user, image, categories()));
+		return ok(postForm.render(null, getForm(), image, categories()));
 	}
 
 	public Result create() {
 		if (log.isDebugEnabled())
 			log.debug("create() <-");
 
-		User user = httpUtils.loginUser(ctx());
+		User user = httpUtils.loginUser();
 
 		S3File image = httpUtils.uploadFile(request(), "image");
 		if (log.isDebugEnabled())
@@ -146,7 +144,7 @@ public class PostController extends CRUDController<Long, Post> implements
 			if (log.isDebugEnabled())
 				log.debug("errors : " + errors);
 
-			return badRequest(postForm.render(null, filledForm, user, image, categories()));
+			return badRequest(postForm.render(null, filledForm, image, categories()));
 		} else {
 			Post post = filledForm.get();
 			post.setCreatedBy(user);
@@ -180,17 +178,15 @@ public class PostController extends CRUDController<Long, Post> implements
 		if (log.isDebugEnabled())
 			log.debug("image : " + image);
 
-		User user = httpUtils.loginUser(ctx());
-
 		Form<Post> frm = getForm().fill(post);
-		return ok(postForm.render(key, frm, user, image, categories()));
+		return ok(postForm.render(key, frm, image, categories()));
 	}
 
 	public Result update(Long key) {
 		if (log.isDebugEnabled())
 			log.debug("update() <-" + key);
 
-		User user = httpUtils.loginUser(ctx());
+		User user = httpUtils.loginUser();
 
 		S3File image = httpUtils.uploadFile(request(), "image");
 		if (log.isDebugEnabled())
@@ -210,7 +206,7 @@ public class PostController extends CRUDController<Long, Post> implements
 			if (log.isDebugEnabled())
 				log.debug("errors : " + errors);
 
-			return badRequest(postForm.render(key, filledForm, user, image, categories()));
+			return badRequest(postForm.render(key, filledForm, image, categories()));
 		} else {
 			Post postData = postDAO.get(key);
 			Post post = filledForm.get();
@@ -253,7 +249,7 @@ public class PostController extends CRUDController<Long, Post> implements
 		if (log.isDebugEnabled())
 			log.debug("post : " + post);
 
-		User user = httpUtils.loginUser(ctx());
+		User user = httpUtils.loginUser();
 		Set<Long> upVotes = user == null ? new TreeSet<Long>()
 				: postRatingDAO.getUpVotedPostKeys(user);
 		Set<Long> downVotes = user == null ? new TreeSet<Long>()
@@ -261,7 +257,7 @@ public class PostController extends CRUDController<Long, Post> implements
 
 		final Page<Comment> pg = commentDAO.page(postKey, page,
 				COMMENTS_PER_PAGE);
-		return ok(postShow.render(post, null, commentForm, user, pg, upVotes,
+		return ok(postShow.render(post, null, commentForm, pg, upVotes,
 				downVotes));
 	}
 

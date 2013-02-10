@@ -2,7 +2,7 @@
 @import helper._ 
 @import helper.twitterBootstrap._
 
-@main(if(key != null) Messages("update_comment") else Messages("new_comment"), null) {
+@main(if(key != null) Messages("update_comment") else Messages("new_comment")) {
 
 	<h3>@if(key != null) { @Messages("update_comment") } else { @Messages("new_comment") } </h3>
     
