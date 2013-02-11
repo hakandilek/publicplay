@@ -6,7 +6,7 @@
 @import views.html.security._
 @import helper.UserHelper._
 
-@mainWithFacebookOG(post) {
+@template.main(post.getTitle(), partials.opengraphHead(post)) {
   <div class="container-fluid">
     <div class="row-fluid">
         <div class="span2">

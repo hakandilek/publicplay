@@ -14,7 +14,7 @@ import play.mvc.Controller;
 import play.mvc.Result;
 import security.RestrictApproved;
 import socialauth.core.Secure;
-import views.html.rate;
+import views.html.partials.rate;
 
 public class RateController extends Controller implements Constants {
 

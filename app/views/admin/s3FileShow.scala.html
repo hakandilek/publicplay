@@ -3,7 +3,7 @@
 @import helper.twitterBootstrap._
 @import helper.H._
 
-@main("S3File") {
+@template.main("S3File") {
      <dl class="dl-horizontal">
          <dt>@Messages("S3File.bucket.label")</dt>
          <dd>@s3File.getBucket()</dd>

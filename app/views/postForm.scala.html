@@ -4,7 +4,7 @@
 @import helper.PostHelper._
 @import helper.UserHelper._
 
-@main(if(key != null) Messages("update_post") else Messages("new_post")) {
+@template.main(if(key != null) Messages("update_post") else Messages("new_post")) {
         
 	<h3>@if(key != null) { @Messages("update_post_detail") } else { @Messages("new_post_detail") } </h3>
 
