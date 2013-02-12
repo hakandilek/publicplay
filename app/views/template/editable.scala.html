@@ -1,0 +1,32 @@
+@(editCall: Call, title: String, scripts: Html = Html(""), header: Html = Html(""), footer: Html = Html(""))(content: Html)
+@import helper._ 
+@import helper.twitterBootstrap._
+@import helper.H._
+@script() = {
+    <script type="text/javascript" src='@routes.Assets.at("javascripts/bootstrap-editable.js")'></script>
+	<script type="text/javascript" src='@routes.Assets.at("javascripts/json2.js")'></script>
+    <link rel="stylesheet" media="screen" href='@routes.Assets.at("stylesheets/bootstrap-editable.css")'>
+    <script type="text/javascript">
+	<!--
+	$(document).ready(function() {
+		$.fn.editable.defaults.mode = 'inline';
+		$.fn.editable.defaults.ajaxOptions = {type: "put", contentType: 'application/json', dataType: 'json'}
+		$('.editable').editable({
+			url: function(params) {
+			    return $.ajax({
+		            type: 'PUT',
+		            contentType: 'application/json', dataType: 'json',
+			    	url:'@editCall',
+			        data: JSON.stringify(params),
+			    });
+			}
+		});
+	});	
+	//-->
+	</script>
+	@scripts
+}
+
+@main(title, script, header, footer) {
+@content
+}

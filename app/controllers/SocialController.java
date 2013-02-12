@@ -1,8 +1,14 @@
-package controllers.crud;
+package controllers;
 
 import java.io.InputStream;
+import java.util.Date;
 import java.util.Map;
 import java.util.Properties;
+
+import javax.inject.Inject;
+
+import models.User;
+import models.dao.UserDAO;
 
 import org.brickred.socialauth.AuthProvider;
 import org.brickred.socialauth.Profile;
@@ -15,7 +21,6 @@ import play.api.mvc.Call;
 import play.mvc.Controller;
 import play.mvc.Result;
 import plugins.SocialUserPlugin;
-import socialauth.core.SocialUser;
 import socialauth.core.SocialUtils;
 import views.html.userLogin;
 import controllers.routes;
@@ -23,12 +28,23 @@ import controllers.routes;
 public class SocialController extends Controller {
 	private static ALogger log = Logger.of(SocialController.class);
 
+	/** session key for authenticated user key */
+	public static final String USER_KEY = "userKey";
+
 	/** session key for authenticated user */
-	public static final String USER_KEY = "socialUser";
+	public static final String USER = "user";
 
 	public static final String ORIGINAL_URL = "originalURL";
 
 	private SocialAuthConfig authConfig;
+	
+	UserDAO userDAO;
+
+	@Inject
+	public SocialController(UserDAO userDAO) {
+		super();
+		this.userDAO = userDAO;
+	}
 
 	private SocialAuthManager createAuthManager(String provider) {
 		if (log.isDebugEnabled())
@@ -94,6 +110,7 @@ public class SocialController extends Controller {
 			log.debug("logout() <-");
 
 		// TODO: log user logout into DB
+		ctx().args.remove(USER);
 		session().remove(USER_KEY);
 		session().remove(ORIGINAL_URL);
 		return redirect(routes.App.index());
@@ -165,16 +182,27 @@ public class SocialController extends Controller {
 			if (log.isDebugEnabled())
 				log.debug("profile : " + profile);
 
-			final SocialUser user = new SocialUser(profile);
-			if (log.isDebugEnabled())
-				log.debug("user : " + user);
-
+			User user = new User(profile);
 			final String userKey = user.getUserKey();
 			if (log.isDebugEnabled())
 				log.debug("userKey : " + userKey);
 
 			if (userKey != null)
 				session(USER_KEY, userKey);
+
+			User userData = userDAO.get(userKey);
+			if (log.isDebugEnabled())
+				log.debug("userData : " + userData);
+			
+			if (userData != null) {
+				user = userData;
+				user.setLoginCount(user.getLoginCount() + 1);
+				user.setLastLogin(new Date());
+				userDAO.update(userKey, user);
+			} else {
+				user = new User(profile);
+				userDAO.create(user);
+			}
 
 			// save profile information
 			SocialUserPlugin userService = SocialUserPlugin.getInstance();

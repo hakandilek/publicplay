@@ -58,9 +58,27 @@ public class SourceConfigurationAPIController extends APIController<Long, Source
 	}
 
 	protected <S> void setField(S s, String fieldName, String value) throws NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+		if (log.isDebugEnabled())
+			log.debug("setField() <-");
+		
 		Class<?> cls = s.getClass();
+		if (log.isDebugEnabled())
+			log.debug("cls : " + cls);
 		Method method = cls.getMethod("set" + fieldName, String.class);
+		if (log.isDebugEnabled())
+			log.debug("method : " + method);
 		method.invoke(s, value);
 	}
 
+	@Override
+	public Result update(Long arg0) {
+		if (log.isDebugEnabled())
+			log.debug("update() <- " + arg0);
+		// TODO Auto-generated method stub
+		String name = jsonText("name");
+		if (log.isDebugEnabled())
+			log.debug("name : " + name);
+		return super.update(arg0);
+	}
+	
 }

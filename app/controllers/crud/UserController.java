@@ -5,6 +5,8 @@ import java.util.TreeSet;
 
 import javax.inject.Inject;
 
+import com.avaje.ebean.Page;
+
 import models.User;
 import models.dao.PostRatingDAO;
 import models.dao.UserDAO;
@@ -19,6 +21,7 @@ import controllers.routes;
 
 public class UserController extends CRUDController<String, User> {
 
+	private static final int PAGE_SIZE = 20;
 	private static ALogger log = Logger.of(UserController.class);
 	private PostRatingDAO postRatingDAO;
 	private UserDAO userDAO;
@@ -26,7 +29,7 @@ public class UserController extends CRUDController<String, User> {
 
 	@Inject
 	public UserController(UserDAO userDAO, PostRatingDAO postRatingDAO, HttpUtils httpUtils) {
-		super(userDAO, form(User.class), String.class, User.class, 20, "lastLogin desc");
+		super(userDAO, form(User.class), String.class, User.class, PAGE_SIZE, "lastLogin desc");
 		this.userDAO = userDAO;
 		this.postRatingDAO = postRatingDAO;
 		this.httpUtils = httpUtils;
@@ -34,28 +37,28 @@ public class UserController extends CRUDController<String, User> {
 
 	@Override
 	protected String templateForForm() {
-		return "userForm";
+		return "admin.userForm";
 	}
 
 	@Override
 	protected String templateForList() {
-		return "userList";
+		return "admin.userList";
 	}
 
 	@Override
 	protected String templateForShow() {
-		return "userShow";
+		return "admin.userShow";
 	}
 
 	@Override
 	protected Call toIndex() {
-		return routes.Admin.userList(0);
+		return routes.Admin.userList(null, 0);
 	}
 
 	public Result show(String key) {
 		if (log.isDebugEnabled())
 			log.debug("show() <- " + key);
-		User loginUser = httpUtils.loginUser(ctx());
+		User loginUser = httpUtils.loginUser();
 		User userToShow = null;
 		if (null != key)
 			userToShow = userDAO.get(key);
@@ -79,7 +82,7 @@ public class UserController extends CRUDController<String, User> {
 		if (log.isDebugEnabled())
 			log.debug("user : " + loginUser);
 		if (loginUser == null || userToShow == null) {
-			return badRequest(userShow.render(loginUser, userToShow, false,
+			return badRequest(userShow.render(userToShow, false,
 					upVotes, downVotes));
 		}
 
@@ -89,7 +92,7 @@ public class UserController extends CRUDController<String, User> {
 			selfPage = true;
 		}
 
-		return ok(userShow.render(loginUser, userToShow, selfPage, upVotes,
+		return ok(userShow.render(userToShow, selfPage, upVotes,
 				downVotes));
 	}
 
@@ -120,15 +123,25 @@ public class UserController extends CRUDController<String, User> {
 	}
 
 	public Result list(String status, int page) {
-		//TODO:login user 
-		//User user = HttpUtils.loginUser(ctx());
-		models.User.Status userStatus = models.User.Status.valueOf(status);
-		if (userStatus == null) userStatus = models.User.Status.NEW;
 		if (log.isDebugEnabled())
-			log.debug("userStatus : " + userStatus);
-
-		//TODO: status page
-		return TODO;
+			log.debug("list() <-");
+		if (log.isDebugEnabled())
+			log.debug("status : " + status);
+		
+		Page<User> p = null;
+		if (status == null || "".equals(status)) {
+			p = userDAO.find().where()
+					.orderBy("lastLogin desc").findPagingList(PAGE_SIZE)
+					.getPage(page);
+		} else {
+			User.Status s = User.Status.valueOf(status);
+			p = userDAO.find().where().eq("status", s)
+					.orderBy("lastLogin desc").findPagingList(PAGE_SIZE)
+					.getPage(page);
+		}
+		
+		return ok(templateForList(),
+				with(Page.class, p).and(String.class, status));
 	}
 
 }

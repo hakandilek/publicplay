@@ -1,8 +1,8 @@
-@(user: models.User)
+@()
 @import helper._ 
 @import helper.twitterBootstrap._
 
-@main("admin", user) {
+@template.main("admin") {
 
     <h3>admin page</h3>
     
@@ -33,14 +33,12 @@
             </tr>
             <tr>
                 <td>
-                    <a href="@routes.Admin.s3FileNewForm()"><i class="icon-plus"></i> new</a>
                     <a href="@routes.Admin.s3FileList()"><i class="icon-list"></i> s3File</a>
                 </td>
             </tr>
             <tr>
                 <td>
-                    <a href="@routes.Admin.userNewForm()"><i class="icon-plus"></i> new</a>
-                    <a href="@routes.Admin.userList()"><i class="icon-list"></i> user</a>
+                    <a href="@routes.Admin.userList(null, 0)"><i class="icon-list"></i> user</a>
                 </td>
             </tr>
             <tr>

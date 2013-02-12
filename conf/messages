@@ -26,6 +26,11 @@ Overall_Top10=Overall
 Read_More=read more
 joinedOn=Joined on
 
+
+revision.label=revision
+createdOn.label=created
+updatedOn.label=updated
+
 # Post
 update_post=update post
 new_post=new post
@@ -99,3 +104,40 @@ User.Gender=Gender
 User.Location=location
 User.Favorites=Favorites
 
+# SecurityRole
+SecurityRole_num={0} roles
+SecurityRoles=roles
+Create_new_securityRole=define new role
+update_securityRole=update role
+SecurityRole.name.label=role name
+
+# S3File
+S3File_num={0} files
+S3Files=S3File
+S3File.key.label=key
+S3File.bucket.label=bucket
+S3File.file.label=file
+S3File.url.label=URL
+
+# SourceConfiguration
+SourceConfiguration_list=config list
+SourceConfiguration_num={0} configurations
+new_sourceConfiguration=new configuration 
+SourceConfiguration.sourceKey.label=source
+SourceConfiguration.nameSelector.label=Name.Selector
+SourceConfiguration.nameValue.label=Name.value
+SourceConfiguration.nameRequired.label=Name.Required
+SourceConfiguration.descriptionSelector.label=Description.Selector
+SourceConfiguration.descriptionValue.label=Description.value
+SourceConfiguration.descriptionRequired.label=Description.Required
+SourceConfiguration.priceSelector.label=Price.Selector
+SourceConfiguration.priceValue.label=Price.value
+SourceConfiguration.priceRequired.label=Price.Required
+SourceConfiguration.discountPriceSelector.label=DiscountPrice.Selector
+SourceConfiguration.discountPriceValue.label=DiscountPrice.value
+SourceConfiguration.discountPriceRequired.label=DiscountPrice.Required
+SourceConfiguration.imageLinkSelector.label=ImageLink.Selector
+SourceConfiguration.imageLinkValue.label=ImageLink.value
+SourceConfiguration.imageLinkRequired.label=ImageLink.Required
+SourceConfiguration.bulkData.label=bulk configuration 
+update_sourceConfiguration=update config

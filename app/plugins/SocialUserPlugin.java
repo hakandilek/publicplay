@@ -11,7 +11,6 @@ import play.Application;
 import play.Logger;
 import play.Logger.ALogger;
 import play.api.Plugin;
-import socialauth.core.SocialUser;
 
 public class SocialUserPlugin implements Plugin {
 	
@@ -43,8 +42,7 @@ public class SocialUserPlugin implements Plugin {
 			user.setLastLogin(new Date());
 			user.update();
 		} else {
-			SocialUser socialUser = new SocialUser(profile);
-			user = new User(socialUser);
+			user = new User(profile);
 			userDAO.create(user);
 		}
 		
@@ -52,7 +50,7 @@ public class SocialUserPlugin implements Plugin {
 			log.debug("saved user profile.");
 	}
 
-	public SocialUser find(String userKey) {
+	public User find(String userKey) {
 		if (log.isDebugEnabled())
 			log.debug("find() <-");
 		if (log.isDebugEnabled())
@@ -61,13 +59,7 @@ public class SocialUserPlugin implements Plugin {
 		final User user = userDAO.get(userKey);
 		if (log.isDebugEnabled())
 			log.debug("user : " + user);
-		SocialUser socialUser = null;
-		if (user != null) {
-			socialUser = user.toSocialUser();
-			if (log.isDebugEnabled())
-				log.debug("socialUser : " + socialUser);
-		}
-		return socialUser;
+		return user;
 	}
 
 	@Override

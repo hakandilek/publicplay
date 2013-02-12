@@ -19,17 +19,17 @@ public class S3FileController extends CRUDController<UUID, S3File> {
 
 	@Override
 	protected String templateForForm() {
-		return "s3FileForm";
+		return "admin.s3FileForm";
 	}
 
 	@Override
 	protected String templateForList() {
-		return "s3FileList";
+		return "admin.s3FileList";
 	}
 
 	@Override
 	protected String templateForShow() {
-		return "s3FileShow";
+		return "admin.s3FileShow";
 	}
 
 	@Override

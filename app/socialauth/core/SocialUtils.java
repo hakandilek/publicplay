@@ -4,22 +4,28 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import play.Logger;
+import play.Logger.ALogger;
 import play.mvc.Http.Context;
 import play.mvc.Http.Request;
 import play.mvc.Http.Session;
 import plugins.SocialUserPlugin;
-import controllers.crud.SocialController;
+import controllers.SocialController;
 
 public class SocialUtils {
+	
+	private static ALogger log = Logger.of(SocialUtils.class);
 
 	public static SocialUser currentUser(Context ctx) {
-		final Session session = ctx.session();
+		Session session = ctx.session();
 		if (session != null) {
-			final String userKey = session.get(SocialController.USER_KEY);
+			String userKey = session.get(SocialController.USER_KEY);
+			if (log.isDebugEnabled())
+				log.debug("userKey : " + userKey);
 			if (!emptyOrNull(userKey)) {
-				final SocialUserPlugin userService = SocialUserPlugin
+				SocialUserPlugin userService = SocialUserPlugin
 						.getInstance();
-				final SocialUser user = userService.find(userKey);
+				SocialUser user = userService.find(userKey);
 				return user;
 			}
 		}
@@ -27,9 +33,9 @@ public class SocialUtils {
 	}
 
 	public static String getUserKeyFromSession(Context ctx) {
-		final Session session = ctx.session();
+		Session session = ctx.session();
 		if (session != null) {
-			final String userKey = session.get(SocialController.USER_KEY);
+			String userKey = session.get(SocialController.USER_KEY);
 			if (!emptyOrNull(userKey))
 				return userKey;
 		}

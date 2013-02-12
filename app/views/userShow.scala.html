@@ -1,9 +1,9 @@
-@(loggedInUser: models.User, userToBeShowed: models.User,self: Boolean,upVotedPostKeys:Set[Long], downVotedPostKeys:Set[Long])
+@(userToBeShowed: models.User,self: Boolean,upVotedPostKeys:Set[Long], downVotedPostKeys:Set[Long])
 @import be.objectify.deadbolt.views.html._
 @import be.objectify.deadbolt.utils.TemplateUtils._
 @import helper.H._
 
-@main(Messages("user_information"), loggedInUser) {
+@template.main(Messages("user_information")) {
 
     @if(userToBeShowed == null) {
     

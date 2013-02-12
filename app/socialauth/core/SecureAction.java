@@ -7,8 +7,8 @@ import play.mvc.Action;
 import play.mvc.Http;
 import play.mvc.Http.Context;
 import play.mvc.Result;
+import controllers.SocialController;
 import controllers.routes;
-import controllers.crud.SocialController;
 
 public class SecureAction extends Action<Secure> {
 	private static ALogger log = Logger.of(SecureAction.class);
@@ -51,7 +51,7 @@ public class SecureAction extends Action<Secure> {
 				if (log.isDebugEnabled())
 					log.debug("user : " + user);
 				if (user != null) {
-					ctx.args.put(SocialController.USER_KEY, user);
+					ctx.args.put(SocialController.USER, user);
 					if (log.isDebugEnabled())
 						log.debug("calling delegate action");
 					return delegate.call(ctx);
