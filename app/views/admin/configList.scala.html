@@ -1,0 +1,62 @@
+@(configPage: Page[SourceConfiguration])
+@import helper._ 
+@import helper.twitterBootstrap._
+@import helper.H._
+
+@template.main(Messages("SourceConfiguration_configPage")) {
+
+	<h3>@Messages("SourceConfiguration_num", configPage.getTotalRowCount())</h3>
+	
+    @**
+	<h4><a href="@routes.Admin.sourceConfigurationNewForm">@Messages("Create_new_sourceConfiguration")</a></h4>
+    **@
+    
+    @if(configPage.getTotalRowCount() == 0) {
+        
+        <div class="well">
+            <em>@Messages("Nothing_to_display")</em>
+        </div>
+        
+    } else {
+	
+    <table class="categories table table-striped table-bordered">
+        <thead>
+            <tr>
+                <th class="header">@Messages("SourceConfiguration.sourceKey.label")</th>
+                <th class="header">@Messages("revision.label")</th>
+                <th class="header">@Messages("createdOn.label")</th>
+                <th class="header">@Messages("updatedOn.label")</th>
+                <th class="header">@Messages("Delete")</th>
+                <th class="header">@Messages("Edit")</th>
+                <th class="header">@Messages("Bulk_Edit")</th>
+            </tr>
+        </thead>
+        <tbody>
+        @for(sourceConfiguration <- configPage.getList) {
+            <tr>
+                <td><a href="@routes.Admin.sourceConfigurationShow(sourceConfiguration.getKey())" class="btn btn-small btn-inverse"><i class="icon-link"></i> @sourceConfiguration.getSourceKey()</a></td>
+                <td>
+                    @sourceConfiguration.getRevision()
+                </td>
+                <td>
+                    @sourceConfiguration.getCreatedOn()
+                </td>
+                <td>
+                    @sourceConfiguration.getUpdatedOn()
+                </td>
+                <td>
+                    <a class="btn btn-mini btn-danger pull-right spaced" href="@routes.Admin.sourceConfigurationDelete(sourceConfiguration.getKey())">@Messages("delete")</a>
+                </td>
+                <td>
+                    <a class="btn btn-mini pull-right spaced" href="@routes.Admin.sourceConfigurationEditForm(sourceConfiguration.getKey())">@Messages("edit")</a>
+                </td>
+                <td>
+                    <a class="btn btn-mini pull-right spaced" href="@routes.Admin.sourceConfigurationEditBulkForm(sourceConfiguration.getKey())">@Messages("edit")</a>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+    
+    }
+}

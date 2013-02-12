@@ -33,6 +33,9 @@ Filter=Filtrele
 revision.label=versiyon
 createdOn.label=oluşturma
 updatedOn.label=güncelleme
+Delete=Sil
+Edit=Değiştir
+Bulk_Edit=Toplu Değiştir
 
 # Post
 update_post=başlığı düzenle
@@ -155,3 +158,26 @@ error.minLength=Minimum length is {0}
 error.maxLength=Bu alana en fazla {0} karakter girilebilir. 
 error.email=Valid email required
 error.pattern=Must satisfy {0}
+
+# SourceConfiguration
+SourceConfiguration_list=konfigurasyonlar
+SourceConfiguration_num={0} konfigurasyon
+new_sourceConfiguration=yeni konfigurasyon 
+SourceConfiguration.sourceKey.label=source
+SourceConfiguration.nameSelector.label=Name.Selector
+SourceConfiguration.nameValue.label=Name.value
+SourceConfiguration.nameRequired.label=Name.Required
+SourceConfiguration.descriptionSelector.label=Description.Selector
+SourceConfiguration.descriptionValue.label=Description.value
+SourceConfiguration.descriptionRequired.label=Description.Required
+SourceConfiguration.priceSelector.label=Price.Selector
+SourceConfiguration.priceValue.label=Price.value
+SourceConfiguration.priceRequired.label=Price.Required
+SourceConfiguration.discountPriceSelector.label=DiscountPrice.Selector
+SourceConfiguration.discountPriceValue.label=DiscountPrice.value
+SourceConfiguration.discountPriceRequired.label=DiscountPrice.Required
+SourceConfiguration.imageLinkSelector.label=ImageLink.Selector
+SourceConfiguration.imageLinkValue.label=ImageLink.value
+SourceConfiguration.imageLinkRequired.label=ImageLink.Required
+SourceConfiguration.bulkData.label=toplu konfigürasyon 
+update_sourceConfiguration=konfigurasyon düzenle
