@@ -25,7 +25,7 @@
   <logger name="crud" level="INFO" />
   <logger name="socialauth" level="INFO" />
   <!-- db logging -->
-  <logger name="com.jolbox.bonecp" level="INFO" />
+  <logger name="com.jolbox.bonecp" level="DEBUG" />
 
   <root level="ERROR">
     <appender-ref ref="STDOUT" />

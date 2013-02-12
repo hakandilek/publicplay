@@ -1,0 +1,23 @@
+@(user: User)
+@import helper._ 
+@import helper.twitterBootstrap._
+@import helper.H._
+
+@template.main("User") {
+     <dl class="dl-horizontal">
+         <dt>@Messages("User.key.label")</dt>
+         <dd>@user.getKey()</dd>
+     </dl>
+     <dl class="dl-horizontal">
+         <dt>@Messages("createdOn.label")</dt>
+         <dd>@user.getCreatedOn()</dd>
+     </dl>
+     <dl class="dl-horizontal">
+         <dt>@Messages("updatedOn.label")</dt>
+         <dd>@user.getUpdatedOn()</dd>
+     </dl>
+     <dl class="dl-horizontal">
+         <dt>@Messages("revision.label")</dt>
+         <dd>@user.getRevision()</dd>
+     </dl>
+}

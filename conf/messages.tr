@@ -29,7 +29,7 @@ Overall_Top10=Her zaman
 Read_More=devamını oku
 joinedOn=Giris:
 
-
+Filter=Filtrele
 revision.label=versiyon
 createdOn.label=oluşturma
 updatedOn.label=güncelleme
@@ -94,6 +94,7 @@ SocialUser.Location=Bulunduğu yer
 You_must_login_to_perform_this_action=Bu işlem için giriş yapmalısınız
 
 # User
+User_num={0} kullanıcı
 User_not_found=Kullanıcı bulunamadı
 This_is_you=Bu kendi profiliniz
 Roles=Roller
@@ -113,6 +114,7 @@ User.profile=Profil
 User.lastLogin=Son giriş
 User.loginCount=Giriş
 User.status=Durum
+User.status.All=Hepsi
 User.status.SUSPENDED=Askıda
 User.status.NEW=Yeni
 User.status.APPROVED=Onaylı
