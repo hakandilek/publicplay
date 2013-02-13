@@ -1,0 +1,73 @@
+@(sourceConfiguration: SourceConfiguration)
+@import helper._ 
+@import helper.twitterBootstrap._
+@import helper.H._
+
+@template.editable(routes.Api.sourceConfigurationUpdate(sourceConfiguration.getKey()), sourceConfiguration.getSourceKey()) {
+
+<div class="well">
+	<dl class="dl-horizontal">
+	    <dt>@Messages("revision.label")</dt>
+	    <dd>@sourceConfiguration.getRevision()</dd>
+	</dl>
+	<dl class="dl-horizontal">
+	    <dt>@Messages("createdOn.label")</dt>
+	    <dd>@prettify(sourceConfiguration.getCreatedOn())</dd>
+	</dl>
+	<dl class="dl-horizontal">
+	    <dt>@Messages("updatedOn.label")</dt>
+	    <dd>@prettify(sourceConfiguration.getUpdatedOn())</dd>
+	</dl>
+</div>
+
+    <dl class="dl-horizontal">
+        <dt>@Messages("SourceConfiguration.sourceKey.label")</dt>
+        <dd><a href="#" class="editable" data-pk="@sourceConfiguration.getKey()" data-type="text" data-name="sourceKey" >@sourceConfiguration.getSourceKey()</a></dd>
+    </dl>
+    
+    <dl class="dl-horizontal">
+        <dt>@Messages("SourceConfiguration.nameSelector.label")</dt>
+        <dd><a href="#" class="editable" data-pk="@sourceConfiguration.getKey()" data-type="text" data-name="nameSelector" >@sourceConfiguration.getNameSelector()</a></dd>
+    </dl>
+    <dl class="dl-horizontal">
+        <dt>@Messages("SourceConfiguration.nameValue.label")</dt>
+        <dd><a href="#" class="editable" data-pk="@sourceConfiguration.getKey()" data-type="text" data-name="nameValue" >@sourceConfiguration.getNameValue()</a></dd>
+    </dl>
+
+    <dl class="dl-horizontal">
+        <dt>@Messages("SourceConfiguration.descriptionSelector.label")</dt>
+        <dd><a href="#" class="editable" data-pk="@sourceConfiguration.getKey()" data-type="text" data-name="descriptionSelector" >@sourceConfiguration.getDescriptionSelector()</a></dd>
+    </dl>
+    <dl class="dl-horizontal">
+        <dt>@Messages("SourceConfiguration.descriptionValue.label")</dt>
+        <dd><a href="#" class="editable" data-pk="@sourceConfiguration.getKey()" data-type="text" data-name="descriptionValue" >@sourceConfiguration.getDescriptionValue()</a></dd>
+    </dl>
+
+    <dl class="dl-horizontal">
+        <dt>@Messages("SourceConfiguration.priceSelector.label")</dt>
+        <dd><a href="#" class="editable" data-pk="@sourceConfiguration.getKey()" data-type="text" data-name="priceSelector" >@sourceConfiguration.getPriceSelector()</a></dd>
+    </dl>
+    <dl class="dl-horizontal">
+        <dt>@Messages("SourceConfiguration.priceValue.label")</dt>
+        <dd><a href="#" class="editable" data-pk="@sourceConfiguration.getKey()" data-type="text" data-name="priceValue" >@sourceConfiguration.getPriceValue()</a></dd>
+    </dl>
+
+    <dl class="dl-horizontal">
+        <dt>@Messages("SourceConfiguration.discountPriceSelector.label")</dt>
+        <dd><a href="#" class="editable" data-pk="@sourceConfiguration.getKey()" data-type="text" data-name="discountPriceSelector" >@sourceConfiguration.getDiscountPriceSelector()</a></dd>
+    </dl>
+    <dl class="dl-horizontal">
+        <dt>@Messages("SourceConfiguration.discountPriceValue.label")</dt>
+        <dd><a href="#" class="editable" data-pk="@sourceConfiguration.getKey()" data-type="text" data-name="discountPriceValue" >@sourceConfiguration.getDiscountPriceValue()</a></dd>
+    </dl>
+
+    <dl class="dl-horizontal">
+        <dt>@Messages("SourceConfiguration.imageLinkSelector.label")</dt>
+        <dd><a href="#" class="editable" data-pk="@sourceConfiguration.getKey()" data-type="text" data-name="imageLinkSelector" >@sourceConfiguration.getImageLinkSelector()</a></dd>
+    </dl>
+    <dl class="dl-horizontal">
+        <dt>@Messages("SourceConfiguration.imageLinkValue.label")</dt>
+        <dd><a href="#" class="editable" data-pk="@sourceConfiguration.getKey()" data-type="text" data-name="imageLinkValue" >@sourceConfiguration.getImageLinkValue()</a></dd>
+    </dl>
+
+}

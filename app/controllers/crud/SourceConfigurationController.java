@@ -26,17 +26,17 @@ public class SourceConfigurationController extends
 
 	@Override
 	protected String templateForList() {
-		return "configList";
+		return "admin.configList";
 	}
 
 	@Override
 	protected String templateForForm() {
-		return "configForm";
+		return "admin.configForm";
 	}
 
 	@Override
 	protected String templateForShow() {
-		return "configShow";
+		return "admin.configShow";
 	}
 
 	@Override
@@ -45,7 +45,7 @@ public class SourceConfigurationController extends
 	}
 
 	protected String templateForBulkForm() {
-		return "configBulkForm";
+		return "admin.configBulkForm";
 	}
 
 	public Result newBulkForm() {

@@ -1,0 +1,12 @@
+@(securityRole: SecurityRole)
+@import helper._ 
+@import helper.twitterBootstrap._
+@import helper.H._
+
+@template.main("SecurityRole:" + securityRole.getName()) {
+
+    <p class="lead">
+        @securityRole.getName()
+    </p>
+    
+}

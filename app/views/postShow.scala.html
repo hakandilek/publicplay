@@ -1,11 +1,12 @@
-@(post: Post, commentKey:Long, commentForm: Form[Comment], user: models.User, currentPage: Page[Comment], upVotedPostKeys:Set[Long], downVotedPostKeys:Set[Long])
+@(post: Post, commentKey:Long, commentForm: Form[Comment], currentPage: Page[Comment], upVotedPostKeys:Set[Long], downVotedPostKeys:Set[Long])
 @import helper._ 
 @import helper.twitterBootstrap._
 @import helper.H._
 @import be.objectify.deadbolt.utils.TemplateUtils._
 @import views.html.security._
+@import helper.UserHelper._
 
-@mainWithFacebookOG(post, user) {
+@template.main(post.getTitle(), partials.opengraphHead(post)) {
   <div class="container-fluid">
     <div class="row-fluid">
         <div class="span2">
@@ -111,7 +112,7 @@
             <div>
 			@roleHolderPresent() {
                <input type="submit" class="btn btn-success" value="@if(commentKey != null) { @Messages("Update") } else { @Messages("Post") }">
-               @Html(Messages("as_profile", partials.userProfile(user)))
+               @Html(Messages("as_profile", partials.userProfile(user())))
 			}
 			@roleHolderNotPresent() {
                <input type="submit" class="btn btn-success" data-toggle="modal" data-target="#loginModal" value="@if(commentKey != null) { @Messages("Update") } else { @Messages("Post") }">

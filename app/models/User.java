@@ -38,7 +38,7 @@ import com.avaje.ebean.annotation.EnumValue;
 @Entity
 @Table(name="TBL_USER")
 @SuppressWarnings("serial")
-public class User extends Model implements RoleHolder, Approvable, TimestampModel<String> {
+public class User extends Model implements RoleHolder, Approvable, TimestampModel<String>, SocialUser {
 
 	public enum Status {
 		@EnumValue("N")
@@ -110,44 +110,23 @@ public class User extends Model implements RoleHolder, Approvable, TimestampMode
 	@JoinTable(name = "TBL_USER_SECURITY_ROLE", joinColumns = @JoinColumn(name = "user_key"), inverseJoinColumns = @JoinColumn(name = "security_role_key"))
     private List<SecurityRole> securityRoles = new ArrayList<SecurityRole>();
 
-	public User(SocialUser socialUser) {
-		key = socialUser.getUserKey();
-		final Profile profile = socialUser.getProfile();
+	public User(Profile profile) {
+		key = profile.getProviderId() + "::" + profile.getValidatedId();
 		originalKey = profile.getValidatedId();
 		firstName = profile.getFirstName();
 		lastName = profile.getLastName();
-		birthdate = socialUser.getBirthDate();
 		email = profile.getEmail();
 		country = profile.getCountry();
 		gender = profile.getGender();
 		location = profile.getLocation();
 		profileImageURL = profile.getProfileImageURL();
 		provider = profile.getProviderId();
-	}
-
-	public SocialUser toSocialUser() {
-		Profile profile = new Profile();
-		profile.setFirstName(firstName);
-		profile.setLastName(lastName);
-		if (birthdate != null) {
-			final BirthDate dob = new BirthDate();
-			final Calendar cal = Calendar.getInstance();
-			cal.setTime(birthdate);
-			dob.setDay(cal.get(Calendar.DAY_OF_MONTH) + 1);
-			dob.setMonth(cal.get(Calendar.MONTH));
-			dob.setDay(cal.get(Calendar.YEAR) + 1900);
-			profile.setDob(dob);
+		Calendar cal = Calendar.getInstance();
+		BirthDate dob = profile.getDob();
+		if (dob != null) {
+			cal.set(dob.getYear(), dob.getMonth(), dob.getDay(), 0, 0, 0);
 		}
-		profile.setEmail(email);
-		profile.setCountry(country);
-		profile.setGender(gender);
-		profile.setLocation(location);
-		profile.setProfileImageURL(profileImageURL);
-		profile.setProviderId(provider);
-		profile.setValidatedId(originalKey);
-
-		SocialUser su = new SocialUser(key, profile);
-		return su;
+		birthdate = cal.getTime();
 	}
 
 	public List<? extends Permission> getPermissions() {
@@ -344,6 +323,16 @@ public class User extends Model implements RoleHolder, Approvable, TimestampMode
 				.append(getFirstName()).append(", lastName=").append(getLastName())
 				.append(", email=").append(getEmail()).append("]");
 		return builder.toString();
+	}
+
+	@Override
+	public String getUserKey() {
+		return key;
+	}
+
+	@Override
+	public String getValidatedId() {
+		return originalKey;
 	}
 
 }

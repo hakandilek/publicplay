@@ -6,7 +6,6 @@ import java.util.UUID;
 import javax.inject.Inject;
 
 import models.PostRatingPK;
-import models.User;
 import models.dao.CategoryDAO;
 import models.dao.CommentDAO;
 import models.dao.PostDAO;
@@ -40,7 +39,7 @@ public class Admin extends Controller {
 	@Inject static UserDAO userDAO;
 	@Inject static SourceConfigurationDAO sourceConfigurationDAO;
 	
-	@Inject static HttpUtils httpUtils;
+	@Inject public static HttpUtils httpUtils;
 	@Inject static CategoryController category;
 	@Inject static CommentController comment;
 	@Inject static controllers.crud.PostController post;
@@ -51,8 +50,7 @@ public class Admin extends Controller {
 	@Inject static SourceConfigurationController sourceConfiguration;
 
 	@Secure @Restrict("admin") @RestrictApproved public static Result index() {
-		User user = httpUtils.loginUser(ctx());		
-		return ok(views.html.admin.index.render(user));
+		return ok(views.html.admin.index.render());
 	}
 
 	@Secure @Restrict("admin") @RestrictApproved public static Result categoryList(int page) {

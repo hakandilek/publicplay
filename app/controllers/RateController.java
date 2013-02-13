@@ -1,4 +1,4 @@
-package controllers.crud;
+package controllers;
 
 import javax.inject.Inject;
 
@@ -14,9 +14,7 @@ import play.mvc.Controller;
 import play.mvc.Result;
 import security.RestrictApproved;
 import socialauth.core.Secure;
-import views.html.rate;
-import controllers.Constants;
-import controllers.HttpUtils;
+import views.html.partials.rate;
 
 public class RateController extends Controller implements Constants {
 
@@ -64,7 +62,7 @@ public class RateController extends Controller implements Constants {
 		if (log.isDebugEnabled())
 			log.debug("post : " + post);
 
-		User user = httpUtils.loginUser(ctx());
+		User user = httpUtils.loginUser();
 		if (log.isDebugEnabled())
 			log.debug("user : " + user);
 

@@ -1,0 +1,21 @@
+@(key: Long, bulkForm: Form[forms.BulkConfiguration])
+@import helper._ 
+@import helper.twitterBootstrap._
+
+@template.main(if(key != null) Messages("update_sourceConfiguration") else Messages("new_sourceConfiguration")) {
+        
+	<h3>@if(key != null) { @Messages("update_sourceConfiguration") } else { @Messages("new_sourceConfiguration") } </h3>
+    
+    @form(if(key != null) { routes.Admin.sourceConfigurationUpdateBulk(bulkForm.get().getKey()) } 
+          else             { routes.Admin.sourceConfigurationCreateBulk() }) {
+    @if(key != null) {  
+        @inputText(bulkForm("revision"), args = 'readonly -> "readonly", '_label -> Messages("revision.label"))
+    }
+        @inputText(bulkForm("sourceKey"), args = '_label -> Messages("SourceConfiguration.sourceKey.label"))
+
+        @textarea(bulkForm("bulkData"), args = '_label -> Messages("SourceConfiguration.bulkData.label"), 'rows -> 16, 'class->"input-xxlarge")
+        <div>
+           <input type="submit" class="btn btn-success" value="@if(key != null) { @Messages("Update") } else { @Messages("Create") }">
+        </div>
+    } 
+}

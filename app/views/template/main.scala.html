@@ -1,0 +1,29 @@
+@(title: String, scripts: Html = Html(""), header: Html = Html(""), footer: Html = Html(""))(content: Html)
+
+<!DOCTYPE html>
+
+<html>
+    <head>
+        @template.head(title)
+        @scripts
+    </head>
+    <body>
+
+        @template.elements()
+        @template.navbar()
+        
+        <section id="main">
+	        <div class="container-fluid">
+	        @header
+	        </div>
+	            
+	        <div class="container-fluid">
+	        @content
+	        </div>
+	            
+	        <div class="container-fluid">
+	        @footer
+	        </div>
+        </section>            
+    </body>
+</html>

@@ -17,17 +17,17 @@ public class SecurityRoleController extends CRUDController<Long, SecurityRole> {
 
 	@Override
 	protected String templateForForm() {
-		return "securityRoleForm";
+		return "admin.securityRoleForm";
 	}
 
 	@Override
 	protected String templateForList() {
-		return "securityRoleList";
+		return "admin.securityRoleList";
 	}
 
 	@Override
 	protected String templateForShow() {
-		return "securityRoleShow";
+		return "admin.securityRoleShow";
 	}
 
 	@Override

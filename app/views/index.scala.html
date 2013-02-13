@@ -1,19 +1,20 @@
-@(currentPage: Page[Post], topDayPage: Page[Post], topWeekPage: Page[Post], topAllPage: Page[Post], user: models.User, upVotedPostKeys:Set[Long], downVotedPostKeys:Set[Long])
+@(currentPage: Page[Post], topDayPage: Page[Post], topWeekPage: Page[Post], topAllPage: Page[Post], upVotedPostKeys:Set[Long], downVotedPostKeys:Set[Long])
 
-@main(Messages("home"), user) {
-<div class="container-fluid">
-	<div class="row">
-	    <div class="span12">
-		    <p class="visible-desktop">@Html(Messages("Project_definition"))</p>
+@header = {
+    <div class="row">
+        <div class="span12">
+            <p class="visible-desktop">@Html(Messages("Project_definition"))</p>
         </div>
     </div><!-- row -->
-    
+
     <div class="row hidden-phone">
         <div class="span12">
-			<hr/>
+            <hr/>
         </div>
     </div><!-- row -->
-    
+}
+
+@template.main(Messages("home"), header=header) {
     <div class="row-fluid">
 	    <div class="span7">
 			@partials.postList(currentPage, upVotedPostKeys, downVotedPostKeys)
@@ -34,5 +35,4 @@
 			</div>
 		</div>
     </div> <!-- row -->
-</div><!-- container -->
 }

@@ -2,7 +2,7 @@
 @import helper._ 
 @import helper.twitterBootstrap._
 
-@main(if(name != null) Messages("update_category") else Messages("new_category"), null) {
+@template.main(if(name != null) Messages("update_category") else Messages("new_category")) {
 
 	<h3>@if(name != null) { @Messages("update_category_detail") } else { @Messages("new_category_detail") } </h3>
     

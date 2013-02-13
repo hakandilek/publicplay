@@ -1,0 +1,39 @@
+@(key: Long, sourceConfigurationForm: Form[SourceConfiguration])
+@import helper._ 
+@import helper.twitterBootstrap._
+
+@template.main(if(key != null) Messages("update_sourceConfiguration") else Messages("new_sourceConfiguration")) {
+        
+	<h3>@if(key != null) { @Messages("update_sourceConfiguration") } else { @Messages("new_sourceConfiguration") } </h3>
+    
+    @form(if(key != null) { routes.Admin.sourceConfigurationUpdate(sourceConfigurationForm.get().getKey()) } 
+          else             { routes.Admin.sourceConfigurationCreate() }) { 
+    @if(key != null) {  
+        @inputText(sourceConfigurationForm("revision"), args = 'readonly -> "readonly", '_label -> Messages("revision.label"))
+    }
+        @inputText(sourceConfigurationForm("sourceKey"), args = '_label -> Messages("SourceConfiguration.sourceKey.label"))
+
+        @inputText(sourceConfigurationForm("nameSelector"), args = '_label -> Messages("SourceConfiguration.nameSelector.label"))
+        @inputText(sourceConfigurationForm("nameValue"), args = '_label -> Messages("SourceConfiguration.nameValue.label"))
+        @checkbox(sourceConfigurationForm("nameRequired"), args = '_label -> Messages("SourceConfiguration.nameRequired.label"))
+
+        @inputText(sourceConfigurationForm("descriptionSelector"), args = '_label -> Messages("SourceConfiguration.descriptionSelector.label"))
+        @inputText(sourceConfigurationForm("descriptionValue"), args = '_label -> Messages("SourceConfiguration.descriptionValue.label"))
+        @checkbox(sourceConfigurationForm("descriptionRequired"), args = '_label -> Messages("SourceConfiguration.descriptionRequired.label"))
+
+        @inputText(sourceConfigurationForm("priceSelector"), args = '_label -> Messages("SourceConfiguration.priceSelector.label"))
+        @inputText(sourceConfigurationForm("priceValue"), args = '_label -> Messages("SourceConfiguration.priceValue.label"))
+        @checkbox(sourceConfigurationForm("priceRequired"), args = '_label -> Messages("SourceConfiguration.priceRequired.label"))
+
+        @inputText(sourceConfigurationForm("discountPriceSelector"), args = '_label -> Messages("SourceConfiguration.discountPriceSelector.label"))
+        @inputText(sourceConfigurationForm("discountPriceValue"), args = '_label -> Messages("SourceConfiguration.discountPriceValue.label"))
+        @checkbox(sourceConfigurationForm("discountPriceRequired"), args = '_label -> Messages("SourceConfiguration.discountPriceRequired.label"))
+
+        @inputText(sourceConfigurationForm("imageLinkSelector"), args = '_label -> Messages("SourceConfiguration.imageLinkSelector.label"))
+        @inputText(sourceConfigurationForm("imageLinkValue"), args = '_label -> Messages("SourceConfiguration.imageLinkValue.label"))
+        @checkbox(sourceConfigurationForm("imageLinkRequired"), args = '_label -> Messages("SourceConfiguration.imageLinkRequired.label"))
+        <div>
+           <input type="submit" class="btn btn-success" value="@if(key != null) { @Messages("Update") } else { @Messages("Create") }">
+        </div>
+    } 
+}

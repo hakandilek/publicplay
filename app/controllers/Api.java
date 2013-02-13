@@ -19,6 +19,7 @@ import controllers.crud.PostAPIController;
 import controllers.crud.PostRatingAPIController;
 import controllers.crud.S3FileAPIController;
 import controllers.crud.SecurityRoleAPIController;
+import controllers.crud.SourceConfigurationAPIController;
 import controllers.crud.UserAPIController;
 
 public class Api extends App {
@@ -31,6 +32,7 @@ public class Api extends App {
 	@Inject static S3FileAPIController s3FileAPI;
 	@Inject static SecurityRoleAPIController securityRoleAPI;
 	@Inject static UserAPIController userAPI;
+	@Inject static SourceConfigurationAPIController sourceConfigurationAPI;
 	
 	/*
 	@Inject static LinkSourceAPIController linkSource;
@@ -155,7 +157,7 @@ public class Api extends App {
 	
 	@BodyParser.Of(Json.class)
 	public static Result sourceConfigurationUpdate(Long key) {
-		return sourceConfiguration.update(key);
+		return sourceConfigurationAPI.update(key);
 	}
 
 
