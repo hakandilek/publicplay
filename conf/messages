@@ -27,6 +27,9 @@ Read_More=read more
 joinedOn=Joined on
 
 
+Filter=Filter
+Choose=Choose
+All=All
 revision.label=revision
 createdOn.label=created
 updatedOn.label=updated
@@ -62,6 +65,7 @@ CreatedOn_By=created on {0} by {1}
 UpdatedOn_By=updated on {0} by {1}
 
 # Category
+Category=Category
 update_category=update category
 new_category=new category
 update_category_detail=Update a category

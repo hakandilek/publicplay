@@ -1,4 +1,4 @@
-@(currentPage: Page[Post], upVotedPostKeys:Set[Long], downVotedPostKeys:Set[Long])
+@(currentPage: Page[Post], categoryName: String, categories: List[Category], upVotedPostKeys:Set[Long], downVotedPostKeys:Set[Long])
 @import helper._ 
 @import helper.twitterBootstrap._
 @import helper.H._
@@ -15,12 +15,40 @@
 	}
 }
 
+<!-- category filter -->
+<div class="navbar navbar-inverse">
+    <div class="navbar-inner">
+        <div class="container" style="width: auto;">
+            <a class="btn btn-navbar" data-toggle="collapse" data-target="#filter-bar">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </a>
+            <a class="brand" href="#">@Messages("Choose"):</a>
+            <div class="nav-collapse" id="filter-bar">
+                <ul class="nav">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">@if(categoryName == null || "".equals(categoryName)) {@Messages("Category")} else { @Messages("Category." + categoryName) } <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="@routes.App.index()">@if(categoryName == null || "".equals(categoryName)) {<i class="icon-check icon-white"></i>} else {<i class="icon-check-empty icon-white"></i>} @Messages("All")</a></li>
+                    @for(cat <- categories) {
+                            <li><a href="@routes.App.postList(0, cat.getName())">@if(cat.getName().equals(categoryName)) {<i class="icon-check icon-white"></i>} else {<i class="icon-check-empty icon-white"></i>} @Messages("Category." + cat.getName())</a></li>
+                    }
+                        </ul>
+                    </li>
+                </ul>
+            </div><!-- /.nav-collapse -->
+        </div>
+    </div><!-- /navbar-inner -->
+</div><!-- /navbar -->
+
+
 <div class="hidden-phone">
     @if(currentPage.getTotalRowCount == 0) {
         
-        <div class="well">
-            <em>@Messages("Nothing_to_display")</em>
-        </div>
+    <div class="well">
+        <em>@Messages("Nothing_to_display")</em>
+    </div>
         
     } else {
 	
@@ -38,8 +66,8 @@
     </table>
 
     @partials.pagination(currentPage, Constants.POSTS_PER_PAGE, 
-	    routes.App.postList(currentPage.getPageIndex - 1),
-	    routes.App.postList(currentPage.getPageIndex + 1))
+	    routes.App.postList(currentPage.getPageIndex - 1, categoryName),
+	    routes.App.postList(currentPage.getPageIndex + 1, categoryName))
     
     }
 </div>
