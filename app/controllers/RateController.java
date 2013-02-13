@@ -23,14 +23,11 @@ public class RateController extends Controller implements Constants {
 	PostDAO postDAO;
 	PostRatingDAO postRatingDAO;
 
-	private HttpUtils httpUtils;
-
 	@Inject
-	public RateController(PostDAO postDAO, PostRatingDAO postRatingDAO, HttpUtils httpUtils) {
+	public RateController(PostDAO postDAO, PostRatingDAO postRatingDAO) {
 		super();
 		this.postDAO = postDAO;
 		this.postRatingDAO = postRatingDAO;
-		this.httpUtils = httpUtils;
 	}
 
 	/**
@@ -62,7 +59,7 @@ public class RateController extends Controller implements Constants {
 		if (log.isDebugEnabled())
 			log.debug("post : " + post);
 
-		User user = httpUtils.loginUser();
+		User user = HttpUtils.loginUser();
 		if (log.isDebugEnabled())
 			log.debug("user : " + user);
 

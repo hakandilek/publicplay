@@ -29,15 +29,13 @@ public class UserController extends CRUDController<String, User> {
 	private static ALogger log = Logger.of(UserController.class);
 	private PostRatingDAO postRatingDAO;
 	private UserDAO userDAO;
-	private HttpUtils httpUtils;
 	private Form<BulkUser> bulkForm = form(BulkUser.class);
 
 	@Inject
-	public UserController(UserDAO userDAO, PostRatingDAO postRatingDAO, HttpUtils httpUtils) {
+	public UserController(UserDAO userDAO, PostRatingDAO postRatingDAO) {
 		super(userDAO, form(User.class), String.class, User.class, PAGE_SIZE, "lastLogin desc");
 		this.userDAO = userDAO;
 		this.postRatingDAO = postRatingDAO;
-		this.httpUtils = httpUtils;
 	}
 
 	@Override
@@ -63,7 +61,7 @@ public class UserController extends CRUDController<String, User> {
 	public Result show(String key) {
 		if (log.isDebugEnabled())
 			log.debug("show() <- " + key);
-		User loginUser = httpUtils.loginUser();
+		User loginUser = HttpUtils.loginUser();
 		User userToShow = null;
 		if (null != key)
 			userToShow = userDAO.get(key);
@@ -73,7 +71,7 @@ public class UserController extends CRUDController<String, User> {
 	public Result showSelf() {
 		if (log.isDebugEnabled())
 			log.debug("showSelf() <-");
-		User loginUser = httpUtils.loginUser(ctx());
+		User loginUser = HttpUtils.loginUser(ctx());
 		return show(loginUser, loginUser);
 	}
 

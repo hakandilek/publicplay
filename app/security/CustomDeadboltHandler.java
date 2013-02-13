@@ -1,18 +1,17 @@
 package security;
 
 
-import controllers.HttpUtils;
 import models.User;
 import play.Logger;
 import play.Logger.ALogger;
 import play.mvc.Http;
 import play.mvc.Http.Context;
 import play.mvc.Result;
-import plugins.GuicePlugin;
 import views.html.errors.accessFailed;
 import be.objectify.deadbolt.AbstractDeadboltHandler;
 import be.objectify.deadbolt.DynamicResourceHandler;
 import be.objectify.deadbolt.models.RoleHolder;
+import controllers.HttpUtils;
 
 
 public class CustomDeadboltHandler extends AbstractDeadboltHandler {
@@ -36,7 +35,7 @@ public class CustomDeadboltHandler extends AbstractDeadboltHandler {
 	public RoleHolder getRoleHolder(Context ctx) {
 		if (log.isDebugEnabled())
 			log.debug("getRoleHolder() <-");
-		User user = httpUtils().loginUser(ctx);
+		User user = HttpUtils.loginUser(ctx);
 		if (log.isDebugEnabled())
 			log.debug("user : " + user);
 		return user;
@@ -49,10 +48,6 @@ public class CustomDeadboltHandler extends AbstractDeadboltHandler {
 		//set HTTP context before redirecting
 		Http.Context.current.set(ctx);
 		return forbidden(accessFailed.render());
-	}
-
-	private HttpUtils httpUtils() {
-		return GuicePlugin.getInstance().getInstance(HttpUtils.class);
 	}
 
 }

@@ -41,7 +41,6 @@ public class Admin extends Controller {
 	@Inject static UserDAO userDAO;
 	@Inject static SourceConfigurationDAO sourceConfigurationDAO;
 	
-	@Inject public static HttpUtils httpUtils;
 	@Inject static CategoryController category;
 	@Inject static CommentController comment;
 	@Inject static controllers.crud.PostController post;

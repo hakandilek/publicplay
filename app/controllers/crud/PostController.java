@@ -48,21 +48,18 @@ public class PostController extends CRUDController<Long, Post> implements
 
 	private PostRatingDAO postRatingDAO;
 
-	private HttpUtils httpUtils;
-
 	private CategoryDAO categoryDAO;
 
 	private S3FileDAO s3FileDAO;
 
 	@Inject
-	public PostController(PostDAO postDAO, CommentDAO commentDAO, PostRatingDAO postRatingDAO, CategoryDAO categoryDAO, S3FileDAO s3FileDAO, HttpUtils httpUtils) {
+	public PostController(PostDAO postDAO, CommentDAO commentDAO, PostRatingDAO postRatingDAO, CategoryDAO categoryDAO, S3FileDAO s3FileDAO) {
 		super(postDAO, form(Post.class), Long.class, Post.class, 20, "updatedOn desc");
 		this.postDAO = postDAO;
 		this.commentDAO = commentDAO;
 		this.postRatingDAO = postRatingDAO;
 		this.categoryDAO = categoryDAO;
 		this.s3FileDAO = s3FileDAO;
-		this.httpUtils = httpUtils;
 	}
 
 	@Override
@@ -98,7 +95,7 @@ public class PostController extends CRUDController<Long, Post> implements
 		if (log.isDebugEnabled())
 			log.debug("page : " + page);
 
-		User user = httpUtils.loginUser();
+		User user = HttpUtils.loginUser();
 		Set<Long> upVotes = user == null ? new TreeSet<Long>()
 				: postRatingDAO.getUpVotedPostKeys(user);
 		Set<Long> downVotes = user == null ? new TreeSet<Long>()
@@ -127,9 +124,9 @@ public class PostController extends CRUDController<Long, Post> implements
 		if (log.isDebugEnabled())
 			log.debug("create() <-");
 
-		User user = httpUtils.loginUser();
+		User user = HttpUtils.loginUser();
 
-		S3File image = httpUtils.uploadFile(request(), "image");
+		S3File image = HttpUtils.uploadFile(request(), "image");
 		if (log.isDebugEnabled())
 			log.debug("image : " + image);
 
@@ -186,9 +183,9 @@ public class PostController extends CRUDController<Long, Post> implements
 		if (log.isDebugEnabled())
 			log.debug("update() <-" + key);
 
-		User user = httpUtils.loginUser();
+		User user = HttpUtils.loginUser();
 
-		S3File image = httpUtils.uploadFile(request(), "image");
+		S3File image = HttpUtils.uploadFile(request(), "image");
 		if (log.isDebugEnabled())
 			log.debug("image : " + image);
 
@@ -249,7 +246,7 @@ public class PostController extends CRUDController<Long, Post> implements
 		if (log.isDebugEnabled())
 			log.debug("post : " + post);
 
-		User user = httpUtils.loginUser();
+		User user = HttpUtils.loginUser();
 		Set<Long> upVotes = user == null ? new TreeSet<Long>()
 				: postRatingDAO.getUpVotedPostKeys(user);
 		Set<Long> downVotes = user == null ? new TreeSet<Long>()

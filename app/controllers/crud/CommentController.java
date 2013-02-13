@@ -30,15 +30,13 @@ public class CommentController extends CRUDController<Long, Comment> implements 
 	private CommentDAO commentDAO;
 	private PostDAO postDAO;
 	private PostRatingDAO postRatingDAO;
-	private HttpUtils httpUtils;
 
 	@Inject
-	public CommentController(PostDAO postDAO, CommentDAO dao, PostRatingDAO postRatingDAO, HttpUtils httpUtils) {
+	public CommentController(PostDAO postDAO, CommentDAO dao, PostRatingDAO postRatingDAO) {
 		super(dao, form(Comment.class), Long.class, Comment.class, 20, "updatedOn desc");
 		this.postDAO = postDAO;
 		this.commentDAO = dao;
 		this.postRatingDAO = postRatingDAO;
-		this.httpUtils = httpUtils;
 	}
 
 	@Override
@@ -69,7 +67,7 @@ public class CommentController extends CRUDController<Long, Comment> implements 
 		if (log.isDebugEnabled())
 			log.debug("post : " + post);
 
-		User user = httpUtils.loginUser();
+		User user = HttpUtils.loginUser();
 
 		Form<Comment> filledForm = getForm().bindFromRequest();
 		if (filledForm.hasErrors() || user == null) {
@@ -115,7 +113,7 @@ public class CommentController extends CRUDController<Long, Comment> implements 
 		if (log.isDebugEnabled())
 			log.debug("comment : " + comment);
 
-		User user = httpUtils.loginUser();
+		User user = HttpUtils.loginUser();
 		Set<Long> upVotes = user == null ? new TreeSet<Long>()
 				: postRatingDAO.getUpVotedPostKeys(user);
 		Set<Long> downVotes = user == null ? new TreeSet<Long>()
@@ -135,7 +133,7 @@ public class CommentController extends CRUDController<Long, Comment> implements 
 		if (log.isDebugEnabled())
 			log.debug("post : " + post);
 
-		User user = httpUtils.loginUser();
+		User user = HttpUtils.loginUser();
 
 		Form<Comment> filledForm = getForm().bindFromRequest();
 		if (filledForm.hasErrors() || user == null) {
