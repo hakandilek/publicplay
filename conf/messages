@@ -91,6 +91,8 @@ SocialUser.Location=Location
 
 You_must_login_to_perform_this_action=You must login to perform this action
 # User
+create_bulk_User=add bulk user data
+User.bulkData.label=bulk data
 User_not_found=User not found
 This_is_you=This is you!
 Roles=Roles

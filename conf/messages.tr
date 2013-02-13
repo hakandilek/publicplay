@@ -97,6 +97,8 @@ SocialUser.Location=Bulunduğu yer
 You_must_login_to_perform_this_action=Bu işlem için giriş yapmalısınız
 
 # User
+create_bulk_User=toplu kullanıcı ekleme
+User.bulkData.label=toplu data
 User_num={0} kullanıcı
 User_not_found=Kullanıcı bulunamadı
 This_is_you=Bu kendi profiliniz

@@ -1,23 +1,27 @@
 package controllers.crud;
 
+import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
 import javax.inject.Inject;
-
-import com.avaje.ebean.Page;
 
 import models.User;
 import models.dao.PostRatingDAO;
 import models.dao.UserDAO;
 import play.Logger;
 import play.Logger.ALogger;
+import play.data.Form;
 import play.mvc.Call;
 import play.mvc.Result;
 import play.utils.crud.CRUDController;
 import views.html.userShow;
+
+import com.avaje.ebean.Page;
+
 import controllers.HttpUtils;
 import controllers.routes;
+import forms.BulkUser;
 
 public class UserController extends CRUDController<String, User> {
 
@@ -26,6 +30,7 @@ public class UserController extends CRUDController<String, User> {
 	private PostRatingDAO postRatingDAO;
 	private UserDAO userDAO;
 	private HttpUtils httpUtils;
+	private Form<BulkUser> bulkForm = form(BulkUser.class);
 
 	@Inject
 	public UserController(UserDAO userDAO, PostRatingDAO postRatingDAO, HttpUtils httpUtils) {
@@ -142,6 +147,50 @@ public class UserController extends CRUDController<String, User> {
 		
 		return ok(templateForList(),
 				with(Page.class, p).and(String.class, status));
+	}
+
+	protected String templateForBulkForm() {
+		return "admin.userBulkForm";
+	}
+
+	public Result newBulkForm() {
+		if (log.isDebugEnabled())
+			log.debug("newBulkForm() <-");
+
+		return ok(templateForBulkForm(),
+				with(Form.class, bulkForm));
+	}
+
+	public Result createBulk() {
+		if (log.isDebugEnabled())
+			log.debug("createBulk() <-");
+
+		Form<BulkUser> filledForm = bulkForm.bindFromRequest();
+		if (filledForm.hasErrors()) {
+			if (log.isDebugEnabled())
+				log.debug("validation errors occured");
+
+			return badRequest(templateForBulkForm(),
+					with(Form.class, bulkForm));
+		} else {
+			BulkUser formModel = filledForm.get();
+			List<User> models = formModel.toModel();
+			if (log.isDebugEnabled())
+				log.debug("models : " + models);
+			for (User user : models) {
+				if (log.isDebugEnabled())
+					log.debug("user : " + user);
+				
+				User dbUser = userDAO.get(user.getKey());
+				if (dbUser == null) {
+					userDAO.create(user);
+				}
+			}
+			if (log.isDebugEnabled())
+				log.debug("entity created");
+
+			return redirect(toIndex());
+		}
 	}
 
 }
