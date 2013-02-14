@@ -1,12 +1,12 @@
 package models.dao;
 
-import com.avaje.ebean.Page;
-
 import models.User;
 import models.User.Status;
 import play.utils.cache.CachedFinder;
 import play.utils.dao.CachedDAO;
 import play.utils.dao.TimestampListener;
+
+import com.avaje.ebean.Page;
 
 public class UserDAO extends CachedDAO<String, User> {
 
