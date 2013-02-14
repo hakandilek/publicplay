@@ -30,6 +30,7 @@ import play.mvc.Result;
 import play.utils.crud.CRUDController;
 import views.html.index;
 import views.html.postForm;
+import views.html.postNotFound;
 import views.html.postShow;
 
 import com.avaje.ebean.Page;
@@ -260,6 +261,10 @@ public class PostController extends CRUDController<Long, Post> implements
 		Post post = postDAO.get(postKey);
 		if (log.isDebugEnabled())
 			log.debug("post : " + post);
+		
+		if (post == null) {
+			return notFound(postNotFound.render(postKey));
+		}
 
 		User user = HttpUtils.loginUser();
 		Set<Long> upVotes = user == null ? new TreeSet<Long>()

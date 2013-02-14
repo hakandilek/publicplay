@@ -1,6 +1,18 @@
 @(throwable: Throwable)
 
-@errors.error("error") {
-  <h1>Error occured</h1>	
-  <p class="well">@throwable.getMessage</p>    
+@errors.error(Messages("error_occured")) {
+    <div class="accordion" id="accordion2">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
+                @Messages("error_occured")
+                </a>
+            </div>
+            <div id="collapseOne" class="accordion-body collapse">
+                <div class="accordion-inner">
+                    <code>@throwable.getMessage()</code>
+                </div>
+            </div>
+        </div>
+    </div>
 }

@@ -48,10 +48,12 @@ public class Global extends GlobalSettings {
 
 	@Override
 	public Result onHandlerNotFound(RequestHeader req) {
-		if (app.isProd())  {
-			return notFound(onNotFound.render(req));
-		}
-		return super.onHandlerNotFound(req);
+//		if (app.isProd())  {
+//			return notFound(onNotFound.render(req));
+//		}
+		return notFound(onNotFound.render(req));
+//		return super.onHandlerNotFound(req);
 	}
+	
 	
 }
