@@ -25,6 +25,8 @@ import controllers.crud.PostRatingController;
 import controllers.crud.S3FileController;
 import controllers.crud.SecurityRoleController;
 import controllers.crud.SourceConfigurationController;
+import controllers.crud.UserAPIController;
+import controllers.crud.UserController;
 
 public class Admin extends Controller {
 
@@ -39,14 +41,14 @@ public class Admin extends Controller {
 	@Inject static UserDAO userDAO;
 	@Inject static SourceConfigurationDAO sourceConfigurationDAO;
 	
-	@Inject public static HttpUtils httpUtils;
 	@Inject static CategoryController category;
 	@Inject static CommentController comment;
 	@Inject static controllers.crud.PostController post;
 	@Inject static PostRatingController postRating;
 	@Inject static S3FileController s3File;
 	@Inject static SecurityRoleController securityRole;
-	@Inject static controllers.crud.UserController user;
+	@Inject static UserController user;
+	@Inject static UserAPIController userAPI;
 	@Inject static SourceConfigurationController sourceConfiguration;
 
 	@Secure @Restrict("admin") @RestrictApproved public static Result index() {
@@ -293,6 +295,18 @@ public class Admin extends Controller {
 		return sourceConfiguration.updateBulk(key);
 	}
 	
+	@Secure @Restrict("admin") @RestrictApproved public static Result userCreateBulk() {
+		return user.createBulk();
+	}
+
+	@Secure @Restrict("admin") @RestrictApproved public static Result userNewBulkForm() {
+		return user.newBulkForm();
+	}
+
+	@Secure @Restrict("admin") @RestrictApproved public static Result userBulkList() {
+		return userAPI.bulkList();
+	}
+
 	@Secure
 	@Restrict("admin")
 	@RestrictApproved

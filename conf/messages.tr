@@ -30,6 +30,8 @@ Read_More=devamını oku
 joinedOn=Giris:
 
 Filter=Filtrele
+Choose=Seç
+All=Hepsi
 revision.label=versiyon
 createdOn.label=oluşturma
 updatedOn.label=güncelleme
@@ -68,6 +70,7 @@ CreatedOn_By={1} {0} yazdı
 UpdatedOn_By={1} {0} güncelledi
 
 # Category
+Category=Kategori
 update_category=kategoriyi düzenle
 new_category=yeni kategori
 update_category_detail=Kategoriyi düzenle
@@ -97,6 +100,8 @@ SocialUser.Location=Bulunduğu yer
 You_must_login_to_perform_this_action=Bu işlem için giriş yapmalısınız
 
 # User
+create_bulk_User=toplu kullanıcı ekleme
+User.bulkData.label=toplu data
 User_num={0} kullanıcı
 User_not_found=Kullanıcı bulunamadı
 This_is_you=Bu kendi profiliniz

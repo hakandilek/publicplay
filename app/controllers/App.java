@@ -19,12 +19,12 @@ public class App extends Admin {
 	@Inject static SocialController social;
 
 	@SocialAware public static Result index() {
-		return post.list(0);
+		return post.list(0, null);
 	}
 	
 	@SocialAware
-	public static Result postList(int page) {
-		return post.list(page);
+	public static Result postList(int page, String category) {
+		return post.list(page, category);
 	}
 	
 	@Secure

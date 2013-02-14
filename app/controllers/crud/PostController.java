@@ -18,6 +18,9 @@ import models.dao.CommentDAO;
 import models.dao.PostDAO;
 import models.dao.PostRatingDAO;
 import models.dao.S3FileDAO;
+
+import org.springframework.util.StringUtils;
+
 import play.Logger;
 import play.Logger.ALogger;
 import play.data.Form;
@@ -48,21 +51,18 @@ public class PostController extends CRUDController<Long, Post> implements
 
 	private PostRatingDAO postRatingDAO;
 
-	private HttpUtils httpUtils;
-
 	private CategoryDAO categoryDAO;
 
 	private S3FileDAO s3FileDAO;
 
 	@Inject
-	public PostController(PostDAO postDAO, CommentDAO commentDAO, PostRatingDAO postRatingDAO, CategoryDAO categoryDAO, S3FileDAO s3FileDAO, HttpUtils httpUtils) {
+	public PostController(PostDAO postDAO, CommentDAO commentDAO, PostRatingDAO postRatingDAO, CategoryDAO categoryDAO, S3FileDAO s3FileDAO) {
 		super(postDAO, form(Post.class), Long.class, Post.class, 20, "updatedOn desc");
 		this.postDAO = postDAO;
 		this.commentDAO = commentDAO;
 		this.postRatingDAO = postRatingDAO;
 		this.categoryDAO = categoryDAO;
 		this.s3FileDAO = s3FileDAO;
-		this.httpUtils = httpUtils;
 	}
 
 	@Override
@@ -91,14 +91,14 @@ public class PostController extends CRUDController<Long, Post> implements
 	 * @param page
 	 *            Current page number (starts from 0)
 	 */
-	public Result list(int page) {
+	public Result list(int page, String categoryName) {
 		if (log.isDebugEnabled())
 			log.debug("index() <-");
 
 		if (log.isDebugEnabled())
 			log.debug("page : " + page);
 
-		User user = httpUtils.loginUser();
+		User user = HttpUtils.loginUser();
 		Set<Long> upVotes = user == null ? new TreeSet<Long>()
 				: postRatingDAO.getUpVotedPostKeys(user);
 		Set<Long> downVotes = user == null ? new TreeSet<Long>()
@@ -108,10 +108,22 @@ public class PostController extends CRUDController<Long, Post> implements
 		Page<Post> topWeek = postDAO.topWeekPage();
 		Page<Post> topAll = postDAO.topAllPage();
 
-		Page<Post> pg = postDAO.page(page, POSTS_PER_PAGE);
+		Page<Post> pg = null;
+		if (StringUtils.hasLength(categoryName)) {
+			Category category = categoryDAO.get(categoryName);
+			if (category != null)
+				pg = postDAO.pageInCategory(category, page, POSTS_PER_PAGE);
+		}
+		
+		if (pg == null) {
+			pg = postDAO.page(page, POSTS_PER_PAGE);
+		}
 		if (Logger.isDebugEnabled())
 			Logger.debug("pg : " + pg);
-		return ok(index.render(pg, topDay, topWeek, topAll, upVotes,
+		
+		List<Category> categoryList = categoryDAO.all();
+
+		return ok(index.render(pg, categoryName, categoryList, topDay, topWeek, topAll, upVotes,
 				downVotes));
 	}
 
@@ -127,9 +139,9 @@ public class PostController extends CRUDController<Long, Post> implements
 		if (log.isDebugEnabled())
 			log.debug("create() <-");
 
-		User user = httpUtils.loginUser();
+		User user = HttpUtils.loginUser();
 
-		S3File image = httpUtils.uploadFile(request(), "image");
+		S3File image = HttpUtils.uploadFile(request(), "image");
 		if (log.isDebugEnabled())
 			log.debug("image : " + image);
 
@@ -186,9 +198,9 @@ public class PostController extends CRUDController<Long, Post> implements
 		if (log.isDebugEnabled())
 			log.debug("update() <-" + key);
 
-		User user = httpUtils.loginUser();
+		User user = HttpUtils.loginUser();
 
-		S3File image = httpUtils.uploadFile(request(), "image");
+		S3File image = HttpUtils.uploadFile(request(), "image");
 		if (log.isDebugEnabled())
 			log.debug("image : " + image);
 
@@ -249,7 +261,7 @@ public class PostController extends CRUDController<Long, Post> implements
 		if (log.isDebugEnabled())
 			log.debug("post : " + post);
 
-		User user = httpUtils.loginUser();
+		User user = HttpUtils.loginUser();
 		Set<Long> upVotes = user == null ? new TreeSet<Long>()
 				: postRatingDAO.getUpVotedPostKeys(user);
 		Set<Long> downVotes = user == null ? new TreeSet<Long>()

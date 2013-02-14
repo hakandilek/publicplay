@@ -1,0 +1,15 @@
+@(bulkForm: Form[forms.BulkUser])
+@import helper._ 
+@import helper.twitterBootstrap._
+
+@template.main(Messages("create_bulk_User")) {
+        
+	<h3>@Messages("create_bulk_User")</h3>
+    
+    @form(routes.Admin.userCreateBulk()) {
+        @textarea(bulkForm("bulkData"), args = '_label -> Messages("User.bulkData.label"), 'rows -> 16, 'class->"input-xxlarge")
+        <div>
+           <input type="submit" class="btn btn-success" value='@Messages("Create")'>
+        </div>
+    } 
+}

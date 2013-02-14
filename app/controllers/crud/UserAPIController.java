@@ -1,12 +1,16 @@
 package controllers.crud;
 
+import static play.libs.Json.toJson;
+
+
+import java.util.List;
+
 import javax.inject.Inject;
 
 import models.User;
 import models.dao.UserDAO;
 import play.mvc.Result;
 import play.utils.crud.APIController;
-
 
 public class UserAPIController extends APIController<String, User> {
 
@@ -39,6 +43,21 @@ public class UserAPIController extends APIController<String, User> {
 		*/
 		return TODO;
 	}
+
+	public Result bulkList() {
+		if (log.isDebugEnabled())
+			log.debug("bulkList() <-");
+		
+		//clean cyclic dependencies
+		List<User> list = dao.all();
+		for (User user : list) {
+			user.getPosts().clear();
+			user.getComments().clear();
+		}
+		
+		return ok(toJson(list));
+	}
+
 
 
 }
