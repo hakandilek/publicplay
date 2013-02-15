@@ -3,6 +3,7 @@ package models.dao;
 import java.util.concurrent.Callable;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
 import models.Category;
 import models.Post;
@@ -16,6 +17,7 @@ import play.utils.dao.TimestampListener;
 
 import com.avaje.ebean.Page;
 
+@Singleton
 public class PostDAO extends CachedDAO<Long, Post> {
 
 	private static final int TOP_10 = 10;

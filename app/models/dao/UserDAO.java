@@ -1,5 +1,7 @@
 package models.dao;
 
+import javax.inject.Singleton;
+
 import models.User;
 import models.User.Status;
 import play.utils.cache.CachedFinder;
@@ -8,6 +10,7 @@ import play.utils.dao.TimestampListener;
 
 import com.avaje.ebean.Page;
 
+@Singleton
 public class UserDAO extends CachedDAO<String, User> {
 
 	private static CachedFinder<String, User> find;

@@ -5,6 +5,8 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.concurrent.Callable;
 
+import javax.inject.Singleton;
+
 import models.Post;
 import models.PostRating;
 import models.PostRatingPK;
@@ -13,6 +15,7 @@ import play.db.ebean.Model.Finder;
 import play.utils.cache.InterimCache;
 import play.utils.dao.CachedDAO;
 
+@Singleton
 public class PostRatingDAO extends CachedDAO<PostRatingPK, PostRating> {
 
 	public static InterimCache<Set<Long>> votedPostKeyCache = new InterimCache<Set<Long>>("VotedPostKeyCache", 600);//10 mins;

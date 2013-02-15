@@ -6,6 +6,7 @@ import java.util.Set;
 import java.util.TreeMap;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
 import models.Category;
 import models.Post;
@@ -14,6 +15,7 @@ import play.Logger.ALogger;
 import play.utils.dao.CachedDAO;
 import play.utils.dao.EntityNotFoundException;
 
+@Singleton
 public class CategoryDAO extends CachedDAO<String, Category> {
 
 	private static ALogger log = Logger.of(CategoryDAO.class);
