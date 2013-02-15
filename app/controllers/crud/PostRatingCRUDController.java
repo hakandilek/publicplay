@@ -9,10 +9,10 @@ import play.mvc.Call;
 import play.utils.crud.CRUDController;
 import controllers.routes;
 
-public class PostRatingController extends CRUDController<PostRatingPK, PostRating> {
+public class PostRatingCRUDController extends CRUDController<PostRatingPK, PostRating> {
 
 	@Inject
-	public PostRatingController(PostRatingDAO dao) {
+	public PostRatingCRUDController(PostRatingDAO dao) {
 		super(dao, form(PostRating.class), PostRatingPK.class, PostRating.class, 20, "updatedOn desc");
 	}
 

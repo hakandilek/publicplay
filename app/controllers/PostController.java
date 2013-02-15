@@ -1,4 +1,4 @@
-package controllers.crud;
+package controllers;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,24 +25,21 @@ import play.Logger;
 import play.Logger.ALogger;
 import play.data.Form;
 import play.data.validation.ValidationError;
-import play.mvc.Call;
 import play.mvc.Result;
-import play.utils.crud.CRUDController;
+import play.utils.crud.DynamicTemplateController;
+import play.utils.dao.EntityNotFoundException;
 import views.html.index;
 import views.html.postForm;
 import views.html.postShow;
 
 import com.avaje.ebean.Page;
 
-import controllers.Constants;
-import controllers.HttpUtils;
-import controllers.routes;
-
-public class PostController extends CRUDController<Long, Post> implements
+public class PostController extends DynamicTemplateController implements
 		Constants {
 
 	private static ALogger log = Logger.of(PostController.class);
 
+	private Form<Post> form = form(Post.class);
 	private Form<Comment> commentForm = form(Comment.class);
 
 	private CommentDAO commentDAO;
@@ -56,33 +53,14 @@ public class PostController extends CRUDController<Long, Post> implements
 	private S3FileDAO s3FileDAO;
 
 	@Inject
-	public PostController(PostDAO postDAO, CommentDAO commentDAO, PostRatingDAO postRatingDAO, CategoryDAO categoryDAO, S3FileDAO s3FileDAO) {
-		super(postDAO, form(Post.class), Long.class, Post.class, 20, "updatedOn desc");
+	public PostController(PostDAO postDAO, CommentDAO commentDAO,
+			PostRatingDAO postRatingDAO, CategoryDAO categoryDAO,
+			S3FileDAO s3FileDAO) {
 		this.postDAO = postDAO;
 		this.commentDAO = commentDAO;
 		this.postRatingDAO = postRatingDAO;
 		this.categoryDAO = categoryDAO;
 		this.s3FileDAO = s3FileDAO;
-	}
-
-	@Override
-	protected String templateForForm() {
-		return "admin.postForm";
-	}
-
-	@Override
-	protected String templateForList() {
-		return "admin.postList";
-	}
-
-	@Override
-	protected String templateForShow() {
-		return "admin.postShow";
-	}
-
-	@Override
-	protected Call toIndex() {
-		return routes.App.index();
 	}
 
 	/**
@@ -99,8 +77,8 @@ public class PostController extends CRUDController<Long, Post> implements
 			log.debug("page : " + page);
 
 		User user = HttpUtils.loginUser();
-		Set<Long> upVotes = user == null ? new TreeSet<Long>()
-				: postRatingDAO.getUpVotedPostKeys(user);
+		Set<Long> upVotes = user == null ? new TreeSet<Long>() : postRatingDAO
+				.getUpVotedPostKeys(user);
 		Set<Long> downVotes = user == null ? new TreeSet<Long>()
 				: postRatingDAO.getDownVotedPostKeys(user);
 
@@ -114,17 +92,17 @@ public class PostController extends CRUDController<Long, Post> implements
 			if (category != null)
 				pg = postDAO.pageInCategory(category, page, POSTS_PER_PAGE);
 		}
-		
+
 		if (pg == null) {
 			pg = postDAO.page(page, POSTS_PER_PAGE);
 		}
 		if (Logger.isDebugEnabled())
 			Logger.debug("pg : " + pg);
-		
+
 		List<Category> categoryList = categoryDAO.all();
 
-		return ok(index.render(pg, categoryName, categoryList, topDay, topWeek, topAll, upVotes,
-				downVotes));
+		return ok(index.render(pg, categoryName, categoryList, topDay, topWeek,
+				topAll, upVotes, downVotes));
 	}
 
 	public Result newForm() {
@@ -132,7 +110,7 @@ public class PostController extends CRUDController<Long, Post> implements
 			log.debug("newForm() <-");
 
 		S3File image = null;
-		return ok(postForm.render(null, getForm(), image, categories()));
+		return ok(postForm.render(null, form, image, categories()));
 	}
 
 	public Result create() {
@@ -145,10 +123,10 @@ public class PostController extends CRUDController<Long, Post> implements
 		if (log.isDebugEnabled())
 			log.debug("image : " + image);
 
-		Form<Post> filledForm = getForm().bindFromRequest();
+		Form<Post> filledForm = form.bindFromRequest();
 		if (filledForm.hasErrors() || user == null) {
 			if (log.isDebugEnabled())
-				log.debug("form.data : " + getForm().data());
+				log.debug("form.data : " + form.data());
 			if (log.isDebugEnabled())
 				log.debug("validation errors occured");
 
@@ -156,7 +134,8 @@ public class PostController extends CRUDController<Long, Post> implements
 			if (log.isDebugEnabled())
 				log.debug("errors : " + errors);
 
-			return badRequest(postForm.render(null, filledForm, image, categories()));
+			return badRequest(postForm.render(null, filledForm, image,
+					categories()));
 		} else {
 			Post post = filledForm.get();
 			post.setCreatedBy(user);
@@ -190,7 +169,7 @@ public class PostController extends CRUDController<Long, Post> implements
 		if (log.isDebugEnabled())
 			log.debug("image : " + image);
 
-		Form<Post> frm = getForm().fill(post);
+		Form<Post> frm = form.fill(post);
 		return ok(postForm.render(key, frm, image, categories()));
 	}
 
@@ -204,7 +183,7 @@ public class PostController extends CRUDController<Long, Post> implements
 		if (log.isDebugEnabled())
 			log.debug("image : " + image);
 
-		Form<Post> filledForm = getForm().bindFromRequest();
+		Form<Post> filledForm = form.bindFromRequest();
 		if (log.isDebugEnabled())
 			log.debug("filledForm : " + filledForm);
 		// ignore missing images
@@ -218,7 +197,8 @@ public class PostController extends CRUDController<Long, Post> implements
 			if (log.isDebugEnabled())
 				log.debug("errors : " + errors);
 
-			return badRequest(postForm.render(key, filledForm, image, categories()));
+			return badRequest(postForm.render(key, filledForm, image,
+					categories()));
 		} else {
 			Post postData = postDAO.get(key);
 			Post post = filledForm.get();
@@ -262,8 +242,8 @@ public class PostController extends CRUDController<Long, Post> implements
 			log.debug("post : " + post);
 
 		User user = HttpUtils.loginUser();
-		Set<Long> upVotes = user == null ? new TreeSet<Long>()
-				: postRatingDAO.getUpVotedPostKeys(user);
+		Set<Long> upVotes = user == null ? new TreeSet<Long>() : postRatingDAO
+				.getUpVotedPostKeys(user);
 		Set<Long> downVotes = user == null ? new TreeSet<Long>()
 				: postRatingDAO.getDownVotedPostKeys(user);
 
@@ -280,6 +260,23 @@ public class PostController extends CRUDController<Long, Post> implements
 			list.add(category.getName());
 		}
 		return list;
+	}
+
+	public Result delete(Long key) {
+		if (log.isDebugEnabled())
+			log.debug("delete() <-" + key);
+
+		try {
+			postDAO.remove(key);
+			if (log.isDebugEnabled())
+				log.debug("entity deleted");
+		} catch (EntityNotFoundException e) {
+			if (log.isDebugEnabled())
+				log.debug("entity not found for key:" + key);
+			flash("error", "entity not found for key:" + key);
+		}
+
+		return redirect(routes.App.index());
 	}
 
 }

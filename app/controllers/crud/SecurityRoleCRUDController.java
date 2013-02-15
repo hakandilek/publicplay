@@ -8,10 +8,10 @@ import play.mvc.Call;
 import play.utils.crud.CRUDController;
 import controllers.routes;
 
-public class SecurityRoleController extends CRUDController<Long, SecurityRole> {
+public class SecurityRoleCRUDController extends CRUDController<Long, SecurityRole> {
 
 	@Inject
-	public SecurityRoleController(SecurityRoleDAO dao) {
+	public SecurityRoleCRUDController(SecurityRoleDAO dao) {
 		super(dao, form(SecurityRole.class), Long.class, SecurityRole.class, 20, "name");
 	}
 

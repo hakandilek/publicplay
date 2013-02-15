@@ -8,10 +8,10 @@ import play.mvc.Call;
 import play.utils.crud.CRUDController;
 import controllers.routes;
 
-public class CategoryController extends CRUDController<String, Category> {
+public class CategoryCRUDController extends CRUDController<String, Category> {
 
 	@Inject
-	public CategoryController(CategoryDAO dao) {
+	public CategoryCRUDController(CategoryDAO dao) {
 		super(dao, form(Category.class), String.class, Category.class, 20, "name");
 	}
 

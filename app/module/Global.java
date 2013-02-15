@@ -6,7 +6,7 @@ import play.Logger;
 
 import com.typesafe.plugin.inject.InjectPlugin;
 
-import controllers.crud.CategoryController;
+import controllers.crud.CategoryCRUDController;
 import play.mvc.Http.RequestHeader;
 import play.mvc.Result;
 
@@ -26,7 +26,7 @@ public class Global extends GlobalSettings {
 
 		InjectPlugin plugin = app.plugin(InjectPlugin.class);
 		Logger.warn("getting an instance from guice:"
-				+ plugin.getInstance(CategoryController.class));
+				+ plugin.getInstance(CategoryCRUDController.class));
 	}
 
 	

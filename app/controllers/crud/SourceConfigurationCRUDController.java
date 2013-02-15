@@ -11,14 +11,14 @@ import play.utils.crud.CRUDController;
 import controllers.routes;
 import forms.BulkConfiguration;
 
-public class SourceConfigurationController extends
+public class SourceConfigurationCRUDController extends
 		CRUDController<Long, SourceConfiguration> {
 
 	Form<BulkConfiguration> bulkForm = form(BulkConfiguration.class);
 	private SourceConfigurationDAO sourceConfigurationDAO;
 	
 	@Inject
-	public SourceConfigurationController(SourceConfigurationDAO dao) {
+	public SourceConfigurationCRUDController(SourceConfigurationDAO dao) {
 		super(dao, form(SourceConfiguration.class), Long.class,
 				SourceConfiguration.class, 20, "sourceKey");
 		sourceConfigurationDAO = dao;
