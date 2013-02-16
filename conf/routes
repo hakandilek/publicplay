@@ -25,6 +25,9 @@ GET     /posts/:key/rate            					controllers.App.rateShow(key: Long)
 #Users
 GET     /users/self                 					controllers.App.userShowSelf()
 GET     /users/:key                 					controllers.App.userShow(key: String)
+GET     /users/:key/follow             					controllers.Api.userFollow(key: String)
+GET     /users/:key/unfollow          					controllers.Api.userUnfollow(key: String)
+
 # socialauth integration
 GET     /user/login                     				controllers.App.login
 GET     /user/logout                    				controllers.App.logout
@@ -91,6 +94,13 @@ POST    /admin/config/bulk/:key/update  				controllers.Admin.sourceConfiguratio
 GET     /admin/User/:key/approve        				controllers.Admin.userApprove(key, page:Int ?= 0)
 GET     /admin/User/:key/suspend        				controllers.Admin.userSuspend(key, page:Int ?= 0)
 #GET     /admin/User/Status.:status/list 				controllers.Admin.userList(status:String, page:Int ?= 0)
+GET     /admin/userFollow/list              			controllers.Admin.userFollowList(p:Int ?= 0)
+POST    /admin/userFollow                   			controllers.Admin.userFollowCreate()
+GET     /admin/userFollow/new               			controllers.Admin.userFollowNewForm()
+GET     /admin/userFollow/:key/edit         			controllers.Admin.userFollowEditForm(key:String)
+POST    /admin/userFollow/:key/update       			controllers.Admin.userFollowUpdate(key:String)
+GET     /admin/userFollow/:key/delete       			controllers.Admin.userFollowDelete(key:String)
+GET     /admin/userFollow/:key/show         			controllers.Admin.userFollowShow(key:String)
 
 # JSON API
 PUT     /api/category/:key              				controllers.Api.categoryUpdate(key: String)

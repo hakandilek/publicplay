@@ -113,6 +113,15 @@ create table TBL_USER (
   constraint pk_TBL_USER primary key (key))
 ;
 
+create table TBL_USER_FOLLOW (
+  source_key                varchar(255),
+  target_key                varchar(255),
+  created_on                timestamp,
+  updated_on                timestamp,
+  revision                  integer not null,
+  constraint pk_TBL_USER_FOLLOW primary key (source_key, target_key))
+;
+
 
 create table TBL_USER_SECURITY_ROLE (
   user_key                       varchar(255) not null,
@@ -132,6 +141,8 @@ create sequence TBL_SECURITY_ROLE_seq;
 create sequence TBL_SOURCE_CONFIG_seq;
 
 create sequence TBL_USER_seq;
+
+create sequence TBL_USER_FOLLOW_seq;
 
 alter table TBL_COMMENT add constraint fk_TBL_COMMENT_post_1 foreign key (postKey) references TBL_POST (key) on delete restrict on update restrict;
 create index ix_TBL_COMMENT_post_1 on TBL_COMMENT (postKey);
@@ -176,6 +187,8 @@ drop table if exists TBL_USER;
 
 drop table if exists TBL_USER_SECURITY_ROLE;
 
+drop table if exists TBL_USER_FOLLOW;
+
 SET REFERENTIAL_INTEGRITY TRUE;
 
 drop sequence if exists TBL_CATEGORY_seq;
@@ -191,4 +204,6 @@ drop sequence if exists TBL_SECURITY_ROLE_seq;
 drop sequence if exists TBL_SOURCE_CONFIG_seq;
 
 drop sequence if exists TBL_USER_seq;
+
+drop sequence if exists TBL_USER_FOLLOW_seq;
 

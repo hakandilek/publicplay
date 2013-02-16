@@ -6,6 +6,7 @@ import java.util.UUID;
 import javax.inject.Inject;
 
 import models.PostRatingPK;
+import models.UserFollowPK;
 import models.dao.CategoryDAO;
 import models.dao.CommentDAO;
 import models.dao.PostDAO;
@@ -27,6 +28,7 @@ import controllers.crud.SecurityRoleController;
 import controllers.crud.SourceConfigurationController;
 import controllers.crud.UserAPIController;
 import controllers.crud.UserController;
+import controllers.crud.UserFollowCRUDController;
 
 public class Admin extends Controller {
 
@@ -50,6 +52,7 @@ public class Admin extends Controller {
 	@Inject static UserController user;
 	@Inject static UserAPIController userAPI;
 	@Inject static SourceConfigurationController sourceConfiguration;
+	@Inject static UserFollowCRUDController userFollowController;
 
 	@Secure @Restrict("admin") @RestrictApproved public static Result index() {
 		return ok(views.html.admin.index.render());
@@ -328,6 +331,33 @@ public class Admin extends Controller {
 		return user.list(status, page);
 	}
 
+	@Secure @Restrict("admin") @RestrictApproved public static Result userFollowList(int page) {
+		return userFollowController.list(page);
+	}
+
+	@Secure @Restrict("admin") @RestrictApproved public static Result userFollowNewForm() {
+		return userFollowController.newForm();
+	}
+
+	@Secure @Restrict("admin") @RestrictApproved public static Result userFollowCreate() {
+		return userFollowController.create();
+	}
+
+	@Secure @Restrict("admin") @RestrictApproved public static Result userFollowEditForm(String key) {
+		return userFollowController.editForm(UserFollowPK.fromString(key));
+	}
+
+	@Secure @Restrict("admin") @RestrictApproved public static Result userFollowUpdate(String key) {
+		return userFollowController.update(UserFollowPK.fromString(key));
+	}
+
+	@Secure @Restrict("admin") @RestrictApproved public static Result userFollowDelete(String key) {
+		return userFollowController.delete(UserFollowPK.fromString(key));
+	}
+
+	@Secure @Restrict("admin") @RestrictApproved public static Result userFollowShow(String key) {
+		return userFollowController.show(UserFollowPK.fromString(key));
+	}
 
 	/*
 	@Secure @Restrict("admin") @RestrictApproved public static Result fetch() {

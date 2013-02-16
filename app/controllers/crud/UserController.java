@@ -7,8 +7,10 @@ import java.util.TreeSet;
 import javax.inject.Inject;
 
 import models.User;
+import models.UserFollow;
 import models.dao.PostRatingDAO;
 import models.dao.UserDAO;
+import models.dao.UserFollowDAO;
 import play.Logger;
 import play.Logger.ALogger;
 import play.data.Form;
@@ -30,12 +32,14 @@ public class UserController extends CRUDController<String, User> {
 	private PostRatingDAO postRatingDAO;
 	private UserDAO userDAO;
 	private Form<BulkUser> bulkForm = form(BulkUser.class);
+	private UserFollowDAO userFollowDAO;
 
 	@Inject
-	public UserController(UserDAO userDAO, PostRatingDAO postRatingDAO) {
+	public UserController(UserDAO userDAO, PostRatingDAO postRatingDAO, UserFollowDAO userFollowDAO) {
 		super(userDAO, form(User.class), String.class, User.class, PAGE_SIZE, "lastLogin desc");
 		this.userDAO = userDAO;
 		this.postRatingDAO = postRatingDAO;
+		this.userFollowDAO = userFollowDAO;
 	}
 
 	@Override
@@ -86,7 +90,7 @@ public class UserController extends CRUDController<String, User> {
 			log.debug("user : " + loginUser);
 		if (loginUser == null || userToShow == null) {
 			return badRequest(userShow.render(userToShow, false,
-					upVotes, downVotes));
+					upVotes, downVotes, false));
 		}
 
 		boolean selfPage = false;
@@ -95,8 +99,16 @@ public class UserController extends CRUDController<String, User> {
 			selfPage = true;
 		}
 
+		boolean following = false;
+		if (loginUser != null && userToShow != null) {
+			String sourceKey = loginUser.getKey();
+			String targetKey = userToShow.getKey();
+			UserFollow follow = userFollowDAO.get(sourceKey, targetKey);
+			following = follow != null;
+		}
+		
 		return ok(userShow.render(userToShow, selfPage, upVotes,
-				downVotes));
+				downVotes, following));
 	}
 
 	public Result approve(String key, int page) {

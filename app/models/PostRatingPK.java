@@ -95,7 +95,7 @@ public class PostRatingPK implements Serializable {
 	}
 
 	public static PostRatingPK fromString(String string) {
-		if (string == null || "".equals(string) || string.indexOf('.') > 1)
+		if (string == null || "".equals(string) || string.indexOf('.') < 0)
 			return null;
 		String[] parts = string.split("\\.");
 		String uk = parts[0];
