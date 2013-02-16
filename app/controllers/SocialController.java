@@ -23,7 +23,6 @@ import play.mvc.Result;
 import plugins.SocialUserPlugin;
 import socialauth.core.SocialUtils;
 import views.html.userLogin;
-import controllers.routes;
 
 public class SocialController extends Controller {
 	private static ALogger log = Logger.of(SocialController.class);

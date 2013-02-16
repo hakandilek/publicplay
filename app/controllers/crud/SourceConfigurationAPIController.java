@@ -2,9 +2,6 @@ package controllers.crud;
 
 import static play.libs.Json.toJson;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-
 import javax.inject.Inject;
 
 import models.SourceConfiguration;
@@ -56,11 +53,4 @@ public class SourceConfigurationAPIController extends APIController<Long, Source
 				"key", key,
 				"data", m)));
 	}
-
-	protected <S> void setField(S s, String fieldName, String value) throws NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
-		Class<?> cls = s.getClass();
-		Method method = cls.getMethod("set" + fieldName, String.class);
-		method.invoke(s, value);
-	}
-
 }

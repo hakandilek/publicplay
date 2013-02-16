@@ -28,7 +28,7 @@ public class HttpUtils {
 	 * extract login user from the context if available
 	 * @return login user, or null
 	 */
-	public User loginUser() {
+	public static User loginUser() {
 		Context ctx = Http.Context.current();
 		return loginUser(ctx);
 	}
@@ -38,14 +38,14 @@ public class HttpUtils {
 	 * @param ctx http context
 	 * @return login user, or null
 	 */
-	public User loginUser(Context ctx) {
+	public static User loginUser(Context ctx) {
 		User user = (User) ctx.args.get(SocialController.USER);
 		if (log.isDebugEnabled())
 			log.debug("user : " + user);
 		return user;
 	}
 	
-	public S3File uploadFile(Request r, String field) {
+	public static S3File uploadFile(Request r, String field) {
 		RequestBody b = r.body();
 		MultipartFormData body = b.asMultipartFormData();
 		FilePart filePart = body.getFile(field);

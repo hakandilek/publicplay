@@ -1,14 +1,15 @@
 package models.dao;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
 import models.Comment;
-import play.utils.cache.CachedFinder;
 import play.utils.dao.CachedDAO;
 import play.utils.dao.TimestampListener;
 
 import com.avaje.ebean.Page;
 
+@Singleton
 public class CommentDAO extends CachedDAO<Long, Comment> {
 
 	@Inject
@@ -29,8 +30,10 @@ public class CommentDAO extends CachedDAO<Long, Comment> {
 	 *            Number of computers per page
 	 */
 	public Page<Comment> page(Long postKey, int page, int pageSize) {
-		CachedFinder<Long, Comment> find = (CachedFinder<Long, Comment>) find();
-		return find.page(page, pageSize, "createdOn desc", "postKey", postKey);
+		Page<Comment> p = find.page(page, pageSize, "createdOn desc", "postKey", postKey);
+		System.out.println(p.getTotalRowCount());
+		
+		return p;
 	}
    
 }

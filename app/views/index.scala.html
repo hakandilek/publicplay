@@ -1,38 +1,38 @@
-@(currentPage: Page[Post], topDayPage: Page[Post], topWeekPage: Page[Post], topAllPage: Page[Post], upVotedPostKeys:Set[Long], downVotedPostKeys:Set[Long])
+@(currentPage: Page[Post], categoryName:String, categories: List[Category], topDayPage: Page[Post], topWeekPage: Page[Post], topAllPage: Page[Post], upVotedPostKeys:Set[Long], downVotedPostKeys:Set[Long])
 
-@main(Messages("home")) {
-<div class="container-fluid">
-	<div class="row">
-	    <div class="span12">
-		    <p class="visible-desktop">@Html(Messages("Project_definition"))</p>
+@header = {
+    <div class="row">
+        <div class="span12">
+            <p class="visible-desktop">@Html(Messages("Project_definition"))</p>
         </div>
     </div><!-- row -->
 
     <div class="row hidden-phone">
         <div class="span12">
-			<hr/>
+            <hr/>
         </div>
     </div><!-- row -->
-    
+}
+
+@template.main(Messages("home"), header=header) {
     <div class="row-fluid">
-	    <div class="span7">
-			@partials.postList(currentPage, upVotedPostKeys, downVotedPostKeys)
-		</div>
-	    <div class="span5" id="top-div">
-			<!-- Top lists -->
-			<h4>@Messages("Top_posts")</h4>
-			<ul id="top-tab" class="nav nav-tabs" data-spy="scroll" data-target="#top-div">
-	  			<li class="active">
-	  			    <a data-toggle="tab" href="#top_day">@Messages("Daily_Top10")</a></li>
-	  			<li><a data-toggle="tab" href="#top_week">@Messages("Weekly_Top10")</a></li>
-	  			<li><a data-toggle="tab" href="#top_all">@Messages("Overall_Top10")</a></li>
-			</ul>
-	           <div class="tab-content">
-	             	<div id="top_day"  class="tab-pane fade in active">@partials.postTopList(topDayPage)</div>
-	             	<div id="top_week" class="tab-pane fade">@partials.postTopList(topWeekPage)</div>
-	             	<div id="top_all"  class="tab-pane fade">@partials.postTopList(topAllPage)</div>
-			</div>
-		</div>
+        <div class="span7">
+            @partials.postList(currentPage, categoryName, categories, upVotedPostKeys, downVotedPostKeys)
+        </div>
+        <div class="span5" id="top-div">
+            <!-- Top lists -->
+            <h4>@Messages("Top_posts")</h4>
+            <ul id="top-tab" class="nav nav-tabs" data-spy="scroll" data-target="#top-div">
+                <li class="active">
+                    <a data-toggle="tab" href="#top_day">@Messages("Daily_Top10")</a></li>
+                <li><a data-toggle="tab" href="#top_week">@Messages("Weekly_Top10")</a></li>
+                <li><a data-toggle="tab" href="#top_all">@Messages("Overall_Top10")</a></li>
+            </ul>
+            <div class="tab-content">
+                <div id="top_day"  class="tab-pane fade in active">@partials.postTopList(topDayPage)</div>
+                <div id="top_week" class="tab-pane fade">@partials.postTopList(topWeekPage)</div>
+                <div id="top_all"  class="tab-pane fade">@partials.postTopList(topAllPage)</div>
+            </div>
+        </div>
     </div> <!-- row -->
-</div><!-- container -->
 }

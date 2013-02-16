@@ -29,10 +29,15 @@ Overall_Top10=Her zaman
 Read_More=devamını oku
 joinedOn=Giris:
 
-
+Filter=Filtrele
+Choose=Seç
+All=Hepsi
 revision.label=versiyon
 createdOn.label=oluşturma
 updatedOn.label=güncelleme
+Delete=Sil
+Edit=Değiştir
+Bulk_Edit=Toplu Değiştir
 
 # Post
 update_post=başlığı düzenle
@@ -65,6 +70,7 @@ CreatedOn_By={1} {0} yazdı
 UpdatedOn_By={1} {0} güncelledi
 
 # Category
+Category=Kategori
 update_category=kategoriyi düzenle
 new_category=yeni kategori
 update_category_detail=Kategoriyi düzenle
@@ -94,6 +100,9 @@ SocialUser.Location=Bulunduğu yer
 You_must_login_to_perform_this_action=Bu işlem için giriş yapmalısınız
 
 # User
+create_bulk_User=toplu kullanıcı ekleme
+User.bulkData.label=toplu data
+User_num={0} kullanıcı
 User_not_found=Kullanıcı bulunamadı
 This_is_you=Bu kendi profiliniz
 Roles=Roller
@@ -113,6 +122,7 @@ User.profile=Profil
 User.lastLogin=Son giriş
 User.loginCount=Giriş
 User.status=Durum
+User.status.All=Hepsi
 User.status.SUSPENDED=Askıda
 User.status.NEW=Yeni
 User.status.APPROVED=Onaylı
@@ -153,3 +163,26 @@ error.minLength=Minimum length is {0}
 error.maxLength=Bu alana en fazla {0} karakter girilebilir. 
 error.email=Valid email required
 error.pattern=Must satisfy {0}
+
+# SourceConfiguration
+SourceConfiguration_list=konfigurasyonlar
+SourceConfiguration_num={0} konfigurasyon
+new_sourceConfiguration=yeni konfigurasyon 
+SourceConfiguration.sourceKey.label=source
+SourceConfiguration.nameSelector.label=Name.Selector
+SourceConfiguration.nameValue.label=Name.value
+SourceConfiguration.nameRequired.label=Name.Required
+SourceConfiguration.descriptionSelector.label=Description.Selector
+SourceConfiguration.descriptionValue.label=Description.value
+SourceConfiguration.descriptionRequired.label=Description.Required
+SourceConfiguration.priceSelector.label=Price.Selector
+SourceConfiguration.priceValue.label=Price.value
+SourceConfiguration.priceRequired.label=Price.Required
+SourceConfiguration.discountPriceSelector.label=DiscountPrice.Selector
+SourceConfiguration.discountPriceValue.label=DiscountPrice.value
+SourceConfiguration.discountPriceRequired.label=DiscountPrice.Required
+SourceConfiguration.imageLinkSelector.label=ImageLink.Selector
+SourceConfiguration.imageLinkValue.label=ImageLink.value
+SourceConfiguration.imageLinkRequired.label=ImageLink.Required
+SourceConfiguration.bulkData.label=toplu konfigürasyon 
+update_sourceConfiguration=konfigurasyon düzenle

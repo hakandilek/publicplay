@@ -1,4 +1,4 @@
-package controllers.crud;
+package controllers;
 
 import java.util.Set;
 import java.util.TreeSet;
@@ -12,53 +12,27 @@ import models.dao.CommentDAO;
 import models.dao.PostDAO;
 import models.dao.PostRatingDAO;
 import play.data.Form;
-import play.mvc.Call;
 import play.mvc.Result;
-import play.utils.crud.CRUDController;
+import play.utils.crud.DynamicTemplateController;
 import play.utils.dao.EntityNotFoundException;
 import views.html.postShow;
 import views.html.helper.H;
 
 import com.avaje.ebean.Page;
 
-import controllers.Constants;
-import controllers.HttpUtils;
-import controllers.routes;
-
-public class CommentController extends CRUDController<Long, Comment> implements Constants {
+public class CommentController extends DynamicTemplateController implements Constants {
 
 	private CommentDAO commentDAO;
 	private PostDAO postDAO;
 	private PostRatingDAO postRatingDAO;
-	private HttpUtils httpUtils;
+	
+	private Form<Comment> form = form(Comment.class);
 
 	@Inject
-	public CommentController(PostDAO postDAO, CommentDAO dao, PostRatingDAO postRatingDAO, HttpUtils httpUtils) {
-		super(dao, form(Comment.class), Long.class, Comment.class, 20, "updatedOn desc");
+	public CommentController(PostDAO postDAO, CommentDAO dao, PostRatingDAO postRatingDAO) {
 		this.postDAO = postDAO;
 		this.commentDAO = dao;
 		this.postRatingDAO = postRatingDAO;
-		this.httpUtils = httpUtils;
-	}
-
-	@Override
-	protected String templateForForm() {
-		return "admin.commentForm";
-	}
-
-	@Override
-	protected String templateForList() {
-		return "admin.commentList";
-	}
-
-	@Override
-	protected String templateForShow() {
-		return "admin.commentShow";
-	}
-
-	@Override
-	protected Call toIndex() {
-		return routes.App.index();
 	}
 
 	public Result create(Long postKey, String title) {
@@ -69,9 +43,9 @@ public class CommentController extends CRUDController<Long, Comment> implements 
 		if (log.isDebugEnabled())
 			log.debug("post : " + post);
 
-		User user = httpUtils.loginUser();
+		User user = HttpUtils.loginUser();
 
-		Form<Comment> filledForm = getForm().bindFromRequest();
+		Form<Comment> filledForm = form.bindFromRequest();
 		if (filledForm.hasErrors() || user == null) {
 			if (log.isDebugEnabled())
 				log.debug("validation errors occured");
@@ -115,15 +89,15 @@ public class CommentController extends CRUDController<Long, Comment> implements 
 		if (log.isDebugEnabled())
 			log.debug("comment : " + comment);
 
-		User user = httpUtils.loginUser();
+		User user = HttpUtils.loginUser();
 		Set<Long> upVotes = user == null ? new TreeSet<Long>()
 				: postRatingDAO.getUpVotedPostKeys(user);
 		Set<Long> downVotes = user == null ? new TreeSet<Long>()
 				: postRatingDAO.getDownVotedPostKeys(user);
 
-		Form<Comment> form = getForm().fill(comment);
+		Form<Comment> filledForm = form.fill(comment);
 		Page<Comment> pg = commentDAO.page(postKey, 0, COMMENTS_PER_PAGE);
-		return ok(postShow.render(post, commentKey, form, pg, upVotes,
+		return ok(postShow.render(post, commentKey, filledForm, pg, upVotes,
 				downVotes));
 	}
 
@@ -135,9 +109,9 @@ public class CommentController extends CRUDController<Long, Comment> implements 
 		if (log.isDebugEnabled())
 			log.debug("post : " + post);
 
-		User user = httpUtils.loginUser();
+		User user = HttpUtils.loginUser();
 
-		Form<Comment> filledForm = getForm().bindFromRequest();
+		Form<Comment> filledForm = form.bindFromRequest();
 		if (filledForm.hasErrors() || user == null) {
 			if (log.isDebugEnabled())
 				log.debug("validation errors occured");

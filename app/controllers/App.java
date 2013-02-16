@@ -3,6 +3,7 @@ package controllers;
 
 import javax.inject.Inject;
 
+import play.mvc.Controller;
 import play.mvc.Result;
 import security.CommentDeletePermission;
 import security.CommentEditPermission;
@@ -13,18 +14,21 @@ import security.RestrictCombine;
 import socialauth.core.Secure;
 import socialauth.core.SocialAware;
 
-public class App extends Admin {
+public class App extends Controller {
 
 	@Inject static RateController rate;
 	@Inject static SocialController social;
+	@Inject static PostController post;
+	@Inject static CommentController comment;
+	@Inject static UserController user;
 
 	@SocialAware public static Result index() {
-		return post.list(0);
+		return post.list(0, null);
 	}
 	
 	@SocialAware
-	public static Result postList(int page) {
-		return post.list(page);
+	public static Result postList(int page, String category) {
+		return post.list(page, category);
 	}
 	
 	@Secure

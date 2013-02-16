@@ -6,48 +6,34 @@ import java.util.UUID;
 import javax.inject.Inject;
 
 import models.PostRatingPK;
-import models.dao.CategoryDAO;
-import models.dao.CommentDAO;
-import models.dao.PostDAO;
-import models.dao.PostRatingDAO;
-import models.dao.S3FileDAO;
-import models.dao.SecurityRoleDAO;
-import models.dao.SourceConfigurationDAO;
-import models.dao.UserDAO;
 import play.mvc.Controller;
 import play.mvc.Result;
 import security.RestrictApproved;
 import socialauth.core.Secure;
 import be.objectify.deadbolt.actions.Restrict;
-import controllers.crud.CategoryController;
-import controllers.crud.CommentController;
-import controllers.crud.PostRatingController;
-import controllers.crud.S3FileController;
-import controllers.crud.SecurityRoleController;
-import controllers.crud.SourceConfigurationController;
+import controllers.crud.CategoryCRUDController;
+import controllers.crud.CommentCRUDController;
+import controllers.crud.PostCRUDController;
+import controllers.crud.PostRatingCRUDController;
+import controllers.crud.S3FileCRUDController;
+import controllers.crud.SecurityRoleCRUDController;
+import controllers.crud.SourceConfigurationCRUDController;
+import controllers.crud.UserAPIController;
+import controllers.crud.UserCRUDController;
 
 public class Admin extends Controller {
 
 	public static final int PAGE_SIZE = 20;
 
-	@Inject static CategoryDAO categoryDAO;
-	@Inject static CommentDAO commentDAO;
-	@Inject static PostDAO postDAO;
-	@Inject static PostRatingDAO postRatingDAO;
-	@Inject static S3FileDAO s3FileDAO;
-	@Inject static SecurityRoleDAO securityRoleDAO;
-	@Inject static UserDAO userDAO;
-	@Inject static SourceConfigurationDAO sourceConfigurationDAO;
-	
-	@Inject public static HttpUtils httpUtils;
-	@Inject static CategoryController category;
-	@Inject static CommentController comment;
-	@Inject static controllers.crud.PostController post;
-	@Inject static PostRatingController postRating;
-	@Inject static S3FileController s3File;
-	@Inject static SecurityRoleController securityRole;
-	@Inject static controllers.crud.UserController user;
-	@Inject static SourceConfigurationController sourceConfiguration;
+	@Inject static CategoryCRUDController category;
+	@Inject static CommentCRUDController comment;
+	@Inject static PostCRUDController post;
+	@Inject static PostRatingCRUDController postRating;
+	@Inject static S3FileCRUDController s3File;
+	@Inject static SecurityRoleCRUDController securityRole;
+	@Inject static UserCRUDController user;
+	@Inject static UserAPIController userAPI;
+	@Inject static SourceConfigurationCRUDController sourceConfiguration;
 
 	@Secure @Restrict("admin") @RestrictApproved public static Result index() {
 		return ok(views.html.admin.index.render());
@@ -293,6 +279,18 @@ public class Admin extends Controller {
 		return sourceConfiguration.updateBulk(key);
 	}
 	
+	@Secure @Restrict("admin") @RestrictApproved public static Result userCreateBulk() {
+		return user.createBulk();
+	}
+
+	@Secure @Restrict("admin") @RestrictApproved public static Result userNewBulkForm() {
+		return user.newBulkForm();
+	}
+
+	@Secure @Restrict("admin") @RestrictApproved public static Result userBulkList() {
+		return userAPI.bulkList();
+	}
+
 	@Secure
 	@Restrict("admin")
 	@RestrictApproved

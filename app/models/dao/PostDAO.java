@@ -3,7 +3,9 @@ package models.dao;
 import java.util.concurrent.Callable;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
+import models.Category;
 import models.Post;
 
 import org.joda.time.DateTime;
@@ -15,6 +17,7 @@ import play.utils.dao.TimestampListener;
 
 import com.avaje.ebean.Page;
 
+@Singleton
 public class PostDAO extends CachedDAO<Long, Post> {
 
 	private static final int TOP_10 = 10;
@@ -42,6 +45,12 @@ public class PostDAO extends CachedDAO<Long, Post> {
 	 */
 	public Page<Post> page(int page, int pageSize) {
 		return find.page(page, pageSize, "createdOn desc");
+	}
+
+	public Page<Post> pageInCategory(Category category, int page,
+			int pageSize) {
+		return find.where().eq("category", category).orderBy("createdOn desc")
+				.findPagingList(pageSize).getPage(page);
 	}
 
 	public Page<Post> topDayPage() {

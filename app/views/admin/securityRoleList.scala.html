@@ -3,7 +3,7 @@
 @import helper.twitterBootstrap._
 @import helper.H._
 
-@main(Messages("SecurityRoles")) {
+@template.main(Messages("SecurityRoles")) {
 
 	<h3>@Messages("SecurityRole_num", currentPage.getTotalRowCount())</h3>
 	
@@ -17,7 +17,7 @@
         
     } else {
 	
-    <table class="categories table table-striped table-bordered">
+    <table class="securityRoles table table-striped table-bordered">
         <thead>
             <tr>
                 <th class="header">@Messages("SecurityRoles")</th>

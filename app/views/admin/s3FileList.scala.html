@@ -3,7 +3,7 @@
 @import helper.twitterBootstrap._
 @import helper.H._
 
-@main(Messages("S3Files")) {
+@template.main(Messages("S3Files")) {
 
 	<h3>@Messages("S3File_num", currentPage.getTotalRowCount())</h3>
 	
@@ -15,7 +15,7 @@
         
     } else {
 	
-    <table class="categories table table-striped table-bordered">
+    <table class="s3Files table table-striped table-bordered">
         <thead>
             <tr>
                 <th class="header">@Messages("S3File.bucket.label")</th>

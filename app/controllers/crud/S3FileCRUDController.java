@@ -10,10 +10,10 @@ import play.mvc.Call;
 import play.utils.crud.CRUDController;
 import controllers.routes;
 
-public class S3FileController extends CRUDController<UUID, S3File> {
+public class S3FileCRUDController extends CRUDController<UUID, S3File> {
 
 	@Inject
-	public S3FileController(S3FileDAO dao) {
+	public S3FileCRUDController(S3FileDAO dao) {
 		super(dao, form(S3File.class), UUID.class, S3File.class, 20, "updatedOn desc");
 	}
 

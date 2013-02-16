@@ -1,0 +1,77 @@
+@(currentPage: Page[User], status: String = "")
+@import helper._ 
+@import helper.twitterBootstrap._
+@import helper.H._
+
+@header = {
+    <!-- filter buttons -->
+    @Messages("Filter"):
+    <br/>
+    <div class="btn-group" data-toggle="buttons-radio">
+        <a class='btn btn-inverse @if(status == null || "".equals(status)) {active}' href='@routes.Admin.userList(null, 0)'>@Messages("User.status.All")</a>
+        <a class='btn btn-inverse @if("NEW".equals(status)) {active}'       href='@routes.Admin.userList("NEW", 0)'>@Messages("User.status.NEW")</a>
+        <a class='btn btn-inverse @if("APPROVED".equals(status)) {active}'  href='@routes.Admin.userList("APPROVED", 0)'>@Messages("User.status.APPROVED")</a>
+        <a class='btn btn-inverse @if("SUSPENDED".equals(status)) {active}' href='@routes.Admin.userList("SUSPENDED", 0)'>@Messages("User.status.SUSPENDED")</a>
+    </div>
+}
+
+@template.main(Messages("Users"), header=header) {
+
+	<h3>@Messages("User_num", currentPage.getTotalRowCount())</h3>
+	
+    @if(currentPage.getTotalRowCount() == 0) {
+        
+        <div class="well">
+            <em>@Messages("Nothing_to_display")</em>
+        </div>
+        
+    } else {
+	
+    <table class="userLists table table-striped table-bordered">
+        <thead>
+            <tr>
+                <th class="header">@Messages("User.key")</th>
+                <th class="header">@Messages("User.profile")</th>
+                <th class="header">@Messages("User.lastLogin")</th>
+                <th class="header">@Messages("User.loginCount")</th>
+                <th class="header" colspan="3">@Messages("User.status")</th>
+                <th class="header">@Messages("Edit")</th>
+                <th class="header">@Messages("Delete")</th>
+            </tr>
+        </thead>
+        <tbody>
+        @for(user <- currentPage.getList) {
+            <tr>
+                <td><a href="@routes.Admin.userShow(user.getKey())">@string(user.getKey())</a></td>
+                <td><div class="profile">
+                    <img alt="@user.getProfileImageURL()" src="@user.getProfileImageURL()" />
+                    <a href="https://www.facebook.com/profile.php?id=@user.getOriginalKey()">@user.getFirstName() @user.getLastName()</a>
+                </div></td>
+                <td>@prettify(user.getLastLogin())</td>
+                <td>@user.getLoginCount()</td>
+                <td>
+                    @Messages("User.status." + user.getStatus())
+                </td>
+                <td>
+                    @if(!user.isApproved()) {
+                    <a href="@routes.Admin.userApprove(user.getKey())"><i class="icon-ok"></i></a>
+                    }
+                </td>
+                <td>
+                    @if(!user.isSuspended()) {
+                    <a href="@routes.Admin.userSuspend(user.getKey())"><i class="icon-pause"></i></a>
+                    }
+                </td>
+                <td>
+                    <a href="@routes.Admin.userEditForm(user.getKey())"><i class="icon-edit"></i></a>
+                </td>
+                <td>
+                    <a href="@routes.Admin.userDelete(user.getKey())"><i class="icon-trash"></i></a>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+    
+    }
+}

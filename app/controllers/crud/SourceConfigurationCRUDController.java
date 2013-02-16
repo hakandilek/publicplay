@@ -11,14 +11,14 @@ import play.utils.crud.CRUDController;
 import controllers.routes;
 import forms.BulkConfiguration;
 
-public class SourceConfigurationController extends
+public class SourceConfigurationCRUDController extends
 		CRUDController<Long, SourceConfiguration> {
 
 	Form<BulkConfiguration> bulkForm = form(BulkConfiguration.class);
 	private SourceConfigurationDAO sourceConfigurationDAO;
 	
 	@Inject
-	public SourceConfigurationController(SourceConfigurationDAO dao) {
+	public SourceConfigurationCRUDController(SourceConfigurationDAO dao) {
 		super(dao, form(SourceConfiguration.class), Long.class,
 				SourceConfiguration.class, 20, "sourceKey");
 		sourceConfigurationDAO = dao;
@@ -26,17 +26,17 @@ public class SourceConfigurationController extends
 
 	@Override
 	protected String templateForList() {
-		return "configList";
+		return "admin.configList";
 	}
 
 	@Override
 	protected String templateForForm() {
-		return "configForm";
+		return "admin.configForm";
 	}
 
 	@Override
 	protected String templateForShow() {
-		return "configShow";
+		return "admin.configShow";
 	}
 
 	@Override
@@ -45,7 +45,7 @@ public class SourceConfigurationController extends
 	}
 
 	protected String templateForBulkForm() {
-		return "configBulkForm";
+		return "admin.configBulkForm";
 	}
 
 	public Result newBulkForm() {

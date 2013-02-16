@@ -26,6 +26,8 @@
   <logger name="socialauth" level="INFO" />
   <!-- db logging -->
   <logger name="com.jolbox.bonecp" level="INFO" />
+  <logger name="play.utils.cache" level="DEBUG" />
+  <logger name="play.utils.dao" level="DEBUG" />
 
   <root level="ERROR">
     <appender-ref ref="STDOUT" />

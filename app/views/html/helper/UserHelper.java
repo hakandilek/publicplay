@@ -1,23 +1,17 @@
 package views.html.helper;
 
 import models.User;
-import controllers.Admin;
+import controllers.HttpUtils;
 
 
 public class UserHelper {
 
 	public static boolean userPresent() {
-		if (Admin.httpUtils != null) {
-			return Admin.httpUtils.loginUser() != null;
-		}
-		return false;
+		return HttpUtils.loginUser() != null;
 	}
 
 	public static User user() {
-		if (Admin.httpUtils != null) {
-			return Admin.httpUtils.loginUser();
-		}
-		return null;
+		return HttpUtils.loginUser();
 	}
 
 }

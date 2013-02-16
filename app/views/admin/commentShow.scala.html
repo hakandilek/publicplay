@@ -3,7 +3,7 @@
 @import helper.twitterBootstrap._
 @import helper.H._
 
-@main("Comment:" + comment.getContent().take(20)) {
+@template.main("Comment:" + comment.getContent().take(20)) {
 
     <p class="lead">
         @comment.getContent()

@@ -2,6 +2,8 @@ package models.dao;
 
 import java.util.concurrent.Callable;
 
+import javax.inject.Singleton;
+
 import models.SourceConfiguration;
 import play.Logger;
 import play.Logger.ALogger;
@@ -13,6 +15,7 @@ import play.utils.dao.TimestampListener;
 
 import com.pickleproject.shopping.ConfigurationDAO;
 
+@Singleton
 public class SourceConfigurationDAO extends CachedDAO<Long, SourceConfiguration> implements ConfigurationDAO<Long, SourceConfiguration> {
 	
 	private static ALogger log = Logger.of(SourceConfigurationDAO.class);
