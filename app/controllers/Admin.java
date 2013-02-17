@@ -27,15 +27,15 @@ public class Admin extends Controller {
 
 	public static final int PAGE_SIZE = 20;
 
-	@Inject static CategoryCRUDController category;
-	@Inject static CommentCRUDController comment;
-	@Inject static PostCRUDController post;
-	@Inject static PostRatingCRUDController postRating;
-	@Inject static S3FileCRUDController s3File;
-	@Inject static SecurityRoleCRUDController securityRole;
-	@Inject static UserCRUDController user;
+	@Inject static CategoryCRUDController categoryController;
+	@Inject static CommentCRUDController commentController;
+	@Inject static PostCRUDController postController;
+	@Inject static PostRatingCRUDController postRatingController;
+	@Inject static S3FileCRUDController s3FileController;
+	@Inject static SecurityRoleCRUDController securityRoleController;
+	@Inject static UserCRUDController userController;
 	@Inject static UserAPIController userAPI;
-	@Inject static SourceConfigurationCRUDController sourceConfiguration;
+	@Inject static SourceConfigurationCRUDController sourceConfigurationController;
 	@Inject static UserFollowCRUDController userFollowController;
 
 	@Secure @Restrict("admin") @RestrictApproved public static Result index() {
@@ -43,251 +43,251 @@ public class Admin extends Controller {
 	}
 
 	@Secure @Restrict("admin") @RestrictApproved public static Result categoryList(int page) {
-		return category.list(page);
+		return categoryController.list(page);
 	}
 
 	@Secure @Restrict("admin") @RestrictApproved public static Result categoryNewForm() {
-		return category.newForm();
+		return categoryController.newForm();
 	}
 
 	@Secure @Restrict("admin") @RestrictApproved public static Result categoryCreate() {
-		return category.create();
+		return categoryController.create();
 	}
 
 	@Secure @Restrict("admin") @RestrictApproved public static Result categoryEditForm(String key) {
-		return category.editForm(key);
+		return categoryController.editForm(key);
 	}
 
 	@Secure @Restrict("admin") @RestrictApproved public static Result categoryUpdate(String key) {
-		return category.update(key);
+		return categoryController.update(key);
 	}
 
 	@Secure @Restrict("admin") @RestrictApproved public static Result categoryDelete(String key) {
-		return category.delete(key);
+		return categoryController.delete(key);
 	}
 
 	@Secure @Restrict("admin") @RestrictApproved public static Result categoryShow(String key) {
-		return category.show(key);
+		return categoryController.show(key);
 	}
 	
 	@Secure @Restrict("admin") @RestrictApproved public static Result commentList(int page) {
-		return comment.list(page);
+		return commentController.list(page);
 	}
 
 	@Secure @Restrict("admin") @RestrictApproved public static Result commentNewForm() {
-		return comment.newForm();
+		return commentController.newForm();
 	}
 
 	@Secure @Restrict("admin") @RestrictApproved public static Result commentCreate() {
-		return comment.create();
+		return commentController.create();
 	}
 
 	@Secure @Restrict("admin") @RestrictApproved public static Result commentEditForm(Long key) {
-		return comment.editForm(key);
+		return commentController.editForm(key);
 	}
 
 	@Secure @Restrict("admin") @RestrictApproved public static Result commentUpdate(Long key) {
-		return comment.update(key);
+		return commentController.update(key);
 	}
 
 	@Secure @Restrict("admin") @RestrictApproved public static Result commentDelete(Long key) {
-		return comment.delete(key);
+		return commentController.delete(key);
 	}
 
 	@Secure @Restrict("admin") @RestrictApproved public static Result commentShow(Long key) {
-		return comment.show(key);
+		return commentController.show(key);
 	}
 
 	@Secure @Restrict("admin") @RestrictApproved public static Result postList(int page) {
-		return post.list(page);
+		return postController.list(page);
 	}
 
 	@Secure @Restrict("admin") @RestrictApproved public static Result postNewForm() {
-		return post.newForm();
+		return postController.newForm();
 	}
 
 	@Secure @Restrict("admin") @RestrictApproved public static Result postCreate() {
-		return post.create();
+		return postController.create();
 	}
 
 	@Secure @Restrict("admin") @RestrictApproved public static Result postEditForm(Long key) {
-		return post.editForm(key);
+		return postController.editForm(key);
 	}
 
 	@Secure @Restrict("admin") @RestrictApproved public static Result postUpdate(Long key) {
-		return post.update(key);
+		return postController.update(key);
 	}
 
 	@Secure @Restrict("admin") @RestrictApproved public static Result postDelete(Long key) {
-		return post.delete(key);
+		return postController.delete(key);
 	}
 
 	@Secure @Restrict("admin") @RestrictApproved public static Result postShow(Long key) {
-		return post.show(key);
+		return postController.show(key);
 	}
 
 	@Secure @Restrict("admin") @RestrictApproved public static Result postRatingList(int page) {
-		return postRating.list(page);
+		return postRatingController.list(page);
 	}
 
 	@Secure @Restrict("admin") @RestrictApproved public static Result postRatingNewForm() {
-		return postRating.newForm();
+		return postRatingController.newForm();
 	}
 
 	@Secure @Restrict("admin") @RestrictApproved public static Result postRatingCreate() {
-		return postRating.create();
+		return postRatingController.create();
 	}
 
 	@Secure @Restrict("admin") @RestrictApproved public static Result postRatingEditForm(String key) {
-		return postRating.editForm(PostRatingPK.fromString(key));
+		return postRatingController.editForm(PostRatingPK.fromString(key));
 	}
 
 	@Secure @Restrict("admin") @RestrictApproved public static Result postRatingUpdate(String key) {
-		return postRating.update(PostRatingPK.fromString(key));
+		return postRatingController.update(PostRatingPK.fromString(key));
 	}
 
 	@Secure @Restrict("admin") @RestrictApproved public static Result postRatingDelete(String key) {
-		return postRating.delete(PostRatingPK.fromString(key));
+		return postRatingController.delete(PostRatingPK.fromString(key));
 	}
 
 	@Secure @Restrict("admin") @RestrictApproved public static Result postRatingShow(String key) {
-		return postRating.show(PostRatingPK.fromString(key));
+		return postRatingController.show(PostRatingPK.fromString(key));
 	}
 
 	@Secure @Restrict("admin") @RestrictApproved public static Result s3FileList(int page) {
-		return s3File.list(page);
+		return s3FileController.list(page);
 	}
 
 	@Secure @Restrict("admin") @RestrictApproved public static Result s3FileNewForm() {
-		return s3File.newForm();
+		return s3FileController.newForm();
 	}
 
 	@Secure @Restrict("admin") @RestrictApproved public static Result s3FileCreate() {
-		return s3File.create();
+		return s3FileController.create();
 	}
 
 	@Secure @Restrict("admin") @RestrictApproved public static Result s3FileEditForm(String key) {
-		return s3File.editForm(UUID.fromString(key));
+		return s3FileController.editForm(UUID.fromString(key));
 	}
 
 	@Secure @Restrict("admin") @RestrictApproved public static Result s3FileUpdate(String key) {
-		return s3File.update(UUID.fromString(key));
+		return s3FileController.update(UUID.fromString(key));
 	}
 
 	@Secure @Restrict("admin") @RestrictApproved public static Result s3FileDelete(String key) {
-		return s3File.delete(UUID.fromString(key));
+		return s3FileController.delete(UUID.fromString(key));
 	}
 
 	@Secure @Restrict("admin") @RestrictApproved public static Result s3FileShow(String key) {
-		return s3File.show(UUID.fromString(key));
+		return s3FileController.show(UUID.fromString(key));
 	}
 
 	@Secure @Restrict("admin") @RestrictApproved public static Result securityRoleList(int page) {
-		return securityRole.list(page);
+		return securityRoleController.list(page);
 	}
 
 	@Secure @Restrict("admin") @RestrictApproved public static Result securityRoleNewForm() {
-		return securityRole.newForm();
+		return securityRoleController.newForm();
 	}
 
 	@Secure @Restrict("admin") @RestrictApproved public static Result securityRoleCreate() {
-		return securityRole.create();
+		return securityRoleController.create();
 	}
 
 	@Secure @Restrict("admin") @RestrictApproved public static Result securityRoleEditForm(Long key) {
-		return securityRole.editForm(key);
+		return securityRoleController.editForm(key);
 	}
 
 	@Secure @Restrict("admin") @RestrictApproved public static Result securityRoleUpdate(Long key) {
-		return securityRole.update(key);
+		return securityRoleController.update(key);
 	}
 
 	@Secure @Restrict("admin") @RestrictApproved public static Result securityRoleDelete(Long key) {
-		return securityRole.delete(key);
+		return securityRoleController.delete(key);
 	}
 
 	@Secure @Restrict("admin") @RestrictApproved public static Result securityRoleShow(Long key) {
-		return securityRole.show(key);
+		return securityRoleController.show(key);
 	}
 
 	@Secure @Restrict("admin") @RestrictApproved public static Result userList(int page) {
-		return user.list(page);
+		return userController.list(page);
 	}
 
 	@Secure @Restrict("admin") @RestrictApproved public static Result userNewForm() {
-		return user.newForm();
+		return userController.newForm();
 	}
 
 	@Secure @Restrict("admin") @RestrictApproved public static Result userCreate() {
-		return user.create();
+		return userController.create();
 	}
 
 	@Secure @Restrict("admin") @RestrictApproved public static Result userEditForm(String key) {
-		return user.editForm(key);
+		return userController.editForm(key);
 	}
 
 	@Secure @Restrict("admin") @RestrictApproved public static Result userUpdate(String key) {
-		return user.update(key);
+		return userController.update(key);
 	}
 
 	@Secure @Restrict("admin") @RestrictApproved public static Result userDelete(String key) {
-		return user.delete(key);
+		return userController.delete(key);
 	}
 
 	@Secure @Restrict("admin") @RestrictApproved public static Result userShow(String key) {
-		return user.show(key);
+		return userController.show(key);
 	}
 
 	@Secure @Restrict("admin") @RestrictApproved public static Result sourceConfigurationList(int page) {
-		return sourceConfiguration.list(page);
+		return sourceConfigurationController.list(page);
 	}
 
 	@Secure @Restrict("admin") @RestrictApproved public static Result sourceConfigurationCreate() {
-		return sourceConfiguration.create();
+		return sourceConfigurationController.create();
 	}
 
 	@Secure @Restrict("admin") @RestrictApproved public static Result sourceConfigurationNewForm() {
-		return sourceConfiguration.newForm();
+		return sourceConfigurationController.newForm();
 	}
 
 	@Secure @Restrict("admin") @RestrictApproved public static Result sourceConfigurationEditForm(Long key) {
-		return sourceConfiguration.editForm(key);
+		return sourceConfigurationController.editForm(key);
 	}
 
 	@Secure @Restrict("admin") @RestrictApproved public static Result sourceConfigurationUpdate(Long key) {
-		return sourceConfiguration.update(key);
+		return sourceConfigurationController.update(key);
 	}
 
 	@Secure @Restrict("admin") @RestrictApproved public static Result sourceConfigurationDelete(Long key) {
-		return sourceConfiguration.delete(key);
+		return sourceConfigurationController.delete(key);
 	}
 
 	@Secure @Restrict("admin") @RestrictApproved public static Result sourceConfigurationShow(Long key) {
-		return sourceConfiguration.show(key);
+		return sourceConfigurationController.show(key);
 	}
 
 	@Secure @Restrict("admin") @RestrictApproved public static Result sourceConfigurationCreateBulk() {
-		return sourceConfiguration.createBulk();
+		return sourceConfigurationController.createBulk();
 	}
 
 	@Secure @Restrict("admin") @RestrictApproved public static Result sourceConfigurationNewBulkForm() {
-		return sourceConfiguration.newBulkForm();
+		return sourceConfigurationController.newBulkForm();
 	}
 
 	@Secure @Restrict("admin") @RestrictApproved public static Result sourceConfigurationEditBulkForm(Long key) {
-		return sourceConfiguration.editBulkForm(key);
+		return sourceConfigurationController.editBulkForm(key);
 	}
 
 	@Secure @Restrict("admin") @RestrictApproved public static Result sourceConfigurationUpdateBulk(Long key) {
-		return sourceConfiguration.updateBulk(key);
+		return sourceConfigurationController.updateBulk(key);
 	}
 	
 	@Secure @Restrict("admin") @RestrictApproved public static Result userCreateBulk() {
-		return user.createBulk();
+		return userController.createBulk();
 	}
 
 	@Secure @Restrict("admin") @RestrictApproved public static Result userNewBulkForm() {
-		return user.newBulkForm();
+		return userController.newBulkForm();
 	}
 
 	@Secure @Restrict("admin") @RestrictApproved public static Result userBulkList() {
@@ -298,21 +298,21 @@ public class Admin extends Controller {
 	@Restrict("admin")
 	@RestrictApproved
 	public static Result userApprove(String key, int page) {
-		return user.approve(key, page);
+		return userController.approve(key, page);
 	}
 
 	@Secure
 	@Restrict("admin")
 	@RestrictApproved
 	public static Result userSuspend(String key, int page) {
-		return user.suspend(key, page);
+		return userController.suspend(key, page);
 	}
 
 	@Secure
 	@Restrict("admin")
 	@RestrictApproved
 	public static Result userList(String status, int page) {
-		return user.list(status, page);
+		return userController.list(status, page);
 	}
 
 	@Secure @Restrict("admin") @RestrictApproved public static Result userFollowList(int page) {
@@ -343,130 +343,4 @@ public class Admin extends Controller {
 		return userFollowController.show(UserFollowPK.fromString(key));
 	}
 
-	/*
-	@Secure @Restrict("admin") @RestrictApproved public static Result fetch() {
-		return fetch.newLink();
-	}
-
-	@Secure @Restrict("admin") @RestrictApproved public static Result fetchCreate() {
-		return fetch.create();
-	}
-
-	@Secure @Restrict("admin") @RestrictApproved public static Result fetchDelete(Long key) {
-		return fetch.delete(key);
-	}
-
-	@Secure @Restrict("admin") @RestrictApproved public static Result productScrapList() {
-		return productScrap.list(page);
-	}
-
-	@Secure @Restrict("admin") @RestrictApproved public static Result productScrapNewForm() {
-		return productScrap.newForm();
-	}
-
-	@Secure @Restrict("admin") @RestrictApproved public static Result productScrapCreate() {
-		return productScrap.create();
-	}
-
-	@Secure @Restrict("admin") @RestrictApproved public static Result productScrapEditForm(Long key) {
-		return productScrap.editForm(key);
-	}
-
-	@Secure @Restrict("admin") @RestrictApproved public static Result productScrapUpdate(Long key) {
-		return productScrap.update(key);
-	}
-
-	@Secure @Restrict("admin") @RestrictApproved public static Result productScrapDelete(Long key) {
-		return productScrap.delete(key);
-	}
-
-	@Secure @Restrict("admin") @RestrictApproved public static Result productScrapShow(Long key) {
-		return productScrap.show(key);
-	}
-
-	@Secure @Restrict("admin") @RestrictApproved public static Result linkSourceList() {
-		return linkSource.list(page);
-	}
-
-	@Secure @Restrict("admin") @RestrictApproved public static Result linkSourceCreate() {
-		return linkSource.create();
-	}
-
-	@Secure @Restrict("admin") @RestrictApproved public static Result linkSourceNewForm() {
-		return linkSource.newForm();
-	}
-
-	@Secure @Restrict("admin") @RestrictApproved public static Result linkSourceEditForm(Long key) {
-		return linkSource.editForm(key);
-	}
-
-	@Secure @Restrict("admin") @RestrictApproved public static Result linkSourceUpdate(Long key) {
-		return linkSource.update(key);
-	}
-
-	@Secure @Restrict("admin") @RestrictApproved public static Result linkSourceDelete(Long key) {
-		return linkSource.delete(key);
-	}
-
-	@Secure @Restrict("admin") @RestrictApproved public static Result linkSourceShow(Long key) {
-		return linkSource.show(key);
-	}
-
-	@Secure @Restrict("admin") @RestrictApproved public static Result s3FileList() {
-		return s3File.list(page);
-	}
-
-	@Secure @Restrict("admin") @RestrictApproved public static Result s3FileCreate() {
-		return s3File.create();
-	}
-
-	@Secure @Restrict("admin") @RestrictApproved public static Result s3FileNewForm() {
-		return s3File.newForm();
-	}
-
-	@Secure @Restrict("admin") @RestrictApproved public static Result s3FileEditForm(String key) {
-		return s3File.editForm(UUID.fromString(key));
-	}
-
-	@Secure @Restrict("admin") @RestrictApproved public static Result s3FileUpdate(String key) {
-		return s3File.update(UUID.fromString(key));
-	}
-
-	@Secure @Restrict("admin") @RestrictApproved public static Result s3FileDelete(String key) {
-		return s3File.delete(UUID.fromString(key));
-	}
-
-	@Secure @Restrict("admin") @RestrictApproved public static Result s3FileShow(String key) {
-		return s3File.show(UUID.fromString(key));
-	}
-	
-	@Secure @Restrict("admin") @RestrictApproved public static Result productRecordList() {
-		return productRecord.list(page);
-	}
-
-	@Secure @Restrict("admin") @RestrictApproved public static Result productRecordNewForm() {
-		return productRecord.newForm();
-	}
-
-	@Secure @Restrict("admin") @RestrictApproved public static Result productRecordCreate() {
-		return productRecord.create();
-	}
-
-	@Secure @Restrict("admin") @RestrictApproved public static Result productRecordEditForm(Long key) {
-		return productRecord.editForm(key);
-	}
-
-	@Secure @Restrict("admin") @RestrictApproved public static Result productRecordUpdate(Long key) {
-		return productRecord.update(key);
-	}
-
-	@Secure @Restrict("admin") @RestrictApproved public static Result productRecordDelete(Long key) {
-		return productRecord.delete(key);
-	}
-
-	@Secure @Restrict("admin") @RestrictApproved public static Result productRecordShow(Long key) {
-		return productRecord.show(key);
-	}
-
-	 */
 }

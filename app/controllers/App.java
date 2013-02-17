@@ -16,141 +16,127 @@ import socialauth.core.SocialAware;
 
 public class App extends Controller {
 
-	@Inject static RateController rate;
-	@Inject static SocialController social;
-	@Inject static PostController post;
-	@Inject static CommentController comment;
-	@Inject static UserController user;
+	@Inject static RateController rateController;
+	@Inject static SocialController socialController;
+	@Inject static PostController postController;
+	@Inject static CommentController commentController;
+	@Inject static UserController userController;
 
 	@SocialAware public static Result index() {
-		return post.list(0, null);
+		return postController.list(0, null);
 	}
 	
 	@SocialAware
 	public static Result postList(int page, String category) {
-		return post.list(page, category);
+		return postController.list(page, category);
 	}
 	
 	@Secure
 	@RestrictApproved
 	public static Result postNewForm() {
-		return post.newForm();
+		return postController.newForm();
 	}
 
 	@Secure
 	@RestrictApproved
 	public static Result postCreate() {
-		return post.create();
+		return postController.create();
 	}
 
 	@Secure
 	@RestrictCombine(roles = "admin", with = PostEditPermission.class)
 	@RestrictApproved
 	public static Result postEditForm(Long key) {
-		return post.editForm(key);
+		return postController.editForm(key);
 	}
 
 	@Secure
 	@RestrictCombine(roles = "admin", with = PostEditPermission.class)
 	@RestrictApproved
 	public static Result postUpdate(Long key) {
-		return post.update(key);
+		return postController.update(key);
 	}
 
 	@SocialAware
 	public static Result postShow(Long postKey, String title, int page) {
-		return post.show(postKey, title, page);
+		return postController.show(postKey, title, page);
 	}
 
 	@Secure
 	@RestrictCombine(roles = "admin", with = PostDeletePermission.class)
 	@RestrictApproved
 	public static Result postDelete(Long key) {
-		return post.delete(key);
+		return postController.delete(key);
 	}
 
 	@Secure
 	@RestrictApproved
 	public static Result commentCreate(Long postKey, String title) {
-		return comment.create(postKey, title);
+		return commentController.create(postKey, title);
 	}
 
 	@Secure
 	@RestrictCombine(roles = "admin", with = CommentEditPermission.class)
 	@RestrictApproved
 	public static Result commentEditForm(Long postKey, Long commentKey) {
-		return comment.editForm(postKey, commentKey);
+		return commentController.editForm(postKey, commentKey);
 	}
 
 	@Secure
 	@RestrictCombine(roles = "admin", with = CommentEditPermission.class)
 	@RestrictApproved
 	public static Result commentUpdate(Long postKey, Long commentKey) {
-		return comment.update(postKey, commentKey);
+		return commentController.update(postKey, commentKey);
 	}
 
 	@Secure
 	@RestrictCombine(roles = "admin", with = CommentDeletePermission.class)
 	@RestrictApproved
 	public static Result commentDelete(Long postKey, Long commentKey) {
-		return comment.delete(postKey, commentKey);
+		return commentController.delete(postKey, commentKey);
 	}
 
 	@Secure
 	@RestrictApproved
 	public static Result rateUp(Long key) {
-		return rate.rateUp(key);
+		return rateController.rateUp(key);
 	}
 
 	@Secure
 	@RestrictApproved
 	public static Result rateDown(Long key) {
-		return rate.rateDown(key);
+		return rateController.rateDown(key);
 	}
 	
 	public static Result rateShow(Long postKey) {
-		return rate.rateShow(postKey);
+		return rateController.rateShow(postKey);
 	}
 
 	@SocialAware
 	@RestrictApproved
 	public static Result userShow(String key) {
-		return user.show(key);
+		return userController.show(key);
 	}
 
 	@Secure
 	public static Result userShowSelf() {
-		return user.showSelf();
+		return userController.showSelf();
 	}
 
 	public static Result login() {
-		return social.login();
+		return socialController.login();
 	}
 
 	public static Result logout() {
-		return social.logout();
+		return socialController.logout();
 	}
 
 	public static Result authenticate(String provider) {
-		return social.authenticate(provider);
+		return socialController.authenticate(provider);
 	}
 
 	public static Result authenticateDone(String provider) {
-		return social.authenticateDone(provider);
+		return socialController.authenticateDone(provider);
 	}
 
-	/*
-	@Secure @Restrict("admin") @RestrictApproved public static Result fetch() {
-		return fetch.newLink();
-	}
-
-	@Secure @Restrict("admin") @RestrictApproved public static Result fetchCreate() {
-		return fetch.create();
-	}
-
-	@Secure @Restrict("admin") @RestrictApproved public static Result fetchDelete(Long key) {
-		return fetch.delete(key);
-	}
-
-	 */
 }
