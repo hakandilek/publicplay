@@ -9,7 +9,9 @@ import play.mvc.BodyParser;
 import play.mvc.BodyParser.Json;
 import play.mvc.Result;
 import play.utils.crud.APIController;
+import security.RestrictApproved;
 import socialauth.core.Secure;
+import socialauth.core.SocialAware;
 
 import com.pickleproject.shopping.ProductReader;
 
@@ -158,6 +160,18 @@ public class Api extends App {
 	@BodyParser.Of(Json.class)
 	public static Result sourceConfigurationUpdate(Long key) {
 		return sourceConfigurationAPI.update(key);
+	}
+
+	@SocialAware
+	@RestrictApproved
+	public static Result userFollow(String key) {
+		return userAPI.follow(key);
+	}
+
+	@SocialAware
+	@RestrictApproved
+	public static Result userUnfollow(String key) {
+		return userAPI.unfollow(key);
 	}
 
 

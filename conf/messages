@@ -34,6 +34,14 @@ revision.label=revision
 createdOn.label=created
 updatedOn.label=updated
 
+# Error messages
+Post_not_found=Post not found
+Post0_not_found=Post {0} not found
+bad_request=Bad request
+error_occured=Error occured
+page_not_found=Page not found
+requested_page_not_found=Page you requested not found: {0}
+ 
 # Post
 update_post=update post
 new_post=new post
@@ -55,6 +63,8 @@ Post.image.remove_image=Remove image
 Post.key=key
 Post.created=Created    
 Post.updated=Updated
+Post_not_found=Post not found
+Post0_not_found=Post {0} not found
 
 # Comment
 no_comments_yet=no comments yet, be the first one:

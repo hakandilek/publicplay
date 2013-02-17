@@ -45,7 +45,7 @@ public class Post extends Model implements TimestampModel<Long>, Owned<Long> {
 	private Date updatedOn;
 	
 	@Version
-	private int revision;
+	private int version;
 
 	@Basic
 	private String creatorIp;
@@ -175,12 +175,20 @@ public class Post extends Model implements TimestampModel<Long>, Owned<Long> {
 		this.modifierIp=ipToSet;
 	}
 
+	public int getVersion() {
+		return version;
+	}
+
+	public void setVersion(int version) {
+		this.version = version;
+	}
+
 	public int getRevision() {
-		return revision;
+		return version;
 	}
 
 	public void setRevision(int revision) {
-		this.revision = revision;
+		this.version = revision;
 	}
 
 	@Override

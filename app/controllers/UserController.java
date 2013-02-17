@@ -6,8 +6,10 @@ import java.util.TreeSet;
 import javax.inject.Inject;
 
 import models.User;
+import models.UserFollow;
 import models.dao.PostRatingDAO;
 import models.dao.UserDAO;
+import models.dao.UserFollowDAO;
 import play.Logger;
 import play.Logger.ALogger;
 import play.mvc.Result;
@@ -19,11 +21,13 @@ public class UserController extends DynamicTemplateController {
 	private static ALogger log = Logger.of(UserController.class);
 	private PostRatingDAO postRatingDAO;
 	private UserDAO userDAO;
+	private UserFollowDAO userFollowDAO;
 
 	@Inject
-	public UserController(UserDAO userDAO, PostRatingDAO postRatingDAO) {
+	public UserController(UserDAO userDAO, PostRatingDAO postRatingDAO, UserFollowDAO userFollowDAO) {
 		this.userDAO = userDAO;
 		this.postRatingDAO = postRatingDAO;
+		this.userFollowDAO = userFollowDAO;
 	}
 
 	public Result show(String key) {
@@ -53,8 +57,8 @@ public class UserController extends DynamicTemplateController {
 		if (log.isDebugEnabled())
 			log.debug("user : " + loginUser);
 		if (loginUser == null || userToShow == null) {
-			return badRequest(userShow.render(userToShow, false, upVotes,
-					downVotes));
+			return badRequest(userShow.render(userToShow, false,
+					upVotes, downVotes, false));
 		}
 
 		boolean selfPage = false;
@@ -63,7 +67,17 @@ public class UserController extends DynamicTemplateController {
 			selfPage = true;
 		}
 
-		return ok(userShow.render(userToShow, selfPage, upVotes, downVotes));
+		boolean following = false;
+		if (loginUser != null && userToShow != null) {
+			String sourceKey = loginUser.getKey();
+			String targetKey = userToShow.getKey();
+			UserFollow follow = userFollowDAO.get(sourceKey, targetKey);
+			following = follow != null;
+		}
+		
+		return ok(userShow.render(userToShow, selfPage, upVotes,
+				downVotes, following));
 	}
+
 
 }

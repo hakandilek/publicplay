@@ -21,13 +21,17 @@ import forms.BulkUser;
 public class UserCRUDController extends CRUDController<String, User> {
 
 	private static final int PAGE_SIZE = 20;
+
 	private static ALogger log = Logger.of(UserCRUDController.class);
+
 	private UserDAO userDAO;
+
 	private Form<BulkUser> bulkForm = form(BulkUser.class);
 
 	@Inject
 	public UserCRUDController(UserDAO userDAO) {
-		super(userDAO, form(User.class), String.class, User.class, PAGE_SIZE, "lastLogin desc");
+		super(userDAO, form(User.class), String.class, User.class, PAGE_SIZE,
+				"lastLogin desc");
 		this.userDAO = userDAO;
 	}
 
@@ -54,12 +58,12 @@ public class UserCRUDController extends CRUDController<String, User> {
 	public Result approve(String key, int page) {
 		if (log.isDebugEnabled())
 			log.debug("userApprove() <-");
-		
+
 		User user = userDAO.get(key);
 		user.setStatus(User.Status.APPROVED);
 		if (log.isDebugEnabled())
 			log.debug("user : " + user);
-		
+
 		userDAO.update(key, user);
 		return list(page);
 	}
@@ -67,12 +71,12 @@ public class UserCRUDController extends CRUDController<String, User> {
 	public Result suspend(String key, int page) {
 		if (log.isDebugEnabled())
 			log.debug("userSuspend() <-");
-		
+
 		User user = userDAO.get(key);
 		user.setStatus(User.Status.SUSPENDED);
 		if (log.isDebugEnabled())
 			log.debug("user : " + user);
-		
+
 		userDAO.update(key, user);
 		return list(page);
 	}
@@ -82,19 +86,18 @@ public class UserCRUDController extends CRUDController<String, User> {
 			log.debug("list() <-");
 		if (log.isDebugEnabled())
 			log.debug("status : " + status);
-		
+
 		Page<User> p = null;
 		if (status == null || "".equals(status)) {
-			p = userDAO.find().where()
-					.orderBy("lastLogin desc").findPagingList(PAGE_SIZE)
-					.getPage(page);
+			p = userDAO.find().where().orderBy("lastLogin desc")
+					.findPagingList(PAGE_SIZE).getPage(page);
 		} else {
 			User.Status s = User.Status.valueOf(status);
 			p = userDAO.find().where().eq("status", s)
 					.orderBy("lastLogin desc").findPagingList(PAGE_SIZE)
 					.getPage(page);
 		}
-		
+
 		return ok(templateForList(),
 				with(Page.class, p).and(String.class, status));
 	}
@@ -107,8 +110,7 @@ public class UserCRUDController extends CRUDController<String, User> {
 		if (log.isDebugEnabled())
 			log.debug("newBulkForm() <-");
 
-		return ok(templateForBulkForm(),
-				with(Form.class, bulkForm));
+		return ok(templateForBulkForm(), with(Form.class, bulkForm));
 	}
 
 	public Result createBulk() {
@@ -120,8 +122,7 @@ public class UserCRUDController extends CRUDController<String, User> {
 			if (log.isDebugEnabled())
 				log.debug("validation errors occured");
 
-			return badRequest(templateForBulkForm(),
-					with(Form.class, bulkForm));
+			return badRequest(templateForBulkForm(), with(Form.class, bulkForm));
 		} else {
 			BulkUser formModel = filledForm.get();
 			List<User> models = formModel.toModel();
@@ -130,7 +131,7 @@ public class UserCRUDController extends CRUDController<String, User> {
 			for (User user : models) {
 				if (log.isDebugEnabled())
 					log.debug("user : " + user);
-				
+
 				User dbUser = userDAO.get(user.getKey());
 				if (dbUser == null) {
 					userDAO.create(user);

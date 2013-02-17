@@ -22,7 +22,7 @@ public class PostDAO extends CachedDAO<Long, Post> {
 
 	private static final int TOP_10 = 10;
 
-	public InterimCache<Post> cache = new InterimCache<Post>(Post.class,
+	protected InterimCache<Post> cache = new InterimCache<Post>(Post.class,
 			3600);
 	
 	private CachedFinder<Long, Post> find;

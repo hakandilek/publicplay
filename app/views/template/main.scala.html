@@ -1,4 +1,4 @@
-@(title: String, scripts: Html = Html(""), header: Html = Html(""), footer: Html = Html(""))(content: Html)
+@(title: String, scripts: Html = Html(""), header: Html = Html(""), footer: Html = Html(""), hideNavbar:Boolean = false)(content: Html)
 
 <!DOCTYPE html>
 
@@ -10,7 +10,10 @@
     <body>
 
         @template.elements()
+    
+    @if(!hideNavbar) {
         @template.navbar()
+    }
         
         <section id="main">
 	        <div class="container-fluid">

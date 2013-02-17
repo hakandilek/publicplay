@@ -30,6 +30,7 @@ import play.utils.crud.DynamicTemplateController;
 import play.utils.dao.EntityNotFoundException;
 import views.html.index;
 import views.html.postForm;
+import views.html.postNotFound;
 import views.html.postShow;
 
 import com.avaje.ebean.Page;
@@ -240,6 +241,10 @@ public class PostController extends DynamicTemplateController implements
 		Post post = postDAO.get(postKey);
 		if (log.isDebugEnabled())
 			log.debug("post : " + post);
+		
+		if (post == null) {
+			return notFound(postNotFound.render(postKey));
+		}
 
 		User user = HttpUtils.loginUser();
 		Set<Long> upVotes = user == null ? new TreeSet<Long>() : postRatingDAO

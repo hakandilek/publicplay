@@ -39,6 +39,14 @@ Delete=Sil
 Edit=Değiştir
 Bulk_Edit=Toplu Değiştir
 
+# Error messages
+Post_not_found=Başlık bulunamadı
+Post0_not_found=Başlık {0} bulunamadı
+bad_request=Sayfa hatalı
+error_occured=Hata oluştu
+page_not_found=Sayfa bulunamadı
+requested_page_not_found=Sayfa bulunamadı: {0}
+
 # Post
 update_post=başlığı düzenle
 new_post=yeni başlık

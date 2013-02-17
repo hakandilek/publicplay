@@ -1,0 +1,28 @@
+@(postKey: Long)
+@import helper._ 
+@import helper.twitterBootstrap._
+@import helper.H._
+@import be.objectify.deadbolt.utils.TemplateUtils._
+@import views.html.security._
+@import helper.UserHelper._
+
+@template.main(Messages("Post_not_found")) {
+    <div class="container-fluid">
+	    <div class="row-fluid">
+		    <div class="accordion" id="accordion2">
+		        <div class="accordion-group">
+		            <div class="accordion-heading">
+		                <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
+		                @Messages("Post_not_found")
+		                </a>
+		            </div>
+		            <div id="collapseOne" class="accordion-body collapse">
+		                <div class="accordion-inner">
+		                    <code>@Messages("Post0_not_found", postKey)</code>
+		                </div>
+		            </div>
+		        </div>
+		    </div>
+	    </div>
+    </div>
+}

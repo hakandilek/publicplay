@@ -6,6 +6,7 @@ import java.util.TreeSet;
 import java.util.concurrent.Callable;
 
 import javax.inject.Singleton;
+import javax.inject.Inject;
 
 import models.Post;
 import models.PostRating;
@@ -18,10 +19,16 @@ import play.utils.dao.CachedDAO;
 @Singleton
 public class PostRatingDAO extends CachedDAO<PostRatingPK, PostRating> {
 
-	public static InterimCache<Set<Long>> votedPostKeyCache = new InterimCache<Set<Long>>("VotedPostKeyCache", 600);//10 mins;
+	protected static InterimCache<Set<Long>> votedPostKeyCache = new InterimCache<Set<Long>>("VotedPostKeyCache", 600);//10 mins;
 
-	public PostRatingDAO() {
+	protected static InterimCache<Set<Post>> upVotedPostCache = new InterimCache<Set<Post>>("UpVotedPostCache", 600);//10 mins;
+
+	private PostDAO postDAO;
+
+	@Inject
+	public PostRatingDAO(PostDAO postDAO) {
 		super(PostRatingPK.class, PostRating.class);
+		this.postDAO = postDAO;
 	}
 
 	public Finder<PostRatingPK, PostRating> find = new Finder<PostRatingPK, PostRating>(
@@ -74,10 +81,27 @@ public class PostRatingDAO extends CachedDAO<PostRatingPK, PostRating> {
 		return set;
 	}
 	
+	public Set<Post> getUpVotedPosts(final User u) {
+		String key = u.getKey();
+		final Set<Post> set = upVotedPostCache.get(".+" + key, new Callable<Set<Post>>() {
+			public Set<Post> call() throws Exception {
+				Set<Post> s = new TreeSet<Post>();
+				Set<Long> upVotedPostKeys = getUpVotedPostKeys(u);
+				for (Long key : upVotedPostKeys) {
+					Post post = postDAO.get(key);
+					if (post != null) s.add(post);
+				}
+				return s;
+			}
+		});
+		return set;
+	}
+	
 	public void resetVotedPostKeyCache(User u) {
 		String key = u.getKey();
 		votedPostKeyCache.set(".+" + key, null);
 		votedPostKeyCache.set(".-" + key, null);
+		upVotedPostCache.set(".+" + key, null);
 	}
 	
 }

@@ -1,6 +1,19 @@
 @(request: play.mvc.Http.RequestHeader)
 
-@errors.error("not found") {
-  <h1>Page Not Found</h1>	
-  <p class="well">You requested: @request.path</p>
+@errors.error(Messages("page_not_found")) {
+    <div class="accordion" id="accordion2">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
+                @Messages("page_not_found")
+                </a>
+            </div>
+            <div id="collapseOne" class="accordion-body collapse">
+                <div class="accordion-inner">
+                    <code>@Messages("requested_page_not_found", request.path)</code>
+                </div>
+            </div>
+        </div>
+    </div>
+  <h1></h1>	
 }

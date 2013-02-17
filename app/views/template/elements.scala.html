@@ -15,8 +15,9 @@
 	<div id="loginModal" class="modal hide fade" tabindex="-1" role="dialog"
 		aria-labelledby="myModalLabel" aria-hidden="true">
 		<div class="modal-header">
-			<button type="button" class="close" data-dismiss="modal"
-				aria-hidden="true">×</button>
+            <span class="modal-header-withoutBorder pull-right">
+                <button class="btn btn-mini btn-danger" data-dismiss="modal" ><i class="icon-remove"></i></button>
+            </span>
 			<h3 id="myModalLabel">@Messages("Login")</h3>
 		</div>
 		<div class="modal-body">@partials.login()</div>

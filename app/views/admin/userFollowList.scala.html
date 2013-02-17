@@ -1,0 +1,43 @@
+@(currentPage: Page[UserFollow])
+@import helper._ 
+@import helper.twitterBootstrap._
+@import helper.H._
+
+@template.main(Messages("UserFollow")) {
+
+	<h3>@Messages("UserFollow_num", currentPage.getTotalRowCount())</h3>
+	
+    @if(currentPage.getTotalRowCount() == 0) {
+        
+        <div class="well">
+            <em>@Messages("Nothing_to_display")</em>
+        </div>
+        
+    } else {
+	
+    <table class="categories table table-striped table-bordered">
+        <thead>
+            <tr>
+                <th class="header">@Messages("Source")</th>
+                <th class="header">@Messages("Target")</th>
+            </tr>
+        </thead>
+        <tbody>
+        @for(userFollow <- currentPage.getList) {
+            <tr>
+                <td>
+                	@userFollow.getKey().getSourceKey()
+               	</td>
+                <td>
+                	@userFollow.getKey().getTargetKey()
+               	</td>
+                <td>
+                    <a href='@routes.Admin.userFollowDelete(userFollow.getKey().keyString())'><i class="icon-trash"></i></a>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+    
+    }
+}
