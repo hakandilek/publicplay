@@ -23,6 +23,9 @@ public class PostRatingDAO extends CachedDAO<PostRatingPK, PostRating> {
 
 	protected static InterimCache<Set<Post>> upVotedPostCache = new InterimCache<Set<Post>>("UpVotedPostCache", 600);//10 mins;
 
+	protected Finder<PostRatingPK, PostRating> find = new Finder<PostRatingPK, PostRating>(
+			PostRatingPK.class, PostRating.class);
+
 	private PostDAO postDAO;
 
 	@Inject
@@ -30,9 +33,6 @@ public class PostRatingDAO extends CachedDAO<PostRatingPK, PostRating> {
 		super(PostRatingPK.class, PostRating.class);
 		this.postDAO = postDAO;
 	}
-
-	public Finder<PostRatingPK, PostRating> find = new Finder<PostRatingPK, PostRating>(
-			PostRatingPK.class, PostRating.class);
 
 	public PostRating get(User user, Post post) {
 		PostRating rating = find.where().eq("user_key", user.getKey())

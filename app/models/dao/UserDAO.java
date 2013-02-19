@@ -1,5 +1,6 @@
 package models.dao;
 
+import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import models.User;
@@ -15,9 +16,11 @@ public class UserDAO extends CachedDAO<String, User> {
 
 	private static CachedFinder<String, User> find;
 
-	public UserDAO() {
+	@Inject
+	public UserDAO(UserFollowDAO userFollowDAO) {
 		super(String.class, User.class);
 		addListener(new TimestampListener<String, User>());
+		addListener(new UserDAOFollowCacheCleaner(userFollowDAO));
 		find = cacheFind();
 	}
 
