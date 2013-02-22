@@ -1,4 +1,4 @@
-@(currentPage: Page[Post], categoryName: String, categories: List[Category], upVotedPostKeys:Set[Long], downVotedPostKeys:Set[Long])
+@(currentPage: Page[Post], categoryName: String, categories: List[Category], upVotedPostKeys:Set[Long], downVotedPostKeys:Set[Long], following:Boolean)
 @import helper._ 
 @import helper.twitterBootstrap._
 @import helper.H._
@@ -65,15 +65,14 @@
         }
         </tbody>
     </table>
-	@if(!request.uri.contains("following")){
+	@if(following){
 	    @partials.pagination(currentPage, Constants.POSTS_PER_PAGE, 
-		    routes.App.postList(currentPage.getPageIndex - 1, categoryName),
-		    routes.App.postList(currentPage.getPageIndex + 1, categoryName))
-	    
-    }else{
-    	@partials.pagination(currentPage, Constants.POSTS_PER_PAGE, 
 		    routes.App.postListFollowing(currentPage.getPageIndex - 1),
 		    routes.App.postListFollowing(currentPage.getPageIndex + 1))
+    }else{
+		@partials.pagination(currentPage, Constants.POSTS_PER_PAGE, 
+		    routes.App.postList(currentPage.getPageIndex - 1, categoryName),
+		    routes.App.postList(currentPage.getPageIndex + 1, categoryName))
     }
     }
 </div>

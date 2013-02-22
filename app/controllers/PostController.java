@@ -101,9 +101,10 @@ public class PostController extends DynamicTemplateController implements
 			Logger.debug("pg : " + pg);
 
 		List<Category> categoryList = categoryDAO.all();
+		Boolean following=false;
 
 		return ok(index.render(pg, categoryName, categoryList, topDay, topWeek,
-				topAll,getUpVotes(user), getDownVotes(user)));
+				topAll,getUpVotes(user), getDownVotes(user),following));
 	}
 	
 	public Result listFollowing(int page) {
@@ -126,9 +127,10 @@ public class PostController extends DynamicTemplateController implements
 			Logger.debug("pg : " + pg);
 
 		List<Category> categoryList = categoryDAO.all();
+		Boolean following=true;
 
 		return ok(index.render(pg, null, categoryList, topDay, topWeek,
-				topAll, getUpVotes(user), getDownVotes(user)));
+				topAll, getUpVotes(user), getDownVotes(user),following));
 	}
 
 	
