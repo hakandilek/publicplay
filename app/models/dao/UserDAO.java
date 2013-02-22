@@ -17,10 +17,10 @@ public class UserDAO extends CachedDAO<String, User> {
 	private static CachedFinder<String, User> find;
 
 	@Inject
-	public UserDAO(UserFollowDAO userFollowDAO) {
+	public UserDAO() {
 		super(String.class, User.class);
 		addListener(new TimestampListener<String, User>());
-		addListener(new UserDAOFollowCacheCleaner(userFollowDAO));
+		//addListener(new UserDAOFollowCacheCleaner(userFollowDAO));
 		find = cacheFind();
 	}
 

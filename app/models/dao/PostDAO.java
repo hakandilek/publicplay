@@ -1,5 +1,6 @@
 package models.dao;
 
+import java.util.List;
 import java.util.concurrent.Callable;
 
 import javax.inject.Inject;
@@ -84,6 +85,12 @@ public class PostDAO extends CachedDAO<Long, Post> {
 						.findPagingList(TOP_10).getPage(0);
 			}
 		});
+	}
+
+	public Page<Post> getPostsBy(List<String> followingUsers,int page,
+			int pageSize) {
+		return find.where().in("created_by", followingUsers).orderBy("createdOn desc")
+				.findPagingList(pageSize).getPage(page);
 	}
 
 }

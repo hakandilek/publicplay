@@ -24,7 +24,8 @@ public class UserController extends DynamicTemplateController {
 	private UserFollowDAO userFollowDAO;
 
 	@Inject
-	public UserController(UserDAO userDAO, PostRatingDAO postRatingDAO, UserFollowDAO userFollowDAO) {
+	public UserController(UserDAO userDAO, PostRatingDAO postRatingDAO,
+			UserFollowDAO userFollowDAO) {
 		this.userDAO = userDAO;
 		this.postRatingDAO = postRatingDAO;
 		this.userFollowDAO = userFollowDAO;
@@ -57,8 +58,8 @@ public class UserController extends DynamicTemplateController {
 		if (log.isDebugEnabled())
 			log.debug("user : " + loginUser);
 		if (loginUser == null || userToShow == null) {
-			return badRequest(userShow.render(userToShow, false,
-					upVotes, downVotes, false));
+			return badRequest(userShow.render(userToShow, false, upVotes,
+					downVotes, false,0,0));
 		}
 
 		boolean selfPage = false;
@@ -74,10 +75,11 @@ public class UserController extends DynamicTemplateController {
 			UserFollow follow = userFollowDAO.get(sourceKey, targetKey);
 			following = follow != null;
 		}
-		
-		return ok(userShow.render(userToShow, selfPage, upVotes,
-				downVotes, following));
-	}
+		int followerCount = userFollowDAO.getFollowerCount(userToShow);
+		int followingCount = userFollowDAO.getFollowingCount(userToShow);
 
+		return ok(userShow.render(userToShow, selfPage, upVotes, downVotes,
+				following, followerCount, followingCount));
+	}
 
 }

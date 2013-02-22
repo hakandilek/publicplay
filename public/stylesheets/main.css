@@ -96,9 +96,11 @@ div.fb-like {min-height: 30px; height: 80px; }
 .modal-header-withoutBorder { margin-bottom: 10px; }
 
 /* makes new line without space*/ 
-.nl-withoutSpace{word-break: break-all; word-wrap: break-word;}
+.nl-withoutSpace{word-break: break-all; word-wrap: break-word;} 
 
 a:focus { outline:none }
 
+.userShow-number{ font-size:24px;font-weight : bold}
+.userShow-number-text{font-size:10px;margin-top: -10px}
 
 

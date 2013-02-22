@@ -1,8 +1,11 @@
 package models.dao;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.concurrent.Callable;
 
+import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import models.User;
@@ -23,9 +26,9 @@ public class UserFollowDAO extends CachedDAO<UserFollowPK, UserFollow> {
 	public static final int PAGE_SIZE = 20;
 	
 	protected InterimCache<Integer> followerCountCache = new InterimCache<Integer>("UserFollowerCountCache", 86400);//24 hrs
-	protected InterimCache<Integer> followingCountCache = new InterimCache<Integer>("UserFollowingCountCache", 86400);//24 hrs
 	protected InterimCache<Page<User>> followerPageCache = new InterimCache<Page<User>>("UserFollowerPageCache", 86400);//24 hrs
 	protected InterimCache<Page<User>> followingPageCache = new InterimCache<Page<User>>("UserFollowingPageCache", 86400);//24 hrs
+	protected InterimCache<List<UserFollow>> followingCache = new InterimCache<List<UserFollow>>("UserFollowingCache", 86400);//24 hrs 
 	
 	protected Multimap<String, String> userPages = HashMultimap.create();
 
@@ -34,6 +37,7 @@ public class UserFollowDAO extends CachedDAO<UserFollowPK, UserFollow> {
 
 	private UserDAO userDAO;
 
+	@Inject
 	public UserFollowDAO(UserDAO userDAO) {
 		super(UserFollowPK.class, UserFollow.class);
 		this.userDAO = userDAO;
@@ -58,12 +62,12 @@ public class UserFollowDAO extends CachedDAO<UserFollowPK, UserFollow> {
 
 	public Integer getFollowingCount(final User u) {
 		String key = u.getKey();
-		final Integer count = followingCountCache.get("." + key, new Callable<Integer>() {
-			public Integer call() throws Exception {
-				return find.where().eq("source_key", u.getKey()).findRowCount();
+		final List<UserFollow> count = followingCache.get("." + key, new Callable<List<UserFollow>>() {
+			public List<UserFollow> call() throws Exception {
+				return find.where().eq("source_key", u.getKey()).findList();
 			}
 		});
-		return count;
+		return count.size();
 	}
 	
 	public Page<User> getFollowerUsers(final User u, final int page) {
@@ -78,6 +82,21 @@ public class UserFollowDAO extends CachedDAO<UserFollowPK, UserFollow> {
 			}
 		});
 		return count;
+	}
+	
+	public List<String> getAllFollowingsKeys(final User u){
+		final String key = u.getKey();
+		final List<UserFollow> count = followingCache.get("." + key, new Callable<List<UserFollow>>() {
+			public List<UserFollow> call() throws Exception {
+				return find.where().eq("source_key", u.getKey()).findList();
+			}
+		});
+		List<String> keys=new ArrayList<String>();
+		for(UserFollow userFollow: count){
+			keys.add(userFollow.getKey().getTargetKey());
+		}
+		
+		return keys;
 	}
 	
 	public Page<User> getFollowingUsers(final User u, final int page) {
@@ -100,7 +119,7 @@ public class UserFollowDAO extends CachedDAO<UserFollowPK, UserFollow> {
 	
 	public void cleanCache(String key) {
 		followerCountCache.set("." + key, null); 
-		followingCountCache.set("." + key, null);
+		followingCache.set("." + key, null);
 		Collection<String> pageKeys = userPages.get(key);
 		for (String pageKey : pageKeys) {
 			followerPageCache.set(pageKey, null);

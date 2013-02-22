@@ -1,7 +1,8 @@
-@(userToBeShowed: models.User,self: Boolean,upVotedPostKeys:Set[Long], downVotedPostKeys:Set[Long], following: Boolean)
+@(userToBeShowed: models.User,self: Boolean,upVotedPostKeys:Set[Long], downVotedPostKeys:Set[Long], following: Boolean, followerCount:Integer, followingCount:Integer)
 @import be.objectify.deadbolt.views.html._
 @import be.objectify.deadbolt.utils.TemplateUtils._
 @import helper.H._
+@import controllers._
 
 @scripts = {
         <script src="@routes.Assets.at("javascripts/user_follow.js")" type="text/javascript"></script>
@@ -29,12 +30,11 @@
     						<span>@userToBeShowed.getFirstName() @userToBeShowed.getLastName()</span>
     					</h4>
     				</div>
-    				<dl class="dl-horizontal">
-        
+    				<dl class="dl-horizontal">   
     					@restrict(la(as("admin"))) {
     						<dt class="text-info"> @Messages("Roles") </dt>
     						<dd class="text-info"> @if(userToBeShowed.getSecurityRoles().size == 0) { &nbsp; } @for(role <- userToBeShowed.getSecurityRoles()) { @role.getName() &nbsp; } </dd>
-    						}
+    					}
             
     						<dt> @Messages("User.Profile") </dt> 
     						<dd><a href="https://www.facebook.com/profile.php?id=@userToBeShowed.getOriginalKey()">@userToBeShowed.getFirstName() @userToBeShowed.getLastName()</a></dd>
@@ -57,9 +57,20 @@
     						<dt> @Messages("User.Location") </dt>
     						<dd> @userToBeShowed.getLocation() </dd>
 	        
-    						</dl>
-
-    				
+    					</dl>
+    					<div class="span12">
+    					<ol class="row-fluid">
+    						<li class="span3 offset1">
+    							<p class="userShow-number">@followingCount</p>
+    							<p class="userShow-number-text">@Messages("Following")</p>
+    						</li>
+    						<li class="span3">
+    							<p class="userShow-number">@followerCount</p>
+    							<p class="userShow-number-text">@Messages("Followers")<p/>
+    						</li>
+    					</ol>
+    						
+    					</div>
     				</div>
 	        </div>
 	        <div class="span7" id="top-div">
@@ -67,6 +78,7 @@
 	  				<li class="active">
 	        		    <a data-toggle="tab" href="#user_Posts">@Messages("Posts")</a></li>
 	  				<li><a data-toggle="tab" href="#user_Comments">@Messages("Comments")</a></li>
+	  				<li><a data-toggle="tab" href="#user_VotedPosts">@Messages("Voted_Posts")</a></li>
   				@if(!self) {
 	  					<a class="btn btn-follow pull-right" href="javascript:void(0)" data-hide="@following" data-href="@routes.Api.userFollow(userToBeShowed.getKey())"> <i class="icon-ok-circle">&nbsp;@Messages("Follow")</i></a>
 						<a class="btn btn-unfollow pull-right" href="javascript:void(0)" data-hide="@{!following}" data-href="@routes.Api.userUnfollow(userToBeShowed.getKey())"> <i class="icon-circle-blank">&nbsp;@Messages("Unfollow")</i></a>

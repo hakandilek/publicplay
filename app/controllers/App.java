@@ -42,6 +42,12 @@ public class App extends Controller {
 	public static Result postCreate() {
 		return postController.create();
 	}
+	
+	@Secure
+	@RestrictApproved
+	public static Result postListFollowing(int page) {
+		return postController.listFollowing(page);
+	}
 
 	@Secure
 	@RestrictCombine(roles = "admin", with = PostEditPermission.class)

@@ -18,6 +18,7 @@ import models.dao.CommentDAO;
 import models.dao.PostDAO;
 import models.dao.PostRatingDAO;
 import models.dao.S3FileDAO;
+import models.dao.UserFollowDAO;
 
 import org.springframework.util.StringUtils;
 
@@ -34,13 +35,13 @@ import views.html.postNotFound;
 import views.html.postShow;
 
 import com.avaje.ebean.Page;
-
 public class PostController extends DynamicTemplateController implements
 		Constants {
 
 	private static ALogger log = Logger.of(PostController.class);
 
 	private Form<Post> form = form(Post.class);
+	
 	private Form<Comment> commentForm = form(Comment.class);
 
 	private CommentDAO commentDAO;
@@ -53,15 +54,18 @@ public class PostController extends DynamicTemplateController implements
 
 	private S3FileDAO s3FileDAO;
 
+	private final UserFollowDAO userFollowDAO;
+
 	@Inject
 	public PostController(PostDAO postDAO, CommentDAO commentDAO,
 			PostRatingDAO postRatingDAO, CategoryDAO categoryDAO,
-			S3FileDAO s3FileDAO) {
+			S3FileDAO s3FileDAO, UserFollowDAO userFollowDAO) {
 		this.postDAO = postDAO;
 		this.commentDAO = commentDAO;
 		this.postRatingDAO = postRatingDAO;
 		this.categoryDAO = categoryDAO;
 		this.s3FileDAO = s3FileDAO;
+		this.userFollowDAO = userFollowDAO;
 	}
 
 	/**
@@ -78,10 +82,6 @@ public class PostController extends DynamicTemplateController implements
 			log.debug("page : " + page);
 
 		User user = HttpUtils.loginUser();
-		Set<Long> upVotes = user == null ? new TreeSet<Long>() : postRatingDAO
-				.getUpVotedPostKeys(user);
-		Set<Long> downVotes = user == null ? new TreeSet<Long>()
-				: postRatingDAO.getDownVotedPostKeys(user);
 
 		Page<Post> topDay = postDAO.topDayPage();
 		Page<Post> topWeek = postDAO.topWeekPage();
@@ -103,9 +103,35 @@ public class PostController extends DynamicTemplateController implements
 		List<Category> categoryList = categoryDAO.all();
 
 		return ok(index.render(pg, categoryName, categoryList, topDay, topWeek,
-				topAll, upVotes, downVotes));
+				topAll,getUpVotes(user), getDownVotes(user)));
+	}
+	
+	public Result listFollowing(int page) {
+		if (log.isDebugEnabled())
+			log.debug("index() <-");
+
+		User user = HttpUtils.loginUser();
+		
+		Page<Post> topDay = postDAO.topDayPage();
+		Page<Post> topWeek = postDAO.topWeekPage();
+		Page<Post> topAll = postDAO.topAllPage();
+
+		List<String> followingUserKeys = userFollowDAO.getAllFollowingsKeys(user);
+		Page<Post> pg=null;
+		if (followingUserKeys!=null && followingUserKeys.size()>0) {
+			pg= postDAO.getPostsBy(followingUserKeys, page, POSTS_PER_PAGE);
+		}
+		
+		if (Logger.isDebugEnabled())
+			Logger.debug("pg : " + pg);
+
+		List<Category> categoryList = categoryDAO.all();
+
+		return ok(index.render(pg, null, categoryList, topDay, topWeek,
+				topAll, getUpVotes(user), getDownVotes(user)));
 	}
 
+	
 	public Result newForm() {
 		if (log.isDebugEnabled())
 			log.debug("newForm() <-");
@@ -247,15 +273,11 @@ public class PostController extends DynamicTemplateController implements
 		}
 
 		User user = HttpUtils.loginUser();
-		Set<Long> upVotes = user == null ? new TreeSet<Long>() : postRatingDAO
-				.getUpVotedPostKeys(user);
-		Set<Long> downVotes = user == null ? new TreeSet<Long>()
-				: postRatingDAO.getDownVotedPostKeys(user);
 
 		final Page<Comment> pg = commentDAO.page(postKey, page,
 				COMMENTS_PER_PAGE);
-		return ok(postShow.render(post, null, commentForm, pg, upVotes,
-				downVotes));
+		return ok(postShow.render(post, null, commentForm, pg, getUpVotes(user),
+				getDownVotes(user)));
 	}
 
 	public List<String> categories() {
@@ -283,5 +305,18 @@ public class PostController extends DynamicTemplateController implements
 
 		return redirect(routes.App.index());
 	}
+	
+	private Set<Long> getDownVotes(User user) {
+		Set<Long> downVotes = user == null ? new TreeSet<Long>()
+				: postRatingDAO.getDownVotedPostKeys(user);
+		return downVotes;
+	}
+
+	private Set<Long> getUpVotes(User user) {
+		Set<Long> upVotes = user == null ? new TreeSet<Long>() : postRatingDAO
+				.getUpVotedPostKeys(user);
+		return upVotes;
+	}
+
 
 }

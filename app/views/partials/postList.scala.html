@@ -14,7 +14,6 @@
 	<h4>@Html(Messages("Login_to_register", partials.login()))</h4>
 	}
 }
-
 <!-- category filter -->
 <div class="navbar navbar-inverse">
     <div class="navbar-inner">
@@ -35,6 +34,9 @@
                     }
                         </ul>
                     </li>
+                    @roleHolderPresent() {
+                    <li><a href="@routes.App.postListFollowing(0)">@Messages("Following_Posts")</a></li>
+                    }
                 </ul>
             </div><!-- /.nav-collapse -->
         </div>
@@ -43,7 +45,7 @@
 
 
 <div class="hidden-phone">
-    @if(currentPage.getTotalRowCount == 0) {
+    @if(currentPage==null || currentPage.getTotalRowCount == 0) {
         
     <div class="well">
         <em>@Messages("Nothing_to_display")</em>
@@ -63,10 +65,15 @@
         }
         </tbody>
     </table>
-
-    @partials.pagination(currentPage, Constants.POSTS_PER_PAGE, 
-	    routes.App.postList(currentPage.getPageIndex - 1, categoryName),
-	    routes.App.postList(currentPage.getPageIndex + 1, categoryName))
-    
+	@if(!request.uri.contains("following")){
+	    @partials.pagination(currentPage, Constants.POSTS_PER_PAGE, 
+		    routes.App.postList(currentPage.getPageIndex - 1, categoryName),
+		    routes.App.postList(currentPage.getPageIndex + 1, categoryName))
+	    
+    }else{
+    	@partials.pagination(currentPage, Constants.POSTS_PER_PAGE, 
+		    routes.App.postListFollowing(currentPage.getPageIndex - 1),
+		    routes.App.postListFollowing(currentPage.getPageIndex + 1))
+    }
     }
 </div>

@@ -7,6 +7,7 @@ GET     /                           					controllers.App.index()
 # Post
 GET     /posts                      					controllers.App.postList(p:Int ?= 0, category:String=null)
 GET     /posts/category/:category                       controllers.App.postList(p:Int ?= 0, category:String)
+GET     /posts/following                      			controllers.App.postListFollowing(p:Int ?= 0)
 POST    /posts                      					controllers.App.postCreate()
 GET     /posts/new                  					controllers.App.postNewForm()
 GET     /posts/:key/edit            					controllers.App.postEditForm(key: Long)
