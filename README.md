@@ -18,6 +18,7 @@ Those are some features of PublicPlay:
  * Facebook like
  * Rating posts (users can rate posts)
  * theming via [bootswatch](http://bootswatch.com/)
+ * Appfog / Cloundfoundry deployable
  
 Uses
 ----

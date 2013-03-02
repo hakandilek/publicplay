@@ -13,6 +13,8 @@ object ApplicationBuild extends Build {
         "org.ocpsoft.prettytime" % "prettytime" % "2.0.0-SNAPSHOT",
         //socialauth library
         "org.brickred" % "socialauth" % "4.0",
+        //appfog/cloudfoundry integration
+        "org.cloudfoundry" % "auto-reconfiguration" % "0.6.6" excludeAll(ExclusionRule(organization = "org.slf4j")),
         "com.restfb" % "restfb" % "1.6.11",
         "play2-cache" % "play2-cache_2.9.1" % "0.3.0-SNAPSHOT",
         "joda-time" % "joda-time"% "2.1",
@@ -38,6 +40,9 @@ object ApplicationBuild extends Build {
         
         // The Sonatype repository for socialauth
         resolvers += "sonatype-oss-public" at "http://oss.sonatype.org/content/groups/public/",
+        
+        // The Spring repository for auto-reconfiguration (appfog)
+        resolvers += "Spring repository" at "http://maven.springframework.org/milestone/",
         
         //maven repository
         resolvers += "release repository" at  "http://hakandilek.github.com/maven-repo/releases/",
