@@ -1,0 +1,68 @@
+@(currentPage: Page[User],userToBeShowed: models.User,loginUserFollowings :List[String],isFollowingPage:Boolean) 
+@import controllers._ 
+@import helper.UserHelper._
+
+@scripts = {
+        <script src="@routes.Assets.at("javascripts/user_follow.js")" type="text/javascript"></script>
+}
+
+@template.main(Messages("user_information"), scripts = scripts) {
+
+@if(userToBeShowed == null) {
+
+<div class="page-header">
+	<p class="text-error">@Messages("User not found")</p>
+</div>
+
+} else {
+
+<div class="container">
+	<div>
+		<h3>
+			<img src="@userToBeShowed.getProfileImageURL()"
+				alt="@userToBeShowed.getFirstName() @userToBeShowed.getLastName()" width="48" />
+			<a href="@routes.App.userShow(userToBeShowed.getKey())">@userToBeShowed.getFirstName() @userToBeShowed.getLastName()</a>
+		</h3>
+	</div>
+	<div class="container">
+		@if(isFollowingPage){
+		<h4>@Messages("Followings")</h4>
+		}else{
+		<h4>@Messages("Followers")</h4>
+		}
+		<table class="posts table table-striped table-bordered">   		
+			<tbody>
+				@for(user <- currentPage.getList) {
+				<tr>
+					<td class="nl-withoutSpace">
+					<a href="@routes.App.userShow(user.getKey())">
+					<img class="gravatar" src="@user.getProfileImageURL()"
+					alt="@user.getFirstName() @user.getLastName()" width="30" />
+					@user.getFirstName() @user.getLastName()
+					</a>
+					@if(user.getKey()!=loginUser().getKey()){
+						<a id="@user.getKey()" class="btn btn-follow pull-right" href="javascript:void(0)" data-hide="@isLoginUserFollowing(user,loginUserFollowings)" 
+						data-href="@routes.Api.userFollow(user.getKey())"> <i class="icon-ok-circle">&nbsp;@Messages("Follow")</i>
+						</a>
+						<a id="@user.getKey()" class="btn btn-unfollow pull-right" href="javascript:void(0)" data-hide="@{!isLoginUserFollowing(user,loginUserFollowings)}" 
+						data-href="@routes.Api.userUnfollow(user.getKey())"> <i class="icon-circle-blank">&nbsp;@Messages("Unfollow")</i>
+						</a>
+					}
+					</td>
+				</tr>
+				}
+			</tbody>
+		</table>
+		@if(isFollowingPage){
+			@partials.pagination(currentPage, Constants.USERS_PER_PAGE, 
+			    routes.App.userFollowings(userToBeShowed.getKey(), currentPage.getPageIndex - 1),
+			    routes.App.userFollowings(userToBeShowed.getKey(), currentPage.getPageIndex + 1))
+		}else{
+			@partials.pagination(currentPage, Constants.USERS_PER_PAGE, 
+			    routes.App.userFollowers(userToBeShowed.getKey(), currentPage.getPageIndex - 1),
+			    routes.App.userFollowers(userToBeShowed.getKey(), currentPage.getPageIndex + 1))
+		}
+		
+	</div>
+</div>
+} }
