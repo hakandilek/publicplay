@@ -51,25 +51,22 @@
     						<dt> @Messages("User.LastName") </dt>
     						<dd> @userToBeShowed.getLastName() </dd>
 	        
-    						<dt> @Messages("User.Date_of_Birth") </dt> 
-    						<dd> @prettify(userToBeShowed.getBirthdate()) </dd>
-	        
-    						<dt> @Messages("User.Location") </dt>
-    						<dd> @userToBeShowed.getLocation() </dd>
-	        
     					</dl>
     					<div class="span12">
-    					<ol class="row-fluid">
-    						<li class="span3 offset1">
-    							<p class="userShow-number">@followingCount</p>
-    							<p class="userShow-number-text">@Messages("Following")</p>
-    						</li>
-    						<li class="span3">
-    							<p class="userShow-number">@followerCount</p>
-    							<p class="userShow-number-text">@Messages("Followers")<p/>
-    						</li>
-    					</ol>
-    						
+	    					<ul class="stats">
+	    						<li>
+	    							<a href="@routes.App.userFollowings(userToBeShowed.getKey())">
+	    								<strong>@followingCount</strong>
+	    								<span>@Messages("Following")</span>
+	    							</a>
+	    						</li>
+	    						<li>
+	    							<a href="@routes.App.userFollowers(userToBeShowed.getKey())">
+	    								<strong>@followerCount</strong>
+	    								<span>@Messages("Followers")</span>
+	    							</a>
+	    						</li>
+	    					</ul>
     					</div>
     				</div>
 	        </div>
@@ -80,8 +77,8 @@
 	  				<li><a data-toggle="tab" href="#user_Comments">@Messages("Comments")</a></li>
 	  				<li><a data-toggle="tab" href="#user_VotedPosts">@Messages("Voted_Posts")</a></li>
   				@if(!self) {
-	  					<a class="btn btn-follow pull-right" href="javascript:void(0)" data-hide="@following" data-href="@routes.Api.userFollow(userToBeShowed.getKey())"> <i class="icon-ok-circle">&nbsp;@Messages("Follow")</i></a>
-						<a class="btn btn-unfollow pull-right" href="javascript:void(0)" data-hide="@{!following}" data-href="@routes.Api.userUnfollow(userToBeShowed.getKey())"> <i class="icon-circle-blank">&nbsp;@Messages("Unfollow")</i></a>
+	  					<a id="@userToBeShowed.getKey()" class="btn btn-follow pull-right" href="javascript:void(0)" data-hide="@following" data-href="@routes.Api.userFollow(userToBeShowed.getKey())"> <i class="icon-ok-circle">&nbsp;@Messages("Follow")</i></a>
+						<a id="@userToBeShowed.getKey()" class="btn btn-unfollow pull-right" href="javascript:void(0)" data-hide="@{!following}" data-href="@routes.Api.userUnfollow(userToBeShowed.getKey())"> <i class="icon-circle-blank">&nbsp;@Messages("Unfollow")</i></a>
   				}
 				</ul>
 

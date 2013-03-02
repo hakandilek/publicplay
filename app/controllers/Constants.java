@@ -6,4 +6,6 @@ public interface Constants {
 
 	int COMMENTS_PER_PAGE = 10;
 	
+	int USERS_PER_PAGE = 20;
+	
 }

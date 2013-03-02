@@ -43,7 +43,7 @@
                 
             @views.html.security.roleHolderPresent() {
                 @if(userPresent()) {
-                    @defining(user()) { loggedInUser =>
+                    @defining(loginUser()) { loggedInUser =>
                     <!-- profile -->
                     <li>
                         <a href="@controllers.routes.App.userShow(loggedInUser.getKey())" class="profile">

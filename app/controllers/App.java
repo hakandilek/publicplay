@@ -123,6 +123,18 @@ public class App extends Controller {
 	public static Result userShow(String key) {
 		return userController.show(key);
 	}
+	
+	@SocialAware
+	@RestrictApproved
+	public static Result userFollowers(String key,int pageNumber) {
+		return userController.showFollowers(key,pageNumber);
+	}
+	
+	@SocialAware
+	@RestrictApproved
+	public static Result userFollowings(String key,int pageNumber) {
+		return userController.showFollowings(key,pageNumber);
+	}
 
 	@Secure
 	public static Result userShowSelf() {

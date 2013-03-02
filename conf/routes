@@ -28,6 +28,8 @@ GET     /users/self                 					controllers.App.userShowSelf()
 GET     /users/:key                 					controllers.App.userShow(key: String)
 GET     /users/:key/follow             					controllers.Api.userFollow(key: String)
 GET     /users/:key/unfollow          					controllers.Api.userUnfollow(key: String)
+GET		/users/:key/followers							controllers.App.userFollowers(key: String, p:Int ?= 0)
+GET		/users/:key/followings							controllers.App.userFollowings(key: String, p:Int ?= 0)
 
 # socialauth integration
 GET     /user/login                     				controllers.App.login

@@ -11,7 +11,6 @@ import javax.inject.Singleton;
 import models.User;
 import models.UserFollow;
 import models.UserFollowPK;
-import play.db.ebean.Model.Finder;
 import play.utils.cache.InterimCache;
 import play.utils.dao.CachedDAO;
 import play.utils.dao.TimestampListener;
@@ -28,12 +27,9 @@ public class UserFollowDAO extends CachedDAO<UserFollowPK, UserFollow> {
 	protected InterimCache<Integer> followerCountCache = new InterimCache<Integer>("UserFollowerCountCache", 86400);//24 hrs
 	protected InterimCache<Page<User>> followerPageCache = new InterimCache<Page<User>>("UserFollowerPageCache", 86400);//24 hrs
 	protected InterimCache<Page<User>> followingPageCache = new InterimCache<Page<User>>("UserFollowingPageCache", 86400);//24 hrs
-	protected InterimCache<List<UserFollow>> followingCache = new InterimCache<List<UserFollow>>("UserFollowingCache", 86400);//24 hrs 
+	protected InterimCache<List<UserFollow>> followingCache = new InterimCache<List<UserFollow>>("FollowingCache", 86400);//24 hrs 
 	
 	protected Multimap<String, String> userPages = HashMultimap.create();
-
-	protected Finder<UserFollowPK, UserFollow> find = new Finder<UserFollowPK, UserFollow>(
-			UserFollowPK.class, UserFollow.class);
 
 	private UserDAO userDAO;
 
@@ -73,10 +69,11 @@ public class UserFollowDAO extends CachedDAO<UserFollowPK, UserFollow> {
 	public Page<User> getFollowerUsers(final User u, final int page) {
 		final String key = u.getKey();
 		final String cacheKey = "." + key + ".pg." + page;
+					
 		final Page<User> count = followerPageCache.get(cacheKey, new Callable<Page<User>>() {
 			public Page<User> call() throws Exception {
 				userPages.put(key, cacheKey);
-				Page<UserFollow> followPage = page(page, PAGE_SIZE, "created_on desc", "target_key", u);
+				Page<UserFollow> followPage = find.page(page, PAGE_SIZE, "created_on desc", "target_key", u.getKey());
 				PageAdapter<UserFollow, User> userPage = new UserFollowerPageAdapter(followPage, userDAO);
 				return userPage;
 			}
@@ -105,7 +102,7 @@ public class UserFollowDAO extends CachedDAO<UserFollowPK, UserFollow> {
 		final Page<User> count = followingPageCache.get(cacheKey, new Callable<Page<User>>() {
 			public Page<User> call() throws Exception {
 				userPages.put(key, cacheKey);
-				Page<UserFollow> followPage = page(page, PAGE_SIZE, "created_on desc", "source_key", u);
+				Page<UserFollow> followPage = page(page, PAGE_SIZE, "created_on desc", "source_key", u.getKey());
 				PageAdapter<UserFollow, User> userPage = new UserFollowingPageAdapter(followPage, userDAO);
 				return userPage;
 			}

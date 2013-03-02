@@ -3,23 +3,23 @@ $(document).ready(function() {
 
 	$('.btn-follow').click(function() {
     	var href = $(this).attr('data-href');
-    	
+    	var currentId = $(this).attr('id');
         $.ajax({
         	type: 'GET',
     		url: $(this).attr('data-href'),
     		beforeSend:function() {
     			// append a loading image
-    			$('.btn-follow').addClass("disabled");
+    			$("a"+jq(currentId)+".btn-follow").addClass("disabled");
     		},
     		success:function(data) {
     		    // successful request
-    			$('.btn-follow').hide();
-    			$('.btn-unfollow').show();
-    			$('.btn-follow').removeClass("disabled");
+    			$("a"+jq(currentId)+".btn-follow").hide();
+    			$("a"+jq(currentId)+".btn-unfollow").show();
+    			$("a"+jq(currentId)+".btn-follow").removeClass("disabled");
     		},
     		error:function() {
     		    // failed request;
-                $('.btn-follow').each(function (idx, elm) {
+                $("a"+jq(currentId)+".btn-follow").each(function (idx, elm) {
                     $(elm).html('<i class="icon-warning-sign"></i>');
                 });
     		}
@@ -28,26 +28,29 @@ $(document).ready(function() {
 
 	$('.btn-unfollow').click(function() {
     	var href = $(this).attr('data-href');
-    	
+    	var currentId = $(this).attr('id');
         $.ajax({
         	type: 'GET',
     		url: $(this).attr('data-href'),
     		beforeSend:function() {
     			// append a loading image
-    			$('.btn-unfollow').addClass("disabled");
+    			$("a"+jq(currentId)+".btn-unfollow").addClass("disabled");
     		},
     		success:function(data) {
     		    // successful request
-    			$('.btn-unfollow').hide();
-    			$('.btn-follow').show();
-    			$('.btn-unfollow').removeClass("disabled");
+    			$("a"+jq(currentId)+".btn-unfollow").hide();
+    			$("a"+jq(currentId)+".btn-follow").show();
+    			$("a"+jq(currentId)+".btn-unfollow").removeClass("disabled");
     		},
     		error:function() {
     		    // failed request;
-                $('.btn-follow').each(function (idx, elm) {
+                $("a"+jq(currentId)+".btn-unfollow").each(function (idx, elm) {
                     $(elm).html('<i class="icon-warning-sign"></i>');
                 });
     		}
     	});
     });
 });
+function jq(myid) { 
+   return '#' + myid.replace(/(:|\.)/g,'\\$1');
+}

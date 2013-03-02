@@ -112,7 +112,7 @@
             <div>
 			@roleHolderPresent() {
                <input type="submit" class="btn btn-success" value="@if(commentKey != null) { @Messages("Update") } else { @Messages("Post") }">
-               @Html(Messages("as_profile", partials.userProfile(user())))
+               @Html(Messages("as_profile", partials.userProfile(loginUser())))
 			}
 			@roleHolderNotPresent() {
                <input type="submit" class="btn btn-success" data-toggle="modal" data-target="#loginModal" value="@if(commentKey != null) { @Messages("Update") } else { @Messages("Post") }">

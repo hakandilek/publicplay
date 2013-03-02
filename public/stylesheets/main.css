@@ -100,7 +100,23 @@ div.fb-like {min-height: 30px; height: 80px; }
 
 a:focus { outline:none }
 
-.userShow-number{ font-size:24px;font-weight : bold}
-.userShow-number-text{font-size:10px;margin-top: -10px}
+ul.stats{border-bottom: 1px solid #DDDDDD;
+    margin: 0 0 17px;
+    padding: 6px 0 15px; }
+ul.stats li {
+    display: inline-block;
+    list-style-type: none;
+    min-width: 70px;
+}
+ul.stats li strong {font-size: 28px;font-weight: bold;}
+ul.stats li span {color: #999999;display: block;font-size: 11px;margin-top: -2px;}
+
+.gravatar {
+    background-color: #FFFFFF;
+    border: 1px solid #DDDDDD;
+    float: left;
+    margin-right: 10px;
+    padding: 1px;
+}
 
 

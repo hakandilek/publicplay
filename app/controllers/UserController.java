@@ -1,9 +1,12 @@
 package controllers;
 
+import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
 import javax.inject.Inject;
+
+import com.avaje.ebean.Page;
 
 import models.User;
 import models.UserFollow;
@@ -14,7 +17,7 @@ import play.Logger;
 import play.Logger.ALogger;
 import play.mvc.Result;
 import play.utils.crud.DynamicTemplateController;
-import views.html.userShow;
+import views.html.*;
 
 public class UserController extends DynamicTemplateController {
 
@@ -80,6 +83,28 @@ public class UserController extends DynamicTemplateController {
 
 		return ok(userShow.render(userToShow, selfPage, upVotes, downVotes,
 				following, followerCount, followingCount));
+	}
+
+	public Result showFollowers(String key,int page) {
+		User userToShow = null;
+		if (null != key)
+			userToShow = userDAO.get(key);
+		Page<User> pg=userFollowDAO.getFollowerUsers(userToShow, page);
+		List<String> followingUserKeys = userFollowDAO.getAllFollowingsKeys(HttpUtils.loginUser());
+		boolean isFollowingPage=false;
+		
+		return ok(userFollowShow.render(pg,userToShow,followingUserKeys,isFollowingPage));
+	}
+
+	public Result showFollowings(String key,int page) {
+		User userToShow = null;
+		if (null != key)
+			userToShow = userDAO.get(key);
+		Page<User> pg=userFollowDAO.getFollowingUsers(userToShow, page);
+		List<String> followingUserKeys = userFollowDAO.getAllFollowingsKeys(HttpUtils.loginUser());
+		boolean isFollowingPage=true;
+		
+		return ok(userFollowShow.render(pg,userToShow,followingUserKeys,isFollowingPage));
 	}
 
 }
