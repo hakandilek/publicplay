@@ -34,20 +34,20 @@
 			<tbody>
 				@for(user <- currentPage.getList) {
 				<tr>
-					<td class="nl-withoutSpace">
-					<a href="@routes.App.userShow(user.getKey())">
-					<img class="gravatar" src="@user.getProfileImageURL()"
-					alt="@user.getFirstName() @user.getLastName()" width="30" />
-					@user.getFirstName() @user.getLastName()
-					</a>
-					@if(user.getKey()!=loginUser().getKey()){
-						<a id="@user.getKey()" class="btn btn-follow pull-right" href="javascript:void(0)" data-hide="@isLoginUserFollowing(user,loginUserFollowings)" 
+					<td id="@user.getKey()" class="nl-withoutSpace">
+						<a href="@routes.App.userShow(user.getKey())">
+						<img class="gravatar" src="@user.getProfileImageURL()"
+						alt="@user.getFirstName() @user.getLastName()" width="30" />
+						@user.getFirstName() @user.getLastName()
+						</a>
+						@if(user.getKey()!=loginUser().getKey()){
+						<a class="btn btn-follow pull-right" href="javascript:void(0)" data-hide="@isLoginUserFollowing(user,loginUserFollowings)" 
 						data-href="@routes.Api.userFollow(user.getKey())"> <i class="icon-ok-circle">&nbsp;@Messages("Follow")</i>
 						</a>
-						<a id="@user.getKey()" class="btn btn-unfollow pull-right" href="javascript:void(0)" data-hide="@{!isLoginUserFollowing(user,loginUserFollowings)}" 
+						<a class="btn btn-unfollow pull-right" href="javascript:void(0)" data-hide="@{!isLoginUserFollowing(user,loginUserFollowings)}" 
 						data-href="@routes.Api.userUnfollow(user.getKey())"> <i class="icon-circle-blank">&nbsp;@Messages("Unfollow")</i>
 						</a>
-					}
+						}
 					</td>
 				</tr>
 				}

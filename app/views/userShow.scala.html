@@ -77,8 +77,8 @@
 	  				<li><a data-toggle="tab" href="#user_Comments">@Messages("Comments")</a></li>
 	  				<li><a data-toggle="tab" href="#user_VotedPosts">@Messages("Voted_Posts")</a></li>
   				@if(!self) {
-	  					<a id="@userToBeShowed.getKey()" class="btn btn-follow pull-right" href="javascript:void(0)" data-hide="@following" data-href="@routes.Api.userFollow(userToBeShowed.getKey())"> <i class="icon-ok-circle">&nbsp;@Messages("Follow")</i></a>
-						<a id="@userToBeShowed.getKey()" class="btn btn-unfollow pull-right" href="javascript:void(0)" data-hide="@{!following}" data-href="@routes.Api.userUnfollow(userToBeShowed.getKey())"> <i class="icon-circle-blank">&nbsp;@Messages("Unfollow")</i></a>
+	  					<a class="btn btn-follow pull-right" href="javascript:void(0)" data-hide="@following" data-href="@routes.Api.userFollow(userToBeShowed.getKey())"> <i class="icon-ok-circle">&nbsp;@Messages("Follow")</i></a>
+						<a class="btn btn-unfollow pull-right" href="javascript:void(0)" data-hide="@{!following}" data-href="@routes.Api.userUnfollow(userToBeShowed.getKey())"> <i class="icon-circle-blank">&nbsp;@Messages("Unfollow")</i></a>
   				}
 				</ul>
 
