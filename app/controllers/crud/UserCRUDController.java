@@ -65,7 +65,7 @@ public class UserCRUDController extends CRUDController<String, User> {
 			log.debug("user : " + user);
 
 		userDAO.update(key, user);
-		return list(page);
+		return list(null, page);
 	}
 
 	public Result suspend(String key, int page) {
@@ -78,7 +78,7 @@ public class UserCRUDController extends CRUDController<String, User> {
 			log.debug("user : " + user);
 
 		userDAO.update(key, user);
-		return list(page);
+		return list(null, page);
 	}
 
 	public Result list(String status, int page) {
