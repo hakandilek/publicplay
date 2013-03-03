@@ -46,7 +46,7 @@
                     @defining(loginUser()) { loggedInUser =>
                     <!-- profile -->
                     <li>
-                        <a href="@controllers.routes.App.userShow(loggedInUser.getKey())" class="profile">
+                        <a href="@controllers.routes.App.userShowSelf()" class="profile">
                             <img alt="@loggedInUser.getProfileImageURL()" src="@loggedInUser.getProfileImageURL()"  />
                             @loggedInUser.getFirstName() @loggedInUser.getLastName()
                         </a>
