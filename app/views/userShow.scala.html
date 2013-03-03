@@ -34,22 +34,16 @@
     					@restrict(la(as("admin"))) {
     						<dt class="text-info"> @Messages("Roles") </dt>
     						<dd class="text-info"> @if(userToBeShowed.getSecurityRoles().size == 0) { &nbsp; } @for(role <- userToBeShowed.getSecurityRoles()) { @role.getName() &nbsp; } </dd>
-    					}
-            
+
     						<dt> @Messages("User.Profile") </dt> 
     						<dd><a href="https://www.facebook.com/profile.php?id=@userToBeShowed.getOriginalKey()">@userToBeShowed.getFirstName() @userToBeShowed.getLastName()</a></dd>
-    						
+
     						<dt> @Messages("joinedOn") </dt>
     						<dd> @formatDateToDayAndYear(userToBeShowed.getCreatedOn())</dd>
 	        
     						<dt> @Messages("User.Email") </dt>
     						<dd> @if( userToBeShowed.getEmail() != null ) { @userToBeShowed.getEmail() } else { @Messages("Not_Available") } </dd>
-	        
-    						<dt> @Messages("User.FirstName") </dt>
-    						<dd> @userToBeShowed.getFirstName() </dd>
-	        
-    						<dt> @Messages("User.LastName") </dt>
-    						<dd> @userToBeShowed.getLastName() </dd>
+    					}
 	        
     					</dl>
     					<div class="span12">
