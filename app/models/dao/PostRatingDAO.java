@@ -1,30 +1,36 @@
 package models.dao;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.concurrent.Callable;
 
-import javax.inject.Singleton;
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
 import models.Post;
 import models.PostRating;
 import models.PostRatingPK;
 import models.User;
-import play.db.ebean.Model.Finder;
 import play.utils.cache.InterimCache;
 import play.utils.dao.CachedDAO;
+
+import com.avaje.ebean.Page;
+import com.google.common.collect.HashMultimap;
+import com.google.common.collect.Multimap;
 
 @Singleton
 public class PostRatingDAO extends CachedDAO<PostRatingPK, PostRating> {
 
+	protected static final int PAGE_SIZE = 20;
+
 	protected static InterimCache<Set<Long>> votedPostKeyCache = new InterimCache<Set<Long>>("VotedPostKeyCache", 600);//10 mins;
 
-	protected static InterimCache<Set<Post>> upVotedPostCache = new InterimCache<Set<Post>>("UpVotedPostCache", 600);//10 mins;
+	protected static InterimCache<Page<Post>> upVotedPostCache = new InterimCache<Page<Post>>("UpVotedPostCache", 600);//10 mins;
 
-	protected Finder<PostRatingPK, PostRating> find = new Finder<PostRatingPK, PostRating>(
-			PostRatingPK.class, PostRating.class);
+
+	protected Multimap<String, String> postPages = HashMultimap.create();
 
 	private PostDAO postDAO;
 
@@ -81,17 +87,15 @@ public class PostRatingDAO extends CachedDAO<PostRatingPK, PostRating> {
 		return set;
 	}
 	
-	public Set<Post> getUpVotedPosts(final User u) {
-		String key = u.getKey();
-		final Set<Post> set = upVotedPostCache.get(".+" + key, new Callable<Set<Post>>() {
-			public Set<Post> call() throws Exception {
-				Set<Post> s = new TreeSet<Post>();
-				Set<Long> upVotedPostKeys = getUpVotedPostKeys(u);
-				for (Long key : upVotedPostKeys) {
-					Post post = postDAO.get(key);
-					if (post != null) s.add(post);
-				}
-				return s;
+	public Page<Post> getUpVotedPosts(final User u, final int page) {
+		final String key = u.getKey();
+		final String cacheKey = "." + key + ".pg." + page;
+		final Page<Post> set = upVotedPostCache.get(cacheKey, new Callable<Page<Post>>() {
+			public Page<Post> call() throws Exception {
+				postPages.put(key, cacheKey);
+				Page<PostRating> ratingPage = page(page, PAGE_SIZE, "created_on desc", "source_key", u.getKey());
+				PageAdapter<PostRating, Post> postPage = new PostRatingPageAdapter(ratingPage, postDAO);
+				return postPage;
 			}
 		});
 		return set;
@@ -101,7 +105,11 @@ public class PostRatingDAO extends CachedDAO<PostRatingPK, PostRating> {
 		String key = u.getKey();
 		votedPostKeyCache.set(".+" + key, null);
 		votedPostKeyCache.set(".-" + key, null);
-		upVotedPostCache.set(".+" + key, null);
+		Collection<String> pageKeys = postPages.get(key);
+		for (String pageKey : pageKeys) {
+			upVotedPostCache.set(pageKey, null);
+		}
+		postPages.removeAll(key);
 	}
 	
 }
