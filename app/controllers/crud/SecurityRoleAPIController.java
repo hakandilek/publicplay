@@ -1,11 +1,19 @@
 package controllers.crud;
 
+import static play.libs.Json.toJson;
+
+import java.util.List;
+
 import javax.inject.Inject;
 
 import models.SecurityRole;
 import models.dao.SecurityRoleDAO;
 import play.mvc.Result;
 import play.utils.crud.APIController;
+
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableList.Builder;
+import com.google.common.collect.ImmutableMap;
 
 
 public class SecurityRoleAPIController extends APIController<Long, SecurityRole> {
@@ -41,5 +49,13 @@ public class SecurityRoleAPIController extends APIController<Long, SecurityRole>
 		return TODO;
 	}
 
+	public Result list() {
+		List<SecurityRole> all = dao.all();
+		Builder<Object> b = ImmutableList.builder();
+		for (SecurityRole role : all) {
+			b.add(ImmutableMap.of("value", ""+role.getKey(), "text", role.getName()));
+		}
+		return ok(toJson(b.build()));
+	}
 
 }

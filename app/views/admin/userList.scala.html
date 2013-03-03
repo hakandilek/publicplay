@@ -2,6 +2,14 @@
 @import helper._ 
 @import helper.twitterBootstrap._
 @import helper.H._
+@import helper.UserHelper._
+
+@scripts = {
+    	<link rel="stylesheet" media="screen" href='@routes.Assets.at("stylesheets/bootstrap-editable.css")'>
+	    <script type="text/javascript" src='@routes.Assets.at("javascripts/bootstrap-editable.js")'></script>
+		<script type="text/javascript" src='@routes.Assets.at("javascripts/json2.js")'></script>
+        <script type="text/javascript" src='@routes.Assets.at("javascripts/user_role.js")' ></script>
+}
 
 @header = {
     <!-- filter buttons -->
@@ -15,7 +23,7 @@
     </div>
 }
 
-@template.main(Messages("Users"), header=header) {
+@template.main(Messages("Users"), scripts=scripts, header=header) {
 
 	<h3>@Messages("User_num", currentPage.getTotalRowCount())</h3>
 	
@@ -26,7 +34,6 @@
         </div>
         
     } else {
-	
     <table class="userLists table table-striped table-bordered">
         <thead>
             <tr>
@@ -34,6 +41,7 @@
                 <th class="header">@Messages("User.profile")</th>
                 <th class="header">@Messages("User.lastLogin")</th>
                 <th class="header">@Messages("User.loginCount")</th>
+                <th class="header">@Messages("User.roles")</th>
                 <th class="header" colspan="3">@Messages("User.status")</th>
                 <th class="header">@Messages("Edit")</th>
                 <th class="header">@Messages("Delete")</th>
@@ -49,6 +57,12 @@
                 </div></td>
                 <td>@prettify(user.getLastLogin())</td>
                 <td>@user.getLoginCount()</td>
+                <td>
+                	<a id="roles-@user.getKey()" class="user-role" href="#" data-type="checklist" data-pk="@user.getKey()" data-value="@roleKeys(user)" 
+                		data-url="@routes.Api.userRoleUpdate(user.getKey())" 
+                		data-source="@routes.Api.securityRoleList()" 
+                		data-sourceCache="true">@roleNames(user)</a>
+                </td>
                 <td>
                     @Messages("User.status." + user.getStatus())
                 </td>

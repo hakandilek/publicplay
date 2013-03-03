@@ -112,7 +112,9 @@ PUT     /api/postRating/:key            				controllers.Api.postRatingUpdate(key
 PUT     /api/post/:key                  				controllers.Api.postUpdate(key: Long)
 PUT     /api/s3File/:key                				controllers.Api.s3FileUpdate(key: String)
 PUT     /api/securityRole/:key          				controllers.Api.securityRoleUpdate(key: Long)
+GET     /api/securityRole/           				    controllers.Api.securityRoleList()
 PUT     /api/user/:key                  				controllers.Api.userUpdate(key: String)
+POST    /api/user/:key/roleUpdate               		controllers.Api.userRoleUpdate(key: String)
 PUT     /api/config/:key                				controllers.Api.sourceConfigurationUpdate(key: Long)
 # API fallback
 GET     /api/*resource                 					controllers.Api.invalid(resource: String)

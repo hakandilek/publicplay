@@ -80,10 +80,23 @@ public class Api extends App {
 
 	@Secure
 	@BodyParser.Of(Json.class)
+	public static Result securityRoleList() {
+		return securityRoleAPI.list();
+	}
+
+	@Secure
+	@BodyParser.Of(Json.class)
 	public static Result userUpdate(String key) {
 		return userAPI.update(key);
 	}
 	
+	@Secure
+	@BodyParser.Of(Json.class)
+	public static Result userRoleUpdate(String key) {
+		return userAPI.roleUpdate(key);
+	}
+	
+	@Secure
 	@BodyParser.Of(Json.class)
 	public static Result sourceConfigurationUpdate(Long key) {
 		return sourceConfigurationAPI.update(key);

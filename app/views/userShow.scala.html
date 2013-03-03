@@ -1,6 +1,7 @@
-@(userToBeShowed: models.User,self: Boolean,upVotedPostKeys:Set[Long], downVotedPostKeys:Set[Long], following: Boolean, followerCount:Integer, followingCount:Integer)
+@(userToBeShowed: models.User,self: Boolean,upVotedPostKeys:Set[Long], downVotedPostKeys:Set[Long], following: Boolean, followerCount:Integer, followingCount:Integer, allRoles:List[models.SecurityRole], userRoles:List[models.SecurityRole])
 @import be.objectify.deadbolt.views.html._
 @import be.objectify.deadbolt.utils.TemplateUtils._
+@import views.html.security._
 @import helper.H._
 @import controllers._
 
@@ -70,6 +71,9 @@
 	        		    <a data-toggle="tab" href="#user_Posts">@Messages("Posts")</a></li>
 	  				<li><a data-toggle="tab" href="#user_Comments">@Messages("Comments")</a></li>
 	  				<li><a data-toggle="tab" href="#user_VotedPosts">@Messages("Voted_Posts")</a></li>
+		        @restrictCombine(la(as("admin")), "models.User.self." + self) {
+	  				<li><a data-toggle="tab" href="#user_Roles">@Messages("Roles")</a></li>
+  				}
   				@if(!self) {
 	  					<a class="btn btn-follow pull-right" href="javascript:void(0)" data-hide="@following" data-href="@routes.Api.userFollow(userToBeShowed.getKey())"> <i class="icon-ok-circle">&nbsp;@Messages("Follow")</i></a>
 						<a class="btn btn-unfollow pull-right" href="javascript:void(0)" data-hide="@{!following}" data-href="@routes.Api.userUnfollow(userToBeShowed.getKey())"> <i class="icon-circle-blank">&nbsp;@Messages("Unfollow")</i></a>
@@ -97,6 +101,21 @@
 	        							</td>
 	        						</tr>
 	        						}
+	        					}
+	        				</tbody>
+	        			</table>
+	        		</div>
+	             	<div id="user_Roles"  class="tab-pane fade">             	
+	        			<table class="posts table table-striped table-bordered">   		
+	        				<tbody>
+	        					@for(role <- allRoles) {
+	        					<tr>
+	        						<td class="nl-withoutSpace">
+	        						@defining(userRoles.contains(role)) { hasRole =>
+	        							<i class="@if(hasRole) {icon-ok} else {icon-circle-blank}"></i>&nbsp; <span class="label @if(userRoles.contains(role)) { label-success }">@role.getName()</span>
+	        						}
+	        						</td>
+	        						</tr>
 	        					}
 	        				</tbody>
 	        			</table>

@@ -8,6 +8,10 @@ insert into TBL_CATEGORY (name) values ('category4');
 insert into TBL_CATEGORY (name) values ('category5');
 
 insert into TBL_SECURITY_ROLE (key, name) values (-1, 'admin');
+insert into TBL_SECURITY_ROLE (key, name) values (-2, 'role1');
+insert into TBL_SECURITY_ROLE (key, name) values (-3, 'role2');
+insert into TBL_SECURITY_ROLE (key, name) values (-4, 'role3');
+insert into TBL_SECURITY_ROLE (key, name) values (-5, 'role4');
 
 insert into TBL_USER (key, original_key, created_on, updated_on, login_count, last_login, first_name, last_name, email, profile_image_url, provider, revision, status) values ('new_user',           'newKey',    '2012-01-01', '2012-01-01', 1, '2012-01-01', 'New',   'User',  'newbar@test.com',      'http://static.ak.fbcdn.net/rsrc.php/v2/yL/r/HsTZSDw4avx.gif', 'somewhere', 1, 'N');
 insert into TBL_USER (key, original_key, created_on, updated_on, login_count, last_login, first_name, last_name, email, profile_image_url, provider, revision, status) values ('testuser',           'testKey',   '2012-01-01', '2012-01-01', 1, '2012-01-01', 'Foo',   'Bar',   'foobar@test.com',      'http://static.ak.fbcdn.net/rsrc.php/v2/yL/r/HsTZSDw4avx.gif', 'somewhere', 1, 'S');
@@ -94,6 +98,10 @@ delete from TBL_USER where key = 'testuser';
 delete from TBL_USER where key = 'facebook::807220003';
 delete from TBL_USER where key = 'facebook::758958842';
 delete from TBL_SECURITY_ROLE where name = 'admin';
+delete from TBL_SECURITY_ROLE where name = 'role1';
+delete from TBL_SECURITY_ROLE where name = 'role2';
+delete from TBL_SECURITY_ROLE where name = 'role3';
+delete from TBL_SECURITY_ROLE where name = 'role4';
 delete from category where name = 'category1';
 delete from category where name = 'category2';
 delete from category where name = 'category3';

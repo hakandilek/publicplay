@@ -6,6 +6,8 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import org.codehaus.jackson.JsonNode;
+
 import models.User;
 import models.UserFollow;
 import models.UserFollowPK;
@@ -101,6 +103,49 @@ public class UserAPIController extends APIController<String, User> {
 		
 		return created(toJson(ImmutableMap.of("status", "OK", "key", key,
 				"data", follow)));
+	}
+
+	public Result roleUpdate(String key) {
+		if (log.isDebugEnabled())
+			log.debug("roleUpdate <- " + key);
+
+		//field name & value
+		JsonNode json = request().body().asJson();
+		JsonNode node = json.get("name");
+		if (node == null) return null;
+		String name = node.getTextValue();
+		
+		String value = jsonText("value");
+		if (log.isDebugEnabled())
+			log.debug("name : " + name);
+		if (log.isDebugEnabled())
+			log.debug("value : " + value);
+		System.out.println(name);
+		System.out.println(value);
+
+		User u = dao.get(key);
+		if (log.isDebugEnabled())
+			log.debug("m : " + u);
+		if (u == null) {
+			return notFound(toJson(ImmutableMap.of(
+					"status", "OK",
+					"key", key,
+					"message", "entity with the given key not found")));
+		}
+
+		String fieldName = Character.toUpperCase(name.charAt(0)) + name.substring(1);
+
+		dao.update(key, u);
+		if (log.isDebugEnabled())
+			log.debug("updated.");
+		if (log.isDebugEnabled())
+			log.debug("m : " + u);
+
+		return ok(toJson(ImmutableMap.of(
+				"status", "OK",
+				"key", key,
+				"message", "field[" + name +
+				"] updated")));
 	}
 
 
