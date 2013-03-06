@@ -10,6 +10,9 @@ GET     /posts/category/:category                       controllers.App.postList
 GET     /posts/following                      			controllers.App.postListFollowing(p:Int ?= 0)
 POST    /posts                      					controllers.App.postCreate()
 GET     /posts/new                  					controllers.App.postNewForm()
+GET     /posts/:key/rateUp          					controllers.App.rateUp(key: Long)
+GET     /posts/:key/rateDown        					controllers.App.rateDown(key: Long)
+GET     /posts/:key/rate            					controllers.App.rateShow(key: Long)
 GET     /posts/:key/edit            					controllers.App.postEditForm(key: Long)
 POST    /posts/:key/update          					controllers.App.postUpdate(key: Long)
 GET     /posts/:key/delete          					controllers.App.postDelete(key: Long)
@@ -19,10 +22,6 @@ POST    /posts/:postKey/:title                    		controllers.App.commentCreat
 GET     /posts/:postKey/comments/:commentKey/edit/  	controllers.App.commentEditForm(postKey: Long, commentKey: Long)
 POST    /posts/:postKey/comments/:commentKey        	controllers.App.commentUpdate(postKey: Long, commentKey: Long)
 GET     /posts/:postKey/comments/:commentKey/delete 	controllers.App.commentDelete(postKey: Long, commentKey: Long)
-# rates
-GET     /posts/:key/rateUp          					controllers.App.rateUp(key: Long)
-GET     /posts/:key/rateDown        					controllers.App.rateDown(key: Long)
-GET     /posts/:key/rate            					controllers.App.rateShow(key: Long)
 #Users
 GET     /users/self                 					controllers.App.userShowSelf()
 GET     /users/:key                 					controllers.App.userShow(key: String,tab:String?=null,page:Int ?= 0)
