@@ -1,5 +1,5 @@
 @(userToBeShowed: models.User,self: Boolean,tabName:String, upVotedPostKeys:Set[Long], downVotedPostKeys:Set[Long], following: Boolean, followerCount:Integer, followingCount:Integer,
- currentPostPage: Page[Post])
+ allRoles:List[models.SecurityRole], userRoles:List[models.SecurityRole])
 @import be.objectify.deadbolt.views.html._
 @import be.objectify.deadbolt.utils.TemplateUtils._
 @import views.html.security._
@@ -82,20 +82,21 @@
 
 	        	<div class="tab-content">
 	        		
-	        		<div id="user_Posts"  class="tab-pane fade in active">             	
+	        		<div id="user_Roles"  class="tab-pane fade in active">             	
 	        			<table class="posts table table-striped table-bordered">   		
 	        				<tbody>
-	        					@for(post <- currentPostPage.getList) {
-	        						@partials.postTable(post, upVotedPostKeys, downVotedPostKeys)
+	        					@for(role <- allRoles) {
+	        					<tr>
+	        						<td class="nl-withoutSpace">
+	        						@defining(userRoles.contains(role)) { hasRole =>
+	        							<i class="@if(hasRole) {icon-ok} else {icon-circle-blank}"></i>&nbsp; <span class="label @if(userRoles.contains(role)) { label-success }">@role.getName()</span>
+	        						}
+	        						</td>
+	        						</tr>
 	        					}
 	        				</tbody>
 	        			</table>
-	        			 
 	        		</div>
-	             	</div>
-	             	@partials.pagination(currentPostPage, 5, 
-            				routes.App.userShow(userToBeShowed.getKey(), tabName, currentPostPage.getPageIndex - 1),
-            				routes.App.userShow(userToBeShowed.getKey(), tabName, currentPostPage.getPageIndex + 1))
 	        </div>
 	    </div>
 	</div>
