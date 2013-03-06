@@ -1,0 +1,30 @@
+@(userToBeShowed: models.User,self: Boolean,following: Boolean,activeTabName:String)
+
+@import be.objectify.deadbolt.views.html._
+@import be.objectify.deadbolt.utils.TemplateUtils._
+@import views.html.security._
+<div>
+	<ul id="top-tab" class="nav nav-tabs">
+		<li id=@Constants.POSTS><a href="@routes.App.userShow(userToBeShowed.getKey(),Constants.POSTS)">@Messages("Posts")</a></li>
+		<li id=@Constants.COMMENTS><a href="@routes.App.userShow(userToBeShowed.getKey(),Constants.COMMENTS)">@Messages("Comments")</a></li>
+		@restrictCombine(la(as("admin")), "models.User.self." + self) {
+		<li id=@Constants.VOTED_POSTS><a href="@routes.App.userShow(userToBeShowed.getKey(),Constants.VOTED_POSTS)">@Messages("Voted_Posts")</a></li>
+		<li id=@Constants.ROLES><a href="@routes.App.userShow(userToBeShowed.getKey(),Constants.ROLES)">@Messages("Roles")</a></li>
+		} 
+		<div id="follow">
+			@if(!self) {
+			<a class="btn btn-follow pull-right" href="javascript:void(0)" data-hide="@following" 
+				data-href="@routes.Api.userFollow(userToBeShowed.getKey())"> 
+				<i class="icon-ok-circle">&nbsp;@Messages("Follow")</i>
+			</a>
+			<a class="btn btn-unfollow pull-right" href="javascript:void(0)" data-hide="@{!following}"
+				data-href="@routes.Api.userUnfollow(userToBeShowed.getKey())"> 
+				<i class="icon-circle-blank">&nbsp;@Messages("Unfollow")</i>
+			</a> 
+			}
+		</div>
+	</ul>
+</div>
+<script type="text/javascript">
+	$('li#@activeTabName').addClass('active');
+</script>

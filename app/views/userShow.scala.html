@@ -22,64 +22,10 @@
     
 	<div class="container-fluid">
     	<div class="row-fluid">
-    		<div class="span3">
-    			<div class="clearfix">
-    				<div class="center-horizontal">
-        				<h3>
-            				<img src="@getProfileImageURLWithNormalSize(userToBeShowed)" alt="@userToBeShowed.getFirstName() @userToBeShowed.getLastName()" width="120px"/>
-        				</h3>
-    					<h4>
-    						<span>@userToBeShowed.getFirstName() @userToBeShowed.getLastName()</span>
-    					</h4>
-    				</div>
-    				<dl class="dl-horizontal">   
-    					@restrict(la(as("admin"))) {
-    						<dt class="text-info"> @Messages("Roles") </dt>
-    						<dd class="text-info"> @if(userToBeShowed.getSecurityRoles().size == 0) { &nbsp; } @for(role <- userToBeShowed.getSecurityRoles()) { @role.getName() &nbsp; } </dd>
-
-    						<dt> @Messages("User.Profile") </dt> 
-    						<dd><a href="https://www.facebook.com/profile.php?id=@userToBeShowed.getOriginalKey()">@userToBeShowed.getFirstName() @userToBeShowed.getLastName()</a></dd>
-
-    						<dt> @Messages("joinedOn") </dt>
-    						<dd> @formatDateToDayAndYear(userToBeShowed.getCreatedOn())</dd>
-	        
-    						<dt> @Messages("User.Email") </dt>
-    						<dd> @if( userToBeShowed.getEmail() != null ) { @userToBeShowed.getEmail() } else { @Messages("Not_Available") } </dd>
-    					}
-	        
-    					</dl>
-    					<div class="span12">
-	    					<ul class="stats">
-	    						<li>
-	    							<a href="@routes.App.userFollowings(userToBeShowed.getKey())">
-	    								<strong>@followingCount</strong>
-	    								<span>@Messages("Following")</span>
-	    							</a>
-	    						</li>
-	    						<li>
-	    							<a href="@routes.App.userFollowers(userToBeShowed.getKey())">
-	    								<strong>@followerCount</strong>
-	    								<span>@Messages("Followers")</span>
-	    							</a>
-	    						</li>
-	    					</ul>
-    					</div>
-    				</div>
-	        </div>
+    		@partials.userShowLeftPane(userToBeShowed,followerCount,followingCount)
+    		
 	        <div class="span7" id="top-div">
-	        	<ul id="top-tab" class="nav nav-tabs" data-target="#top-div">
-	  				<li><a href="@routes.App.userShow(userToBeShowed.getKey(),"Posts")">@Messages("Posts")</a></li>
-	  				<li><a href="@routes.App.userShow(userToBeShowed.getKey(),"Comments")">@Messages("Comments")</a></li>
-	  				<li><a href="@routes.App.userShow(userToBeShowed.getKey(),"Voted_Posts")">@Messages("Voted_Posts")</a></li>
-		        @restrictCombine(la(as("admin")), "models.User.self." + self) {
-	  				<li><a href="@routes.App.userShow(userToBeShowed.getKey(),"Roles")>@Messages("Roles")</a></li>
-  				}
-  				@if(!self) {
-	  					<a class="btn btn-follow pull-right" href="javascript:void(0)" data-hide="@following" data-href="@routes.Api.userFollow(userToBeShowed.getKey())"> <i class="icon-ok-circle">&nbsp;@Messages("Follow")</i></a>
-						<a class="btn btn-unfollow pull-right" href="javascript:void(0)" data-hide="@{!following}" data-href="@routes.Api.userUnfollow(userToBeShowed.getKey())"> <i class="icon-circle-blank">&nbsp;@Messages("Unfollow")</i></a>
-  				}
-				</ul>
-
+	        	@partials.userShowTabs(userToBeShowed,self,following,Constants.POSTS)
 	        	<div class="tab-content">
 	        		
 	        		<div id="user_Posts"  class="tab-pane fade in active">             	
@@ -92,8 +38,8 @@
 	        			</table>
 	        			 
 	        		</div>
-	             	</div>
-	             	@partials.pagination(currentPostPage, 5, 
+	             </div>
+	             	@partials.pagination(currentPostPage, Constants.POSTS_PER_PAGE, 
             				routes.App.userShow(userToBeShowed.getKey(), tabName, currentPostPage.getPageIndex - 1),
             				routes.App.userShow(userToBeShowed.getKey(), tabName, currentPostPage.getPageIndex + 1))
 	        </div>

@@ -23,15 +23,11 @@ import play.Logger;
 import play.Logger.ALogger;
 import play.mvc.Result;
 import play.utils.crud.DynamicTemplateController;
-import views.html.userFollowShow;
-import views.html.userShow;
-import views.html.userShowComments;
-import views.html.userShowRoles;
+import views.html.*;
 import com.avaje.ebean.Page;
 
 public class UserController extends DynamicTemplateController {
 
-	private static final int POSTS_PER_PAGE = 5;
 	private static ALogger log = Logger.of(UserController.class);
 	private PostRatingDAO postRatingDAO;
 	private UserDAO userDAO;
@@ -105,21 +101,25 @@ public class UserController extends DynamicTemplateController {
 		int followerCount = userFollowDAO.getFollowerCount(userToShow);
 		int followingCount = userFollowDAO.getFollowingCount(userToShow);
 
-		userRoles = userToShow.getSecurityRoles();
-		postPage= postDAO.getPostsBy(new ArrayList<String>( Arrays.asList(userToShow.getKey())), pageNumber, POSTS_PER_PAGE);
-//		votedPostPage= postDAO.getPostsBy(new ArrayList<String>( Arrays.asList(userToShow.getKey())), pageNumber, POSTS_PER_PAGE);
 		
-		if(tab ==null || tab.toString().equals("")|| tab.toString().equals("Posts")){
+		
+		if(tab == null || tab.toString().equals("") || tab.toString().equals(Constants.POSTS)){
+			postPage = postDAO.getPostsBy(new ArrayList<String>( Arrays.asList(userToShow.getKey())),
+					pageNumber, Constants.POSTS_PER_PAGE);
 			return ok(userShow.render(userToShow, selfPage,tab, upVotes, downVotes,
 					following, followerCount, followingCount,postPage));
-		}
-		else if(tab.toString().equals("Comments")){
-			commentPage=commentDAO.getCommentsBy(userToShow.getKey(),pageNumber,Constants.COMMENTS_PER_PAGE);
-			return ok(userShowComments.render(userToShow, selfPage,tab, upVotes, downVotes,
+		}else if(tab.toString().equals(Constants.COMMENTS)){
+			commentPage = commentDAO.getCommentsBy(userToShow.getKey(), pageNumber, Constants.COMMENTS_PER_PAGE);
+			return ok(userShowComments.render(userToShow, selfPage,tab,
 					following, followerCount, followingCount,commentPage));
-		}else if(tab.toString().equals("Roles")){
-			return ok(userShowRoles.render(userToShow, selfPage,tab, upVotes, downVotes,
+		}else if(tab.toString().equals(Constants.ROLES)){
+			userRoles = userToShow.getSecurityRoles();
+			return ok(userShowRoles.render(userToShow, selfPage,
 					following, followerCount, followingCount,allRoles, userRoles));
+		}else if(tab.toString().equals(Constants.VOTED_POSTS)){
+			postPage= postRatingDAO.getUpVotedPosts(userToShow, pageNumber);
+			return ok(userShowVotedPages.render(userToShow, selfPage,tab, upVotes, downVotes,
+					following, followerCount, followingCount,postPage));
 		}
 		
 

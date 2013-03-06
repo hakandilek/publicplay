@@ -93,7 +93,7 @@ public class PostRatingDAO extends CachedDAO<PostRatingPK, PostRating> {
 		final Page<Post> set = upVotedPostCache.get(cacheKey, new Callable<Page<Post>>() {
 			public Page<Post> call() throws Exception {
 				postPages.put(key, cacheKey);
-				Page<PostRating> ratingPage = page(page, PAGE_SIZE, "created_on desc", "source_key", u.getKey());
+				Page<PostRating> ratingPage = page(page, PAGE_SIZE, "created_on desc", "user_key", u.getKey());
 				PageAdapter<PostRating, Post> postPage = new PostRatingPageAdapter(ratingPage, postDAO);
 				return postPage;
 			}
