@@ -67,7 +67,6 @@ public class UserController extends DynamicTemplateController {
 	private Result show(User loginUser, User userToShow,String tab,int pageNumber) {
 
 		Page<Post> postPage=null;
-		Page<Post> votedPostPage=null;
 		Page<Comment> commentPage=null;
 		
 		Set<Long> upVotes = userToShow == null ? new TreeSet<Long>()
