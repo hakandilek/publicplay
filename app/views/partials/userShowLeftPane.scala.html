@@ -1,0 +1,56 @@
+@(userToBeShowed: models.User,followerCount:Integer, followingCount:Integer)
+
+@import helper.H._
+@import be.objectify.deadbolt.views.html._
+@import be.objectify.deadbolt.utils.TemplateUtils._
+<div class="span3">
+	<div class="clearfix">
+		<div class="center-horizontal">
+			<h3>
+				<img src="@getProfileImageURLWithNormalSize(userToBeShowed)"
+					alt="@userToBeShowed.getFirstName() @userToBeShowed.getLastName()"
+					width="120px" />
+			</h3>
+			<h4>
+				<span>@userToBeShowed.getFirstName()
+					@userToBeShowed.getLastName()</span>
+			</h4>
+		</div>
+		<dl class="dl-horizontal">
+			@restrict(la(as("admin"))) {
+			<dt class="text-info">@Messages("Roles")</dt>
+			<dd class="text-info">
+				@if(userToBeShowed.getSecurityRoles().size == 0) { &nbsp; }
+				@for(role <- userToBeShowed.getSecurityRoles()) {
+				 @role.getName()&nbsp; 
+				 }
+			</dd>
+
+			<dt>@Messages("User.Profile")</dt>
+			<dd>
+				<a href="https://www.facebook.com/profile.php?id=@userToBeShowed.getOriginalKey()">@userToBeShowed.getFirstName() @userToBeShowed.getLastName()</a>
+			</dd>
+
+			<dt>@Messages("joinedOn")</dt>
+			<dd>@formatDateToDayAndYear(userToBeShowed.getCreatedOn())</dd>
+
+			<dt>@Messages("User.Email")</dt>
+			<dd>@if( userToBeShowed.getEmail() != null ) {
+				@userToBeShowed.getEmail() } else { @Messages("Not_Available") }</dd>
+			}
+
+		</dl>
+		<div class="span12">
+			<ul class="stats">
+				<li><a
+					href="@routes.App.userFollowings(userToBeShowed.getKey())"> <strong>@followingCount</strong>
+						<span>@Messages("Following")</span>
+				</a></li>
+				<li><a
+					href="@routes.App.userFollowers(userToBeShowed.getKey())"> <strong>@followerCount</strong>
+						<span>@Messages("Followers")</span>
+				</a></li>
+			</ul>
+		</div>
+	</div>
+</div>

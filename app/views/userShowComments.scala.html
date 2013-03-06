@@ -1,5 +1,5 @@
-@(userToBeShowed: models.User,self: Boolean,tabName:String, upVotedPostKeys:Set[Long], downVotedPostKeys:Set[Long], following: Boolean, followerCount:Integer, followingCount:Integer,
- currentPostPage: Page[Post])
+@(userToBeShowed: models.User,self: Boolean,tabName:String, following: Boolean, 
+followerCount:Integer, followingCount:Integer,currentCommentPage: Page[Comment])
 @import be.objectify.deadbolt.views.html._
 @import be.objectify.deadbolt.utils.TemplateUtils._
 @import views.html.security._
@@ -25,23 +25,30 @@
     		@partials.userShowLeftPane(userToBeShowed,followerCount,followingCount)
     		
 	        <div class="span7" id="top-div">
-	        	@partials.userShowTabs(userToBeShowed,self,following,Constants.POSTS)
+	        	@partials.userShowTabs(userToBeShowed,self,following,Constants.COMMENTS)
+
 	        	<div class="tab-content">
 	        		
 	        		<div id="user_Posts"  class="tab-pane fade in active">             	
 	        			<table class="posts table table-striped table-bordered">   		
 	        				<tbody>
-	        					@for(post <- currentPostPage.getList) {
-	        						@partials.postTable(post, upVotedPostKeys, downVotedPostKeys)
+	        					@for(comment <- currentCommentPage.getList) {
+	        						@if(comment.getPost() != null) {
+	        						<tr>
+	        							<td class="nl-withoutSpace">
+	        							<a href="@routes.App.postShow(comment.getPost().getKey(), sanitizeURL(comment.getPost().getTitle()))#@comment.getKey()">@comment.getContent()</a>
+	        							</td>
+	        						</tr>
+	        						}
 	        					}
 	        				</tbody>
 	        			</table>
 	        			 
 	        		</div>
-	             </div>
-	             	@partials.pagination(currentPostPage, Constants.POSTS_PER_PAGE, 
-            				routes.App.userShow(userToBeShowed.getKey(), tabName, currentPostPage.getPageIndex - 1),
-            				routes.App.userShow(userToBeShowed.getKey(), tabName, currentPostPage.getPageIndex + 1))
+	             	</div>
+	             	@partials.pagination(currentCommentPage, Constants.COMMENTS_PER_PAGE, 
+            				routes.App.userShow(userToBeShowed.getKey(), tabName, currentCommentPage.getPageIndex - 1),
+            				routes.App.userShow(userToBeShowed.getKey(), tabName, currentCommentPage.getPageIndex + 1))
 	        </div>
 	    </div>
 	</div>

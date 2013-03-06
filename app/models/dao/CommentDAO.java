@@ -35,5 +35,9 @@ public class CommentDAO extends CachedDAO<Long, Comment> {
 		
 		return p;
 	}
+	
+	public Page<Comment> getCommentsBy(String userKey, int page, int pageSize){
+		return find.page(page, pageSize, "createdOn desc", "created_by", userKey);
+	}
    
 }

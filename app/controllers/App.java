@@ -120,8 +120,8 @@ public class App extends Controller {
 
 	@SocialAware
 	@RestrictApproved
-	public static Result userShow(String key) {
-		return userController.show(key);
+	public static Result userShow(String key,String tab,int votedPageNumber) {
+		return userController.show(key,tab,votedPageNumber);
 	}
 	
 	@SocialAware

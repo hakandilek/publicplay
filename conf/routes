@@ -24,7 +24,7 @@ POST    /posts/:postKey/comments/:commentKey        	controllers.App.commentUpda
 GET     /posts/:postKey/comments/:commentKey/delete 	controllers.App.commentDelete(postKey: Long, commentKey: Long)
 #Users
 GET     /users/self                 					controllers.App.userShowSelf()
-GET     /users/:key                 					controllers.App.userShow(key: String)
+GET     /users/:key                 					controllers.App.userShow(key: String,tab:String?=null,page:Int ?= 0)
 GET     /users/:key/follow             					controllers.Api.userFollow(key: String)
 GET     /users/:key/unfollow          					controllers.Api.userUnfollow(key: String)
 GET		/users/:key/followers							controllers.App.userFollowers(key: String, p:Int ?= 0)
