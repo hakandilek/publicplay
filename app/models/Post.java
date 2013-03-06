@@ -194,10 +194,11 @@ public class Post extends Model implements TimestampModel<Long>, Owned<Long> {
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("Post [key=").append(key).append(", title=")
-				.append(title).append(", content=").append(content)
-				.append(", rating=").append(rating).append(", createdOn=")
-				.append(createdOn).append(", updatedOn=").append(updatedOn)
+		builder.append("Post [key=").append(key).append(", version=")
+				.append(version).append(", title=").append(title)
+				.append(", content=").append(content).append(", rating=")
+				.append(rating).append(", createdOn=").append(createdOn)
+				.append(", updatedOn=").append(updatedOn)
 				.append(", creatorIp=").append(creatorIp)
 				.append(", modifierIp=").append(modifierIp).append(", image=")
 				.append(image).append(", comments=").append(comments)

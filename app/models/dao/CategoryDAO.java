@@ -38,19 +38,52 @@ public class CategoryDAO extends CachedDAO<String, Category> {
 	}
 	
 	public void update(String key, Category newCat) {
+		if (log.isDebugEnabled())
+			log.debug("update() <-");
+		if (log.isDebugEnabled())
+			log.debug("key : " + key);
+		if (log.isDebugEnabled())
+			log.debug("newCat : " + newCat);
+		
 		Category oldCat = get(key);
 		final Set<Post> posts = oldCat.getPosts();
 		try {
-			remove(key);
+			
+			//create new category
+			if (log.isDebugEnabled())
+				log.debug("create newCat : " + newCat);
 			create(newCat);
+			
 			for (Post post : posts) {
-				post.setCategory(newCat);
-				postDAO.update(post.getKey(), post);
+				//assign posts to the new category
+				
+				Long postKey = post.getKey();
+				Post p = postDAO.get(postKey);
+				p.setCategory(newCat);
+				
+				if (log.isDebugEnabled())
+					log.debug("update p : " + p);
+				postDAO.update(postKey, p);
 			}
-			find.put(newCat.getName(), newCat);
+			
+			//remove old category
+			if (log.isDebugEnabled())
+				log.debug("remove key : " + key);
+			remove(key);
+			
+			//update cache
+			String newKey = newCat.getKey();
+			find.clean(newKey);
+			newCat = get(newKey);
+			if (log.isDebugEnabled())
+				log.debug("update cache for newCat : " + newCat);
+			find.put(newKey, newCat);
 		} catch (EntityNotFoundException e) {
 			log.error("entity not found:" +key, e);
 		}
+		
+		if (log.isDebugEnabled())
+			log.debug(" update finished.");
 	}
 
 
