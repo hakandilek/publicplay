@@ -29,11 +29,16 @@
                 <!-- .nav, .navbar-search, .navbar-form, etc -->
                 <ul class="nav pull-right">
                     <!-- home -->
-                    <li><a href="@routes.App.index()"><i class="icon-home icon-white"></i>&nbsp;@Messages("home")</a></li>
+                    <li><a href="@routes.App.index()"><i class="icon-home icon-white"></i>&nbsp;@Messages("Home")</a></li>
                     
+            @views.html.security.roleHolderPresent(){
+                    <!-- new post -->
+                    <li><a href="@routes.App.postNewForm()"><i class="icon-home icon-edit"></i>&nbsp;@Messages("new_post")</a></li>
+            }
+                
             @views.html.security.roleHolderNotPresent(){
                     <!-- login -->
-                    <li><a href="#" data-toggle="modal" data-target="#loginModal"><i class="icon-facebook icon-white"></i>&nbsp;@Messages("login")</a></li>
+                    <li><a href="#" data-toggle="modal" data-target="#loginModal"><i class="icon-facebook icon-white"></i>&nbsp;@Messages("Login")</a></li>
             }
                 
             @restrict(la(as("admin"))) {
