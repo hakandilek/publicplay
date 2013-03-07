@@ -7,6 +7,9 @@ insert into TBL_CATEGORY (name) values ('category3');
 insert into TBL_CATEGORY (name) values ('category4');
 insert into TBL_CATEGORY (name) values ('category5');
 
+insert into TBL_REPUTATION_VALUE (name,value) values ('rateUp',20);
+insert into TBL_REPUTATION_VALUE (name,value) values ('rateDown',-5);
+
 insert into TBL_SECURITY_ROLE (key, name) values (-1, 'admin');
 insert into TBL_SECURITY_ROLE (key, name) values (-2, 'role1');
 insert into TBL_SECURITY_ROLE (key, name) values (-3, 'role2');
@@ -107,3 +110,5 @@ delete from category where name = 'category2';
 delete from category where name = 'category3';
 delete from category where name = 'category4';
 delete from category where name = 'category5';
+delete from TBL_REPUTATION_VALUE where key = 'rateUp';
+delete from TBL_REPUTATION_VALUE where key = 'rateDown'; 

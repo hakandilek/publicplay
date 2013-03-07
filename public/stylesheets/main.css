@@ -101,14 +101,17 @@ div.fb-like {min-height: 30px; height: 80px; }
 a:focus { outline:none }
 
 ul.stats{border-bottom: 1px solid #DDDDDD;
-    margin: 0 0 17px;
-    padding: 6px 0 15px; }
+    margin: 15px 0 17px;
+    padding: 6px 0 15px; 
+    text-align: center;
+}
 ul.stats li {
     display: inline-block;
     list-style-type: none;
     min-width: 70px;
 }
 ul.stats li strong {font-size: 28px;font-weight: bold;}
+ul.stats li#reputation strong{font-size: 36px;font-weight: bold;}
 ul.stats li span {color: #999999;display: block;font-size: 11px;margin-top: -2px;}
 
 .gravatar {

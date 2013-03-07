@@ -16,6 +16,7 @@ import controllers.crud.CategoryCRUDController;
 import controllers.crud.CommentCRUDController;
 import controllers.crud.PostCRUDController;
 import controllers.crud.PostRatingCRUDController;
+import controllers.crud.ReputationValueCRUDController;
 import controllers.crud.S3FileCRUDController;
 import controllers.crud.SecurityRoleCRUDController;
 import controllers.crud.SourceConfigurationCRUDController;
@@ -28,6 +29,7 @@ public class Admin extends Controller {
 	public static final int PAGE_SIZE = 20;
 
 	@Inject static CategoryCRUDController categoryController;
+	@Inject static ReputationValueCRUDController reputationValueController;
 	@Inject static CommentCRUDController commentController;
 	@Inject static PostCRUDController postController;
 	@Inject static PostRatingCRUDController postRatingController;
@@ -68,6 +70,34 @@ public class Admin extends Controller {
 
 	@Secure @Restrict("admin") @RestrictApproved public static Result categoryShow(String key) {
 		return categoryController.show(key);
+	}
+	
+	@Secure @Restrict("admin") @RestrictApproved public static Result reputationValueList(int page) {
+		return reputationValueController.list(page);
+	}
+
+	@Secure @Restrict("admin") @RestrictApproved public static Result reputationValueNewForm() {
+		return reputationValueController.newForm();
+	}
+
+	@Secure @Restrict("admin") @RestrictApproved public static Result reputationValueCreate() {
+		return reputationValueController.create();
+	}
+
+	@Secure @Restrict("admin") @RestrictApproved public static Result reputationValueEditForm(String key) {
+		return reputationValueController.editForm(key);
+	}
+
+	@Secure @Restrict("admin") @RestrictApproved public static Result reputationValueUpdate(String key) {
+		return reputationValueController.update(key);
+	}
+
+	@Secure @Restrict("admin") @RestrictApproved public static Result reputationValueDelete(String key) {
+		return reputationValueController.delete(key);
+	}
+
+	@Secure @Restrict("admin") @RestrictApproved public static Result reputationValueShow(String key) {
+		return reputationValueController.show(key);
 	}
 	
 	@Secure @Restrict("admin") @RestrictApproved public static Result commentList(int page) {

@@ -1,5 +1,5 @@
 @(userToBeShowed: models.User,self: Boolean,tabName:String, following: Boolean, 
-followerCount:Integer, followingCount:Integer,currentCommentPage: Page[Comment])
+followerCount:Integer, followingCount:Integer,reputation:Integer,currentCommentPage: Page[Comment])
 @import be.objectify.deadbolt.views.html._
 @import be.objectify.deadbolt.utils.TemplateUtils._
 @import views.html.security._
@@ -22,7 +22,7 @@ followerCount:Integer, followingCount:Integer,currentCommentPage: Page[Comment])
     
 	<div class="container-fluid">
     	<div class="row-fluid">
-    		@partials.userShowLeftPane(userToBeShowed,followerCount,followingCount)
+    		@partials.userShowLeftPane(userToBeShowed,followerCount,followingCount,reputation)
     		
 	        <div class="span7" id="top-div">
 	        	@partials.userShowTabs(userToBeShowed,self,following,Constants.COMMENTS)

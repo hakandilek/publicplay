@@ -49,6 +49,23 @@ create table TBL_POST_RATING (
   constraint pk_TBL_POST_RATING primary key (user_key, post_key))
 ;
 
+create table TBL_REPUTATION (
+  key                       bigint not null,
+  name                      varchar(255),
+  created_on                timestamp,
+  value                     integer,
+  updated_on                timestamp,
+  created_by                varchar(255),
+  revision                  integer not null,
+  constraint pk_TBL_REPUTATION primary key (key))
+;
+
+create table TBL_REPUTATION_VALUE (
+  name                      varchar(255) not null,
+  value                     integer,
+  constraint pk_TBL_REPUTATION_VALUE primary key (name))
+;
+
 create table TBL_S3FILE (
   id                        varchar(40) not null,
   bucket                    varchar(255),
@@ -136,6 +153,10 @@ create sequence TBL_POST_seq;
 
 create sequence TBL_POST_RATING_seq;
 
+create sequence TBL_REPUTATION_seq;
+
+create sequence TBL_REPUTATION_VALUE_seq;
+
 create sequence TBL_SECURITY_ROLE_seq;
 
 create sequence TBL_SOURCE_CONFIG_seq;
@@ -158,6 +179,8 @@ alter table TBL_POST add constraint fk_TBL_POST_updatedBy_6 foreign key (updated
 create index ix_TBL_POST_updatedBy_6 on TBL_POST (updated_by);
 alter table TBL_POST add constraint fk_TBL_POST_category_7 foreign key (category) references TBL_CATEGORY (name) on delete restrict on update restrict;
 create index ix_TBL_POST_category_7 on TBL_POST (category);
+alter table TBL_REPUTATION add constraint fk_TBL_REPUTATION_createdBy_8 foreign key (created_by) references TBL_USER (key) on delete restrict on update restrict;
+create index ix_TBL_REPUTATION_createdBy_8 on TBL_REPUTATION (created_by);
 
 
 
@@ -176,6 +199,10 @@ drop table if exists TBL_COMMENT;
 drop table if exists TBL_POST;
 
 drop table if exists TBL_POST_RATING;
+
+drop table if exists TBL_REPUTATION;
+
+drop table if exists TBL_REPUTATION_VALUE;
 
 drop table if exists TBL_S3FILE;
 
@@ -198,6 +225,10 @@ drop sequence if exists TBL_COMMENT_seq;
 drop sequence if exists TBL_POST_seq;
 
 drop sequence if exists TBL_POST_RATING_seq;
+
+drop sequence if exists TBL_REPUTATION_seq;
+
+drop sequence if exists TBL_REPUTATION_VALUE_seq;
 
 drop sequence if exists TBL_SECURITY_ROLE_seq;
 

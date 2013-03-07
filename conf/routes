@@ -103,6 +103,14 @@ GET     /admin/userFollow/:key/edit         			controllers.Admin.userFollowEditF
 POST    /admin/userFollow/:key/update       			controllers.Admin.userFollowUpdate(key:String)
 GET     /admin/userFollow/:key/delete       			controllers.Admin.userFollowDelete(key:String)
 GET     /admin/userFollow/:key/show         			controllers.Admin.userFollowShow(key:String)
+GET     /admin/reputationValue/list            			controllers.Admin.reputationValueList(p:Int ?= 0)
+POST    /admin/reputationValue                 			controllers.Admin.reputationValueCreate()
+GET     /admin/reputationValue/new             			controllers.Admin.reputationValueNewForm()
+GET     /admin/reputationValue/:key/edit       			controllers.Admin.reputationValueEditForm(key)
+POST    /admin/reputationValue/:key/update     			controllers.Admin.reputationValueUpdate(key)
+GET     /admin/reputationValue/:key/delete     			controllers.Admin.reputationValueDelete(key)
+GET     /admin/reputationValue/:key/show       			controllers.Admin.reputationValueShow(key)
+
 
 # JSON API
 PUT     /api/category/:key              				controllers.Api.categoryUpdate(key: String)
