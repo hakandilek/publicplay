@@ -1,9 +1,8 @@
 Page_title={0} - PublicPlay
 Brand_title= - Opensource showcase 
 
-
 Project_definition=PublicPlay, <a href="http://github.com/playframework/play">Play Framework</a> ile geliştirilmiş basit bir forum uygulamasıdır. Yeni bir Play uygulamasına başlamak isteyenler için taslak olarak düşünülmüştür. <br/><br/> Keyfini çıkarın!
-home=Ana sayfa
+Home=Ana sayfa
 Administration=Yönetim
 Access_failed=Erişim hatası
 Access_failed_detail=Anlaşılan buraya erişim hakkınız yok
@@ -21,7 +20,7 @@ Logout=Çıkış
 displaying_num_of_num_pages={1} sayfadan {0}. görüntüleniyor
 as_profile={0} olarak
 login_with_facebook=Facebook ile giriş yapın
-login=Giriş yapın
+Login=Giriş yapın
 Top_posts=En beğenilenler
 Daily_Top10=Bugün
 Weekly_Top10=Bu hafta
@@ -53,7 +52,7 @@ requested_page_not_found=Sayfa bulunamadı: {0}
 
 # Post
 update_post=başlığı düzenle
-new_post=yeni başlık
+new_post=Yeni Başlık
 update_post_detail=Başlığı düzenle
 new_post_detail=Yeni bir başlık ekle
 Post_num={0} başlık

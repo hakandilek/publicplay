@@ -14,6 +14,7 @@ import socialauth.core.Secure;
 import be.objectify.deadbolt.actions.Restrict;
 import controllers.crud.CategoryCRUDController;
 import controllers.crud.CommentCRUDController;
+import controllers.crud.ContentReportCRUDController;
 import controllers.crud.PostCRUDController;
 import controllers.crud.PostRatingCRUDController;
 import controllers.crud.S3FileCRUDController;
@@ -37,6 +38,7 @@ public class Admin extends Controller {
 	@Inject static UserAPIController userAPI;
 	@Inject static SourceConfigurationCRUDController sourceConfigurationController;
 	@Inject static UserFollowCRUDController userFollowController;
+	@Inject static ContentReportCRUDController contentReportController;
 
 	@Secure @Restrict("admin") @RestrictApproved public static Result index() {
 		return ok(views.html.admin.index.render());
@@ -341,6 +343,34 @@ public class Admin extends Controller {
 
 	@Secure @Restrict("admin") @RestrictApproved public static Result userFollowShow(String key) {
 		return userFollowController.show(UserFollowPK.fromString(key));
+	}
+
+	@Secure @Restrict("admin") @RestrictApproved public static Result contentReportList(int page) {
+		return contentReportController.list(page);
+	}
+
+	@Secure @Restrict("admin") @RestrictApproved public static Result contentReportNewForm() {
+		return contentReportController.newForm();
+	}
+
+	@Secure @Restrict("admin") @RestrictApproved public static Result contentReportCreate() {
+		return contentReportController.create();
+	}
+
+	@Secure @Restrict("admin") @RestrictApproved public static Result contentReportEditForm(Long key) {
+		return contentReportController.editForm(key);
+	}
+
+	@Secure @Restrict("admin") @RestrictApproved public static Result contentReportUpdate(Long key) {
+		return contentReportController.update(key);
+	}
+
+	@Secure @Restrict("admin") @RestrictApproved public static Result contentReportDelete(Long key) {
+		return contentReportController.delete(key);
+	}
+
+	@Secure @Restrict("admin") @RestrictApproved public static Result contentReportShow(Long key) {
+		return contentReportController.show(key);
 	}
 
 }

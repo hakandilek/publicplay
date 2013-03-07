@@ -103,6 +103,13 @@ GET     /admin/userFollow/:key/edit         			controllers.Admin.userFollowEditF
 POST    /admin/userFollow/:key/update       			controllers.Admin.userFollowUpdate(key:String)
 GET     /admin/userFollow/:key/delete       			controllers.Admin.userFollowDelete(key:String)
 GET     /admin/userFollow/:key/show         			controllers.Admin.userFollowShow(key:String)
+GET     /admin/report/list             					controllers.Admin.contentReportList(p:Int ?= 0)
+POST    /admin/report                  					controllers.Admin.contentReportCreate()
+GET     /admin/report/new              					controllers.Admin.contentReportNewForm()
+GET     /admin/report/:key/edit        					controllers.Admin.contentReportEditForm(key:Long)
+POST    /admin/report/:key/update      					controllers.Admin.contentReportUpdate(key:Long)
+GET     /admin/report/:key/delete      					controllers.Admin.contentReportDelete(key:Long)
+GET     /admin/report/:key/show        					controllers.Admin.contentReportShow(key:Long)
 
 # JSON API
 PUT     /api/category/:key              				controllers.Api.categoryUpdate(key: String)
@@ -115,6 +122,8 @@ GET     /api/securityRole/           				    controllers.Api.securityRoleList()
 PUT     /api/user/:key                  				controllers.Api.userUpdate(key: String)
 POST    /api/user/:key/roleUpdate               		controllers.Api.userRoleUpdate(key: String)
 PUT     /api/config/:key                				controllers.Api.sourceConfigurationUpdate(key: Long)
+GET     /api/report/:key        						controllers.Api.contentReportUpdate(key:Long)
+POST    /api/report/        							controllers.Api.contentReportCreate()
 # API fallback
 GET     /api/*resource                 					controllers.Api.invalid(resource: String)
 POST    /api/*resource                 					controllers.Api.invalid(resource: String)

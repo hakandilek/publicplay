@@ -47,7 +47,7 @@ requested_page_not_found=Page you requested not found: {0}
  
 # Post
 update_post=update post
-new_post=new post
+new_post=New Post
 update_post_detail=Update a post
 new_post_detail=Add a new post
 Post_num={0} Post(s)
