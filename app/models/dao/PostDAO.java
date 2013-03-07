@@ -87,10 +87,11 @@ public class PostDAO extends CachedDAO<Long, Post> {
 		});
 	}
 
-	public Page<Post> getPostsBy(List<String> followingUsers,int page,
+	public Page<Post> getPostsCreatedBy(List<String> usernames, int page,
 			int pageSize) {
-		return find.where().in("created_by", followingUsers).orderBy("createdOn desc")
-				.findPagingList(pageSize).getPage(page);
+		return find.where().in("created_by", usernames)
+				.orderBy("createdOn desc").findPagingList(pageSize)
+				.getPage(page);
 	}
 
 }

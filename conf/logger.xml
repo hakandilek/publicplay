@@ -22,9 +22,10 @@
   <logger name="controllers" level="DEBUG" />
   <logger name="security" level="INFO" />
   <logger name="models" level="INFO" />
+  <logger name="models.dao" level="DEBUG" />
   <logger name="socialauth" level="INFO" />
   <!-- db logging -->
-  <logger name="com.jolbox.bonecp" level="INFO" />
+  <logger name="com.jolbox.bonecp" level="DEBUG" />
   <logger name="play.utils.cache" level="DEBUG" />
   <logger name="play.utils.dao" level="DEBUG" />
 
