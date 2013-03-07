@@ -5,6 +5,8 @@ PublicPlay is yet another forum application built with the [play framework](http
 
 See it in action [here](http://publicplay.herokuapp.com/).
 
+[![Build Status](https://publicplay.ci.cloudbees.com/job/publicplay/badge/icon)](https://publicplay.ci.cloudbees.com/job/publicplay/)
+
 Features
 --------
 
