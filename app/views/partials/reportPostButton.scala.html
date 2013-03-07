@@ -1,0 +1,80 @@
+@(post: Post) 
+@import helper._ 
+@import helper.H._
+@import helper.PostHelper._
+@import views.html.security._
+
+@roleHolderPresent() {
+	<a class="btn btn-mini btn-warning" data-toggle="modal" href="#rate-@post.getKey()"> <i class="icon-warning-sign"></i>&nbsp;@Messages("Report_content")</a>
+
+	<!-- Modal -->
+	<div id="rate-@post.getKey()" class="modal hide fade rate-modal" tabindex="-1" role="dialog"
+		aria-labelledby="rate-@post.getKey()-label" aria-hidden="true">
+		<div class="modal-header container-fluid">
+		    <div class="row-fluid">
+		    	<div class="span10 offset1">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+					<h3 id="rate-@post.getKey()-label">@Messages("Report_content")</h3>
+				</div>
+			</div>
+		</div>
+		<div class="modal-body container-fluid">
+		    <div class="row-fluid">
+		    	<div class="span10 offset1">
+		    		<p class="lead nl-withoutSpace">@post.getTitle()</p>
+		    	</div>
+		    </div>
+    		<div class="row-fluid">
+		    	<div class="span10 offset1">
+	       			<p class="nl-withoutSpace">@post.getContent()</p>
+	       			<small>
+	 			        @if(post.getUpdatedBy() == null) { 
+				        @Html(Messages("CreatedOn_By", prettify(post.getCreatedOn()), partials.userProfile(post.getCreatedBy()))) } else { 
+				        @Html(Messages("UpdatedOn_By", prettify(post.getUpdatedOn()), partials.userProfile(post.getUpdatedBy()))) }
+	       			</small>
+       			</div>
+    		</div>
+    		
+	    	<div id="report-form" class="row-fluid">
+		    	<div class="span10 offset1">
+		    		<form action="@routes.Api.contentReportCreate()" class="form-horizontal">
+	
+						<select>
+						  <option>1</option>
+						  <option>2</option>
+						  <option>3</option>
+						  <option>4</option>
+						  <option>5</option>
+						</select>
+	
+						@**
+				        <div class="control-group">
+				        @select(reportForm("reason"), args = '_label -> Messages("ContentReport.reason.label"), 
+				        	options=reasons.map{ c => c -> (Messages("ContentReport." + c)) })
+				        </div>
+				        
+				        <div class="control-group"> 
+				        @inputText(reportForm("comment"), args = '_label -> Messages("Post.title.label"), Symbol("data-maxchars") -> "120")
+				        </div>
+				        **@
+					</form>
+				<!-- report -->
+	    		</div>	
+	    	</div>
+    		
+		</div>
+		<div class="modal-footer container-fluid">
+		    <div class="row-fluid">
+		    	<div class="span10 offset1">
+					<button class="btn" data-dismiss="modal" aria-hidden="true">@Messages("Close")</button>
+					<button class="btn btn-primary">@Messages("Report")</button>
+				</div>
+			</div>
+		</div>
+	</div>
+} 
+
+@roleHolderNotPresent() {
+	<a data-toggle="modal" href="javascript:void(0)" data-target="#loginModal" class="rate" data-key="rate-@post.getKey()"><i class="icon-caret-up unrated"></i></a>
+	<a data-toggle="modal" href="javascript:void(0)" data-target="#loginModal" class="rate" data-key="rate-@post.getKey()"><i class="icon-caret-down unrated"></i></a>
+}

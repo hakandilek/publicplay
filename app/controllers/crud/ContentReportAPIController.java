@@ -9,6 +9,8 @@ import models.ContentReport.ContentType;
 import models.ContentReport.Reason;
 import models.User;
 import models.dao.ContentReportDAO;
+import play.Logger;
+import play.Logger.ALogger;
 import play.mvc.Result;
 import play.utils.crud.APIController;
 
@@ -19,6 +21,8 @@ import controllers.HttpUtils;
 public class ContentReportAPIController extends
 		APIController<Long, ContentReport> {
 
+	private static ALogger log = Logger.of(ContentReportAPIController.class);
+	
 	@Inject
 	public ContentReportAPIController(ContentReportDAO ContentReportDAO) {
 		super(ContentReportDAO);
@@ -26,8 +30,15 @@ public class ContentReportAPIController extends
 
 	@Override
 	public Result create() {
+		if (log.isDebugEnabled())
+			log.debug("create <-");
+		
 		Result check = checkRequired("contentKey", "contentType", "reason");
+		System.out.println(check);
 		if (check != null) {
+			if (log.isDebugEnabled())
+				log.debug("check : " + check);
+
 			return check;
 		}
 
@@ -47,7 +58,11 @@ public class ContentReportAPIController extends
 		m.setContentType(contentType);
 		m.setReason(reason);
 		m.setCreatedBy(user);
+		
 		Long key = dao.create(m);
+		if (log.isDebugEnabled())
+			log.debug("key : " + key);
+
 		return created(toJson(ImmutableMap.of("status", "OK", "key", key,
 				"data", m)));
 	}
