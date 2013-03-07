@@ -133,8 +133,6 @@ public class UserAPIController extends APIController<String, User> {
 					"message", "entity with the given key not found")));
 		}
 
-		String fieldName = Character.toUpperCase(name.charAt(0)) + name.substring(1);
-
 		dao.update(key, u);
 		if (log.isDebugEnabled())
 			log.debug("updated.");

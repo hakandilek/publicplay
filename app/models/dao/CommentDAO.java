@@ -31,8 +31,6 @@ public class CommentDAO extends CachedDAO<Long, Comment> {
 	 */
 	public Page<Comment> page(Long postKey, int page, int pageSize) {
 		Page<Comment> p = find.page(page, pageSize, "createdOn desc", "postKey", postKey);
-		System.out.println(p.getTotalRowCount());
-		
 		return p;
 	}
 	

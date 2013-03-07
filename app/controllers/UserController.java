@@ -105,7 +105,7 @@ public class UserController extends DynamicTemplateController {
 		
 		
 		if(tab == null || tab.toString().equals("") || tab.toString().equals(Constants.POSTS)){
-			postPage = postDAO.getPostsBy(new ArrayList<String>( Arrays.asList(userToShow.getKey())),
+			postPage = postDAO.getPostsCreatedBy(new ArrayList<String>( Arrays.asList(userToShow.getKey())),
 					pageNumber, Constants.POSTS_PER_PAGE);
 			return ok(userShow.render(userToShow, selfPage,tab, upVotes, downVotes,
 					following, followerCount, followingCount,reputation,postPage));

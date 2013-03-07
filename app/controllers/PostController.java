@@ -124,7 +124,7 @@ public class PostController extends DynamicTemplateController implements
 		List<String> followingUserKeys = userFollowDAO.getAllFollowingsKeys(user);
 		Page<Post> pg=null;
 		if (followingUserKeys!=null && followingUserKeys.size()>0) {
-			pg= postDAO.getPostsBy(followingUserKeys, page, POSTS_PER_PAGE);
+			pg= postDAO.getPostsCreatedBy(followingUserKeys, page, POSTS_PER_PAGE);
 		}
 		
 		if (Logger.isDebugEnabled())
