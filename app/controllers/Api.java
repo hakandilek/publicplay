@@ -35,6 +35,7 @@ public class Api extends App {
 	@Inject static SecurityRoleAPIController securityRoleAPI;
 	@Inject static UserAPIController userAPI;
 	@Inject static SourceConfigurationAPIController sourceConfigurationAPI;
+	@Inject static CommentAPIController contentReportAPI;
 	
 	@Secure
 	@BodyParser.Of(Json.class)
@@ -112,6 +113,18 @@ public class Api extends App {
 	@RestrictApproved
 	public static Result userUnfollow(String key) {
 		return userAPI.unfollow(key);
+	}
+
+	@Secure
+	@BodyParser.Of(Json.class)
+	public static Result contentReportCreate() {
+		return contentReportAPI.create();
+	}
+	
+	@Secure
+	@BodyParser.Of(Json.class)
+	public static Result contentReportUpdate(Long key) {
+		return contentReportAPI.update(key);
 	}
 
 

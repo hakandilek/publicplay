@@ -6,6 +6,7 @@ import java.util.TreeSet;
 import javax.inject.Inject;
 
 import models.Comment;
+import models.ContentStatus;
 import models.Post;
 import models.User;
 import models.dao.CommentDAO;
@@ -64,6 +65,7 @@ public class CommentController extends DynamicTemplateController implements Cons
 			comment.setPost(post);
 			comment.setCreatedBy(user);
 			comment.setCreatorIp(request().remoteAddress());
+			comment.setStatus(ContentStatus.NEW);
 
 			if (log.isDebugEnabled())
 				log.debug("comment : " + comment);
@@ -133,6 +135,8 @@ public class CommentController extends DynamicTemplateController implements Cons
 			comment.setCreatorIp(commentData.getCreatorIp());
 			comment.setUpdatedBy(user);
 			comment.setModifierIp(request().remoteAddress());
+			comment.setStatus(ContentStatus.UPDATED);
+
 
 			if (log.isDebugEnabled())
 				log.debug("comment : " + comment);

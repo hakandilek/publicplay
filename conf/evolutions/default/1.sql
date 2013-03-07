@@ -18,8 +18,28 @@ create table TBL_COMMENT (
   postKey                   bigint,
   created_by                varchar(255),
   updated_by                varchar(255),
+  status                    varchar(1),
   revision                  integer not null,
+  constraint ck_TBL_COMMENT_status check (status in ('N','E','U','A','D')),
   constraint pk_TBL_COMMENT primary key (key))
+;
+
+create table TBL_CONTENT_REPORT (
+  key                       bigint not null,
+  created_on                timestamp,
+  updated_on                timestamp,
+  created_by                varchar(255),
+  updated_by                varchar(255),
+  content_key               bigint,
+  comment                   varchar(512),
+  status                    varchar(1),
+  content_type              varchar(1),
+  reason                    varchar(1),
+  revision                  integer not null,
+  constraint ck_TBL_CONTENT_REPORT_status check (status in ('N','I','P')),
+  constraint ck_TBL_CONTENT_REPORT_content_type check (content_type in ('P','C')),
+  constraint ck_TBL_CONTENT_REPORT_reason check (reason in ('E','O','I','C')),
+  constraint pk_TBL_CONTENT_REPORT primary key (key))
 ;
 
 create table TBL_POST (
@@ -35,7 +55,9 @@ create table TBL_POST (
   created_by                varchar(255),
   updated_by                varchar(255),
   category                  varchar(255),
+  status                    varchar(1),
   version                   integer not null,
+  constraint ck_TBL_POST_status check (status in ('N','E','U','A','D')),
   constraint pk_TBL_POST primary key (key))
 ;
 
@@ -132,6 +154,8 @@ create sequence TBL_CATEGORY_seq;
 
 create sequence TBL_COMMENT_seq;
 
+create sequence TBL_CONTENT_REPORT_seq;
+
 create sequence TBL_POST_seq;
 
 create sequence TBL_POST_RATING_seq;
@@ -150,14 +174,18 @@ alter table TBL_COMMENT add constraint fk_TBL_COMMENT_createdBy_2 foreign key (c
 create index ix_TBL_COMMENT_createdBy_2 on TBL_COMMENT (created_by);
 alter table TBL_COMMENT add constraint fk_TBL_COMMENT_updatedBy_3 foreign key (updated_by) references TBL_USER (key) on delete restrict on update restrict;
 create index ix_TBL_COMMENT_updatedBy_3 on TBL_COMMENT (updated_by);
-alter table TBL_POST add constraint fk_TBL_POST_image_4 foreign key (image_id) references TBL_S3FILE (id) on delete restrict on update restrict;
-create index ix_TBL_POST_image_4 on TBL_POST (image_id);
-alter table TBL_POST add constraint fk_TBL_POST_createdBy_5 foreign key (created_by) references TBL_USER (key) on delete restrict on update restrict;
-create index ix_TBL_POST_createdBy_5 on TBL_POST (created_by);
-alter table TBL_POST add constraint fk_TBL_POST_updatedBy_6 foreign key (updated_by) references TBL_USER (key) on delete restrict on update restrict;
-create index ix_TBL_POST_updatedBy_6 on TBL_POST (updated_by);
-alter table TBL_POST add constraint fk_TBL_POST_category_7 foreign key (category) references TBL_CATEGORY (name) on delete restrict on update restrict;
-create index ix_TBL_POST_category_7 on TBL_POST (category);
+alter table TBL_CONTENT_REPORT add constraint fk_TBL_CONTENT_REPORT_createdB_4 foreign key (created_by) references TBL_USER (key) on delete restrict on update restrict;
+create index ix_TBL_CONTENT_REPORT_createdB_4 on TBL_CONTENT_REPORT (created_by);
+alter table TBL_CONTENT_REPORT add constraint fk_TBL_CONTENT_REPORT_updatedB_5 foreign key (updated_by) references TBL_USER (key) on delete restrict on update restrict;
+create index ix_TBL_CONTENT_REPORT_updatedB_5 on TBL_CONTENT_REPORT (updated_by);
+alter table TBL_POST add constraint fk_TBL_POST_image_6 foreign key (image_id) references TBL_S3FILE (id) on delete restrict on update restrict;
+create index ix_TBL_POST_image_6 on TBL_POST (image_id);
+alter table TBL_POST add constraint fk_TBL_POST_createdBy_7 foreign key (created_by) references TBL_USER (key) on delete restrict on update restrict;
+create index ix_TBL_POST_createdBy_7 on TBL_POST (created_by);
+alter table TBL_POST add constraint fk_TBL_POST_updatedBy_8 foreign key (updated_by) references TBL_USER (key) on delete restrict on update restrict;
+create index ix_TBL_POST_updatedBy_8 on TBL_POST (updated_by);
+alter table TBL_POST add constraint fk_TBL_POST_category_9 foreign key (category) references TBL_CATEGORY (name) on delete restrict on update restrict;
+create index ix_TBL_POST_category_9 on TBL_POST (category);
 
 
 
@@ -172,6 +200,8 @@ SET REFERENTIAL_INTEGRITY FALSE;
 drop table if exists TBL_CATEGORY;
 
 drop table if exists TBL_COMMENT;
+
+drop table if exists TBL_CONTENT_REPORT;
 
 drop table if exists TBL_POST;
 
@@ -194,6 +224,8 @@ SET REFERENTIAL_INTEGRITY TRUE;
 drop sequence if exists TBL_CATEGORY_seq;
 
 drop sequence if exists TBL_COMMENT_seq;
+
+drop sequence if exists TBL_CONTENT_REPORT_seq;
 
 drop sequence if exists TBL_POST_seq;
 
