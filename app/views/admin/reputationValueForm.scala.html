@@ -1,0 +1,19 @@
+@(key: String, modelForm: Form[ReputationValue])
+@import helper._ 
+@import helper.twitterBootstrap._
+
+@template.main(if(key != null) Messages("update_reputation_value") else Messages("new_reputation_value")) {
+
+	<h3>@if(key != null) { @Messages("update_reputation_value") } else { @Messages("new_reputation_value") } </h3>
+    
+    @form(if(key != null) { routes.Admin.reputationValueUpdate(modelForm.get().getKey()) } 
+          else             { routes.Admin.reputationValueCreate() }) { 
+     
+        @inputText(modelForm("name"), args = '_label -> Messages("reputation.name.label"))
+    
+        @inputText(modelForm("value"), args = '_label -> Messages("reputation.value.label"))
+        <div>
+           <input type="submit" class="btn btn-success" value="@if(key != null) { @Messages("Update") } else { @Messages("Create") }">
+        </div>
+    } 
+}

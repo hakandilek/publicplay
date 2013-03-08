@@ -160,3 +160,14 @@ SourceConfiguration.imageLinkValue.label=ImageLink.value
 SourceConfiguration.imageLinkRequired.label=ImageLink.Required
 SourceConfiguration.bulkData.label=bulk configuration 
 update_sourceConfiguration=update config
+
+#Reputation
+Reputation=Reputation
+
+# ReputationValue
+Reputation_Value=Reputation Value
+update_reputation_value=update reputation value
+new_reputation_value=new reputation value
+Create_new_reputation_value=Create new reputation value
+reputation.value.label=Value:
+reputation.name.label=Name:

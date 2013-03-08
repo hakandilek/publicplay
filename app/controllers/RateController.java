@@ -8,6 +8,7 @@ import models.PostRatingPK;
 import models.User;
 import models.dao.PostDAO;
 import models.dao.PostRatingDAO;
+import models.dao.ReputationDAO;
 import play.Logger;
 import play.Logger.ALogger;
 import play.mvc.Controller;
@@ -22,12 +23,14 @@ public class RateController extends Controller implements Constants {
 	
 	PostDAO postDAO;
 	PostRatingDAO postRatingDAO;
+	ReputationDAO reputationDAO;
 
 	@Inject
-	public RateController(PostDAO postDAO, PostRatingDAO postRatingDAO) {
+	public RateController(PostDAO postDAO, PostRatingDAO postRatingDAO, ReputationDAO reputationDAO) {
 		super();
 		this.postDAO = postDAO;
 		this.postRatingDAO = postRatingDAO;
+		this.reputationDAO = reputationDAO;
 	}
 
 	/**
@@ -38,7 +41,9 @@ public class RateController extends Controller implements Constants {
 	public Result rateUp(Long key) {
 		if (log.isDebugEnabled())
 			log.debug("rateUp <-" + key);
-		return rate(key, 1);
+		Post post = postDAO.get(key);
+		reputationDAO.addReputation(post,"rateUp");
+		return rate(post, 1);
 	}
 
 	@Secure
@@ -46,16 +51,15 @@ public class RateController extends Controller implements Constants {
 	public Result rateDown(Long key) {
 		if (log.isDebugEnabled())
 			log.debug("rateDown <-" + key);
-		return rate(key, -1);
+		Post post = postDAO.get(key);
+		reputationDAO.addReputation(post,"rateDown");
+		return rate(post, -1);
 	}
 
-	public Result rate(Long postKey, int rating) {
-		if (log.isDebugEnabled())
-			log.debug("rate <-" + postKey);
+	public Result rate(Post post, int rating) {
 		if (log.isDebugEnabled())
 			log.debug("rating : " + rating);
 
-		Post post = postDAO.get(postKey);
 		if (log.isDebugEnabled())
 			log.debug("post : " + post);
 
@@ -93,7 +97,7 @@ public class RateController extends Controller implements Constants {
 
 			if (log.isDebugEnabled())
 				log.debug("updating post : " + post);
-			postDAO.update(postKey, post);
+			postDAO.update(post.getKey(), post);
 			if (log.isDebugEnabled())
 				log.debug("post : " + post);
 

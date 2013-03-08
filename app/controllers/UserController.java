@@ -10,12 +10,14 @@ import javax.inject.Inject;
 
 import models.Comment;
 import models.Post;
+import models.Reputation;
 import models.SecurityRole;
 import models.User;
 import models.UserFollow;
 import models.dao.CommentDAO;
 import models.dao.PostDAO;
 import models.dao.PostRatingDAO;
+import models.dao.ReputationDAO;
 import models.dao.SecurityRoleDAO;
 import models.dao.UserDAO;
 import models.dao.UserFollowDAO;
@@ -38,7 +40,8 @@ public class UserController extends DynamicTemplateController {
 
 	@Inject
 	public UserController(UserDAO userDAO, PostRatingDAO postRatingDAO,
-			UserFollowDAO userFollowDAO, SecurityRoleDAO securityRoleDAO,PostDAO postDAO, CommentDAO commentDAO) {
+			UserFollowDAO userFollowDAO, SecurityRoleDAO securityRoleDAO,
+			PostDAO postDAO, CommentDAO commentDAO) {
 		this.userDAO = userDAO;
 		this.postRatingDAO = postRatingDAO;
 		this.userFollowDAO = userFollowDAO;
@@ -123,8 +126,10 @@ public class UserController extends DynamicTemplateController {
 		
 
 		return badRequest(userShow.render(userToShow, false,tab, upVotes,
-				downVotes, false, 0, 0,postPage));
+				downVotes, false, 0, 0, postPage));
 	}
+
+	
 
 	public Result showFollowers(String key,int page) {
 		User userToShow = null;

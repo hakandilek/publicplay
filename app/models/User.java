@@ -97,6 +97,9 @@ public class User extends Model implements RoleHolder, Approvable, TimestampMode
 	@Basic
 	private String provider;
 	
+	@OneToMany(cascade=CascadeType.ALL, mappedBy="createdBy")
+	private Set<Reputation> reputations = new HashSet<Reputation>();
+	
     @Enumerated(value=EnumType.STRING)
     private Status status = Status.NEW;
 	
@@ -340,5 +343,10 @@ public class User extends Model implements RoleHolder, Approvable, TimestampMode
 	public String getValidatedId() {
 		return originalKey;
 	}
+
+	public Set<Reputation> getReputations() {
+		return reputations;
+	}
+	
 
 }

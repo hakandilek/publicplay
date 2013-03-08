@@ -1,0 +1,13 @@
+@(reputationValue: ReputationValue)
+@import helper._ 
+@import helper.twitterBootstrap._
+@import helper.H._
+
+@template.main(reputationValue.getKey()) {
+
+    <p class="lead">
+        @reputationValue.getKey()<br/>
+         @reputationValue.getValue()
+    </p>
+    
+}

@@ -1,16 +1,23 @@
 package controllers.crud;
 
 import java.util.List;
+import java.util.concurrent.Callable;
 
 import javax.inject.Inject;
 
+import models.Reputation;
+import models.ReputationValue;
 import models.User;
+import models.dao.ReputationValueDAO;
 import models.dao.UserDAO;
 import play.Logger;
 import play.Logger.ALogger;
 import play.data.Form;
+import play.libs.Akka;
+import play.libs.F;
 import play.mvc.Call;
 import play.mvc.Result;
+import play.mvc.Results;
 import play.utils.crud.CRUDController;
 
 import com.avaje.ebean.Page;
@@ -28,11 +35,15 @@ public class UserCRUDController extends CRUDController<String, User> {
 
 	private Form<BulkUser> bulkForm = form(BulkUser.class);
 
+	private ReputationValueDAO reputationValueDAO;
+
 	@Inject
-	public UserCRUDController(UserDAO userDAO) {
+	public UserCRUDController(UserDAO userDAO,
+			ReputationValueDAO reputationValueDAO) {
 		super(userDAO, form(User.class), String.class, User.class, PAGE_SIZE,
 				"lastLogin desc");
 		this.userDAO = userDAO;
+		this.reputationValueDAO = reputationValueDAO;
 	}
 
 	@Override
@@ -79,6 +90,30 @@ public class UserCRUDController extends CRUDController<String, User> {
 
 		userDAO.update(key, user);
 		return list(null, page);
+	}
+
+	public Result recalculateReputation(final String key,
+			final int page) {
+		User user = userDAO.get(key);
+		updateReputation(user);
+		return list(null, page);
+	}
+
+	private void updateReputation(User user) {
+		
+
+		for (Reputation reputation : user.getReputations()) {
+			ReputationValue reputationValueInTable = reputationValueDAO
+					.get(reputation.getName());
+			int valueInTable = reputationValueInTable.getValue();
+			if (reputation.getValue() != valueInTable) {
+				reputation.setValue(valueInTable);
+			}
+		}
+		if (log.isDebugEnabled())
+			log.debug("user : " + user);
+
+		userDAO.update(user.getKey(), user);
 	}
 
 	public Result list(String status, int page) {
@@ -142,6 +177,26 @@ public class UserCRUDController extends CRUDController<String, User> {
 
 			return redirect(toIndex());
 		}
+	}
+
+	public Results.AsyncResult calculateAllReputations() {
+		final List<User> users = userDAO.find().where().orderBy("lastLogin desc")
+				.findList();
+
+		return async(Akka.future(new Callable<Void>() {
+			public Void call() throws Exception {
+				for(User user :users){
+
+					updateReputation(user);
+				}
+				return null;
+			}
+		}).map(new F.Function<Void, Result>() {
+			public Result apply(Void arg0) {
+				return ok(templateForList(),
+						with(Page.class, 0).and(String.class, null));
+			}
+		}));
 	}
 
 }
