@@ -42,7 +42,7 @@ public class RateController extends Controller implements Constants {
 		if (log.isDebugEnabled())
 			log.debug("rateUp <-" + key);
 		Post post = postDAO.get(key);
-		reputationDAO.addReputationToUser(post.getCreatedBy(),"rateUp");
+		reputationDAO.addReputation(post,"rateUp");
 		return rate(post, 1);
 	}
 
@@ -52,7 +52,7 @@ public class RateController extends Controller implements Constants {
 		if (log.isDebugEnabled())
 			log.debug("rateDown <-" + key);
 		Post post = postDAO.get(key);
-		reputationDAO.addReputationToUser(post.getCreatedBy(),"rateDown");
+		reputationDAO.addReputation(post,"rateDown");
 		return rate(post, -1);
 	}
 

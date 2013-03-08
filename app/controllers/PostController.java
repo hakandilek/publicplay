@@ -184,7 +184,7 @@ public class PostController extends DynamicTemplateController implements
 
 			postDAO.create(post);
 			
-			reputationDAO.addReputationToUser(post.getCreatedBy(),"createPost");
+			reputationDAO.addReputation(post,"createPost");
 			
 			if (log.isDebugEnabled())
 				log.debug("entity created: " + post);

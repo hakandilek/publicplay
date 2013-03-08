@@ -43,6 +43,9 @@
                 <th class="header">@Messages("User.loginCount")</th>
                 <th class="header">@Messages("User.roles")</th>
                 <th class="header" colspan="3">@Messages("User.status")</th>
+                <th class="header">@Messages("Reputation")
+                	<a href="@routes.Admin.calculateAllReputations()"><i class="icon-refresh pull-right"></i></a>
+                </th>
                 <th class="header">@Messages("Edit")</th>
                 <th class="header">@Messages("Delete")</th>
             </tr>
@@ -75,6 +78,10 @@
                     @if(!user.isSuspended()) {
                     <a href="@routes.Admin.userSuspend(user.getKey())"><i class="icon-pause"></i></a>
                     }
+                </td>
+                <td>
+                	@calculateReputation(user)
+                    <a href="@routes.Admin.userRecalculateReputation(user.getKey())"><i class="icon-refresh pull-right"></i></a>
                 </td>
                 <td>
                     <a href="@routes.Admin.userEditForm(user.getKey())"><i class="icon-edit"></i></a>

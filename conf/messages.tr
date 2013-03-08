@@ -199,6 +199,9 @@ SourceConfiguration.imageLinkRequired.label=ImageLink.Required
 SourceConfiguration.bulkData.label=toplu konfigürasyon 
 update_sourceConfiguration=konfigurasyon düzenle
 
+#Reputation
+Reputation=Puan
+
 # ReputationValue
 Reputation_Value=Puan Degeri
 update_reputation_value=Puan degerini düzenle

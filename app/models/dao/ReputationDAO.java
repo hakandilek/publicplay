@@ -4,6 +4,7 @@ import javax.inject.Singleton;
 
 import javax.inject.Inject;
 
+import models.Post;
 import models.Reputation;
 import models.ReputationValue;
 import models.User;
@@ -23,19 +24,21 @@ public class ReputationDAO extends CachedDAO<Long, Reputation> {
 		this.reputationValueDAO = reputationValueDAO;
 	}
 
-	public void addReputationToUser(User createdBy, String name) {
+	public void addReputation(Post post, String name) {
+		User createdBy=post.getCreatedBy();
 		ReputationValue reputationValue = reputationValueDAO.get(name);
 		if (null != reputationValue) {
 			Reputation reputation = new Reputation();
 			reputation.setCreatedBy(createdBy);
 			reputation.setValue(reputationValue.getValue());
+			reputation.setName(name);
 			this.create(reputation);
 		}
-
-		
 		if (log.isDebugEnabled())
 			log.error(String.format("Invalid reputation name {0}", name));
 
 	}
+	
+	
 
 }

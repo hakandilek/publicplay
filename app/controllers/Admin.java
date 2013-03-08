@@ -337,6 +337,20 @@ public class Admin extends Controller {
 	public static Result userSuspend(String key, int page) {
 		return userController.suspend(key, page);
 	}
+	
+	@Secure
+	@Restrict("admin")
+	@RestrictApproved
+	public static Result userRecalculateReputation(String key, int page) {
+		return userController.recalculateReputation(key, page);
+	}
+	
+	@Secure
+	@Restrict("admin")
+	@RestrictApproved
+	public static Result calculateAllReputations() {
+		return userController.calculateAllReputations();
+	}
 
 	@Secure
 	@Restrict("admin")

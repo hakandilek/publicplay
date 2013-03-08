@@ -1,5 +1,5 @@
 @(userToBeShowed: models.User,self: Boolean,tabName:String, upVotedPostKeys:Set[Long], downVotedPostKeys:Set[Long], following: Boolean, followerCount:Integer, followingCount:Integer,
- reputation:Integer,currentVotedPostPage: Page[Post])
+currentVotedPostPage: Page[Post])
 @import be.objectify.deadbolt.views.html._
 @import be.objectify.deadbolt.utils.TemplateUtils._
 @import views.html.security._
@@ -22,7 +22,7 @@
     
 	<div class="container-fluid">
     	<div class="row-fluid">
-    		@partials.userShowLeftPane(userToBeShowed,followerCount,followingCount,reputation)
+    		@partials.userShowLeftPane(userToBeShowed,followerCount,followingCount)
     		
 	        <div class="span7" id="top-div">
 	        	@partials.userShowTabs(userToBeShowed,self,following,Constants.VOTED_POSTS)

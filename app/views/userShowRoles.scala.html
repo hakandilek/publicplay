@@ -1,4 +1,4 @@
-@(userToBeShowed: models.User, self: Boolean, following: Boolean, followerCount:Integer, followingCount:Integer,reputation:Integer,
+@(userToBeShowed: models.User, self: Boolean, following: Boolean, followerCount:Integer, followingCount:Integer,
  allRoles:List[models.SecurityRole], userRoles:List[models.SecurityRole])
 @import be.objectify.deadbolt.views.html._
 @import be.objectify.deadbolt.utils.TemplateUtils._
@@ -22,7 +22,7 @@
     
 	<div class="container-fluid">
     	<div class="row-fluid">
-    		@partials.userShowLeftPane(userToBeShowed,followerCount,followingCount,reputation)
+    		@partials.userShowLeftPane(userToBeShowed,followerCount,followingCount)
     		
 	        <div class="span7" id="top-div">
 	        	@partials.userShowTabs(userToBeShowed,self,following,Constants.ROLES)

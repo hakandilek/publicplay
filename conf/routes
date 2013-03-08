@@ -95,6 +95,8 @@ GET     /admin/config/bulk/:key/edit    				controllers.Admin.sourceConfiguratio
 POST    /admin/config/bulk/:key/update  				controllers.Admin.sourceConfigurationUpdateBulk(key: Long)
 GET     /admin/User/:key/approve        				controllers.Admin.userApprove(key, page:Int ?= 0)
 GET     /admin/User/:key/suspend        				controllers.Admin.userSuspend(key, page:Int ?= 0)
+GET     /admin/User/:key/recalculateReputation			controllers.Admin.userRecalculateReputation(key, page:Int ?= 0)
+GET     /admin/User/calculateAllReputations				controllers.Admin.calculateAllReputations()
 #GET     /admin/User/Status.:status/list 				controllers.Admin.userList(status:String, page:Int ?= 0)
 GET     /admin/userFollow/list              			controllers.Admin.userFollowList(p:Int ?= 0)
 POST    /admin/userFollow                   			controllers.Admin.userFollowCreate()

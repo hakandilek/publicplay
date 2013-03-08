@@ -1,6 +1,7 @@
-@(userToBeShowed: models.User,followerCount:Integer, followingCount:Integer,reputation:Integer)
+@(userToBeShowed: models.User,followerCount:Integer, followingCount:Integer)
 
 @import helper.H._
+@import helper.UserHelper._
 @import be.objectify.deadbolt.views.html._
 @import be.objectify.deadbolt.utils.TemplateUtils._
 <div class="span2 offset1">
@@ -26,7 +27,7 @@
 		</dl>
 		<div class="span12">
 			<ul class="stats">
-				<li id="reputation"><strong>@reputation</strong>
+				<li id="reputation"><strong>@calculateReputation(userToBeShowed)</strong>
 				<span>@Messages("reputation")</span>
 				</li>
 			</ul>

@@ -36,6 +36,9 @@ public class Reputation extends Model implements TimestampModel<Long> {
 	@Version
 	private int revision;
 	
+	@Basic
+	private Post post;
+	
 	@ManyToOne
 	@JoinColumn(name = "created_by", nullable = false)
 	private User createdBy;
@@ -91,6 +94,14 @@ public class Reputation extends Model implements TimestampModel<Long> {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public Post getPost() {
+		return post;
+	}
+
+	public void setPost(Post post) {
+		this.post = post;
 	}
 	
 }
