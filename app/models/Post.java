@@ -7,6 +7,8 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -70,6 +72,9 @@ public class Post extends Model implements TimestampModel<Long>, Owned<Long> {
 	@ManyToOne
 	@JoinColumn(name = "category", nullable = false)
 	private Category category;
+
+    @Enumerated(value=EnumType.STRING)
+    private ContentStatus status = ContentStatus.NEW;
 
 	public Long getKey() {
 		return key;
@@ -189,6 +194,14 @@ public class Post extends Model implements TimestampModel<Long>, Owned<Long> {
 
 	public void setRevision(int revision) {
 		this.version = revision;
+	}
+	
+	public ContentStatus getStatus() {
+		return status;
+	}
+
+	public void setStatus(ContentStatus status) {
+		this.status = status;
 	}
 
 	@Override

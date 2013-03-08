@@ -5,6 +5,8 @@ import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -55,6 +57,9 @@ public class Comment extends Model implements TimestampModel<Long>, Owned<Long> 
     @ManyToOne
     @JoinColumn(name="updated_by", nullable=true)
     private User updatedBy;
+
+    @Enumerated(value=EnumType.STRING)
+    private ContentStatus status = ContentStatus.NEW;
 
 	public Long getKey() {
 		return key;
@@ -134,6 +139,14 @@ public class Comment extends Model implements TimestampModel<Long>, Owned<Long> 
 	
 	public void setModifierIp(String ipToSet) {
 		this.modifierIp=ipToSet;
+	}
+	
+	public ContentStatus getStatus() {
+		return status;
+	}
+
+	public void setStatus(ContentStatus status) {
+		this.status = status;
 	}
 
 	@Override

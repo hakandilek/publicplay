@@ -22,6 +22,9 @@
                 <strong class="rating" data-key="rate-@post.getKey()" >@post.getRating()</strong>
                 @partials.rateButtons(post, upVotedPostKeys, downVotedPostKeys)                    
 		    </p>
+		    <p class="lead">
+                @partials.reportPostButton(post)                    
+		    </p>
         </div>
         
         <div class="span6">

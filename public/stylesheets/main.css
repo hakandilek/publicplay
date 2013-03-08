@@ -122,4 +122,6 @@ ul.stats li span {color: #999999;display: block;font-size: 11px;margin-top: -2px
     padding: 1px;
 }
 
+.rate-modal .modal-body { max-height: 800px; }
+.rate-modal { width: 800px; margin: 20px 0 0 -400px; }
 

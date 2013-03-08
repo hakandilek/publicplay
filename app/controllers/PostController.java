@@ -10,6 +10,7 @@ import javax.inject.Inject;
 
 import models.Category;
 import models.Comment;
+import models.ContentStatus;
 import models.Post;
 import models.S3File;
 import models.User;
@@ -173,6 +174,7 @@ public class PostController extends DynamicTemplateController implements
 			Post post = filledForm.get();
 			post.setCreatedBy(user);
 			post.setCreatorIp(request().remoteAddress());
+			post.setStatus(ContentStatus.NEW);
 
 			if (image != null) {
 				image.parent = "Post";
@@ -244,6 +246,7 @@ public class PostController extends DynamicTemplateController implements
 			post.setCreatorIp(postData.getCreatorIp());
 			post.setUpdatedBy(user);
 			post.setModifierIp(request().remoteAddress());
+			post.setStatus(ContentStatus.UPDATED);
 
 			if (image != null) {
 				image.parent = "Post";
