@@ -2,6 +2,7 @@ $(document).ready(function() {
     $('#submit-done').hide();
     $('#submit-error').hide();
     $('#submit-missing').hide();
+    $('.status').hide();
     $('.btn-report').button();
 });
 
@@ -29,6 +30,7 @@ function reportForm(form) {
 
 function reportTrigger(action, data) {
     $('.btn-report').button('loading');
+    $('.status').show('fast');
     $('.status').html('<i class="icon-refresh icon-spin"></i>');
     var modal = $(data.modalKey);
     var reportCall = {
@@ -47,6 +49,7 @@ function reportTrigger(action, data) {
 		$('.btn-report').button('reset');
 		$('#submit-done').fadeIn('slow', function() {
 		    $('#comment').val('');
+		    $('.status').hide('fast');
 		});
 		$('#submit-done').fadeOut('slow', function() {
 		    modal.modal('hide');
@@ -56,6 +59,7 @@ function reportTrigger(action, data) {
 	error : function(xhr, ajaxOptions, thrownError) {
 	    var response;
 	    $('.btn-report').button('reset');
+	    $('.status').hide('fast');
 	    if (xhr.responseText) {
 		response = JSON.parse(xhr.responseText);
 	    }
