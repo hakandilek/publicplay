@@ -17,6 +17,7 @@ import com.pickleproject.shopping.ProductReader;
 
 import controllers.crud.CategoryAPIController;
 import controllers.crud.CommentAPIController;
+import controllers.crud.ContentReportAPIController;
 import controllers.crud.PostAPIController;
 import controllers.crud.PostRatingAPIController;
 import controllers.crud.S3FileAPIController;
@@ -35,7 +36,7 @@ public class Api extends App {
 	@Inject static SecurityRoleAPIController securityRoleAPI;
 	@Inject static UserAPIController userAPI;
 	@Inject static SourceConfigurationAPIController sourceConfigurationAPI;
-	@Inject static CommentAPIController contentReportAPI;
+	@Inject static ContentReportAPIController contentReportAPI;
 	
 	@Secure
 	@BodyParser.Of(Json.class)

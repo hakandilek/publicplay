@@ -33,7 +33,7 @@ public class ContentReportAPIController extends
 		if (log.isDebugEnabled())
 			log.debug("create <-");
 		
-		Result check = checkRequired("contentKey", "contentType", "reason");
+		Result check = checkRequired("contentKey", "contentType", "reason", "comment");
 		System.out.println(check);
 		if (check != null) {
 			if (log.isDebugEnabled())
@@ -44,7 +44,7 @@ public class ContentReportAPIController extends
 
 		String contentKeyString = jsonText("contentKey");
 		String contentTypeString = jsonText("contentType");
-		String reasonString = jsonText("contentReason");
+		String reasonString = jsonText("reason");
 		String comment = jsonText("comment");
 		Long contentKey = Long.valueOf(contentKeyString);
 		ContentType contentType = ContentType.valueOf(contentTypeString);

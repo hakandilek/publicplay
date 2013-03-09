@@ -1,0 +1,42 @@
+@(currentPage: Page[ContentReport])
+@import helper._ 
+@import helper.twitterBootstrap._
+@import helper.H._
+
+@template.main(Messages("ContentReports")) {
+
+	<h3>@Messages("ContentReport_num", currentPage.getTotalRowCount())</h3>
+	
+	<h4><a href="@routes.Admin.contentReportNewForm">@Messages("Create_new_contentReport")</a></h4>
+    
+    @if(currentPage.getTotalRowCount() == 0) {
+        
+        <div class="well">
+            <em>@Messages("Nothing_to_display")</em>
+        </div>
+        
+    } else {
+	
+    <table class="contentReports table table-striped table-bordered">
+        <thead>
+            <tr>
+                <th class="header">@Messages("ContentReports")</th>
+            </tr>
+        </thead>
+        <tbody>
+        @for(contentReport <- currentPage.getList) {
+            <tr>
+                <td>
+                	<a href="@routes.Admin.contentReportShow(contentReport.getKey())">@contentReport.getKey()</a>
+                </td>
+                <td>
+                    <a class="btn btn-mini btn-danger pull-right spaced" href="@routes.Admin.contentReportDelete(contentReport.getKey())">@Messages("delete")</a>
+                    <a class="btn btn-mini pull-right spaced" href="@routes.Admin.contentReportEditForm(contentReport.getKey())">@Messages("edit")</a>
+               	</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+    
+    }
+}

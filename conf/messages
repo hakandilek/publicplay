@@ -77,6 +77,20 @@ Comment.content.label=content
 CreatedOn_By=created on {0} by {1}
 UpdatedOn_By=updated on {0} by {1}
 
+# ContentReport
+ContentReport.reason.label=reason
+ContentReport.comment.label=your comment
+Report_content=Report Content
+Report_content_title=Report content form
+I_want_to_report_the_content_above_because=I want to report the above content, because:
+ContentReport.EXPIRED=Expired
+ContentReport.INCORRECT=Incorrect
+ContentReport.INAPPROPRIATE=Inappropriate
+ContentReport.OTHER=Other reason
+Report_saved=Report saved
+Error_occured=Error occured
+Comment_missing=Comment missing
+
 # Category
 Category=Category
 update_category=update category

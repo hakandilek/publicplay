@@ -80,6 +80,22 @@ Comment.content.label=içerik
 CreatedOn_By={1} {0} yazdı
 UpdatedOn_By={1} {0} güncelledi
 
+# ContentReport
+ContentReport.reason.label=sebebiniz
+ContentReport.comment.label=notunuz
+Report_content=Şikayet et
+Report_content_title=İçerik şikayet formu
+I_want_to_report_the_content_above_because=Yukarıdaki içeriği şikayet etmek istiyorum, çünkü
+ContentReport.EXPIRED=Süresi geçmiş
+ContentReport.INCORRECT=İçerik hatalı
+ContentReport.INAPPROPRIATE=Uygunsuz
+ContentReport.OTHER=Başka sebep (lütfen belirtiniz)
+Report=Şikayet et
+Close=Kapat
+Report_saved=Şikayet kaydedildi
+Error_occured=Hata oluştu
+Comment_missing=notunuz eksik
+
 # Category
 Category=Kategori
 update_category=kategoriyi düzenle
