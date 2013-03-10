@@ -112,13 +112,14 @@ GET     /admin/reputationValue/:key/edit       			controllers.Admin.reputationVa
 POST    /admin/reputationValue/:key/update     			controllers.Admin.reputationValueUpdate(key)
 GET     /admin/reputationValue/:key/delete     			controllers.Admin.reputationValueDelete(key)
 GET     /admin/reputationValue/:key/show       			controllers.Admin.reputationValueShow(key)
-GET     /admin/report/list             					controllers.Admin.contentReportList(p:Int ?= 0)
+GET     /admin/report/list             					controllers.Admin.contentReportList(status:String=null, p:Int ?= 0)
 POST    /admin/report                  					controllers.Admin.contentReportCreate()
 GET     /admin/report/new              					controllers.Admin.contentReportNewForm()
 GET     /admin/report/:key/edit        					controllers.Admin.contentReportEditForm(key:Long)
 POST    /admin/report/:key/update      					controllers.Admin.contentReportUpdate(key:Long)
 GET     /admin/report/:key/delete      					controllers.Admin.contentReportDelete(key:Long)
 GET     /admin/report/:key/show        					controllers.Admin.contentReportShow(key:Long)
+GET     /admin/User/status/:status/list                 controllers.Admin.contentReportList(status:String, page:Int ?= 0)
 
 # JSON API
 PUT     /api/category/:key              				controllers.Api.categoryUpdate(key: String)

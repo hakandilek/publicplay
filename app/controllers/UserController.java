@@ -10,14 +10,12 @@ import javax.inject.Inject;
 
 import models.Comment;
 import models.Post;
-import models.Reputation;
 import models.SecurityRole;
 import models.User;
 import models.UserFollow;
 import models.dao.CommentDAO;
 import models.dao.PostDAO;
 import models.dao.PostRatingDAO;
-import models.dao.ReputationDAO;
 import models.dao.SecurityRoleDAO;
 import models.dao.UserDAO;
 import models.dao.UserFollowDAO;

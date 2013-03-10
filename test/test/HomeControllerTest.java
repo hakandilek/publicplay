@@ -7,6 +7,7 @@ import static play.test.Helpers.charset;
 import static play.test.Helpers.contentAsString;
 import static play.test.Helpers.contentType;
 import static play.test.Helpers.fakeApplication;
+import static play.test.Helpers.inMemoryDatabase;
 import static play.test.Helpers.running;
 import static play.test.Helpers.status;
 
@@ -18,7 +19,7 @@ public class HomeControllerTest {
 
 	@Test
 	public void testIndex() {
-		running(fakeApplication(), new Runnable() {
+		running(fakeApplication(inMemoryDatabase()), new Runnable() {
 			public void run() {
 				Result result = callAction(controllers.routes.ref.App.index());
 				assertThat(status(result)).isEqualTo(OK);

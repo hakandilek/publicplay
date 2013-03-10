@@ -9,7 +9,6 @@ import models.Reputation;
 import models.User;
 import models.dao.PostDAO;
 import models.dao.ReputationDAO;
-import models.dao.UserDAO;
 
 import org.junit.Test;
 

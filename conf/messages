@@ -77,6 +77,31 @@ Comment.content.label=content
 CreatedOn_By=created on {0} by {1}
 UpdatedOn_By=updated on {0} by {1}
 
+# ContentReport
+ContentReport.reason.label=reason
+ContentReport.comment.label=your comment
+ContentReport.createdOn.label=created
+ContentReport.updatedOn.label=updated
+ContentReport.status.label=status
+ContentReport.status.All=All
+ContentReport.status.NEW=New
+ContentReport.status.IGNORED=Ignored
+ContentReport.status.PROCESSED=Processed 
+ContentReport.EXPIRED=Expired
+ContentReport.INCORRECT=Incorrect
+ContentReport.INAPPROPRIATE=Inappropriate
+ContentReport.OTHER=Other reason
+Report_content=Report Content
+Report_content_title=Report content form
+I_want_to_report_the_content_above_because=I want to report the above content, because:
+Report=Report Content
+Close=Kapat
+Report_saved=Report saved
+Error_occured=Error occured
+Error_occured=Hata oluştu
+Comment_missing=Comment missing
+ContentReport_num={0} reports
+
 # Category
 Category=Category
 update_category=update category

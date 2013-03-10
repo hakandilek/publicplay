@@ -27,28 +27,37 @@ public class ContentReport extends Model implements TimestampModel<Long>, Owned<
 	public enum Status {
 		@EnumValue("N")
 		NEW, 
+		
 		@EnumValue("P")
-		PROCESSED, 
+		PROCESSED,
+		
 		@EnumValue("I")
 		IGNORED, 
 	}
 
 	public enum ContentType {
 		@EnumValue("P")
-		POST, 
+		POST,
+		
 		@EnumValue("C")
 		COMMENT, 
 	}
 
+
 	public enum Reason {
 		@EnumValue("E")
 		EXPIRED, 
+		
 		@EnumValue("C")
 		INCORRECT, 
+		
 		@EnumValue("I")
 		INAPPROPRIATE, 
+		
 		@EnumValue("O")
-		OTHER, 
+		OTHER,
+		;
+
 	}
 
 	@Id
@@ -76,7 +85,8 @@ public class ContentReport extends Model implements TimestampModel<Long>, Owned<
 	@Required
 	@Basic
 	private Long contentKey;
-	
+
+	@Required
 	@Column(length=512, nullable = true)
 	private String comment;
 
@@ -88,6 +98,15 @@ public class ContentReport extends Model implements TimestampModel<Long>, Owned<
 
     @Enumerated(value=EnumType.STRING)
     private Reason reason;
+
+	public ContentReport() {
+		super();
+	}
+
+	public ContentReport(Long contentKey) {
+		super();
+		this.contentKey = contentKey;
+	}
 
 	public Long getKey() {
 		return key;

@@ -20,6 +20,7 @@
   <logger name="application" level="INFO" />
   <logger name="utils" level="INFO" />
   <logger name="controllers" level="DEBUG" />
+  <logger name="controllers.crud" level="DEBUG" />
   <logger name="security" level="INFO" />
   <logger name="models" level="INFO" />
   <logger name="models.dao" level="DEBUG" />

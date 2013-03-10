@@ -1,0 +1,19 @@
+@(key: Long, modelForm: Form[ContentReport])
+@import helper._ 
+@import helper.twitterBootstrap._
+
+@template.main(if(key != null) Messages("update_contentReport") else Messages("new_contentReport")) {
+
+	<h3>@if(key != null) { @Messages("update_contentReport") } else { @Messages("new_contentReport") } </h3>
+    
+    @form(if(key != null) { routes.Admin.contentReportUpdate(modelForm.get().getKey()) } 
+          else             { routes.Admin.contentReportCreate() }) { 
+    @if(key != null) {  
+        @inputText(modelForm("revision"), args = 'readonly -> "readonly", '_label -> Messages("revision.label"))
+    }
+        @inputText(modelForm("content"), args = '_label -> Messages("ContentReport.content.label"))
+        <div>
+           <input type="submit" class="btn btn-success" value="@if(key != null) { @Messages("Update") } else { @Messages("Create") }">
+        </div>
+    } 
+}

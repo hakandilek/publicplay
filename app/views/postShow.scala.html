@@ -6,7 +6,11 @@
 @import views.html.security._
 @import helper.UserHelper._
 
-@template.main(post.getTitle(), partials.opengraphHead(post)) {
+@script() = {
+	<script type="text/javascript" src='@routes.Assets.at("javascripts/report.js")'></script>
+}
+
+@template.main(post.getTitle(), script, partials.opengraphHead(post)) {
   <div class="container-fluid">
     <div class="row-fluid">
         <div class="span2">

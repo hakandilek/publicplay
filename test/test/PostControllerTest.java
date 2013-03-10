@@ -4,6 +4,7 @@ import static org.fest.assertions.Assertions.assertThat;
 import static play.mvc.Http.Status.SEE_OTHER;
 import static play.test.Helpers.callAction;
 import static play.test.Helpers.fakeApplication;
+import static play.test.Helpers.inMemoryDatabase;
 import static play.test.Helpers.running;
 import static play.test.Helpers.status;
 
@@ -15,7 +16,7 @@ public class PostControllerTest {
 
 	@Test
 	public void testNewForm() {
-		running(fakeApplication(), new Runnable() {
+		running(fakeApplication(inMemoryDatabase()), new Runnable() {
 			public void run() {
 				Result result = callAction(controllers.routes.ref.App.postNewForm());
 				assertThat(status(result)).isEqualTo(SEE_OTHER);
@@ -25,7 +26,7 @@ public class PostControllerTest {
 
 	@Test
 	public void testEditForm() {
-		running(fakeApplication(), new Runnable() {
+		running(fakeApplication(inMemoryDatabase()), new Runnable() {
 			public void run() {
 				Result result = callAction(controllers.routes.ref.App.postEditForm(-11l));
 				assertThat(status(result)).isEqualTo(SEE_OTHER);
@@ -35,7 +36,7 @@ public class PostControllerTest {
 
 	@Test
 	public void testEditCommentForm() {
-		running(fakeApplication(), new Runnable() {
+		running(fakeApplication(inMemoryDatabase()), new Runnable() {
 			public void run() {
 				Result result = callAction(controllers.routes.ref.App
 						.commentEditForm(-11l, -111l));
@@ -47,7 +48,7 @@ public class PostControllerTest {
 /*
 	@Test
 	public void testShow() {
-		running(fakeApplication(), new Runnable() {
+		running(fakeApplication(inMemoryDatabase()), new Runnable() {
 			public void run() {
 				Result result = callAction(controllers.routes.ref.App
 						.postShow(-11l, "title", 0));
@@ -73,7 +74,7 @@ public class PostControllerTest {
 
 	@Test
 	public void testEditCommentForm() {
-		running(fakeApplication(), new Runnable() {
+		running(fakeApplication(inMemoryDatabase()), new Runnable() {
 			public void run() {
 				Result result = callAction(controllers.routes.ref.App.commentEditForm(-11l, -111l));
 				assertThat(status(result)).isEqualTo(OK);

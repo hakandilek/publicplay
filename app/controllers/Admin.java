@@ -389,8 +389,8 @@ public class Admin extends Controller {
 		return userFollowController.show(UserFollowPK.fromString(key));
 	}
 
-	@Secure @Restrict("admin") @RestrictApproved public static Result contentReportList(int page) {
-		return contentReportController.list(page);
+	@Secure @Restrict("admin") @RestrictApproved public static Result contentReportList() {
+		return contentReportController.list(null, 0);
 	}
 
 	@Secure @Restrict("admin") @RestrictApproved public static Result contentReportNewForm() {
@@ -417,4 +417,7 @@ public class Admin extends Controller {
 		return contentReportController.show(key);
 	}
 
+	@Secure @Restrict("admin") @RestrictApproved public static Result contentReportList(String status, int page) {
+		return contentReportController.list(status, page);
+	}
 }
