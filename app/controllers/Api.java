@@ -13,6 +13,8 @@ import security.RestrictApproved;
 import socialauth.core.Secure;
 import socialauth.core.SocialAware;
 
+import be.objectify.deadbolt.actions.Restrict;
+
 import com.pickleproject.shopping.ProductReader;
 
 import controllers.crud.CategoryAPIController;
@@ -128,5 +130,28 @@ public class Api extends App {
 		return contentReportAPI.update(key);
 	}
 
+	@Secure @Restrict("admin") @RestrictApproved 
+	@BodyParser.Of(Json.class)
+	public static Result contentReportIgnore(Long key) {
+		return contentReportAPI.ignore(key);
+	}
+
+	@Secure @Restrict("admin") @RestrictApproved 
+	@BodyParser.Of(Json.class)
+	public static Result postApprove(Long key) {
+		return postAPI.approve(key);
+	}
+
+	@Secure @Restrict("admin") @RestrictApproved 
+	@BodyParser.Of(Json.class)
+	public static Result postRemove(Long key) {
+		return postAPI.remove(key);
+	}
+
+	@Secure @Restrict("admin") @RestrictApproved 
+	@BodyParser.Of(Json.class)
+	public static Result postMarkExpired(Long key) {
+		return postAPI.expire(key);
+	}
 
 }

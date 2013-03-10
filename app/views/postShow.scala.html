@@ -5,6 +5,7 @@
 @import be.objectify.deadbolt.utils.TemplateUtils._
 @import views.html.security._
 @import helper.UserHelper._
+@import helper.PostHelper._
 
 @script() = {
 	<script type="text/javascript" src='@routes.Assets.at("javascripts/report.js")'></script>
@@ -33,10 +34,10 @@
         
         <div class="span6">
 		    <div class="row">
-		    	<p class="lead nl-withoutSpace">@post.getTitle()</p>
+		    	<p class="lead nl-withoutSpace">@postTitle(post)</p>
 		    </div>
     		<div class="row">
-       			<p class="nl-withoutSpace">@post.getContent()</p>
+       			<p class="nl-withoutSpace">@postContent(post)</p>
        			<small>
  			        @if(post.getUpdatedBy() == null) { 
 			        @Html(Messages("CreatedOn_By", prettify(post.getCreatedOn()), partials.userProfile(post.getCreatedBy()))) } else { 

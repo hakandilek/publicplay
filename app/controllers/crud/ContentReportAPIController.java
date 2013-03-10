@@ -34,7 +34,6 @@ public class ContentReportAPIController extends
 			log.debug("create <-");
 		
 		Result check = checkRequired("contentKey", "contentType", "reason", "comment");
-		System.out.println(check);
 		if (check != null) {
 			if (log.isDebugEnabled())
 				log.debug("check : " + check);
@@ -65,6 +64,19 @@ public class ContentReportAPIController extends
 
 		return created(toJson(ImmutableMap.of("status", "OK", "key", key,
 				"data", m)));
+	}
+
+	public Result ignore(Long key) {
+		if (log.isDebugEnabled())
+			log.debug("ignore <- " + key);
+		
+		ContentReport report = dao.get(key);
+		if (log.isDebugEnabled())
+			log.debug("report : " + report);
+		
+		
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

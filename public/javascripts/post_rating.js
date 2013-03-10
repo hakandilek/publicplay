@@ -25,12 +25,6 @@ $(document).ready(function() {
     	                $(elm).removeClass("disabled");
     				}
     			});
-    			/*
-                $(sel).each(function (idx, elm) {
-                    $(elm).html('<i class="icon-ok rated"></i>');
-                    $(elm).bind('click', false);
-                });
-                */
     		    $(selRating).html(data);
     		},
     		error:function() {

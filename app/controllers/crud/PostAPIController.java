@@ -41,5 +41,20 @@ public class PostAPIController extends APIController<Long, Post> {
 		return TODO;
 	}
 
+	public Result approve(Long key) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Result remove(Long key) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Result expire(Long key) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 
 }

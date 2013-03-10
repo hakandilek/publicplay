@@ -1,6 +1,8 @@
 @(post: Post,upVotedPostKeys:Set[Long], downVotedPostKeys:Set[Long]) 
 @import helper._ 
 @import helper.H._
+@import helper.PostHelper._
+
 <tr>
 	<td id="rating-col" class="center-horizontal col-post-rate">
 		<strong class="center-horizontal rating" data-key="rate-@post.getKey()" >@post.getRating()</strong>
@@ -8,7 +10,7 @@
 		@partials.rateButtons(post, upVotedPostKeys, downVotedPostKeys)
 	</td>
 	<td class="noborder-left col-post-title nl-withoutSpace">
-		<a href="@routes.App.postShow(post.getKey(), sanitizeURL(post.getTitle()))">@post.getTitle()</a>
+		<a href="@routes.App.postShow(post.getKey(), sanitizeURL(post.getTitle()))">@postTitle(post)</a>
 	</td>
 	<td rowspan="2" class="noborder-left col-post-image">
 		<a href="@routes.App.postShow(post.getKey(), sanitizeURL(post.getTitle()))">@partials.image(post.getImage())</a>
@@ -17,7 +19,7 @@
 <tr>
 	<td colspan="2" class="noborder-top">
 		@if(post.getContent().length < 200){
-			<p class="noleft nl-withoutSpace">@post.getContent()</p>
+			<p class="noleft nl-withoutSpace">@postContent(post)</p>
 		}else{
 			<p class="noleft nl-withoutSpace">@post.getContent().take(200) ...</p>
 			<a class="noleft" href="@routes.App.postShow(post.getKey(), sanitizeURL(post.getTitle()))"> @Messages("Read_More") <i class="icon-double-angle-right" style="text-decoration: none"></i></a>

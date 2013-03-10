@@ -118,7 +118,7 @@ GET     /admin/report/new              					controllers.Admin.contentReportNewFo
 GET     /admin/report/:key/edit        					controllers.Admin.contentReportEditForm(key:Long)
 POST    /admin/report/:key/update      					controllers.Admin.contentReportUpdate(key:Long)
 GET     /admin/report/:key/delete      					controllers.Admin.contentReportDelete(key:Long)
-GET     /admin/report/:key/show        					controllers.Admin.contentReportShow(key:Long)
+GET     /admin/report/:key/content/:contentType/:contentKey/show	controllers.Admin.contentReportShow(contentType:String, contentKey:Long, key:Long)
 GET     /admin/User/status/:status/list                 controllers.Admin.contentReportList(status:String, page:Int ?= 0)
 
 # JSON API
@@ -134,6 +134,11 @@ POST    /api/user/:key/roleUpdate               		controllers.Api.userRoleUpdate
 PUT     /api/config/:key                				controllers.Api.sourceConfigurationUpdate(key: Long)
 GET     /api/report/:key        						controllers.Api.contentReportUpdate(key:Long)
 POST    /api/report/        							controllers.Api.contentReportCreate()
+GET		/api/report/:key/ignore							controllers.Api.contentReportIgnore(key:Long)
+GET		/api/post/:key/approve							controllers.Api.postApprove(key:Long)
+GET		/api/post/:key/remove							controllers.Api.postRemove(key:Long)
+GET		/api/post/:key/expire							controllers.Api.postMarkExpired(key:Long)
+
 # API fallback
 GET     /api/*resource                 					controllers.Api.invalid(resource: String)
 POST    /api/*resource                 					controllers.Api.invalid(resource: String)

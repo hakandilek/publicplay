@@ -2,6 +2,7 @@
 @import helper._ 
 @import helper.twitterBootstrap._
 @import helper.H._
+@import helper.PostHelper._
 
     @if(currentPage.getTotalRowCount == 0) {
         
@@ -19,7 +20,7 @@
                     <strong class="center-horizontal" data-key="rate-@post.getKey()" >@post.getRating()</strong>
                 </td>
                 <td class="noborder-left col-posttop-title nl-withoutSpace">
-                	<a href="@routes.App.postShow(post.getKey(), sanitizeURL(post.getTitle()))">@post.getTitle()</a>
+                	<a href="@routes.App.postShow(post.getKey(), sanitizeURL(post.getTitle()))">@postTitle(post)</a>
                	</td>
             </tr>
         }
