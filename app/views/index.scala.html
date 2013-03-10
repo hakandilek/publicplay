@@ -1,13 +1,13 @@
 @(currentPage: Page[Post], categoryName:String, categories: List[Category], topDayPage: Page[Post], topWeekPage: Page[Post], topAllPage: Page[Post], upVotedPostKeys:Set[Long], downVotedPostKeys:Set[Long], following:Boolean)
 
 @header = {
-    <div class="row">
+    <div class="row-fluid">
         <div class="span12">
             <p class="visible-desktop">@Html(Messages("Project_definition"))</p>
         </div>
     </div><!-- row -->
 
-    <div class="row hidden-phone">
+    <div class="row-fluid hidden-phone">
         <div class="span12">
             <hr/>
         </div>
