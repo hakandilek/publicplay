@@ -2,6 +2,7 @@
 @import helper._ 
 @import helper.twitterBootstrap._
 @import helper.H._
+@import helper.ContentReportHelper._
 
 @header = {
     <!-- filter buttons -->
@@ -30,7 +31,7 @@
     <table class="contentReports table table-striped table-bordered">
         <thead>
             <tr>
-	            <th class="header">@Messages("ContentReports")</th>
+	            <th class="header">@Messages("ContentReport.content.label")</th>
 	            <th class="header">@Messages("ContentReport.status.label")</th>
 	            <th class="header">@Messages("ContentReport.createdOn.label")</th>
 	            <th class="header">@Messages("ContentReport.updatedOn.label")</th>
@@ -39,9 +40,7 @@
         <tbody>
         @for(contentReport <- currentPage.getList) {
             <tr>
-                <td>
-                	<a href="@routes.Admin.contentReportShow(contentReport.getKey())">@contentReport.getKey()</a>
-                </td>
+                <td><a href="@routes.Admin.contentReportShow(contentReport.getContentType().name(), contentReport.getContentKey(), contentReport.getKey())">@Html(Messages("ContentReport.content." + contentReport.getContentType(), contentReport.getContentKey()))</a> </td>
                 <td>@Messages("ContentReport.status." + contentReport.getStatus())</td>
                 <td>@Html(Messages("CreatedOn_By", prettify(contentReport.getCreatedOn()), partials.userProfile(contentReport.getCreatedBy()))) </td>
                 <td>@Html(Messages("UpdatedOn_By", prettify(contentReport.getUpdatedOn()), partials.userProfile(contentReport.getUpdatedBy()))) </td>

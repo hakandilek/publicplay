@@ -413,8 +413,8 @@ public class Admin extends Controller {
 		return contentReportController.delete(key);
 	}
 
-	@Secure @Restrict("admin") @RestrictApproved public static Result contentReportShow(Long key) {
-		return contentReportController.show(key);
+	@Secure @Restrict("admin") @RestrictApproved public static Result contentReportShow(String contentType, Long contentKey, Long key) {
+		return contentReportController.show(contentType, contentKey, key);
 	}
 
 	@Secure @Restrict("admin") @RestrictApproved public static Result contentReportList(String status, int page) {

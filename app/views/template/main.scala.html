@@ -8,7 +8,7 @@
         @scripts
     </head>
     <body>
-
+    	<div class="container-narrow">
         @template.elements()
     
     @if(!hideNavbar) {
@@ -16,17 +16,14 @@
     }
         
         <section id="main">
-	        <div class="container-fluid">
+	       
 	        @header
-	        </div>
-	            
-	        <div class="container-fluid">
+	       
 	        @content
-	        </div>
-	            
-	        <div class="container-fluid">
+	       
 	        @footer
-	        </div>
-        </section>            
+	        
+        </section>    
+        </div> 
     </body>
 </html>

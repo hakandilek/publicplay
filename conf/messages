@@ -77,11 +77,18 @@ Comment.content.label=content
 CreatedOn_By=created on {0} by {1}
 UpdatedOn_By=updated on {0} by {1}
 
+Content.status.APPROVED=Approved
+Content.status.EXPIRED=Expired
+Content.status.NEW=New
+Content.status.REMOVED=Removed
+Content.status.UPDATED=Updated
+
 # ContentReport
 ContentReport.reason.label=reason
 ContentReport.comment.label=your comment
 ContentReport.createdOn.label=created
 ContentReport.updatedOn.label=updated
+ContentReport.content.label=content
 ContentReport.status.label=status
 ContentReport.status.All=All
 ContentReport.status.NEW=New
@@ -91,6 +98,8 @@ ContentReport.EXPIRED=Expired
 ContentReport.INCORRECT=Incorrect
 ContentReport.INAPPROPRIATE=Inappropriate
 ContentReport.OTHER=Other reason
+ContentReport.content.POST=Post ({0})
+ContentReport.content.COMMENT=Comment ({0})
 Report_content=Report Content
 Report_content_title=Report content form
 I_want_to_report_the_content_above_because=I want to report the above content, because:

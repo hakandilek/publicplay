@@ -1,10 +1,13 @@
 package views.html.helper;
 
+import static models.ContentStatus.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import models.ContentReport;
 import models.ContentReport.Reason;
+import models.ContentStatus;
 import play.data.Form;
 import play.mvc.Controller;
 
@@ -17,7 +20,7 @@ public class ContentReportHelper {
 		Form<ContentReport> form = Controller.form(ContentReport.class);
 		return form;
 	}
-	
+
 	public static List<String> postReasons() {
 		if (postReasons == null) {
 			postReasons = new ArrayList<String>();
@@ -40,4 +43,17 @@ public class ContentReportHelper {
 		}
 		return commentReasons;
 	}
+	
+	public static boolean approvePossible(ContentStatus s) {
+		return s == NEW || s == UPDATED;
+	}
+
+	public static boolean removePossible(ContentStatus s) {
+		return s == NEW || s == UPDATED || s == EXPIRED || s == APPROVED;
+	}
+
+	public static boolean expirePossible(ContentStatus s) {
+		return s == NEW || s == UPDATED || s == APPROVED;
+	}
+
 }

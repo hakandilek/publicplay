@@ -20,7 +20,7 @@ create table TBL_COMMENT (
   updated_by                varchar(255),
   status                    varchar(1),
   revision                  integer not null,
-  constraint ck_TBL_COMMENT_status check (status in ('N','E','U','A','D')),
+  constraint ck_TBL_COMMENT_status check (status in ('N','E','U','R','A')),
   constraint pk_TBL_COMMENT primary key (key))
 ;
 
@@ -57,7 +57,7 @@ create table TBL_POST (
   category                  varchar(255),
   status                    varchar(1),
   version                   integer not null,
-  constraint ck_TBL_POST_status check (status in ('N','E','U','A','D')),
+  constraint ck_TBL_POST_status check (status in ('N','E','U','R','A')),
   constraint pk_TBL_POST primary key (key))
 ;
 

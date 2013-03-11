@@ -1,0 +1,102 @@
+@(contentReport: ContentReport, reports: List[ContentReport], post: Post)
+@import helper._ 
+@import helper.twitterBootstrap._
+@import helper.H._
+@import be.objectify.deadbolt.utils.TemplateUtils._
+@import views.html.security._
+@import helper.UserHelper._
+@import helper.PostHelper._
+@import helper.ContentReportHelper._
+@script() = {
+	<script type="text/javascript" src='@routes.Assets.at("javascripts/report_admin.js")'></script>
+}
+
+@template.main("ContentReport:" + contentReport.getContentType() + "(" + contentReport.getContentKey() + ")", script) {
+
+<div class="container-fluid">
+	<div class="row-fluid">
+        <div class="span2">
+		    <p>
+        		@partials.image(post.getImage())
+        	</p>
+        	@if(post.getCategory() != null) {
+		    <p>
+        		<span class="label">@Messages("Category." + post.getCategory().getName())</span>
+		    </p>
+        	}
+        </div>
+        
+        <div class="span6">
+		    <div class="row">
+		    	<p class="lead nl-withoutSpace">@postTitle(post)</p>
+		    </div>
+    		<div class="row">
+       			<p class="nl-withoutSpace">@postContent(post)</p>
+       			<small>
+ 			        @if(post.getUpdatedBy() == null) { 
+			        @Html(Messages("CreatedOn_By", prettify(post.getCreatedOn()), partials.userProfile(post.getCreatedBy()))) } else { 
+			        @Html(Messages("UpdatedOn_By", prettify(post.getUpdatedOn()), partials.userProfile(post.getUpdatedBy()))) }
+       			</small>
+		        @restrictCombine(la(as("admin")), "models.Post.delete." + post.getKey()) {
+		        <a class="btn btn-mini btn-danger pull-right spaced" href="@routes.App.postDelete(post.getKey())">@Messages("delete")</a>
+		        }
+		        @restrictCombine(la(as("admin")), "models.Post.edit." + post.getKey()) {
+		        <a class="btn btn-mini pull-right spaced" href="@routes.App.postEditForm(post.getKey())">@Messages("edit")</a>
+		        }
+    		</div>
+    		<div class="control-group">
+            	<label class="control-label" for="status">@Messages("Status:")</label>
+            	<div class="controls">
+    			<span id="status" class="badge">@Messages("Content.status." + post.getStatus())</span>
+            	</div>
+          	</div>
+	    </div>
+    </div>
+
+	<div class="row-fluid">
+		<div class="span8">
+			@if(approvePossible(post.getStatus())) { <a class="btn-approve btn btn-success spaced" data-key="post-@post.getKey()" href="javascript:void(0)" data-href="@routes.Api.postApprove(post.getKey())"><i class="icon-ok"></i> &nbsp; @Messages("approve")</a> }
+			@if(expirePossible(post.getStatus())) { <a class="btn-expired btn btn-warning spaced" data-key="post-@post.getKey()" href="javascript:void(0)" data-href="@routes.Api.postMarkExpired(post.getKey())"><i class="icon-strikethrough"></i> &nbsp; @Messages("mark_expired")</a> }
+			@if(removePossible(post.getStatus())) { <a class="btn-remove btn btn-danger spaced" data-key="post-@post.getKey()" href="javascript:void(0)" data-href="@routes.Api.postRemove(post.getKey())"><i class="icon-trash"></i> &nbsp; @Messages("remove")</a> }
+		</div>
+	</div>
+	
+	<div class="row-fluid">
+		<div class="span8">
+			<h3>@Messages("ContentReport_num", reports.size())</h3>
+		</div>
+	</div>
+	
+	<div class="row-fluid">
+		<div class="span8">
+	        <table class="table table-striped table-bordered">
+	            <thead>
+	                <tr>
+	                    <th class="header">@Messages("ContentReports")</th>
+	                </tr>
+	            </thead>
+	            <tbody>
+	        @for(report <- reports) {
+	                <tr id="@report.getKey()">
+	                    <td>
+	                    	@Messages("ContentReport." + report.getReason().name())
+	                    	&nbsp;&nbsp;&nbsp;
+	                        <small>
+	                        @if(report.getUpdatedBy() == null) { 
+	                        @Html(Messages("CreatedOn_By", prettify(report.getCreatedOn()), partials.userProfile(report.getCreatedBy()))) } else { 
+	                        @Html(Messages("UpdatedOn_By", prettify(report.getUpdatedOn()), partials.userProfile(report.getUpdatedBy()))) }
+	                        </small>
+	                        <a class="btn-ignore btn btn-mini btn-inverse pull-right spaced" data-key="report-@report.getKey()" href="javascript:void(0)" data-href="@routes.Api.contentReportIgnore(report.getKey())"><i class="icon-minus"></i> &nbsp; @Messages("ignore")</a>
+	                    </td> 
+	                </tr>
+	
+	                <tr><td><p class="nl-withoutSpace">@report.getComment()</p></td></tr>
+	        }
+	            </tbody>
+	        </table>
+		</div>
+	</div>
+	
+
+</div>
+}

@@ -80,11 +80,18 @@ Comment.content.label=içerik
 CreatedOn_By={1} {0} yazdı
 UpdatedOn_By={1} {0} güncelledi
 
+Content.status.APPROVED=Onaylı
+Content.status.EXPIRED=Süresi geçmiş
+Content.status.NEW=Yeni
+Content.status.REMOVED=Silinmiş
+Content.status.UPDATED=Güncellenmiş
+
 # ContentReport
 ContentReport.reason.label=sebebiniz
 ContentReport.comment.label=notunuz
 ContentReport.createdOn.label=bildirim
 ContentReport.updatedOn.label=işlenme
+ContentReport.content.label=içerik
 ContentReport.status.label=durum
 ContentReport.status.All=Hepsi
 ContentReport.status.NEW=Yeni
@@ -94,6 +101,8 @@ ContentReport.EXPIRED=Süresi geçmiş
 ContentReport.INCORRECT=İçerik hatalı
 ContentReport.INAPPROPRIATE=Uygunsuz
 ContentReport.OTHER=Başka sebep (lütfen belirtiniz)
+ContentReport.content.POST=Başlık ({0})
+ContentReport.content.COMMENT=Yorum ({0})
 Report_content=Şikayet et
 Report_content_title=İçerik şikayet formu
 I_want_to_report_the_content_above_because=Yukarıdaki içeriği şikayet etmek istiyorum, çünkü

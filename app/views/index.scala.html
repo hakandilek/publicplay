@@ -16,10 +16,10 @@
 
 @template.main(Messages("home"), header=header) {
     <div class="row-fluid">
-        <div class="span7">
+        <div class="span8">
             @partials.postList(currentPage, categoryName, categories, upVotedPostKeys, downVotedPostKeys,following)
         </div>
-        <div class="span5" id="top-div">
+        <div class="span4" id="top-div">
             <!-- Top lists -->
             <h4>@Messages("Top_posts")</h4>
             <ul id="top-tab" class="nav nav-tabs" data-spy="scroll" data-target="#top-div">

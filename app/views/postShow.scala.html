@@ -5,6 +5,7 @@
 @import be.objectify.deadbolt.utils.TemplateUtils._
 @import views.html.security._
 @import helper.UserHelper._
+@import helper.PostHelper._
 
 @script() = {
 	<script type="text/javascript" src='@routes.Assets.at("javascripts/report.js")'></script>
@@ -31,12 +32,12 @@
 		    </p>
         </div>
         
-        <div class="span10">
-		    <div class="row">
-		    	<p class="lead nl-withoutSpace">@post.getTitle()</p>
+        <div class="span8">
+		    <div class="row-fluid">
+		    	<p class="lead nl-withoutSpace">@postTitle(post)</p>
 		    </div>
-    		<div class="row">
-       			<p class="nl-withoutSpace">@post.getContent()</p>
+    		<div class="row-fluid">
+       			<p class="nl-withoutSpace">@postContent(post)</p>
        			<small>
  			        @if(post.getUpdatedBy() == null) { 
 			        @Html(Messages("CreatedOn_By", prettify(post.getCreatedOn()), partials.userProfile(post.getCreatedBy()))) } else { 
@@ -53,14 +54,14 @@
     </div>
 
     <div class="row-fluid">
-        <div class="span9">
+        <div class="span10">
         <hr/>
         <div class="fb-like" data-href="" data-send="false" data-width="550"  data-show-faces="true"></div>
         </div>
     </div>
     
     <div class="row-fluid">
-        <div class="span9">
+        <div class="span10">
     @* comments *@
     @if(currentPage.getTotalRowCount == 0) {
         
@@ -109,22 +110,20 @@
     </div>
     
     <div class="row-fluid">
-        <div class="span9">
+        <div class="span10">
 
         @form(if(commentKey != null) { routes.App.commentUpdate(post.getKey(), commentKey) } 
               else                   { routes.App.commentCreate(post.getKey(), sanitizeURL(post.getTitle())) } , 'id -> "form") { 
             
-            @textarea(commentForm("content"), args = '_label -> Messages("Comment.content.label"),'rows -> 4,'class->"input-xxlarge", Symbol("data-maxchars") -> "2000", '_showConstraints -> false)
+            @textarea(commentForm(""), 'rows -> 4,'class->"span12", Symbol("data-maxchars") -> "2000", '_showConstraints -> false)
             
-            <div>
-			@roleHolderPresent() {
+            @roleHolderPresent() {
                <input type="submit" class="btn btn-success" value="@if(commentKey != null) { @Messages("Update") } else { @Messages("Post") }">
                @Html(Messages("as_profile", partials.userProfile(loginUser())))
 			}
 			@roleHolderNotPresent() {
                <input type="submit" class="btn btn-success" data-toggle="modal" data-target="#loginModal" value="@if(commentKey != null) { @Messages("Update") } else { @Messages("Post") }">
 			}
-        	</div>
        }
     	</div>
 	</div>

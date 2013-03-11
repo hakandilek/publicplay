@@ -13,8 +13,8 @@ public enum ContentStatus {
 	@EnumValue("A")
 	APPROVED,
 
-	@EnumValue("D")
-	DELETED,
+	@EnumValue("R")
+	REMOVED,
 
 	@EnumValue("E")
 	EXPIRED,
