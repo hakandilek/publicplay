@@ -1,4 +1,4 @@
-@(contentReport: ContentReport, reports: List[ContentReport], post: Post)
+@(contentReport: ContentReport, reports: List[ContentReport], post: Post, comment: Comment)
 @import helper._ 
 @import helper.twitterBootstrap._
 @import helper.H._
@@ -36,25 +36,53 @@
  			        @if(post.getUpdatedBy() == null) { 
 			        @Html(Messages("CreatedOn_By", prettify(post.getCreatedOn()), partials.userProfile(post.getCreatedBy()))) } else { 
 			        @Html(Messages("UpdatedOn_By", prettify(post.getUpdatedOn()), partials.userProfile(post.getUpdatedBy()))) }
- 			        @if(post.getApprovedBy() != null) {
+ 			        @if(post.getApprovedBy() == null) {
 			        @Html(Messages("ApprovedOn_By", prettify(post.getApprovedOn()), partials.userProfile(post.getApprovedBy()))) }
        			</small>
-		        @restrictCombine(la(as("admin")), "models.Post.delete." + post.getKey()) {
-		        <a class="btn btn-mini btn-danger pull-right spaced" href="@routes.App.postDelete(post.getKey())">@Messages("delete")</a>
-		        }
-		        @restrictCombine(la(as("admin")), "models.Post.edit." + post.getKey()) {
-		        <a class="btn btn-mini pull-right spaced" href="@routes.App.postEditForm(post.getKey())">@Messages("edit")</a>
-		        }
-		        <span id="status" class="badge">@Messages("Content.status." + post.getStatus())</span>
+   				<span id="status" class="badge">@Messages("Content.status." + post.getStatus())</span>
     		</div>
 	    </div>
     </div>
 
+    <div class="row-fluid">
+        <div class="span9">
+        <table class="comments table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th class="header">@Messages("Comments")</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr id="@comment.getKey()">
+                    <td>
+                        <small>
+                        @if(comment.getUpdatedBy() == null) { 
+                        @Html(Messages("CreatedOn_By", prettify(comment.getCreatedOn()), partials.userProfile(comment.getCreatedBy()))) } else { 
+                        @Html(Messages("UpdatedOn_By", prettify(comment.getUpdatedOn()), partials.userProfile(comment.getUpdatedBy()))) }
+				        @if(comment.getApprovedBy() != null) {
+				        @Html(Messages("ApprovedOn_By", prettify(comment.getApprovedOn()), partials.userProfile(comment.getApprovedBy()))) }
+                        </small>
+                        @restrictCombine(la(as("admin")), "models.Comment.edit." + comment.getKey()) {
+                        <a class="btn btn-mini pull-right spaced" href="@routes.App.commentEditForm(post.getKey(), comment.getKey())#form">@Messages("edit")</a>
+                        }
+                        @restrictCombine(la(as("admin")), "models.Comment.delete." + comment.getKey()) {
+                        <a class="btn btn-mini btn-danger pull-right spaced" href="@routes.App.commentDelete(post.getKey(), comment.getKey())">@Messages("delete")</a>
+                        }
+ 						<span id="status" class="badge">@Messages("Content.status." + comment.getStatus())</span>
+                    </td> 
+                </tr>
+
+                <tr><td><p class="nl-withoutSpace">@comment.getContent()</p></td></tr>
+            </tbody>
+        </table>
+        
+        </div>
+    </div>
+    
 	<div class="row-fluid">
 		<div class="span8">
-			@if(approvePossible(post.getStatus())) { <a class="btn-approve btn btn-success spaced" data-key="post-@post.getKey()" href="javascript:void(0)" data-href="@routes.Api.postApprove(post.getKey())"><i class="icon-ok"></i> &nbsp; @Messages("approve")</a> }
-			@if(expirePossible(post.getStatus())) { <a class="btn-expired btn btn-warning spaced" data-key="post-@post.getKey()" href="javascript:void(0)" data-href="@routes.Api.postMarkExpired(post.getKey())"><i class="icon-strikethrough"></i> &nbsp; @Messages("mark_expired")</a> }
-			@if(removePossible(post.getStatus())) { <a class="btn-remove btn btn-danger spaced" data-key="post-@post.getKey()" href="javascript:void(0)" data-href="@routes.Api.postRemove(post.getKey())"><i class="icon-trash"></i> &nbsp; @Messages("remove")</a> }
+			@if(approvePossible(comment.getStatus())) { <a class="btn-approve btn btn-success spaced" data-key="comment-@comment.getKey()" href="javascript:void(0)" data-href="@routes.Api.commentApprove(comment.getKey())"><i class="icon-ok"></i> &nbsp; @Messages("approve")</a> }
+			@if(removePossible(comment.getStatus())) { <a class="btn-remove btn btn-danger spaced" data-key="comment-@comment.getKey()" href="javascript:void(0)" data-href="@routes.Api.commentRemove(comment.getKey())"><i class="icon-trash"></i> &nbsp; @Messages("remove")</a> }
 		</div>
 	</div>
 	

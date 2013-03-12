@@ -46,6 +46,9 @@ public class Post extends Model implements TimestampModel<Long>, Owned<Long> {
 	@Basic
 	private Date updatedOn;
 	
+	@Basic
+	private Date approvedOn;
+	
 	@Version
 	private int version;
 
@@ -68,6 +71,10 @@ public class Post extends Model implements TimestampModel<Long>, Owned<Long> {
 	@ManyToOne
 	@JoinColumn(name = "updated_by", nullable = true)
 	private User updatedBy;
+
+	@ManyToOne
+	@JoinColumn(name = "approved_by", nullable = true)
+	private User approvedBy;
 
 	@ManyToOne
 	@JoinColumn(name = "category", nullable = false)
@@ -138,6 +145,22 @@ public class Post extends Model implements TimestampModel<Long>, Owned<Long> {
 
 	public void setUpdatedBy(User updatedBy) {
 		this.updatedBy = updatedBy;
+	}
+
+	public Date getApprovedOn() {
+		return approvedOn;
+	}
+
+	public void setApprovedOn(Date approvedOn) {
+		this.approvedOn = approvedOn;
+	}
+
+	public User getApprovedBy() {
+		return approvedBy;
+	}
+
+	public void setApprovedBy(User approvedBy) {
+		this.approvedBy = approvedBy;
 	}
 
 	public Integer getRating() {

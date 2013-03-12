@@ -38,6 +38,9 @@ public class Comment extends Model implements TimestampModel<Long>, Owned<Long> 
     private Date updatedOn;
     
     @Basic
+    private Date approvedOn;
+    
+    @Basic
 	private String creatorIp;
 	
 	@Version
@@ -57,6 +60,10 @@ public class Comment extends Model implements TimestampModel<Long>, Owned<Long> 
     @ManyToOne
     @JoinColumn(name="updated_by", nullable=true)
     private User updatedBy;
+
+	@ManyToOne
+	@JoinColumn(name = "approved_by", nullable = true)
+	private User approvedBy;
 
     @Enumerated(value=EnumType.STRING)
     private ContentStatus status = ContentStatus.NEW;
@@ -125,6 +132,22 @@ public class Comment extends Model implements TimestampModel<Long>, Owned<Long> 
 		this.updatedBy = updatedBy;
 	}
 	
+	public Date getApprovedOn() {
+		return approvedOn;
+	}
+
+	public void setApprovedOn(Date approvedOn) {
+		this.approvedOn = approvedOn;
+	}
+
+	public User getApprovedBy() {
+		return approvedBy;
+	}
+
+	public void setApprovedBy(User approvedBy) {
+		this.approvedBy = approvedBy;
+	}
+
 	public String getCreatorIp() {
 		return creatorIp;
 	}

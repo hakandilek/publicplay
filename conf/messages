@@ -76,6 +76,7 @@ drop_your_comment=drop your comment:
 Comment.content.label=content
 CreatedOn_By=created on {0} by {1}
 UpdatedOn_By=updated on {0} by {1}
+ApprovedOn_By=approved on {0} by {1}
 
 Content.status.APPROVED=Approved
 Content.status.EXPIRED=Expired

@@ -1,7 +1,7 @@
 package controllers.crud;
 
 import static play.libs.Json.toJson;
-
+import static models.ContentReport.Status.*;
 import javax.inject.Inject;
 
 import models.ContentReport;
@@ -69,14 +69,19 @@ public class ContentReportAPIController extends
 	public Result ignore(Long key) {
 		if (log.isDebugEnabled())
 			log.debug("ignore <- " + key);
-		
+
 		ContentReport report = dao.get(key);
 		if (log.isDebugEnabled())
 			log.debug("report : " + report);
-		
-		
-		// TODO Auto-generated method stub
-		return null;
+
+		User user = HttpUtils.loginUser();
+		report.setUpdatedBy(user);
+		report.setStatus(IGNORED);
+		dao.update(key, report);
+		if (log.isDebugEnabled())
+			log.debug("report : " + report);
+
+		return ok(toJson(ImmutableMap.of("status", "OK", "key", key)));
 	}
 
 }
