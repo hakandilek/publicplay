@@ -45,6 +45,8 @@ Bulk_Edit=Toplu Değiştir
 # Error messages
 Post_not_found=Başlık bulunamadı
 Post0_not_found=Başlık {0} bulunamadı
+Post_removed=Başlık kaldırıldı
+Post0_removed=Başlık {0} kaldırıldı
 bad_request=Sayfa hatalı
 error_occured=Hata oluştu
 page_not_found=Sayfa bulunamadı

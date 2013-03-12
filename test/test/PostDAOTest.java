@@ -31,14 +31,14 @@ public class PostDAOTest extends BaseTest {
 				Page<Post> page = dao.page(0, 10);
 				assertThat(page).isNotNull();
 				assertThat(page.getPageIndex()).isEqualTo(0);
-				assertThat(page.getTotalPageCount()).isEqualTo(2);
-				assertThat(page.getTotalRowCount()).isEqualTo(11);
+				assertThat(page.getTotalPageCount()).isEqualTo(1);
+				assertThat(page.getTotalRowCount()).isEqualTo(10);
 
 				page = dao.page(1, 10);
 				assertThat(page).isNotNull();
 				assertThat(page.getPageIndex()).isEqualTo(1);
-				assertThat(page.getTotalPageCount()).isEqualTo(2);
-				assertThat(page.getTotalRowCount()).isEqualTo(11);
+				assertThat(page.getTotalPageCount()).isEqualTo(1);
+				assertThat(page.getTotalRowCount()).isEqualTo(10);
 			}
 		});
 	}
@@ -54,13 +54,13 @@ public class PostDAOTest extends BaseTest {
 				assertThat(page).isNotNull();
 				assertThat(page.getPageIndex()).isEqualTo(0);
 				assertThat(page.getTotalPageCount()).isEqualTo(1);
-				assertThat(page.getTotalRowCount()).isEqualTo(4);
+				assertThat(page.getTotalRowCount()).isEqualTo(3);
 
 				page = dao.pageInCategory(category, 1, 2);
 				assertThat(page).isNotNull();
 				assertThat(page.getPageIndex()).isEqualTo(1);
 				assertThat(page.getTotalPageCount()).isEqualTo(2);
-				assertThat(page.getTotalRowCount()).isEqualTo(4);
+				assertThat(page.getTotalRowCount()).isEqualTo(3);
 			}
 		});
 	}
@@ -108,8 +108,8 @@ public class PostDAOTest extends BaseTest {
 				Page<Post> page = dao.topAllPage();
 				assertThat(page).isNotNull();
 				assertThat(page.getPageIndex()).isEqualTo(0);
-				assertThat(page.getTotalPageCount()).isEqualTo(2);
-				assertThat(page.getTotalRowCount()).isEqualTo(11);
+				assertThat(page.getTotalPageCount()).isEqualTo(1);
+				assertThat(page.getTotalRowCount()).isEqualTo(10);
 			}
 		});
 	}

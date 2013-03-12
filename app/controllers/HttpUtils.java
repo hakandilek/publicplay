@@ -1,6 +1,7 @@
 package controllers;
 
 import models.S3File;
+import models.SecurityRole;
 import models.User;
 import play.Logger;
 import play.Logger.ALogger;
@@ -45,6 +46,17 @@ public class HttpUtils {
 		return user;
 	}
 	
+	public static boolean isAdmin() {
+		User user = loginUser();
+		return isAdmin(user);
+	}
+	
+	public static boolean isAdmin(User user) {
+		if (user == null) return false;
+		SecurityRole admin = new SecurityRole("admin");
+		return user.getRoles().contains(admin);
+	}
+
 	public static S3File uploadFile(Request r, String field) {
 		RequestBody b = r.body();
 		MultipartFormData body = b.asMultipartFormData();

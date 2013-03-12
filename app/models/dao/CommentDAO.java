@@ -4,9 +4,12 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import models.Comment;
+import models.ContentStatus;
 import play.utils.dao.CachedDAO;
 import play.utils.dao.TimestampListener;
 
+import com.avaje.ebean.Expr;
+import com.avaje.ebean.Expression;
 import com.avaje.ebean.Page;
 
 @Singleton
@@ -30,12 +33,19 @@ public class CommentDAO extends CachedDAO<Long, Comment> {
 	 *            Number of computers per page
 	 */
 	public Page<Comment> page(Long postKey, int page, int pageSize) {
-		Page<Comment> p = find.page(page, pageSize, "createdOn desc", "postKey", postKey);
+		String cacheKey = "postKey=" + postKey + ", page=" + page;
+		Expression expr = Expr.and(Expr.eq("postKey", postKey),
+				Expr.ne("status", ContentStatus.REMOVED));
+		Page<Comment> p = find.page(page, pageSize, "createdOn desc", cacheKey,
+				expr);
 		return p;
 	}
-	
-	public Page<Comment> getCommentsBy(String userKey, int page, int pageSize){
-		return find.page(page, pageSize, "createdOn desc", "created_by", userKey);
+
+	public Page<Comment> getCommentsBy(String userKey, int page, int pageSize) {
+		String cacheKey = "userKey=" + userKey + ", page=" + page;
+		Expression expr = Expr.and(Expr.eq("created_by", userKey),
+				Expr.ne("status", ContentStatus.REMOVED));
+		return find.page(page, pageSize, "createdOn desc", cacheKey, expr);
 	}
-   
+
 }

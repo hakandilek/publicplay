@@ -1,5 +1,6 @@
 package controllers;
 
+import static controllers.HttpUtils.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -34,6 +35,7 @@ import play.utils.dao.EntityNotFoundException;
 import views.html.index;
 import views.html.postForm;
 import views.html.postNotFound;
+import views.html.postRemoved;
 import views.html.postShow;
 
 import com.avaje.ebean.Page;
@@ -102,8 +104,8 @@ public class PostController extends DynamicTemplateController implements
 		if (pg == null) {
 			pg = postDAO.page(page, POSTS_PER_PAGE);
 		}
-		if (Logger.isDebugEnabled())
-			Logger.debug("pg : " + pg);
+		if (log.isDebugEnabled())
+			log.debug("pg : " + pg);
 
 		List<Category> categoryList = categoryDAO.all();
 		Boolean following=false;
@@ -124,12 +126,13 @@ public class PostController extends DynamicTemplateController implements
 
 		List<String> followingUserKeys = userFollowDAO.getAllFollowingsKeys(user);
 		Page<Post> pg=null;
-		if (followingUserKeys!=null && followingUserKeys.size()>0) {
-			pg= postDAO.getPostsCreatedBy(followingUserKeys, page, POSTS_PER_PAGE);
+		if (followingUserKeys != null && followingUserKeys.size() > 0) {
+			pg = postDAO.getPostsCreatedBy(followingUserKeys, page,
+					POSTS_PER_PAGE);
 		}
 		
-		if (Logger.isDebugEnabled())
-			Logger.debug("pg : " + pg);
+		if (log.isDebugEnabled())
+			log.debug("pg : " + pg);
 
 		List<Category> categoryList = categoryDAO.all();
 		Boolean following=true;
@@ -283,8 +286,12 @@ public class PostController extends DynamicTemplateController implements
 		if (post == null) {
 			return notFound(postNotFound.render(postKey));
 		}
+		
+		User user = loginUser(ctx());
+		if (!isAdmin(user) && post.getStatus() == ContentStatus.REMOVED) {
+			return notFound(postRemoved.render(postKey));
+		}
 
-		User user = HttpUtils.loginUser();
 
 		final Page<Comment> pg = commentDAO.page(postKey, page,
 				COMMENTS_PER_PAGE);
