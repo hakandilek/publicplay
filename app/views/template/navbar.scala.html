@@ -5,7 +5,7 @@
 
 <div class="navbar navbar-fixed-top">
     <div class="navbar-inner">
-        <div class="container-fluid">
+        <div class="container-narrow">
 
             <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
             <a class="btn btn-navbar" data-toggle="collapse"
@@ -28,12 +28,22 @@
             <div class="nav-collapse">
                 <!-- .nav, .navbar-search, .navbar-form, etc -->
                 <ul class="nav pull-right">
-                    <!-- home -->
-                    <li><a href="@routes.App.index()"><i class="icon-home icon-white"></i>&nbsp;@Messages("Home")</a></li>
-                    
+            @views.html.security.roleHolderPresent() {
+                @if(userPresent()) {
+                    @defining(loginUser()) { loggedInUser =>
+                    <!-- profile -->
+                    <li>
+                        <a href="@controllers.routes.App.userShowSelf()" class="profile">
+                            <img alt="@loggedInUser.getProfileImageURL()" src="@loggedInUser.getProfileImageURL()"  />
+                            @loggedInUser.getFirstName()
+                        </a>
+                    </li>
+                    }
+                }
+            }     
             @views.html.security.roleHolderPresent(){
                     <!-- new post -->
-                    <li><a href="@routes.App.postNewForm()"><i class="icon-home icon-edit"></i>&nbsp;@Messages("new_post")</a></li>
+                    <li><a href="@routes.App.postNewForm()" data-toggle="tooltip" data-placement="bottom" title="@Messages("Create_new_post")"><i class="icon-home icon-edit"></i></a></li>
             }
                 
             @views.html.security.roleHolderNotPresent(){
@@ -43,23 +53,11 @@
                 
             @restrict(la(as("admin"))) {
                     <!-- admin -->
-                    <li><a href="@routes.Admin.index()"><i class="icon-wrench icon-white"></i>&nbsp;@Messages("Administration")</a></li>
+                    <li><a href="@routes.Admin.index()" data-toggle="tooltip" data-placement="bottom" title="@Messages("Administration")"><i class="icon-wrench icon-white"></i></a></li>
             }
-                
-            @views.html.security.roleHolderPresent() {
-                @if(userPresent()) {
-                    @defining(loginUser()) { loggedInUser =>
-                    <!-- profile -->
-                    <li>
-                        <a href="@controllers.routes.App.userShowSelf()" class="profile">
-                            <img alt="@loggedInUser.getProfileImageURL()" src="@loggedInUser.getProfileImageURL()"  />
-                            @loggedInUser.getFirstName() @loggedInUser.getLastName()
-                        </a>
-                    </li>
-                    }
-                }
-                    <!-- logout -->
-                    <li><a href="@controllers.routes.App.logout()"><i class="icon-off icon-white"></i>&nbsp;@Messages("Logout")</a></li>
+            @views.html.security.roleHolderPresent() {    
+             <!-- logout -->
+                    <li><a href="@controllers.routes.App.logout()" data-toggle="tooltip" data-placement="bottom" title="@Messages("Logout")"><i class="icon-off icon-white"></i></a></li>
             }
                 
                 </ul>

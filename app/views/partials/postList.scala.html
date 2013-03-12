@@ -54,11 +54,6 @@
     } else {
 	
     <table class="posts table table-striped table-bordered">
-        <thead>
-            <tr>
-                <th class="header" colspan="2">@Messages("Posts")</th>
-            </tr>
-        </thead>
         <tbody>
         @for(post <- currentPage.getList) {
             @partials.postTable(post, upVotedPostKeys, downVotedPostKeys)

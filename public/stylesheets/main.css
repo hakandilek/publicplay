@@ -86,7 +86,7 @@ h4 {padding-bottom: 1em; }
 .col-post-rate { min-width: 36px; max-width: 36px; }
 .col-post-title { min-width: 410px; }
 .col-post-image { min-width: 120px; max-width: 120px; }
-.col-posttop-rate { min-width: 34px; max-width: 34px; }
+.col-posttop-rate { width: 34px; }
 .col-posttop-title { min-width: 370px; }
 
 div.fb-like {min-height: 30px; height: 80px; }
@@ -101,14 +101,14 @@ div.fb-like {min-height: 30px; height: 80px; }
 a:focus { outline:none }
 
 ul.stats{border-bottom: 1px solid #DDDDDD;
-    margin: 15px 0 17px;
+    margin: 5px 0 17px;
     padding: 6px 0 15px; 
     text-align: center;
 }
 ul.stats li {
     display: inline-block;
     list-style-type: none;
-    min-width: 70px;
+    min-width: 60px;
 }
 ul.stats li strong {font-size: 28px;font-weight: bold;}
 ul.stats li#reputation strong{font-size: 36px;font-weight: bold;}
@@ -125,3 +125,7 @@ ul.stats li span {color: #999999;display: block;font-size: 11px;margin-top: -2px
 .report-modal .modal-body { max-height: 800px; }
 .report-modal { width: 800px; margin: -60px 0 0 -400px; }
 
+.container-narrow {
+    margin: 0 auto;
+    max-width: 980px;
+}
