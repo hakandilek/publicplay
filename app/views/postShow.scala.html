@@ -115,7 +115,7 @@
         @form(if(commentKey != null) { routes.App.commentUpdate(post.getKey(), commentKey) } 
               else                   { routes.App.commentCreate(post.getKey(), sanitizeURL(post.getTitle())) } , 'id -> "form") { 
             
-            @textarea(commentForm(""), 'rows -> 4,'class->"span12", Symbol("data-maxchars") -> "2000", '_showConstraints -> false)
+            @textarea(commentForm("Content"),args = '_label ->"", 'rows -> 4,'class->"span12", Symbol("data-maxchars") -> "2000", '_showConstraints -> false)
             
             @roleHolderPresent() {
                <input type="submit" class="btn btn-success" value="@if(commentKey != null) { @Messages("Update") } else { @Messages("Post") }">
