@@ -92,15 +92,13 @@ public class UserCRUDController extends CRUDController<String, User> {
 		return list(null, page);
 	}
 
-	public Result recalculateReputation(final String key,
-			final int page) {
+	public Result recalculateReputation(final String key, final int page) {
 		User user = userDAO.get(key);
 		updateReputation(user);
 		return list(null, page);
 	}
 
 	private void updateReputation(User user) {
-		
 
 		for (Reputation reputation : user.getReputations()) {
 			ReputationValue reputationValueInTable = reputationValueDAO
@@ -180,12 +178,12 @@ public class UserCRUDController extends CRUDController<String, User> {
 	}
 
 	public Results.AsyncResult calculateAllReputations() {
-		final List<User> users = userDAO.find().where().orderBy("lastLogin desc")
-				.findList();
+		final List<User> users = userDAO.find().where()
+				.orderBy("lastLogin desc").findList();
 
 		return async(Akka.future(new Callable<Void>() {
 			public Void call() throws Exception {
-				for(User user :users){
+				for (User user : users) {
 
 					updateReputation(user);
 				}
@@ -193,8 +191,8 @@ public class UserCRUDController extends CRUDController<String, User> {
 			}
 		}).map(new F.Function<Void, Result>() {
 			public Result apply(Void arg0) {
-				return ok(templateForList(),
-						with(Page.class, 0).and(String.class, null));
+				return redirect(toIndex());
+
 			}
 		}));
 	}
