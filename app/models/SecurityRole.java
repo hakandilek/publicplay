@@ -11,7 +11,7 @@ import play.data.validation.Constraints.MinLength;
 import play.data.validation.Constraints.Required;
 import play.db.ebean.Model;
 import play.utils.dao.BasicModel;
-import be.objectify.deadbolt.models.Role;
+import be.objectify.deadbolt.core.models.Role;
 
 @Entity
 @Table(name="TBL_SECURITY_ROLE")

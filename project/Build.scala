@@ -20,7 +20,7 @@ object ApplicationBuild extends Build {
         "org.cloudfoundry" % "auto-reconfiguration" % "0.6.6" excludeAll(ExclusionRule(organization = "org.slf4j")),
         "com.restfb" % "restfb" % "1.6.11",
         "joda-time" % "joda-time"% "2.1",
-        "be.objectify" %% "deadbolt-2" % "1.1.3",
+        "be.objectify" %% "deadbolt-java" % "2.1-SNAPSHOT",
         "com.amazonaws" % "aws-java-sdk" % "1.3.11",
         "com.typesafe" % "play-plugins-guice" % "2.0.3",
         "play2-cache" % "play2-cache_2.9.1" % "0.3.1-SNAPSHOT",
@@ -51,7 +51,8 @@ object ApplicationBuild extends Build {
         resolvers += "snapshot repository" at "http://hakandilek.github.com/maven-repo/snapshots/",
         
         // Objectify Repository for Deadbolt
-        resolvers += Resolver.url("Objectify Play Repository", url("http://schaloner.github.com/releases/"))(Resolver.ivyStylePatterns)
+        resolvers += Resolver.url("Objectify Play Repository", url("http://schaloner.github.com/releases/"))(Resolver.ivyStylePatterns),
+        resolvers += Resolver.url("Objectify Play Repository - snapshots", url("http://schaloner.github.com/snapshots/"))(Resolver.ivyStylePatterns)
         
         //ignore checksum check
         //checksums := Nil

@@ -8,7 +8,7 @@ import security.Approvable;
 import be.objectify.deadbolt.Deadbolt;
 import be.objectify.deadbolt.DeadboltHandler;
 import be.objectify.deadbolt.PatternType;
-import be.objectify.deadbolt.models.RoleHolder;
+import be.objectify.deadbolt.core.models.Subject;
 import be.objectify.deadbolt.utils.PluginUtils;
 import be.objectify.deadbolt.utils.RequestUtils;
 
@@ -28,25 +28,25 @@ public class DeadboltUtils {
 	 * 
 	 * @return true if the view can be accessed, otherwise false
 	 */
-	public static boolean viewRoleHolderNotPresent() throws Throwable {
+	public static boolean viewSubjectNotPresent() throws Throwable {
 		DeadboltHandler handler = PluginUtils.getHandler();
 		Context ctx = Http.Context.current();
-		RoleHolder roleHolder = RequestUtils.getRoleHolder(handler, ctx);
+		Subject roleHolder = RequestUtils.getSubject(handler, ctx);
 		return roleHolder == null;
 	}
 
 	public static boolean viewRestrictApproved() throws Throwable {
 		DeadboltHandler handler = PluginUtils.getHandler();
 		Context ctx = Http.Context.current();
-		RoleHolder roleHolder = RequestUtils.getRoleHolder(handler, ctx);
-		return isRoleHolderApproved(roleHolder);
+		Subject roleHolder = RequestUtils.getSubject(handler, ctx);
+		return isSubjectApproved(roleHolder);
 	}
 
 	public static boolean viewRestrictNotApproved() throws Throwable {
 		return !viewRestrictApproved();
 	}
 	
-	public static boolean isRoleHolderApproved(RoleHolder roleHolder) {
+	public static boolean isSubjectApproved(Subject roleHolder) {
 		boolean approved = false;
 		if (roleHolder != null && roleHolder instanceof Approvable) {
 			Approvable approvable = (Approvable) roleHolder;

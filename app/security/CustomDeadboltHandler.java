@@ -10,7 +10,7 @@ import play.mvc.Result;
 import views.html.errors.accessFailed;
 import be.objectify.deadbolt.AbstractDeadboltHandler;
 import be.objectify.deadbolt.DynamicResourceHandler;
-import be.objectify.deadbolt.models.RoleHolder;
+import be.objectify.deadbolt.core.models.Subject;
 import controllers.HttpUtils;
 
 
@@ -32,9 +32,9 @@ public class CustomDeadboltHandler extends AbstractDeadboltHandler {
 	}
 
 	@Override
-	public RoleHolder getRoleHolder(Context ctx) {
+	public Subject getSubject(Context ctx) {
 		if (log.isDebugEnabled())
-			log.debug("getRoleHolder() <-");
+			log.debug("getSubject() <-");
 		User user = HttpUtils.loginUser(ctx);
 		if (log.isDebugEnabled())
 			log.debug("user : " + user);

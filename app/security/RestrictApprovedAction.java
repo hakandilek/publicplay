@@ -7,7 +7,7 @@ import play.mvc.Result;
 import views.html.security.DeadboltUtils;
 import be.objectify.deadbolt.DeadboltHandler;
 import be.objectify.deadbolt.actions.AbstractRestrictiveAction;
-import be.objectify.deadbolt.models.RoleHolder;
+import be.objectify.deadbolt.core.models.Subject;
 
 public class RestrictApprovedAction extends AbstractRestrictiveAction<RestrictApproved> {
 
@@ -32,10 +32,10 @@ public class RestrictApprovedAction extends AbstractRestrictiveAction<RestrictAp
 	private boolean isAllowed(Http.Context ctx, DeadboltHandler deadboltHandler) {
 		if (log.isDebugEnabled())
 			log.debug("isAllowed() <-");
-		RoleHolder roleHolder = getRoleHolder(ctx, deadboltHandler);
+		Subject roleHolder = getSubject(ctx, deadboltHandler);
 		if (log.isDebugEnabled())
 			log.debug("roleHolder : " + roleHolder);
-		boolean approved = DeadboltUtils.isRoleHolderApproved(roleHolder);
+		boolean approved = DeadboltUtils.isSubjectApproved(roleHolder);
 		if (log.isDebugEnabled())
 			log.debug("approved : " + approved);
 		return approved;

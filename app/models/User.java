@@ -29,16 +29,16 @@ import play.utils.dao.TimestampModel;
 import security.Approvable;
 import security.EntityPermission;
 import socialauth.core.SocialUser;
-import be.objectify.deadbolt.models.Permission;
-import be.objectify.deadbolt.models.Role;
-import be.objectify.deadbolt.models.RoleHolder;
+import be.objectify.deadbolt.core.models.Permission;
+import be.objectify.deadbolt.core.models.Role;
+import be.objectify.deadbolt.core.models.Subject;
 
 import com.avaje.ebean.annotation.EnumValue;
 
 @Entity
 @Table(name="TBL_USER")
 @SuppressWarnings("serial")
-public class User extends Model implements RoleHolder, Approvable, TimestampModel<String>, SocialUser {
+public class User extends Model implements Subject, Approvable, TimestampModel<String>, SocialUser {
 
 	public enum Status {
 		@EnumValue("N")
@@ -151,6 +151,10 @@ public class User extends Model implements RoleHolder, Approvable, TimestampMode
 		return new ArrayList<SecurityRole>(securityRoles);
 	}
 
+	public String getIdentifier() {
+		return key;
+	}
+	
 	public String getKey() {
 		return key;
 	}

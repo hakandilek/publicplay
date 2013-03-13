@@ -8,8 +8,8 @@ import play.Logger.ALogger;
 import play.mvc.Http.Context;
 import be.objectify.deadbolt.DeadboltHandler;
 import be.objectify.deadbolt.DynamicResourceHandler;
-import be.objectify.deadbolt.models.Permission;
-import be.objectify.deadbolt.models.RoleHolder;
+import be.objectify.deadbolt.core.models.Permission;
+import be.objectify.deadbolt.core.models.Subject;
 
 public class CustomResourceHandler implements DynamicResourceHandler {
 
@@ -24,7 +24,7 @@ public class CustomResourceHandler implements DynamicResourceHandler {
 			log.debug("permission : " + permission);
 		
 		boolean permissionOk = false;
-		RoleHolder roleHolder = handler.getRoleHolder(ctx);
+		Subject roleHolder = handler.getSubject(ctx);
 
 		if (roleHolder != null) {
 			List<? extends Permission> permissions = roleHolder
@@ -49,7 +49,7 @@ public class CustomResourceHandler implements DynamicResourceHandler {
 		if (log.isDebugEnabled())
 			log.debug("meta : " + meta);
 		boolean permissionOk = false;
-		RoleHolder roleHolder = handler.getRoleHolder(ctx);
+		Subject roleHolder = handler.getSubject(ctx);
 		if (log.isDebugEnabled())
 			log.debug("roleHolder : " + roleHolder);
 
