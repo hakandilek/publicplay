@@ -62,8 +62,7 @@ public class ContentReportAPIController extends
 		if (log.isDebugEnabled())
 			log.debug("key : " + key);
 
-		return created(toJson(ImmutableMap.of("status", "OK", "key", key,
-				"data", m)));
+		return created(toJson(ImmutableMap.of("status", "OK", "key", key)));
 	}
 
 	public Result ignore(Long key) {
