@@ -18,6 +18,7 @@ import play.libs.F;
 import play.mvc.Call;
 import play.mvc.Result;
 import play.mvc.Results;
+import static play.mvc.Results.async;
 import play.utils.crud.CRUDController;
 
 import com.avaje.ebean.Page;
@@ -179,22 +180,20 @@ public class UserCRUDController extends CRUDController<String, User> {
 		}
 	}
 
-	public Results.AsyncResult calculateAllReputations() {
+	public Result calculateAllReputations() {
 		final List<User> users = userDAO.find().where().orderBy("lastLogin desc")
 				.findList();
 
 		return async(Akka.future(new Callable<Void>() {
 			public Void call() throws Exception {
 				for(User user :users){
-
 					updateReputation(user);
 				}
 				return null;
 			}
 		}).map(new F.Function<Void, Result>() {
 			public Result apply(Void arg0) {
-				return ok(templateForList(),
-						with(Page.class, 0).and(String.class, null));
+				return redirect(toIndex());
 			}
 		}));
 	}
