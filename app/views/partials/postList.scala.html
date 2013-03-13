@@ -45,7 +45,7 @@
 
 
 <div class="hidden-phone">
-    @if(currentPage==null) {
+    @if(currentPage==null || currentPage.getTotalRowCount == 0) {
         
     <div class="well">
         <em>@Messages("Nothing_to_display")</em>
