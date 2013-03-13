@@ -173,6 +173,7 @@ User.status.All=Hepsi
 User.status.SUSPENDED=Askıda
 User.status.NEW=Yeni
 User.status.APPROVED=Onaylı
+User.roles=Roller
 
 # SecurityRole
 SecurityRole_num={0} rol

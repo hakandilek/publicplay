@@ -2,17 +2,22 @@ package controllers.crud;
 
 import static play.libs.Json.toJson;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.inject.Inject;
 
-import org.codehaus.jackson.JsonNode;
-
+import models.SecurityRole;
 import models.User;
 import models.UserFollow;
 import models.UserFollowPK;
+import models.dao.SecurityRoleDAO;
 import models.dao.UserDAO;
 import models.dao.UserFollowDAO;
+
+import org.codehaus.jackson.JsonNode;
+
 import play.mvc.Result;
 import play.utils.crud.APIController;
 import play.utils.dao.EntityNotFoundException;
@@ -23,12 +28,16 @@ import controllers.HttpUtils;
 
 public class UserAPIController extends APIController<String, User> {
 
+	private UserDAO userDAO;
 	private UserFollowDAO userFollowDAO;
+	private SecurityRoleDAO securityRoleDAO;
 
 	@Inject
-	public UserAPIController(UserDAO userDAO, UserFollowDAO userFollowDAO)  {
+	public UserAPIController(UserDAO userDAO, UserFollowDAO userFollowDAO, SecurityRoleDAO securityRoleDAO)   {
 		super(userDAO);
+		this.userDAO = userDAO;
 		this.userFollowDAO = userFollowDAO;
+		this.securityRoleDAO = securityRoleDAO;
 	}
 
 	@Override
@@ -51,7 +60,7 @@ public class UserAPIController extends APIController<String, User> {
 		User m = new User();
 		m.setStatus(User.Status.NEW);
 		m.setUrl(url);
-		Long key = dao.create(m);
+		Long key = userDAO.create(m);
 		*/
 		return TODO;
 	}
@@ -61,7 +70,7 @@ public class UserAPIController extends APIController<String, User> {
 			log.debug("bulkList() <-");
 		
 		//clean cyclic dependencies
-		List<User> list = dao.all();
+		List<User> list = userDAO.all();
 		for (User user : list) {
 			user.getPosts().clear();
 			user.getComments().clear();
@@ -110,20 +119,15 @@ public class UserAPIController extends APIController<String, User> {
 			log.debug("roleUpdate <- " + key);
 
 		//field name & value
-		JsonNode json = request().body().asJson();
-		JsonNode node = json.get("name");
-		if (node == null) return null;
-		String name = node.getTextValue();
+		String name = jsonText("name");
+		List<String> values = jsonTextList("value");
 		
-		String value = jsonText("value");
 		if (log.isDebugEnabled())
 			log.debug("name : " + name);
 		if (log.isDebugEnabled())
-			log.debug("value : " + value);
-		System.out.println(name);
-		System.out.println(value);
+			log.debug("values : " + values);
 
-		User u = dao.get(key);
+		User u = userDAO.get(key);
 		if (log.isDebugEnabled())
 			log.debug("m : " + u);
 		if (u == null) {
@@ -133,11 +137,43 @@ public class UserAPIController extends APIController<String, User> {
 					"message", "entity with the given key not found")));
 		}
 
-		dao.update(key, u);
+		List<SecurityRole> roles = u.getSecurityRoles();
+		if (log.isDebugEnabled())
+			log.debug("old roles : " + roles);
+		for (SecurityRole role : roles) {
+			if (log.isDebugEnabled())
+				log.debug("old role : " + role);
+		}
+		roles.clear();
+		
+		for (String rolekeyStr : values) {
+			try {
+				Long roleKey = Long.parseLong(rolekeyStr);
+				SecurityRole role = securityRoleDAO.get(roleKey);
+				if (role != null) roles.add(role);
+			} catch (NumberFormatException e) {
+				continue;
+			}
+		}
+		if (log.isDebugEnabled())
+			log.debug("new roles : " + roles);
+		
+		userDAO.saveAssociation(u, "securityRoles");
+		//userDAO.update(key, u);
+		
 		if (log.isDebugEnabled())
 			log.debug("updated.");
 		if (log.isDebugEnabled())
 			log.debug("m : " + u);
+		
+		u = userDAO.get(key);
+		List<SecurityRole> newRoles = u.getSecurityRoles();
+		if (log.isDebugEnabled())
+			log.debug("newRoles : " + newRoles);
+		for (SecurityRole role : newRoles) {
+			if (log.isDebugEnabled())
+				log.debug("new role : " + role);
+		}
 
 		return ok(toJson(ImmutableMap.of(
 				"status", "OK",
@@ -146,6 +182,19 @@ public class UserAPIController extends APIController<String, User> {
 				"] updated")));
 	}
 
-
+	protected List<String> jsonTextList(String name) {
+		JsonNode json = request().body().asJson();
+		JsonNode node = json.get(name);
+		if (node == null)
+			return null;
+		List<String> list = new ArrayList<String>();
+		for (Iterator<JsonNode> elems = node.getElements(); elems.hasNext();) {
+			JsonNode elem = elems.next();
+			if (log.isDebugEnabled())
+				log.debug("elem : " + elem);
+			list.add(elem.asText());
+		}
+		return list;
+	}	
 
 }

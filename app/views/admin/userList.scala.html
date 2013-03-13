@@ -61,7 +61,10 @@
                 <td>@prettify(user.getLastLogin())</td>
                 <td>@user.getLoginCount()</td>
                 <td>
-                	<a id="roles-@user.getKey()" class="user-role" href="#" data-type="checklist" data-pk="@user.getKey()" data-value="@roleKeys(user)" 
+                	<a id="roles-@user.getKey()" class="user-role" href="#" 
+                		data-type="checklist" 
+                		data-pk="@user.getKey()" 
+                		data-value="@roleKeys(user)" 
                 		data-url="@routes.Api.userRoleUpdate(user.getKey())" 
                 		data-source="@routes.Api.securityRoleList()" 
                 		data-sourceCache="true">@roleNames(user)</a>
