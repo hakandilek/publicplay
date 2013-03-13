@@ -124,13 +124,10 @@ public class UserCRUDController extends CRUDController<String, User> {
 
 		Page<User> p = null;
 		if (status == null || "".equals(status)) {
-			p = userDAO.find().where().orderBy("lastLogin desc")
-					.findPagingList(PAGE_SIZE).getPage(page);
+			p = userDAO.page(page, PAGE_SIZE, "lastLogin desc");
 		} else {
 			User.Status s = User.Status.valueOf(status);
-			p = userDAO.find().where().eq("status", s)
-					.orderBy("lastLogin desc").findPagingList(PAGE_SIZE)
-					.getPage(page);
+			p = userDAO.page(page, PAGE_SIZE, "lastLogin desc", "status", s);
 		}
 
 		return ok(templateForList(),

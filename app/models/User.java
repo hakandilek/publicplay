@@ -112,13 +112,7 @@ public class User extends Model implements RoleHolder, Approvable, TimestampMode
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinTable(name = "TBL_USER_SECURITY_ROLE", joinColumns = @JoinColumn(name = "user_key"), inverseJoinColumns = @JoinColumn(name = "security_role_key"))
     private List<SecurityRole> securityRoles = new ArrayList<SecurityRole>();
-/*
-    @OneToMany(cascade=CascadeType.ALL, mappedBy="target")
-    private Set<UserFollow> userFollowSources = new HashSet<UserFollow>();
 
-    @OneToMany(cascade=CascadeType.ALL, mappedBy="source")
-    private Set<UserFollow> userFollowTargets = new HashSet<UserFollow>();
-*/
 	public User(Profile profile) {
 		key = profile.getProviderId() + "::" + profile.getValidatedId();
 		originalKey = profile.getValidatedId();

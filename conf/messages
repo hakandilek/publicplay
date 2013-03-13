@@ -147,6 +147,7 @@ You_must_login_to_perform_this_action=You must login to perform this action
 # User
 create_bulk_User=add bulk user data
 User.bulkData.label=bulk data
+User_num={0} users
 User_not_found=User not found
 This_is_you=This is you!
 Roles=Roles
@@ -159,6 +160,18 @@ User.Date_of_Birth=Date of birth
 User.Gender=Gender
 User.Location=location
 User.Favorites=Favorites
+
+# Admin
+User.key=ID
+User.profile=Profil
+User.lastLogin=Son giriş
+User.loginCount=Giriş
+User.status=Durum
+User.status.All=Hepsi
+User.status.SUSPENDED=Askıda
+User.status.NEW=Yeni
+User.status.APPROVED=Onaylı
+User.roles=Roles
 
 # SecurityRole
 SecurityRole_num={0} roles
