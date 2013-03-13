@@ -45,6 +45,8 @@ Bulk_Edit=Toplu Değiştir
 # Error messages
 Post_not_found=Başlık bulunamadı
 Post0_not_found=Başlık {0} bulunamadı
+Post_removed=Başlık kaldırıldı
+Post0_removed=Başlık {0} kaldırıldı
 bad_request=Sayfa hatalı
 error_occured=Hata oluştu
 page_not_found=Sayfa bulunamadı
@@ -79,6 +81,7 @@ drop_your_comment=yorum yapın:
 Comment.content.label=içerik
 CreatedOn_By={1} {0} yazdı
 UpdatedOn_By={1} {0} güncelledi
+ApprovedOn_By={1} {0} onayladı
 
 Content.status.APPROVED=Onaylı
 Content.status.EXPIRED=Süresi geçmiş

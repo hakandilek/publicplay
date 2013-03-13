@@ -54,13 +54,13 @@ public class CommentDAOTest extends BaseTest {
 				assertThat(page).isNotNull();
 				assertThat(page.getPageIndex()).isEqualTo(0);
 				assertThat(page.getTotalPageCount()).isEqualTo(3);
-				assertThat(page.getTotalRowCount()).isEqualTo(27);
+				assertThat(page.getTotalRowCount()).isEqualTo(26);
 
 				page = dao.getCommentsBy("testuser", 2, 10);
 				assertThat(page).isNotNull();
 				assertThat(page.getPageIndex()).isEqualTo(2);
 				assertThat(page.getTotalPageCount()).isEqualTo(3);
-				assertThat(page.getTotalRowCount()).isEqualTo(27);
+				assertThat(page.getTotalRowCount()).isEqualTo(26);
 			}
 		});
 	}

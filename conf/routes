@@ -138,6 +138,8 @@ GET		/api/report/:key/ignore							controllers.Api.contentReportIgnore(key:Long)
 GET		/api/post/:key/approve							controllers.Api.postApprove(key:Long)
 GET		/api/post/:key/remove							controllers.Api.postRemove(key:Long)
 GET		/api/post/:key/expire							controllers.Api.postMarkExpired(key:Long)
+GET		/api/comment/:key/approve						controllers.Api.commentApprove(key:Long)
+GET		/api/comment/:key/remove						controllers.Api.commentRemove(key:Long)
 
 # API fallback
 GET     /api/*resource                 					controllers.Api.invalid(resource: String)

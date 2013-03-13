@@ -108,6 +108,10 @@ public class ContentReport extends Model implements TimestampModel<Long>, Owned<
 		this.contentKey = contentKey;
 	}
 
+	public boolean isIgnored() {
+		return status == Status.IGNORED;
+	}
+	
 	public Long getKey() {
 		return key;
 	}

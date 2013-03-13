@@ -66,10 +66,12 @@ public class ContentReportCRUDController extends CRUDController<Long, ContentRep
 
 		Page<ContentReport> p = null;
 		if (status == null || "".equals(status)) {
+			//TODO:move into DAO
 			p = contentReportDAO.find().where().orderBy(ORDER_BY)
 					.findPagingList(PAGE_SIZE).getPage(page);
 		} else {
 			ContentReport.Status s = ContentReport.Status.valueOf(status);
+			//TODO:move into DAO
 			p = contentReportDAO.find().where().eq("status", s)
 					.orderBy(ORDER_BY).findPagingList(PAGE_SIZE)
 					.getPage(page);

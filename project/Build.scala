@@ -16,13 +16,12 @@ object ApplicationBuild extends Build {
         //appfog/cloudfoundry integration
         "org.cloudfoundry" % "auto-reconfiguration" % "0.6.6" excludeAll(ExclusionRule(organization = "org.slf4j")),
         "com.restfb" % "restfb" % "1.6.11",
-        "play2-cache" % "play2-cache_2.9.1" % "0.3.0-SNAPSHOT",
         "joda-time" % "joda-time"% "2.1",
         "be.objectify" %% "deadbolt-2" % "1.1.3",
         "com.amazonaws" % "aws-java-sdk" % "1.3.11",
         "com.typesafe" % "play-plugins-guice" % "2.0.3",
-        "play2-cache" % "play2-cache_2.9.1" % "0.3.0-SNAPSHOT",
-        "play2-crud" % "play2-crud_2.9.1" % "0.2.0-SNAPSHOT",
+        "play2-cache" % "play2-cache_2.9.1" % "0.3.1-SNAPSHOT",
+        "play2-crud" % "play2-crud_2.9.1" % "0.2.2-SNAPSHOT",
         "com.pickleproject" % "pickle-core" % "0.5-SNAPSHOT",
         "com.pickleproject" % "pickle-shopping" % "0.5-SNAPSHOT"
     )

@@ -13,11 +13,13 @@ create table TBL_COMMENT (
   content                   varchar(2048),
   created_on                timestamp,
   updated_on                timestamp,
+  approved_on               timestamp,
   creator_ip                varchar(255),
   modifier_ip               varchar(255),
   postKey                   bigint,
   created_by                varchar(255),
   updated_by                varchar(255),
+  approved_by               varchar(255),
   status                    varchar(1),
   revision                  integer not null,
   constraint ck_TBL_COMMENT_status check (status in ('N','E','U','R','A')),
@@ -49,11 +51,13 @@ create table TBL_POST (
   rating                    integer,
   created_on                timestamp,
   updated_on                timestamp,
+  approved_on               timestamp,
   creator_ip                varchar(255),
   modifier_ip               varchar(255),
   image_id                  varchar(40),
   created_by                varchar(255),
   updated_by                varchar(255),
+  approved_by               varchar(255),
   category                  varchar(255),
   status                    varchar(1),
   version                   integer not null,
@@ -195,20 +199,24 @@ alter table TBL_COMMENT add constraint fk_TBL_COMMENT_createdBy_2 foreign key (c
 create index ix_TBL_COMMENT_createdBy_2 on TBL_COMMENT (created_by);
 alter table TBL_COMMENT add constraint fk_TBL_COMMENT_updatedBy_3 foreign key (updated_by) references TBL_USER (key) on delete restrict on update restrict;
 create index ix_TBL_COMMENT_updatedBy_3 on TBL_COMMENT (updated_by);
-alter table TBL_CONTENT_REPORT add constraint fk_TBL_CONTENT_REPORT_createdB_4 foreign key (created_by) references TBL_USER (key) on delete restrict on update restrict;
-create index ix_TBL_CONTENT_REPORT_createdB_4 on TBL_CONTENT_REPORT (created_by);
-alter table TBL_CONTENT_REPORT add constraint fk_TBL_CONTENT_REPORT_updatedB_5 foreign key (updated_by) references TBL_USER (key) on delete restrict on update restrict;
-create index ix_TBL_CONTENT_REPORT_updatedB_5 on TBL_CONTENT_REPORT (updated_by);
-alter table TBL_POST add constraint fk_TBL_POST_image_6 foreign key (image_id) references TBL_S3FILE (id) on delete restrict on update restrict;
-create index ix_TBL_POST_image_6 on TBL_POST (image_id);
-alter table TBL_POST add constraint fk_TBL_POST_createdBy_7 foreign key (created_by) references TBL_USER (key) on delete restrict on update restrict;
-create index ix_TBL_POST_createdBy_7 on TBL_POST (created_by);
-alter table TBL_POST add constraint fk_TBL_POST_updatedBy_8 foreign key (updated_by) references TBL_USER (key) on delete restrict on update restrict;
-create index ix_TBL_POST_updatedBy_8 on TBL_POST (updated_by);
-alter table TBL_POST add constraint fk_TBL_POST_category_9 foreign key (category) references TBL_CATEGORY (name) on delete restrict on update restrict;
-create index ix_TBL_POST_category_9 on TBL_POST (category);
-alter table TBL_REPUTATION add constraint fk_TBL_REPUTATION_createdBy_10 foreign key (created_by) references TBL_USER (key) on delete restrict on update restrict;
-create index ix_TBL_REPUTATION_createdBy_10 on TBL_REPUTATION (created_by);
+alter table TBL_COMMENT add constraint fk_TBL_COMMENT_approvedBy_4 foreign key (approved_by) references TBL_USER (key) on delete restrict on update restrict;
+create index ix_TBL_COMMENT_approvedBy_4 on TBL_COMMENT (approved_by);
+alter table TBL_CONTENT_REPORT add constraint fk_TBL_CONTENT_REPORT_createdB_5 foreign key (created_by) references TBL_USER (key) on delete restrict on update restrict;
+create index ix_TBL_CONTENT_REPORT_createdB_5 on TBL_CONTENT_REPORT (created_by);
+alter table TBL_CONTENT_REPORT add constraint fk_TBL_CONTENT_REPORT_updatedB_6 foreign key (updated_by) references TBL_USER (key) on delete restrict on update restrict;
+create index ix_TBL_CONTENT_REPORT_updatedB_6 on TBL_CONTENT_REPORT (updated_by);
+alter table TBL_POST add constraint fk_TBL_POST_image_7 foreign key (image_id) references TBL_S3FILE (id) on delete restrict on update restrict;
+create index ix_TBL_POST_image_7 on TBL_POST (image_id);
+alter table TBL_POST add constraint fk_TBL_POST_createdBy_8 foreign key (created_by) references TBL_USER (key) on delete restrict on update restrict;
+create index ix_TBL_POST_createdBy_8 on TBL_POST (created_by);
+alter table TBL_POST add constraint fk_TBL_POST_updatedBy_9 foreign key (updated_by) references TBL_USER (key) on delete restrict on update restrict;
+create index ix_TBL_POST_updatedBy_9 on TBL_POST (updated_by);
+alter table TBL_POST add constraint fk_TBL_POST_approvedBy_10 foreign key (approved_by) references TBL_USER (key) on delete restrict on update restrict;
+create index ix_TBL_POST_approvedBy_10 on TBL_POST (approved_by);
+alter table TBL_POST add constraint fk_TBL_POST_category_11 foreign key (category) references TBL_CATEGORY (name) on delete restrict on update restrict;
+create index ix_TBL_POST_category_11 on TBL_POST (category);
+alter table TBL_REPUTATION add constraint fk_TBL_REPUTATION_createdBy_12 foreign key (created_by) references TBL_USER (key) on delete restrict on update restrict;
+create index ix_TBL_REPUTATION_createdBy_12 on TBL_REPUTATION (created_by);
 
 
 

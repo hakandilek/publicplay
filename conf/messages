@@ -40,6 +40,8 @@ updatedOn.label=updated
 # Error messages
 Post_not_found=Post not found
 Post0_not_found=Post {0} not found
+Post_removed=Post is removed
+Post0_removed=Post {0} is removed
 bad_request=Bad request
 error_occured=Error occured
 page_not_found=Page not found
@@ -76,6 +78,7 @@ drop_your_comment=drop your comment:
 Comment.content.label=content
 CreatedOn_By=created on {0} by {1}
 UpdatedOn_By=updated on {0} by {1}
+ApprovedOn_By=approved on {0} by {1}
 
 Content.status.APPROVED=Approved
 Content.status.EXPIRED=Expired

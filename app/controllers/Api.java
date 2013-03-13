@@ -154,4 +154,15 @@ public class Api extends App {
 		return postAPI.expire(key);
 	}
 
+	@Secure @Restrict("admin") @RestrictApproved 
+	@BodyParser.Of(Json.class)
+	public static Result commentApprove(Long key) {
+		return commentAPI.approve(key);
+	}
+
+	@Secure @Restrict("admin") @RestrictApproved 
+	@BodyParser.Of(Json.class)
+	public static Result commentRemove(Long key) {
+		return commentAPI.remove(key);
+	}
 }
