@@ -1,6 +1,6 @@
 import sbt._
 import Keys._
-import PlayProject._
+import play.Project._
 
 object ApplicationBuild extends Build {
 
@@ -8,6 +8,9 @@ object ApplicationBuild extends Build {
     val appVersion      = "0.1.1-SNAPSHOT"
 
     val appDependencies = Seq(
+       	
+       	javaCore, javaJdbc, javaEbean,
+       	
         // Add your project dependencies here,
         //prettytime library
         "org.ocpsoft.prettytime" % "prettytime" % "2.0.0-SNAPSHOT",
@@ -26,7 +29,7 @@ object ApplicationBuild extends Build {
         "com.pickleproject" % "pickle-shopping" % "0.5-SNAPSHOT"
     )
 
-    val main = PlayProject(appName, appVersion, appDependencies, mainLang = JAVA).settings (
+    val main = play.Project(appName, appVersion, appDependencies).settings (
         // Add your own project settings here
         // The Typesafe repository
         resolvers += "Typesafe repository" at "http://repo.typesafe.com/typesafe/releases/",
