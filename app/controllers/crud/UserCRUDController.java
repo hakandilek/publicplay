@@ -178,8 +178,7 @@ public class UserCRUDController extends CRUDController<String, User> {
 	}
 
 	public Results.AsyncResult calculateAllReputations() {
-		final List<User> users = userDAO.find().where().orderBy("lastLogin desc")
-				.findList();
+		final List<User> users = userDAO.all();
 
 		return async(Akka.future(new Callable<Void>() {
 			public Void call() throws Exception {

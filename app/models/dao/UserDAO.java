@@ -27,7 +27,11 @@ public class UserDAO extends CachedDAO<String, User> {
 	public void saveAssociation(User u, String association) {
 		u.saveManyToManyAssociations(association);
 		String key = u.getKey();
-		cacheFind().clean(key);
+		find().clean(key);
+	}
+
+	public void cacheClean(String cacheKey) {
+		find.clean(cacheKey);
 	}
 
 }
