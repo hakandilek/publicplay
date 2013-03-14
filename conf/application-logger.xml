@@ -29,6 +29,8 @@
   <logger name="com.jolbox.bonecp" level="DEBUG" />
   <logger name="play.utils.cache" level="DEBUG" />
   <logger name="play.utils.dao" level="DEBUG" />
+  <logger name="net.sf.ehcache" level="DEBUG" />
+  <logger name="play.api.cache" level="DEBUG" />
 
   <root level="ERROR">
     <appender-ref ref="STDOUT" />
