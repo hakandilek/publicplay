@@ -9,7 +9,6 @@ import models.ContentReport;
 import models.ContentReport.Reason;
 import models.ContentStatus;
 import play.data.Form;
-import play.mvc.Controller;
 
 public class ContentReportHelper {
 
@@ -17,7 +16,7 @@ public class ContentReportHelper {
 	private static List<String> postReasons;
 
 	public static Form<ContentReport> reportForm() {
-		Form<ContentReport> form = Controller.form(ContentReport.class);
+		Form<ContentReport> form = Form.form(ContentReport.class);
 		return form;
 	}
 
