@@ -5,8 +5,8 @@ import play.Logger.ALogger;
 import play.mvc.Http;
 import play.mvc.Result;
 import views.html.security.DeadboltUtils;
-import be.objectify.deadbolt.DeadboltHandler;
-import be.objectify.deadbolt.actions.AbstractRestrictiveAction;
+import be.objectify.deadbolt.java.DeadboltHandler;
+import be.objectify.deadbolt.java.actions.AbstractRestrictiveAction;
 import be.objectify.deadbolt.core.models.Subject;
 
 public class RestrictApprovedAction extends AbstractRestrictiveAction<RestrictApproved> {
@@ -22,7 +22,7 @@ public class RestrictApprovedAction extends AbstractRestrictiveAction<RestrictAp
 			result = delegate.call(ctx);
 		} else {
 			markActionAsUnauthorised(ctx);
-			result = onAccessFailure(deadboltHandler, configuration.content(),
+			result = onAuthFailure(deadboltHandler, configuration.content(),
 					ctx);
 		}
 

@@ -7,8 +7,8 @@ import play.Logger.ALogger;
 import play.mvc.Http.Context;
 import play.mvc.Http.Request;
 import play.mvc.Result;
-import be.objectify.deadbolt.DeadboltHandler;
-import be.objectify.deadbolt.actions.AbstractRestrictiveAction;
+import be.objectify.deadbolt.java.DeadboltHandler;
+import be.objectify.deadbolt.java.actions.AbstractRestrictiveAction;
 import be.objectify.deadbolt.core.models.Permission;
 import be.objectify.deadbolt.core.models.Subject;
 
@@ -26,7 +26,7 @@ public class RestrictCombineAction extends
 			result = delegate.call(ctx);
 		} else {
 			markActionAsUnauthorised(ctx);
-			result = onAccessFailure(deadboltHandler, configuration.content(),
+			result = onAuthFailure(deadboltHandler, configuration.content(),
 					ctx);
 		}
 

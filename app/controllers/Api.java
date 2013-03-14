@@ -13,7 +13,7 @@ import security.RestrictApproved;
 import socialauth.core.Secure;
 import socialauth.core.SocialAware;
 
-import be.objectify.deadbolt.actions.Restrict;
+import be.objectify.deadbolt.java.actions.*;
 
 import com.pickleproject.shopping.ProductReader;
 
@@ -130,37 +130,37 @@ public class Api extends App {
 		return contentReportAPI.update(key);
 	}
 
-	@Secure @Restrict("admin") @RestrictApproved 
+	@Secure @Restrict(@Group("admin")) @RestrictApproved 
 	@BodyParser.Of(Json.class)
 	public static Result contentReportIgnore(Long key) {
 		return contentReportAPI.ignore(key);
 	}
 
-	@Secure @Restrict("admin") @RestrictApproved 
+	@Secure @Restrict(@Group("admin")) @RestrictApproved 
 	@BodyParser.Of(Json.class)
 	public static Result postApprove(Long key) {
 		return postAPI.approve(key);
 	}
 
-	@Secure @Restrict("admin") @RestrictApproved 
+	@Secure @Restrict(@Group("admin")) @RestrictApproved 
 	@BodyParser.Of(Json.class)
 	public static Result postRemove(Long key) {
 		return postAPI.remove(key);
 	}
 
-	@Secure @Restrict("admin") @RestrictApproved 
+	@Secure @Restrict(@Group("admin")) @RestrictApproved 
 	@BodyParser.Of(Json.class)
 	public static Result postMarkExpired(Long key) {
 		return postAPI.expire(key);
 	}
 
-	@Secure @Restrict("admin") @RestrictApproved 
+	@Secure @Restrict(@Group("admin")) @RestrictApproved 
 	@BodyParser.Of(Json.class)
 	public static Result commentApprove(Long key) {
 		return commentAPI.approve(key);
 	}
 
-	@Secure @Restrict("admin") @RestrictApproved 
+	@Secure @Restrict(@Group("admin")) @RestrictApproved 
 	@BodyParser.Of(Json.class)
 	public static Result commentRemove(Long key) {
 		return commentAPI.remove(key);
