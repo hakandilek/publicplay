@@ -1,8 +1,8 @@
-@(post: Post, commentKey:Long, commentForm: Form[Comment], currentPage: Page[Comment], upVotedPostKeys:Set[Long], downVotedPostKeys:Set[Long])
+@(post: Post, commentKey:Long, commentForm: Form[Comment], currentPage: com.avaje.ebean.Page[Comment], upVotedPostKeys:Set[Long], downVotedPostKeys:Set[Long])
 @import helper._ 
 @import helper.twitterBootstrap._
 @import helper.H._
-@import be.objectify.deadbolt.utils.TemplateUtils._
+@import be.objectify.deadbolt.core.utils.TemplateUtils._
 @import views.html.security._
 @import helper.UserHelper._
 @import helper.PostHelper._

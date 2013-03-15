@@ -16,6 +16,7 @@ import play.i18n.Lang;
 import play.i18n.Messages;
 
 import com.avaje.ebean.Page;
+import scala.collection.mutable.StringBuilder;
 
 /**
  * HTML Utils
@@ -42,7 +43,7 @@ public class H {
 	 * @return HTML output
 	 */
 	public static Html string(Object s) {
-		return new Html("" + s);
+		return new Html(new StringBuilder(s + ""));
 	}
 
 	/**
@@ -54,13 +55,13 @@ public class H {
 	 */
 	public static Html prettify(Date d) {
 		if (d == null)
-			return new Html("");
+			return new Html(new StringBuilder());
 		String language = getLang().language();
 		PrettyTime pt = prettyTimes.get(language);
 		if (pt == null)
 			pt = prettyTimeDefault;
 		String s = pt.format(d);
-		return new Html(s);
+		return new Html(new StringBuilder(s));
 	}
 
 	/**
@@ -72,9 +73,9 @@ public class H {
 	 */
 	public static Html simplify(Date d) {
 		if (d == null)
-			return new Html("");
+			return new Html(new StringBuilder());
 		String s = simpleDateFormat.format(d);
-		return new Html(s);
+		return new Html(new StringBuilder(s));
 	}
 
 	/**
@@ -103,12 +104,12 @@ public class H {
 	
 	public static <T> Html paging(Page<T> page) {
 		if (page == null)
-			return new Html("");
+			return new Html(new StringBuilder());
 		Lang lang = getLang();
 		int pageIndex = page.getPageIndex() + 1;
 		int totalPage = page.getTotalPageCount();
 
-		return new Html(Messages.get(lang, "displaying_num_of_num_pages", pageIndex, totalPage));
+		return new Html(new StringBuilder(Messages.get(lang, "displaying_num_of_num_pages", pageIndex, totalPage)));
 	}
 	
 	public static String getProfileImageURLWithNormalSize(User user){

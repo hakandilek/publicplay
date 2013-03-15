@@ -1,5 +1,5 @@
 @()(body: => Html)
 
-@if(views.html.security.DeadboltUtils.viewRoleHolderNotPresent()) {
+@if(views.html.security.DeadboltUtils.viewSubjectNotPresent()) {
 @body
 }

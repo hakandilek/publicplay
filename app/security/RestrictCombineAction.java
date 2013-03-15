@@ -7,10 +7,10 @@ import play.Logger.ALogger;
 import play.mvc.Http.Context;
 import play.mvc.Http.Request;
 import play.mvc.Result;
-import be.objectify.deadbolt.DeadboltHandler;
-import be.objectify.deadbolt.actions.AbstractRestrictiveAction;
-import be.objectify.deadbolt.models.Permission;
-import be.objectify.deadbolt.models.RoleHolder;
+import be.objectify.deadbolt.java.DeadboltHandler;
+import be.objectify.deadbolt.java.actions.AbstractRestrictiveAction;
+import be.objectify.deadbolt.core.models.Permission;
+import be.objectify.deadbolt.core.models.Subject;
 
 public class RestrictCombineAction extends
 		AbstractRestrictiveAction<RestrictCombine> {
@@ -26,7 +26,7 @@ public class RestrictCombineAction extends
 			result = delegate.call(ctx);
 		} else {
 			markActionAsUnauthorised(ctx);
-			result = onAccessFailure(deadboltHandler, configuration.content(),
+			result = onAuthFailure(deadboltHandler, configuration.content(),
 					ctx);
 		}
 
@@ -37,7 +37,7 @@ public class RestrictCombineAction extends
 		if (log.isDebugEnabled())
 			log.debug("isAllowed() <-");
 
-		RoleHolder roleHolder = getRoleHolder(ctx, deadboltHandler);
+		Subject roleHolder = getSubject(ctx, deadboltHandler);
 
 		boolean roleOk = false;
 		if (roleHolder != null) {
@@ -51,7 +51,7 @@ public class RestrictCombineAction extends
 		return roleOk;
 	}
 
-	private boolean checkPermission(RoleHolder roleHolder, Class<? extends RequestPermission> permissionClass,
+	private boolean checkPermission(Subject roleHolder, Class<? extends RequestPermission> permissionClass,
 			Context ctx) {
 		if (log.isDebugEnabled())
 			log.debug("checkPermission() <-");

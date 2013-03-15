@@ -1,7 +1,7 @@
 package security;
 
 import scala.collection.mutable.StringBuilder;
-import be.objectify.deadbolt.models.Permission;
+import be.objectify.deadbolt.core.models.Permission;
 
 public class EntityPermission implements Permission {
 

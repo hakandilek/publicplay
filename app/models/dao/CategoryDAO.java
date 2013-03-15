@@ -86,5 +86,9 @@ public class CategoryDAO extends CachedDAO<String, Category> {
 			log.debug(" update finished.");
 	}
 
+	public void cacheClean(String cacheKey) {
+		find.clean(cacheKey);
+	}
+
 
 }

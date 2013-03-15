@@ -1,4 +1,4 @@
 1500:plugins.S3Plugin
 1500:plugins.GuicePlugin
 9998:plugins.SocialUserPlugin
-10000:be.objectify.deadbolt.DeadboltPlugin
+10000:be.objectify.deadbolt.java.DeadboltPlugin

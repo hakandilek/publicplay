@@ -1,4 +1,5 @@
 package controllers;
+import static play.data.Form.*;
 
 import java.util.Set;
 import java.util.TreeSet;

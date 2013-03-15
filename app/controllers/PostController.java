@@ -1,4 +1,5 @@
 package controllers;
+import static play.data.Form.*;
 
 import static controllers.HttpUtils.*;
 import java.util.ArrayList;
