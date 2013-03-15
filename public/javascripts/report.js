@@ -46,12 +46,12 @@ function reportTrigger(action, data) {
 		$('#scrap-wait').html('<i class="icon-warning-sign"></i>');
 		$('.btn-report').button('reset');
 	    } else if (status == 'OK') {
-		$('.btn-report').button('reset');
 		$('#submit-done').fadeIn('slow', function() {
 		    $('#comment').val('');
 		    $('.status').hide('fast');
 		});
 		$('#submit-done').fadeOut('slow', function() {
+		    $('.btn-report').button('reset');
 		    modal.modal('hide');
 		});
 	    }

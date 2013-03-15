@@ -57,7 +57,7 @@
 					@if(removePossible(post.getStatus())) { <a class="btn-remove btn btn-mini btn-danger pull-right spaced" data-key="post-@post.getKey()" href="javascript:void(0)" data-href="@routes.Api.postRemove(post.getKey())"><i class="icon-trash"></i> &nbsp; @Messages("remove")</a> }
        			}
 		        @restrictCombine(la(as("admin")), "models.Post.delete." + post.getKey()) {
-		        <a class="btn btn-mini btn-danger pull-right spaced" href="@routes.App.postDelete(post.getKey())">@Messages("delete")</a>
+		        <a id="deletePost" class="btn btn-mini btn-danger pull-right spaced" href="@routes.App.postDelete(post.getKey())">@Messages("delete")</a>
 		        }
 		        @restrictCombine(la(as("admin")), "models.Post.edit." + post.getKey()) {
 		        <a class="btn btn-mini pull-right spaced" href="@routes.App.postEditForm(post.getKey())">@Messages("edit")</a>
