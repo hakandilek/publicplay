@@ -7,7 +7,7 @@ import java.util.regex.Pattern;
 import play.Logger;
 import play.Logger.ALogger;
 import play.mvc.Http.Request;
-import be.objectify.deadbolt.models.Permission;
+import be.objectify.deadbolt.core.models.Permission;
 
 public class EntityRequestPermission implements RequestPermission {
 

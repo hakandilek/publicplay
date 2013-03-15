@@ -1,6 +1,6 @@
 import sbt._
 import Keys._
-import PlayProject._
+import play.Project._
 
 object ApplicationBuild extends Build {
 
@@ -8,6 +8,9 @@ object ApplicationBuild extends Build {
     val appVersion      = "0.1.1-SNAPSHOT"
 
     val appDependencies = Seq(
+       	
+       	javaCore, javaJdbc, javaEbean,
+       	
         // Add your project dependencies here,
         //prettytime library
         "org.ocpsoft.prettytime" % "prettytime" % "2.0.0-SNAPSHOT",
@@ -17,16 +20,16 @@ object ApplicationBuild extends Build {
         "org.cloudfoundry" % "auto-reconfiguration" % "0.6.6" excludeAll(ExclusionRule(organization = "org.slf4j")),
         "com.restfb" % "restfb" % "1.6.11",
         "joda-time" % "joda-time"% "2.1",
-        "be.objectify" %% "deadbolt-2" % "1.1.3",
+        "be.objectify" %% "deadbolt-java" % "2.1-SNAPSHOT",
         "com.amazonaws" % "aws-java-sdk" % "1.3.11",
-        "com.typesafe" % "play-plugins-guice" % "2.0.3",
-        "play2-cache" % "play2-cache_2.9.1" % "0.3.1-SNAPSHOT",
-        "play2-crud" % "play2-crud_2.9.1" % "0.2.2-SNAPSHOT",
-        "com.pickleproject" % "pickle-core" % "0.5-SNAPSHOT",
-        "com.pickleproject" % "pickle-shopping" % "0.5-SNAPSHOT"
+        "com.google.inject" % "guice" % "3.0",
+        "play2-cache" % "play2-cache_2.10" % "0.4.0-SNAPSHOT",
+        "play2-crud" % "play2-crud_2.10" % "0.3.0-SNAPSHOT",
+        "com.pickleproject" % "pickle-core" % "0.6-SNAPSHOT",
+        "com.pickleproject" % "pickle-shopping" % "0.6-SNAPSHOT"
     )
 
-    val main = PlayProject(appName, appVersion, appDependencies, mainLang = JAVA).settings (
+    val main = play.Project(appName, appVersion, appDependencies).settings (
         // Add your own project settings here
         // The Typesafe repository
         resolvers += "Typesafe repository" at "http://repo.typesafe.com/typesafe/releases/",
@@ -48,7 +51,8 @@ object ApplicationBuild extends Build {
         resolvers += "snapshot repository" at "http://hakandilek.github.com/maven-repo/snapshots/",
         
         // Objectify Repository for Deadbolt
-        resolvers += Resolver.url("Objectify Play Repository", url("http://schaloner.github.com/releases/"))(Resolver.ivyStylePatterns)
+        resolvers += Resolver.url("Objectify Play Repository", url("http://schaloner.github.com/releases/"))(Resolver.ivyStylePatterns),
+        resolvers += Resolver.url("Objectify Play Repository - snapshots", url("http://schaloner.github.com/snapshots/"))(Resolver.ivyStylePatterns)
         
         //ignore checksum check
         //checksums := Nil

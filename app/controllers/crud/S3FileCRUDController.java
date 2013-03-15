@@ -1,4 +1,5 @@
 package controllers.crud;
+import static play.data.Form.*;
 
 import java.util.UUID;
 

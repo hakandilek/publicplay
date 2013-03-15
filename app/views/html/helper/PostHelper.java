@@ -6,6 +6,7 @@ import java.util.Set;
 import play.api.templates.Html;
 
 import models.Post;
+import scala.collection.mutable.StringBuilder;
 
 public class PostHelper {
 
@@ -26,24 +27,24 @@ public class PostHelper {
 	}
 	
 	public static Html postTitle(Post post) {
-		if (post == null) return new Html("");
+		if (post == null) return new Html(new StringBuilder());
 		StringBuilder sb = new StringBuilder();
 		if (post.getStatus() == EXPIRED)
 			sb.append(DEL1);
 		sb.append(post.getTitle());
 		if (post.getStatus() == EXPIRED)
 			sb.append(DEL2);
-		return new Html(sb.toString());
+		return new Html(sb);
 	}
 
 	public static Html postContent(Post post) {
-		if (post == null) return new Html("");
+		if (post == null) return new Html(new StringBuilder());
 		StringBuilder sb = new StringBuilder();
 		if (post.getStatus() == EXPIRED)
 			sb.append(DEL1);
 		sb.append(post.getTitle());
 		if (post.getStatus() == EXPIRED)
 			sb.append(DEL2);
-		return new Html(sb.toString());
+		return new Html(sb);
 	}
 }

@@ -1,5 +1,7 @@
 package controllers.crud;
 
+import static play.data.Form.*;
+
 import javax.inject.Inject;
 
 import models.Category;

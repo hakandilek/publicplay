@@ -4,42 +4,37 @@ import javax.inject.Inject;
 
 import models.Owned;
 import models.User;
-import play.utils.cache.CachedFinder;
 import play.utils.dao.DAOListener;
 
 public class OwnerCacheCleaner<K, M extends Owned<K>> implements
 		DAOListener<K, M> {
 
-	private CachedFinder<String, User> ownerCache;
-
-	public OwnerCacheCleaner(CachedFinder<String, User> ownerCache) {
-		this.ownerCache = ownerCache;
-	}
+	private UserDAO userDAO;
 
 	@Inject
 	public OwnerCacheCleaner(UserDAO userDAO) {
-		this(userDAO.cacheFind());
+		this.userDAO = userDAO;
 	}
 
 	@Override
 	public void afterCreate(K key, M m) {
 		User owner = m.getCreatedBy();
 		if (owner != null)
-			ownerCache.clean(owner.getKey());
+			userDAO.cacheClean(owner.getKey());
 	}
 
 	@Override
 	public void afterRemove(K key, M m) {
 		User owner = m.getCreatedBy();
 		if (owner != null)
-			ownerCache.clean(owner.getKey());
+			userDAO.cacheClean(owner.getKey());
 	}
 
 	@Override
 	public void afterUpdate(K key, M m) {
 		User owner = m.getCreatedBy();
 		if (owner != null)
-			ownerCache.clean(owner.getKey());
+			userDAO.cacheClean(owner.getKey());
 	}
 
 	@Override

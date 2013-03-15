@@ -17,6 +17,7 @@ import play.i18n.Lang;
 import play.i18n.Messages;
 
 import com.avaje.ebean.Page;
+import scala.collection.mutable.StringBuilder;
 
 /**
  * HTML Utils
@@ -26,17 +27,13 @@ import com.avaje.ebean.Page;
 public class H {
 
 	private final static Map<String, PrettyTime> prettyTimes = new HashMap<String, PrettyTime>();
-	private final static PrettyTime prettyTimeDefault = new PrettyTime(
-			Locale.ENGLISH);
-
-	private final static DateFormat simpleDateFormat = new SimpleDateFormat(
-			"dd.MM.yyyy HH:mm");
-
+	private final static PrettyTime prettyTimeDefault = new PrettyTime(Locale.ENGLISH);
+	
+	private final static DateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy HH:mm");
+	
 	static {
-		prettyTimes.put(Locale.ENGLISH.getLanguage(), new PrettyTime(
-				Locale.ENGLISH));
-		prettyTimes.put(new Locale("tr").getLanguage(), new PrettyTime(
-				new Locale("tr")));
+		prettyTimes.put(Locale.ENGLISH.getLanguage(), new PrettyTime(Locale.ENGLISH));
+		prettyTimes.put(new Locale("tr").getLanguage(), new PrettyTime(new Locale("tr")));
 	}
 
 	/**
@@ -47,7 +44,7 @@ public class H {
 	 * @return HTML output
 	 */
 	public static Html string(Object s) {
-		return new Html("" + s);
+		return new Html(new StringBuilder(s + ""));
 	}
 
 	/**
@@ -59,13 +56,13 @@ public class H {
 	 */
 	public static Html prettify(Date d) {
 		if (d == null)
-			return new Html("");
+			return new Html(new StringBuilder());
 		String language = getLang().language();
 		PrettyTime pt = prettyTimes.get(language);
 		if (pt == null)
 			pt = prettyTimeDefault;
 		String s = pt.format(d);
-		return new Html(s);
+		return new Html(new StringBuilder(s));
 	}
 
 	/**
@@ -77,9 +74,9 @@ public class H {
 	 */
 	public static Html simplify(Date d) {
 		if (d == null)
-			return new Html("");
+			return new Html(new StringBuilder());
 		String s = simpleDateFormat.format(d);
-		return new Html(s);
+		return new Html(new StringBuilder(s));
 	}
 
 	/**
@@ -105,27 +102,26 @@ public class H {
 		s = s.toLowerCase(Locale.ENGLISH);
 		return s;
 	}
-
+	
 	public static <T> Html paging(Page<T> page) {
 		if (page == null)
-			return new Html("");
+			return new Html(new StringBuilder());
 		Lang lang = getLang();
 		int pageIndex = page.getPageIndex() + 1;
 		int totalPage = page.getTotalPageCount();
 
-		return new Html(Messages.get(lang, "displaying_num_of_num_pages",
-				pageIndex, totalPage));
+		return new Html(new StringBuilder(Messages.get(lang, "displaying_num_of_num_pages", pageIndex, totalPage)));
 	}
-
-	public static String getProfileImageURLWithNormalSize(User user) {
-		return user.getProfileImageURL() + "?type=normal";
+	
+	public static String getProfileImageURLWithNormalSize(User user){
+		return user.getProfileImageURL() +"?type=normal";
 	}
-
-	public static String formatDateToDayAndYear(Date dateToFormat) {
+	
+	public static String formatDateToDayAndYear(Date dateToFormat){
 		DateFormat df = new SimpleDateFormat("dd.MM.yyyy");
 		return df.format(dateToFormat);
 	}
-
+	
 	public static String subStringWithGivenLength(String stringToCut, int length) {
 		if (stringToCut.length() <= length) {
 			return stringToCut;
@@ -141,18 +137,18 @@ public class H {
 		}
 		keyword+=Messages.get("Project_definition_keywords");
 		return subStringWithGivenLength(keyword.replace(" ", ","),300);
-	}
-
+	}	
+	
 	private static Lang getLang() {
-		Lang lang = null;
-		if (play.mvc.Http.Context.current.get() != null) {
-			lang = play.mvc.Http.Context.Implicit.lang();
-		} else {
-			Locale defaultLocale = Locale.getDefault();
-			lang = new Lang(new play.api.i18n.Lang(defaultLocale.getLanguage(),
-					defaultLocale.getCountry()));
-		}
-		return lang;
+        Lang lang = null;
+        if(play.mvc.Http.Context.current.get() != null) {
+            lang = play.mvc.Http.Context.Implicit.lang();
+        } else {
+            Locale defaultLocale = Locale.getDefault();
+            lang = new Lang(new play.api.i18n.Lang(defaultLocale.getLanguage(), defaultLocale.getCountry()));
+        }
+        return lang;
 	}
+	
 
 }
