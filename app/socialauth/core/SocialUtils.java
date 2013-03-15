@@ -9,8 +9,8 @@ import play.Logger.ALogger;
 import play.mvc.Http.Context;
 import play.mvc.Http.Request;
 import play.mvc.Http.Session;
-import plugins.SocialUserPlugin;
-import controllers.SocialController;
+import plugins.AuthenticatePlugin;
+import controllers.AuthController;
 
 public class SocialUtils {
 	
@@ -19,11 +19,11 @@ public class SocialUtils {
 	public static SocialUser currentUser(Context ctx) {
 		Session session = ctx.session();
 		if (session != null) {
-			String userKey = session.get(SocialController.USER_KEY);
+			String userKey = session.get(AuthController.USER_KEY);
 			if (log.isDebugEnabled())
 				log.debug("userKey : " + userKey);
 			if (!emptyOrNull(userKey)) {
-				SocialUserPlugin userService = SocialUserPlugin
+				AuthenticatePlugin userService = AuthenticatePlugin
 						.getInstance();
 				SocialUser user = userService.find(userKey);
 				return user;
@@ -35,7 +35,7 @@ public class SocialUtils {
 	public static String getUserKeyFromSession(Context ctx) {
 		Session session = ctx.session();
 		if (session != null) {
-			String userKey = session.get(SocialController.USER_KEY);
+			String userKey = session.get(AuthController.USER_KEY);
 			if (!emptyOrNull(userKey))
 				return userKey;
 		}

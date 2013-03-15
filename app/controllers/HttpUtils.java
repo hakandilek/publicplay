@@ -40,7 +40,7 @@ public class HttpUtils {
 	 * @return login user, or null
 	 */
 	public static User loginUser(Context ctx) {
-		User user = (User) ctx.args.get(SocialController.USER);
+		User user = (User) ctx.args.get(AuthController.USER);
 		if (log.isDebugEnabled())
 			log.debug("user : " + user);
 		return user;

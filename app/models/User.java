@@ -1,7 +1,6 @@
 package models;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -20,9 +19,6 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Version;
-
-import org.brickred.socialauth.Profile;
-import org.brickred.socialauth.util.BirthDate;
 
 import play.db.ebean.Model;
 import play.utils.dao.TimestampModel;
@@ -113,25 +109,16 @@ public class User extends Model implements Subject, Approvable, TimestampModel<S
 	@JoinTable(name = "TBL_USER_SECURITY_ROLE", joinColumns = @JoinColumn(name = "user_key"), inverseJoinColumns = @JoinColumn(name = "security_role_key"))
     private List<SecurityRole> securityRoles = new ArrayList<SecurityRole>();
 
-	public User(Profile profile) {
-		key = profile.getProviderId() + "::" + profile.getValidatedId();
-		originalKey = profile.getValidatedId();
-		firstName = profile.getFirstName();
-		lastName = profile.getLastName();
-		email = profile.getEmail();
-		country = profile.getCountry();
-		gender = profile.getGender();
-		location = profile.getLocation();
-		profileImageURL = profile.getProfileImageURL();
-		provider = profile.getProviderId();
-		Calendar cal = Calendar.getInstance();
-		BirthDate dob = profile.getDob();
-		if (dob != null) {
-			cal.set(dob.getYear(), dob.getMonth(), dob.getDay(), 0, 0, 0);
-		}
-		birthdate = cal.getTime();
+	public static String getKey(String provider, String id) {
+		return provider + "::" + id;
 	}
-
+	
+	public void setKey(String provider, String id) {
+		key = getKey(provider, id);
+		this.provider = provider;
+		this.originalKey = id;
+	}
+	
 	public List<? extends Permission> getPermissions() {
 		Set<Post> posts = getPosts();
 		Set<Comment> comments = getComments();
@@ -345,6 +332,5 @@ public class User extends Model implements Subject, Approvable, TimestampModel<S
 	public Set<Reputation> getReputations() {
 		return reputations;
 	}
-	
 
 }

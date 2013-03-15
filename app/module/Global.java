@@ -3,6 +3,9 @@ package module;
 import static play.mvc.Results.badRequest;
 import static play.mvc.Results.internalServerError;
 import static play.mvc.Results.notFound;
+
+import com.feth.play.module.pa.PlayAuthenticate;
+
 import play.Application;
 import play.GlobalSettings;
 import play.Logger;
@@ -26,7 +29,7 @@ public class Global extends GlobalSettings {
 	public void onStart(Application app) {
 		Logger.info("application starting:" + app);
 		this.app = app;
-
+		PlayAuthenticate.setResolver(new AuthResolver());
 	}
 
 	@Override

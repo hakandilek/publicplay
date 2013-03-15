@@ -7,7 +7,7 @@ import play.mvc.Action;
 import play.mvc.Http;
 import play.mvc.Http.Context;
 import play.mvc.Result;
-import controllers.SocialController;
+import controllers.AuthController;
 import controllers.routes;
 
 public class SecureAction extends Action<Secure> {
@@ -41,7 +41,7 @@ public class SecureAction extends Action<Secure> {
 				{
 					if (log.isDebugEnabled())
 						log.debug("save original URL in session = " + requestURI);
-					ctx.session().put(SocialController.ORIGINAL_URL, requestURI);
+					ctx.session().put(AuthController.ORIGINAL_URL, requestURI);
 				}
 				if (log.isDebugEnabled())
 					log.debug("redirecting to login page");
@@ -51,7 +51,7 @@ public class SecureAction extends Action<Secure> {
 				if (log.isDebugEnabled())
 					log.debug("user : " + user);
 				if (user != null) {
-					ctx.args.put(SocialController.USER, user);
+					ctx.args.put(AuthController.USER, user);
 					if (log.isDebugEnabled())
 						log.debug("calling delegate action");
 					return delegate.call(ctx);

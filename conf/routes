@@ -35,7 +35,7 @@ GET     /user/login                     				@controllers.App.login
 GET     /user/logout                    				@controllers.App.logout
 GET     /authenticate/:provider         				@controllers.App.authenticate(provider)
 POST    /authenticate/:provider         				@controllers.App.authenticate(provider)
-GET     /authenticate/:provider/done    				@controllers.App.authenticateDone(provider)
+GET     /authenticate/:provider/denied     				@controllers.App.authenticateDenied(provider: String)
 
 # crud integration
 # ~~~~

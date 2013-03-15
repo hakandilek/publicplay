@@ -13,9 +13,9 @@ object ApplicationBuild extends Build {
        	
         // Add your project dependencies here,
         //prettytime library
-        "org.ocpsoft.prettytime" % "prettytime" % "2.0.0-SNAPSHOT",
-        //socialauth library
-        "org.brickred" % "socialauth" % "4.0",
+        "org.ocpsoft.prettytime" % "prettytime" % "2.1.2.Final",
+        // facebook authentication library
+        "com.feth" %% "play-authenticate" % "0.2.5-SNAPSHOT",
         //appfog/cloudfoundry integration
         "org.cloudfoundry" % "auto-reconfiguration" % "0.6.6" excludeAll(ExclusionRule(organization = "org.slf4j")),
         "com.restfb" % "restfb" % "1.6.11",
@@ -37,11 +37,14 @@ object ApplicationBuild extends Build {
         //Maven central repo
         resolvers += "Maven repository" at "http://repo1.maven.org/maven/", 
 
-        // The Ocpsoft repository for PrettyTime
-        resolvers += "ocpsoft repository" at "http://ocpsoft.org/repository/",
-        
-        // The Sonatype repository for socialauth
+        // The Sonatype repository for PrettyTime
         resolvers += "sonatype-oss-public" at "http://oss.sonatype.org/content/groups/public/",
+        
+        // repositories for play-authenticate
+		resolvers += Resolver.url("play-easymail (release)", url("http://joscha.github.com/play-easymail/repo/releases/"))(Resolver.ivyStylePatterns),
+		resolvers += Resolver.url("play-easymail (snapshot)", url("http://joscha.github.com/play-easymail/repo/snapshots/"))(Resolver.ivyStylePatterns),
+		resolvers += Resolver.url("play-authenticate (release)", url("http://joscha.github.com/play-authenticate/repo/releases/"))(Resolver.ivyStylePatterns),
+		resolvers += Resolver.url("play-authenticate (snapshot)", url("http://joscha.github.com/play-authenticate/repo/snapshots/"))(Resolver.ivyStylePatterns),
         
         // The Spring repository for auto-reconfiguration (appfog)
         resolvers += "Spring repository" at "http://maven.springframework.org/milestone/",
@@ -53,6 +56,7 @@ object ApplicationBuild extends Build {
         // Objectify Repository for Deadbolt
         resolvers += Resolver.url("Objectify Play Repository", url("http://schaloner.github.com/releases/"))(Resolver.ivyStylePatterns),
         resolvers += Resolver.url("Objectify Play Repository - snapshots", url("http://schaloner.github.com/snapshots/"))(Resolver.ivyStylePatterns)
+        
         
         //ignore checksum check
         //checksums := Nil

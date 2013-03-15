@@ -17,7 +17,7 @@ import socialauth.core.SocialAware;
 public class App extends Controller {
 
 	@Inject RateController rateController;
-	@Inject SocialController socialController;
+	@Inject AuthController authController;
 	@Inject PostController postController;
 	@Inject CommentController commentController;
 	@Inject UserController userController;
@@ -142,19 +142,19 @@ public class App extends Controller {
 	}
 
 	public Result login() {
-		return socialController.login();
+		return authController.login();
 	}
 
 	public Result logout() {
-		return socialController.logout();
+		return authController.logout();
 	}
 
 	public Result authenticate(String provider) {
-		return socialController.authenticate(provider);
+		return authController.authenticate(provider);
 	}
 
-	public Result authenticateDone(String provider) {
-		return socialController.authenticateDone(provider);
+	public Result authenticateDenied(String provider) {
+		return authController.authenticateDenied(provider);
 	}
 
 }
