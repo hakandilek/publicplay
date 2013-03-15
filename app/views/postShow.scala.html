@@ -9,11 +9,19 @@
 @import helper.ContentReportHelper._
 
 @script() = {
-	<script type="text/javascript" src='@routes.Assets.at("javascripts/report.js")'></script>
-	<script type="text/javascript" src='@routes.Assets.at("javascripts/report_admin.js")'></script>
+		<script type="text/javascript" src='@routes.Assets.at("javascripts/report.js")'></script>
+		<script type="text/javascript" src='@routes.Assets.at("javascripts/report_admin.js")'></script>
+}
+@metaTags()={
+	@partials.opengraphHead(post)
+	<meta name="description" content="@subStringWithGivenLength(post.getContent(),200)" />
+	<meta name="keywords" content="@post.getTitle().replace(" ",","),@Messages("Project_definition_keywords").replace(" ",",")" />
+	@defining(post.getCreatedBy()) { postCreator =>
+	<meta name="author" content="@postCreator.getFirstName(),@postCreator.getLastName()">
+	}
 }
 
-@template.main(post.getTitle(), script, partials.opengraphHead(post)) {
+@template.main(post.getTitle(), script, metaTags) {
   <div class="container-fluid">
     <div class="row-fluid">
         <div class="span2">

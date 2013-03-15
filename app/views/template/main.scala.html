@@ -1,4 +1,4 @@
-@(title: String, scripts: Html = Html(""), header: Html = Html(""), footer: Html = template.footer(), hideNavbar:Boolean = false)(content: Html)
+@(title: String, scripts: Html = Html(""), metaTags: Html = Html("") , header: Html = Html(""), footer: Html = template.footer(), hideNavbar:Boolean = false)(content: Html)
 
 <!DOCTYPE html>
 
@@ -6,6 +6,7 @@
     <head>
         @template.head(title)
         @scripts
+        @metaTags
     </head>
     <body>
     	<div class="container-narrow">
