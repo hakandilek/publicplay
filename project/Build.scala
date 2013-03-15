@@ -22,11 +22,11 @@ object ApplicationBuild extends Build {
         "joda-time" % "joda-time"% "2.1",
         "be.objectify" %% "deadbolt-java" % "2.1-SNAPSHOT",
         "com.amazonaws" % "aws-java-sdk" % "1.3.11",
-        "com.typesafe" % "play-plugins-guice" % "2.0.3",
-        "play2-cache" % "play2-cache_2.9.1" % "0.3.1-SNAPSHOT",
-        "play2-crud" % "play2-crud_2.9.1" % "0.2.2-SNAPSHOT",
-        "com.pickleproject" % "pickle-core" % "0.5-SNAPSHOT",
-        "com.pickleproject" % "pickle-shopping" % "0.5-SNAPSHOT"
+        "com.google.inject" % "guice" % "3.0",
+        "play2-cache" % "play2-cache_2.10" % "0.4.0-SNAPSHOT",
+        "play2-crud" % "play2-crud_2.10" % "0.3.0-SNAPSHOT",
+        "com.pickleproject" % "pickle-core" % "0.6-SNAPSHOT",
+        "com.pickleproject" % "pickle-shopping" % "0.6-SNAPSHOT"
     )
 
     val main = play.Project(appName, appVersion, appDependencies).settings (
