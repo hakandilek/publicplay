@@ -1,4 +1,10 @@
 @(currentPage: Page[Post], categoryName:String, categories: List[Category], topDayPage: Page[Post], topWeekPage: Page[Post], topAllPage: Page[Post], upVotedPostKeys:Set[Long], downVotedPostKeys:Set[Long], following:Boolean)
+@import helper.H._
+
+@metaTags={
+	<meta name="description" content="@Messages("Project_definition_keywords")" />
+	<meta name="keywords" content="@getKeywordsFromTopPage(topWeekPage)" />
+}
 
 @header = {
     <div class="row-fluid">
@@ -14,7 +20,7 @@
     </div><!-- row -->
 }
 
-@template.main(Messages("home"), header=header) {
+@template.main(Messages("home"),metaTags=metaTags, header=header) {
     <div class="row-fluid">
         <div class="span9">
             @partials.postList(currentPage, categoryName, categories, upVotedPostKeys, downVotedPostKeys,following)
