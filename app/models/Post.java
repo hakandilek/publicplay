@@ -17,6 +17,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Version;
 
+import play.data.validation.Constraints.MaxLength;
 import play.data.validation.Constraints.Required;
 import play.db.ebean.Model;
 import play.utils.dao.TimestampModel;
@@ -31,10 +32,12 @@ public class Post extends Model implements TimestampModel<Long>, Owned<Long> {
 
 	@Required
 	@Column(length=512, nullable = true)
+	@MaxLength(120)
 	private String title;
 
 	@Required
 	@Column(length=2048, nullable = true)
+	@MaxLength(2000)
 	private String content;
 
 	@Basic
