@@ -1,4 +1,4 @@
-@(currentPage: Page[_], pageSize:Integer, prevPage:play.api.mvc.Call, nextPage:play.api.mvc.Call)
+@(currentPage: com.avaje.ebean.Page[_], pageSize:Integer, prevPage:play.api.mvc.Call, nextPage:play.api.mvc.Call)
 @import helper.H._
 
 @if(currentPage.getTotalRowCount > pageSize) {

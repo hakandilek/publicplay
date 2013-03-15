@@ -13,7 +13,7 @@ import security.RestrictApproved;
 import socialauth.core.Secure;
 import socialauth.core.SocialAware;
 
-import be.objectify.deadbolt.actions.Restrict;
+import be.objectify.deadbolt.java.actions.*;
 
 import com.pickleproject.shopping.ProductReader;
 
@@ -29,140 +29,140 @@ import controllers.crud.UserAPIController;
 
 public class Api extends App {
 
-	@Inject static ProductReader productReader;
-	@Inject static CategoryAPIController categoryAPI;
-	@Inject static CommentAPIController commentAPI;
-	@Inject static PostAPIController postAPI;
-	@Inject static PostRatingAPIController postRatingAPI;
-	@Inject static S3FileAPIController s3FileAPI;
-	@Inject static SecurityRoleAPIController securityRoleAPI;
-	@Inject static UserAPIController userAPI;
-	@Inject static SourceConfigurationAPIController sourceConfigurationAPI;
-	@Inject static ContentReportAPIController contentReportAPI;
+	@Inject ProductReader productReader;
+	@Inject CategoryAPIController categoryAPI;
+	@Inject CommentAPIController commentAPI;
+	@Inject PostAPIController postAPI;
+	@Inject PostRatingAPIController postRatingAPI;
+	@Inject S3FileAPIController s3FileAPI;
+	@Inject SecurityRoleAPIController securityRoleAPI;
+	@Inject UserAPIController userAPI;
+	@Inject SourceConfigurationAPIController sourceConfigurationAPI;
+	@Inject ContentReportAPIController contentReportAPI;
 	
 	@Secure
 	@BodyParser.Of(Json.class)
-	public static Result invalid(String resource) {
+	public Result invalid(String resource) {
 		return APIController.invalid(resource);
 	}
 
 	@Secure
 	@BodyParser.Of(Json.class)
-	public static Result categoryUpdate(String key) {
+	public Result categoryUpdate(String key) {
 		return categoryAPI.update(key);
 	}
 
 	@Secure
 	@BodyParser.Of(Json.class)
-	public static Result commentUpdate(Long key) {
+	public Result commentUpdate(Long key) {
 		return commentAPI.update(key);
 	}
 
 	@Secure
 	@BodyParser.Of(Json.class)
-	public static Result postUpdate(Long key) {
+	public Result postUpdate(Long key) {
 		return postAPI.update(key);
 	}
 
 	@Secure
 	@BodyParser.Of(Json.class)
-	public static Result postRatingUpdate(String key) {
+	public Result postRatingUpdate(String key) {
 		return postRatingAPI.update(PostRatingPK.fromString(key));
 	}
 
 	@Secure
 	@BodyParser.Of(Json.class)
-	public static Result s3FileUpdate(String key) {
+	public Result s3FileUpdate(String key) {
 		return s3FileAPI.update(UUID.fromString(key));
 	}
 
 	@Secure
 	@BodyParser.Of(Json.class)
-	public static Result securityRoleUpdate(Long key) {
+	public Result securityRoleUpdate(Long key) {
 		return securityRoleAPI.update(key);
 	}
 
 	@Secure
 	@BodyParser.Of(Json.class)
-	public static Result securityRoleList() {
+	public Result securityRoleList() {
 		return securityRoleAPI.list();
 	}
 
 	@Secure
 	@BodyParser.Of(Json.class)
-	public static Result userUpdate(String key) {
+	public Result userUpdate(String key) {
 		return userAPI.update(key);
 	}
 	
 	@Secure
 	@BodyParser.Of(Json.class)
-	public static Result userRoleUpdate(String key) {
+	public Result userRoleUpdate(String key) {
 		return userAPI.roleUpdate(key);
 	}
 	
 	@Secure
 	@BodyParser.Of(Json.class)
-	public static Result sourceConfigurationUpdate(Long key) {
+	public Result sourceConfigurationUpdate(Long key) {
 		return sourceConfigurationAPI.update(key);
 	}
 
 	@SocialAware
 	@RestrictApproved
-	public static Result userFollow(String key) {
+	public Result userFollow(String key) {
 		return userAPI.follow(key);
 	}
 
 	@SocialAware
 	@RestrictApproved
-	public static Result userUnfollow(String key) {
+	public Result userUnfollow(String key) {
 		return userAPI.unfollow(key);
 	}
 
 	@Secure
 	@BodyParser.Of(Json.class)
-	public static Result contentReportCreate() {
+	public Result contentReportCreate() {
 		return contentReportAPI.create();
 	}
 	
 	@Secure
 	@BodyParser.Of(Json.class)
-	public static Result contentReportUpdate(Long key) {
+	public Result contentReportUpdate(Long key) {
 		return contentReportAPI.update(key);
 	}
 
-	@Secure @Restrict("admin") @RestrictApproved 
+	@Secure @Restrict(@Group("admin")) @RestrictApproved 
 	@BodyParser.Of(Json.class)
-	public static Result contentReportIgnore(Long key) {
+	public Result contentReportIgnore(Long key) {
 		return contentReportAPI.ignore(key);
 	}
 
-	@Secure @Restrict("admin") @RestrictApproved 
+	@Secure @Restrict(@Group("admin")) @RestrictApproved 
 	@BodyParser.Of(Json.class)
-	public static Result postApprove(Long key) {
+	public Result postApprove(Long key) {
 		return postAPI.approve(key);
 	}
 
-	@Secure @Restrict("admin") @RestrictApproved 
+	@Secure @Restrict(@Group("admin")) @RestrictApproved 
 	@BodyParser.Of(Json.class)
-	public static Result postRemove(Long key) {
+	public Result postRemove(Long key) {
 		return postAPI.remove(key);
 	}
 
-	@Secure @Restrict("admin") @RestrictApproved 
+	@Secure @Restrict(@Group("admin")) @RestrictApproved 
 	@BodyParser.Of(Json.class)
-	public static Result postMarkExpired(Long key) {
+	public Result postMarkExpired(Long key) {
 		return postAPI.expire(key);
 	}
 
-	@Secure @Restrict("admin") @RestrictApproved 
+	@Secure @Restrict(@Group("admin")) @RestrictApproved 
 	@BodyParser.Of(Json.class)
-	public static Result commentApprove(Long key) {
+	public Result commentApprove(Long key) {
 		return commentAPI.approve(key);
 	}
 
-	@Secure @Restrict("admin") @RestrictApproved 
+	@Secure @Restrict(@Group("admin")) @RestrictApproved 
 	@BodyParser.Of(Json.class)
-	public static Result commentRemove(Long key) {
+	public Result commentRemove(Long key) {
 		return commentAPI.remove(key);
 	}
 }

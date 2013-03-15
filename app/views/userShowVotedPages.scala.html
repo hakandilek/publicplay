@@ -1,7 +1,7 @@
 @(userToBeShowed: models.User,self: Boolean,tabName:String, upVotedPostKeys:Set[Long], downVotedPostKeys:Set[Long], following: Boolean, followerCount:Integer, followingCount:Integer,
-currentVotedPostPage: Page[Post])
-@import be.objectify.deadbolt.views.html._
-@import be.objectify.deadbolt.utils.TemplateUtils._
+currentVotedPostPage: com.avaje.ebean.Page[Post])
+@import be.objectify.deadbolt.java.views.html._
+@import be.objectify.deadbolt.core.utils.TemplateUtils._
 @import views.html.security._
 @import helper.H._
 @import controllers._

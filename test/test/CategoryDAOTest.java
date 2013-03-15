@@ -55,7 +55,7 @@ public class CategoryDAOTest extends BaseTest {
 				assertThat(newCat2.getPosts().size()).isEqualTo(count);
 				
 				//clean cache and re-verify
-				dao.cacheFind().clean("testCategory");
+				dao.cacheClean("testCategory");
 				Category newCat3 = dao.get("testCategory");
 				assertThat(newCat3).isNotNull();
 				assertThat(newCat3.getPosts()).isNotNull();
