@@ -1,4 +1,4 @@
-package test;
+package models.dao;
 
 import static org.fest.assertions.Assertions.assertThat;
 import static play.test.Helpers.fakeApplication;
@@ -12,6 +12,8 @@ import models.Post;
 import models.dao.PostDAO;
 
 import org.junit.Test;
+
+import test.BaseTest;
 
 import com.avaje.ebean.Page;
 import com.google.common.collect.ImmutableList;

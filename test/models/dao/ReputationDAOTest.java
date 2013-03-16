@@ -1,4 +1,4 @@
-package test;
+package models.dao;
 
 import static org.fest.assertions.Assertions.assertThat;
 import static play.test.Helpers.fakeApplication;
@@ -11,6 +11,8 @@ import models.dao.PostDAO;
 import models.dao.ReputationDAO;
 
 import org.junit.Test;
+
+import test.BaseTest;
 
 public class ReputationDAOTest extends BaseTest {
 	@Test
