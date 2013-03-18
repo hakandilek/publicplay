@@ -14,5 +14,4 @@ public class ReputationValueDAO extends CachedDAO<String, ReputationValue> {
 		super(String.class, ReputationValue.class);
 	}
 
-
 }

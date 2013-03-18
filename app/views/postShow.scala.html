@@ -127,6 +127,17 @@
         }
             </tbody>
         </table>
+        @for(comment <- currentPage.getList.reverse) {
+        <div class="media">
+		    <a class="pull-left" href="#">
+		    	<img class="media-object"  width="48" height="48" alt="@comment.getCreatedBy().getProfileImageURL()" src="@comment.getCreatedBy().getProfileImageURL()" >
+		    </a>
+		    <div class="media-body">
+		    	<h4 class="media-heading">Media heading</h4>
+		    
+		    </div>
+   		 </div>
+        }
         
         @partials.pagination(currentPage, Constants.COMMENTS_PER_PAGE, 
             routes.App.postShow(post.getKey(), sanitizeURL(post.getTitle()), currentPage.getPageIndex - 1),

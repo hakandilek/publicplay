@@ -15,6 +15,11 @@ import org.junit.Test;
 import test.BaseTest;
 
 public class ReputationDAOTest extends BaseTest {
+	
+	public ReputationDAOTest() {
+		super();
+	}
+	
 	@Test
 	public void testAddReputationToUser() {
 		running(fakeApplication(inMemoryDatabase()), new Runnable() {

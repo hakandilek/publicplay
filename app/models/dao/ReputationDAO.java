@@ -38,7 +38,5 @@ public class ReputationDAO extends CachedDAO<Long, Reputation> {
 			log.error(String.format("Invalid reputation name {0}", name));
 
 	}
-	
-	
 
 }
