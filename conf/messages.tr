@@ -42,6 +42,18 @@ updatedOn.label=güncelleme
 Delete=Sil
 Edit=Değiştir
 Bulk_Edit=Toplu Değiştir
+About=Hakkında
+Policy=Kullanım Koşulları
+Contact=İletişim
+FAQ=Yardım
+Message=Mesaj
+Your_mail_address=Email adresiniz
+The_message_you_want_to_send=Sorun mu var?
+Contact_Me=Bize ulaşın
+Message_Succeeds=Mesajınız için teşekkürler. En kısa sürede size geri döneceğiz.
+Your_Name=Adınız
+Name=Ad
+Send=Gönder
 
 # Error messages
 Post_not_found=Başlık bulunamadı
@@ -210,7 +222,7 @@ error.min=Must be greater or equal to {0}
 error.max=Must be less or equal to {0}
 error.minLength=Minimum length is {0}
 error.maxLength=Bu alana en fazla {0} karakter girilebilir. 
-error.email=Valid email required
+error.email=Lütfen geçerli bir email adresi giriniz.
 error.pattern=Must satisfy {0}
 
 # SourceConfiguration

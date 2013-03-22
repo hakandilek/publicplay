@@ -2,3 +2,4 @@
 1500:plugins.GuicePlugin
 9998:plugins.SocialUserPlugin
 10000:be.objectify.deadbolt.java.DeadboltPlugin
+1500:com.typesafe.plugin.CommonsMailerPlugin

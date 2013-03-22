@@ -37,6 +37,10 @@ GET     /authenticate/:provider         				@controllers.App.authenticate(provid
 POST    /authenticate/:provider         				@controllers.App.authenticate(provider)
 GET     /authenticate/:provider/done    				@controllers.App.authenticateDone(provider)
 
+#Footer
+GET		/about											@controllers.App.about()
+GET		/contact										@controllers.App.contactNewForm()
+POST	/contact										@controllers.App.contact()
 # crud integration
 # ~~~~
 GET     /admin/                         				@controllers.Admin.index()
