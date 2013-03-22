@@ -28,19 +28,7 @@
             <div class="nav-collapse">
                 <!-- .nav, .navbar-search, .navbar-form, etc -->
                 <ul class="nav pull-right">
-            @views.html.security.roleHolderPresent() {
-                @if(userPresent()) {
-                    @defining(loginUser()) { loggedInUser =>
-                    <!-- profile -->
-                    <li>
-                        <a href="@controllers.routes.App.userShowSelf()" class="profile">
-                            <img alt="@loggedInUser.getProfileImageURL()" src="@loggedInUser.getProfileImageURL()"  />
-                            @loggedInUser.getFirstName()
-                        </a>
-                    </li>
-                    }
-                }
-            }     
+           
             @views.html.security.roleHolderPresent(){
                     <!-- new post -->
                     <li><a href="@routes.App.postNewForm()" data-toggle="tooltip" data-placement="bottom" title="@Messages("Create_new_post")"><i class="icon-home icon-edit"></i></a></li>
@@ -48,17 +36,36 @@
                 
             @views.html.security.roleHolderNotPresent(){
                     <!-- login -->
-                    <li><a href="#" data-toggle="modal" data-target="#loginModal"><i class="icon-facebook icon-white"></i>&nbsp;@Messages("Login")</a></li>
+                    <li class="dropdown">
+                    	<a href="#" data-toggle="dropdown">@Messages("Login")<b class="caret"></b></a>
+                    	<div class="dropdown-menu" style="padding: 7px; padding-bottom: 7px; padding-right:2px;">
+						 <a class="btn btn-facebook" href='@controllers.routes.App.authenticate("facebook")'><i class="icon-facebook"></i>&nbsp;@Messages("facebook_login")</a>
+						 </div>
+                    </li>
             }
                 
             @restrict(la(as("admin"))) {
                     <!-- admin -->
                     <li><a href="@routes.Admin.index()" data-toggle="tooltip" data-placement="bottom" title="@Messages("Administration")"><i class="icon-wrench icon-white"></i></a></li>
             }
-            @views.html.security.roleHolderPresent() {    
-             <!-- logout -->
-                    <li><a href="@controllers.routes.App.logout()" data-toggle="tooltip" data-placement="bottom" title="@Messages("Logout")"><i class="icon-off icon-white"></i></a></li>
-            }
+            @views.html.security.roleHolderPresent() {
+                @if(userPresent()) {
+                    @defining(loginUser()) { loggedInUser =>
+                    <!-- profile -->
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle profile" data-toggle="dropdown">
+                            <img alt="@loggedInUser.getProfileImageURL()" src="@loggedInUser.getProfileImageURL()"  />
+                            @loggedInUser.getFirstName()<b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                        	<li><a href="@controllers.routes.App.userShowSelf()"><i class="icon-user"></i> @Messages("User.Profile")</a></li>
+                        	<li class="divider"></li>
+                        	<li><a href="@controllers.routes.App.logout()"><i class="icon-off"></i> @Messages("Logout")</a></li>
+                        </ul>
+                    </li>
+                    }
+                }
+            }     
                 
                 </ul>
             </div>
