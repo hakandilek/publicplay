@@ -144,3 +144,37 @@ ul.stats li span {color: #999999;display: block;font-size: 11px;margin-top: -2px
   position: absolute;
   border-top: 1px solid #CCCCCC;
 }
+
+.hero {
+    border-bottom: 1px solid #EEEEEE;
+    margin-bottom: 20px;
+    padding-bottom: 0;
+}
+.accordion {
+    margin-bottom: 20px;
+}
+.faq .accordion-group {
+    border: medium none;
+    border-radius: 0 0 0 0;
+    margin: 10px 0;
+}
+.faq .accordion-inner {
+    background: none repeat scroll 0 0 #FAFAFA;
+    border: 1px solid #E8E8E8;
+    border-radius: 5px 5px 5px 5px;
+    margin-bottom: 5px;
+    padding: 10px 10px 0;
+}
+
+.faq .accordion-heading .accordion-toggle {
+    display: block;
+    padding: 0;
+}
+.faq .accordion-heading a, .faq .accordion-heading a:visited, .faq .accordion-heading a:hover {
+    border: 0 none !important;
+    text-decoration: none;
+}
+.faq .accordion-heading h5 {
+    color: #888888;
+    font-size: 16px;
+}

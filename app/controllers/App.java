@@ -163,6 +163,10 @@ public class App extends Controller {
 	public Result about(){
 		return ok(views.html.template.about.render());
 	}
+	@SocialAware
+	public Result faq(){
+		return ok(views.html.template.faq.render());
+	}
 	
 	@SocialAware
 	public Result contactNewForm() {
