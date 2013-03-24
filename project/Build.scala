@@ -37,9 +37,6 @@ object ApplicationBuild extends Build {
         //Maven central repo
         resolvers += "Maven repository" at "http://repo1.maven.org/maven/", 
 
-        // The Sonatype repository for PrettyTime
-        resolvers += "sonatype-oss-public" at "http://oss.sonatype.org/content/groups/public/",
-        
         // repositories for play-authenticate
 		resolvers += Resolver.url("play-easymail (release)", url("http://joscha.github.com/play-easymail/repo/releases/"))(Resolver.ivyStylePatterns),
 		resolvers += Resolver.url("play-easymail (snapshot)", url("http://joscha.github.com/play-easymail/repo/snapshots/"))(Resolver.ivyStylePatterns),
@@ -55,8 +52,10 @@ object ApplicationBuild extends Build {
         
         // Objectify Repository for Deadbolt
         resolvers += Resolver.url("Objectify Play Repository", url("http://schaloner.github.com/releases/"))(Resolver.ivyStylePatterns),
-        resolvers += Resolver.url("Objectify Play Repository - snapshots", url("http://schaloner.github.com/snapshots/"))(Resolver.ivyStylePatterns)
+        resolvers += Resolver.url("Objectify Play Repository - snapshots", url("http://schaloner.github.com/snapshots/"))(Resolver.ivyStylePatterns),
         
+        // The Sonatype repository for PrettyTime
+        resolvers += "sonatype-oss-public" at "http://oss.sonatype.org/content/groups/public/"
         
         //ignore checksum check
         //checksums := Nil

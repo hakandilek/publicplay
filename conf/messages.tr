@@ -175,6 +175,14 @@ User.status.NEW=Yeni
 User.status.APPROVED=Onaylı
 User.roles=Roller
 User.accessExpires=erişim
+User.key.label=ID
+User.accessExpires.label=erişim
+User.status.label=Durum
+User.name.label=Ad
+User.birthdate.label=Doğumgünü
+User.gender.label=Cinsiyet
+User.email.label=Email
+User.location.label=Yer
 
 # SecurityRole
 SecurityRole_num={0} rol

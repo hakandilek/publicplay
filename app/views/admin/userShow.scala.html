@@ -4,20 +4,56 @@
 @import helper.H._
 
 @template.main("User") {
+	@if(user==null) {<h2>no user!</h2>
+	} else {
      <dl class="dl-horizontal">
          <dt>@Messages("User.key.label")</dt>
          <dd>@user.getKey()</dd>
      </dl>
      <dl class="dl-horizontal">
          <dt>@Messages("createdOn.label")</dt>
-         <dd>@user.getCreatedOn()</dd>
+         <dd>@simplify(user.getCreatedOn())</dd>
      </dl>
      <dl class="dl-horizontal">
          <dt>@Messages("updatedOn.label")</dt>
-         <dd>@user.getUpdatedOn()</dd>
+         <dd>@simplify(user.getUpdatedOn())</dd>
      </dl>
      <dl class="dl-horizontal">
          <dt>@Messages("revision.label")</dt>
          <dd>@user.getRevision()</dd>
      </dl>
+     <hr>
+     <dl class="dl-horizontal">
+         <dt>@Messages("User.accessExpires.label")</dt>
+         <dd>@simplify(user.getAccessExpires())</dd>
+     </dl>
+     <dl class="dl-horizontal">
+         <dt>@Messages("User.status.label")</dt>
+         <dd>@Messages("User.status." + user.getStatus())</dd>
+     </dl>
+     <hr>
+     <dl class="dl-horizontal">
+         <dt>@Messages("User.name.label")</dt>
+         <dd>@user.getFirstName() @user.getLastName()</dd>
+     </dl>
+     <dl class="dl-horizontal">
+         <dt>@Messages("User.birthdate.label")</dt>
+         <dd>@simplify(user.getBirthdate())</dd>
+     </dl>
+     <dl class="dl-horizontal">
+         <dt>@Messages("User.gender.label")</dt>
+         <dd>@user.getGender()</dd>
+     </dl>
+     <dl class="dl-horizontal">
+         <dt>@Messages("User.email.label")</dt>
+         <dd>@user.getEmail()</dd>
+     </dl>
+     <dl class="dl-horizontal">
+         <dt>@Messages("User.location.label")</dt>
+         <dd>@user.getLocation()</dd>
+     </dl>
+     <div>
+         <a type="submit" class="btn btn-inverse" href="@routes.Admin.userReload(user.getKey())"><i class="icon-repeat"></i> @Messages("Reload")</a>
+     </div>
+    }
 }

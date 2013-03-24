@@ -268,6 +268,10 @@ public class Admin extends Controller {
 		return userController.show(key);
 	}
 
+	@Authenticated @Restrict(@Group("admin")) @RestrictApproved public Result userReload(String key) {
+		return userController.reload(key);
+	}
+
 	@Authenticated @Restrict(@Group("admin")) @RestrictApproved public Result sourceConfigurationList(int page) {
 		return sourceConfigurationController.list(page);
 	}

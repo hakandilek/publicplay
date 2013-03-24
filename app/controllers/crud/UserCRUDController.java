@@ -1,6 +1,7 @@
 package controllers.crud;
-import static play.data.Form.*;
+import static play.data.Form.form;
 
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.Callable;
 
@@ -22,6 +23,8 @@ import play.mvc.Results;
 import play.utils.crud.CRUDController;
 
 import com.avaje.ebean.Page;
+import com.restfb.DefaultFacebookClient;
+import com.restfb.FacebookClient;
 
 import controllers.routes;
 import forms.BulkUser;
@@ -189,9 +192,42 @@ public class UserCRUDController extends CRUDController<String, User> {
 		}).map(new F.Function<Void, Result>() {
 			public Result apply(Void arg0) {
 				return redirect(toIndex());
-
 			}
 		}));
 	}
 
+	public Results.AsyncResult reload(final String key) {
+		if (log.isDebugEnabled())
+			log.debug("reload <-");
+		
+		return async(Akka.future(new Callable<Void>() {
+			public Void call() throws Exception {
+				User user = userDAO.get(key);
+				if (user != null) {
+					String accessToken = user.getAccessToken();
+					String identifier = user.getOriginalKey();
+					FacebookClient facebookClient = new DefaultFacebookClient(accessToken);
+
+					User fbu = facebookClient.fetchObject(identifier, User.class);
+					fbu.setKey("facebook", identifier);
+					if (log.isDebugEnabled())
+						log.debug("fbu : " + fbu);
+					Date birthdate = fbu.getBirthdate();
+					String birthday = fbu.getBirthday();
+					if (log.isDebugEnabled())
+						log.debug("birthday : " + birthday);
+					if (log.isDebugEnabled())
+						log.debug("birthdate : " + birthdate);
+					
+					user.merge(fbu);
+					userDAO.update(key, user);
+				}
+				return null;
+			}
+		}).map(new F.Function<Void, Result>() {
+			public Result apply(Void p) {
+				return show(key);
+			}
+		}));
+	}
 }

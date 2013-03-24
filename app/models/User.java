@@ -30,6 +30,10 @@ import be.objectify.deadbolt.core.models.Subject;
 
 import com.avaje.ebean.annotation.EnumValue;
 import com.avaje.ebean.validation.Email;
+import com.restfb.Facebook;
+
+import static com.restfb.util.DateUtils.toDateFromShortFormat;
+import static com.restfb.util.StringUtils.isBlank;
 
 @Entity
 @Table(name="TBL_USER")
@@ -67,25 +71,31 @@ public class User extends Model implements Subject, Approvable, TimestampModel<S
 	private Date lastLogin;
 
 	@Basic
+	@Facebook("first_name")
 	private String firstName;
 
 	@Basic
+	@Facebook("last_name")
 	private String lastName;
 
 	@Basic
-	private Date birthdate;
+	@Facebook("birthday") //birthday as string, used for facebook mapping
+	private String birthday;
 
 	@Basic
 	@Email
+	@Facebook("email")
 	private String email;
 
 	@Basic
 	private String country;
 
 	@Basic
+	@Facebook("gender")
 	private String gender;
 
 	@Basic
+	@Facebook("location")
 	private String location;
 
 	@Basic
@@ -197,10 +207,6 @@ public class User extends Model implements Subject, Approvable, TimestampModel<S
 		return lastName;
 	}
 
-	public Date getBirthdate() {
-		return birthdate;
-	}
-
 	public String getEmail() {
 		return email;
 	}
@@ -239,10 +245,6 @@ public class User extends Model implements Subject, Approvable, TimestampModel<S
 
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
-	}
-
-	public void setBirthdate(Date birthdate) {
-		this.birthdate = birthdate;
 	}
 
 	public void setEmail(String email) {
@@ -346,4 +348,24 @@ public class User extends Model implements Subject, Approvable, TimestampModel<S
 		this.accessExpires = accessExpires;
 	}
 
+	public String getBirthday() {
+		return birthday;
+	}
+
+	public Date getBirthdate() {
+		if (isBlank(birthday) || birthday.split("/").length < 2)
+			return null;
+		return toDateFromShortFormat(birthday);
+	}
+
+	public void merge(User facebookUser) {
+		if (facebookUser == null)
+			return;
+		firstName = facebookUser.getFirstName();
+		lastName = facebookUser.getLastName();
+		birthday = facebookUser.getBirthday();
+		email = facebookUser.getEmail();
+		gender = facebookUser.getGender();
+		location = facebookUser.getLocation();
+	}
 }

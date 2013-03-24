@@ -143,7 +143,7 @@ create table TBL_USER (
   last_login                timestamp,
   first_name                varchar(255),
   last_name                 varchar(255),
-  birthdate                 timestamp,
+  birthday                  varchar(255),
   email                     varchar(255),
   country                   varchar(255),
   gender                    varchar(255),

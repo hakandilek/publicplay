@@ -163,16 +163,24 @@ User.Favorites=Favorites
 
 # Admin
 User.key=ID
-User.profile=Profil
-User.lastLogin=Son giriş
-User.loginCount=Giriş
-User.status=Durum
-User.status.All=Hepsi
-User.status.SUSPENDED=Askıda
-User.status.NEW=Yeni
-User.status.APPROVED=Onaylı
+User.profile=Profile
+User.lastLogin=Last login
+User.loginCount=Login count
+User.status=Status
+User.status.All=All
+User.status.SUSPENDED=Suspended
+User.status.NEW=New
+User.status.APPROVED=Approved
 User.roles=Roles
 User.accessExpires=token expires
+User.key.label=ID
+User.accessExpires.label=token expires
+User.status.label=Status
+User.name.label=Name
+User.birthdate.label=Birthdate
+User.gender.label=Gender
+User.email.label=Email
+User.location.label=Location
 
 # SecurityRole
 SecurityRole_num={0} roles
