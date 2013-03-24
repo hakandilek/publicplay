@@ -51,12 +51,7 @@ public class PostRatingDAO extends CachedDAO<PostRatingPK, PostRating> {
 				.findList();
 		return ratings;
 	}
-
-	public PostRating get(String userKey, Long postKey) {
-		PostRatingPK key = new PostRatingPK(userKey, postKey);
-		return find.byId(key);
-	}
-
+	
 	public Set<Long> getUpVotedPostKeys(final User u) {
 		String key = u.getKey();
 		final Set<Long> set = votedPostKeyCache.get(".+" + key, new Callable<Set<Long>>() {

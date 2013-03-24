@@ -1,4 +1,4 @@
-package test;
+package models.dao;
 
 import static org.fest.assertions.Assertions.assertThat;
 import static play.test.Helpers.fakeApplication;
@@ -12,6 +12,8 @@ import models.ContentReport.ContentType;
 import models.dao.ContentReportDAO;
 
 import org.junit.Test;
+
+import test.BaseTest;
 
 public class ContentReportDAOTest extends BaseTest {
 

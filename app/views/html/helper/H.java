@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
+import models.Post;
 import models.User;
 
 import org.ocpsoft.prettytime.PrettyTime;
@@ -120,6 +121,23 @@ public class H {
 		DateFormat df = new SimpleDateFormat("dd.MM.yyyy");
 		return df.format(dateToFormat);
 	}
+	
+	public static String subStringWithGivenLength(String stringToCut, int length) {
+		if (stringToCut.length() <= length) {
+			return stringToCut;
+		} else {
+			return stringToCut.substring(0, length);
+		}
+	}
+
+	public static String getKeywordsFromTopPage(Page<Post> topPostPage) {
+		String keyword = null;
+		for (Post post : topPostPage.getList()) {
+			keyword += post.getTitle()+" ";
+		}
+		keyword+=Messages.get("Project_definition_keywords");
+		return subStringWithGivenLength(keyword.replace(" ", ","),300);
+	}	
 	
 	private static Lang getLang() {
         Lang lang = null;

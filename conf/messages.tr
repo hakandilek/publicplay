@@ -2,6 +2,7 @@ Page_title={0} - PublicPlay
 Brand_title= - Opensource showcase 
 
 Project_definition=PublicPlay, <a href="http://github.com/playframework/play">Play Framework</a> ile geliştirilmiş basit bir forum uygulamasıdır. Yeni bir Play uygulamasına başlamak isteyenler için taslak olarak düşünülmüştür. <br/><br/> Keyfini çıkarın!
+Project_definition_keywords=PublicPlay Play Framework ile geliştirilmiş basit bir forum uygulamasıdır. Yeni bir Play uygulamasına başlamak isteyenler için taslak olarak düşünülmüştür.
 Home=Ana sayfa
 Administration=Yönetim
 Access_failed=Erişim hatası

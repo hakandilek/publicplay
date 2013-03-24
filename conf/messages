@@ -3,6 +3,7 @@ Brand_title= - Opensource showcase
 
 
 Project_definition=PublicPlay is a simple Forum application developed on <a href="http://github.com/playframework/play">Play Framework</a>. It is aimed to be used as a starting point/skeleton for a Play application. <br/><br/> Enjoy!
+Project_definition_keywords=PublicPlay is a simple Forum application developed on Play Framework.It is aimed to be used as a starting point/skeleton for a Play application.
 Access_failed=Access failed
 Access_failed_detail=Apparently you don't have access here
 Go_back=Go back
