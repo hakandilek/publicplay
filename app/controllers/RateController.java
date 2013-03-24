@@ -13,8 +13,8 @@ import play.Logger;
 import play.Logger.ALogger;
 import play.mvc.Controller;
 import play.mvc.Result;
+import security.Authenticated;
 import security.RestrictApproved;
-import socialauth.core.Secure;
 import views.html.partials.rate;
 
 public class RateController extends Controller implements Constants {
@@ -36,7 +36,7 @@ public class RateController extends Controller implements Constants {
 	/**
 	 * rating is done via ajax, therefore return simply the eventual rate sum
 	 */
-	@Secure
+	@Authenticated
 	@RestrictApproved
 	public Result rateUp(Long key) {
 		if (log.isDebugEnabled())
@@ -46,7 +46,7 @@ public class RateController extends Controller implements Constants {
 		return rate(post, 1);
 	}
 
-	@Secure
+	@Authenticated
 	@RestrictApproved
 	public Result rateDown(Long key) {
 		if (log.isDebugEnabled())

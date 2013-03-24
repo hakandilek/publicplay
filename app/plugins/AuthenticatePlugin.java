@@ -8,10 +8,11 @@ import play.Application;
 import play.Logger;
 import play.Logger.ALogger;
 
+import com.feth.play.module.pa.providers.oauth2.OAuth2AuthInfo;
+import com.feth.play.module.pa.providers.oauth2.facebook.FacebookAuthUser;
 import com.feth.play.module.pa.service.UserServicePlugin;
 import com.feth.play.module.pa.user.AuthUser;
 import com.feth.play.module.pa.user.AuthUserIdentity;
-import com.feth.play.module.pa.user.ExtendedIdentity;
 
 public class AuthenticatePlugin extends UserServicePlugin {
 	
@@ -20,7 +21,6 @@ public class AuthenticatePlugin extends UserServicePlugin {
 	private static AuthenticatePlugin instance;// plugin instance
 
 	private UserDAO userDAO;
-
 
 	public AuthenticatePlugin(Application app) {
 		super(app);
@@ -42,16 +42,19 @@ public class AuthenticatePlugin extends UserServicePlugin {
         if (user == null) {
         	user = new User();
         	user.setKey(authUser.getProvider(), authUser.getId());
-        	
-			if (authUser instanceof ExtendedIdentity) {
+			if (authUser instanceof FacebookAuthUser) {
+				FacebookAuthUser fbu = (FacebookAuthUser) authUser;
     			// Remember, even when getting them from FB & Co., emails should be
     			// verified within the application as a security breach there might
     			// break your security as well!
     			//TODO:user.setEmailValidated(false);
-    			user.setEmail(((ExtendedIdentity) authUser).getEmail());
-				user.setFirstName(((ExtendedIdentity)authUser).getFirstName());
-				user.setLastName(((ExtendedIdentity)authUser).getLastName());
-				user.setGender(((ExtendedIdentity)authUser).getGender());
+    			user.setEmail(fbu.getEmail());
+				user.setFirstName(fbu.getFirstName());
+				user.setLastName(fbu.getLastName());
+				user.setGender(fbu.getGender());
+				OAuth2AuthInfo authInfo = fbu.getOAuth2AuthInfo();
+				user.setAccessToken(authInfo.getAccessToken());
+				user.setAccessExpires(new Date(authInfo.getExpiration()));
 			}
     		
         	userDAO.create(user);
@@ -120,17 +123,21 @@ public class AuthenticatePlugin extends UserServicePlugin {
 			log.debug("user : " + user);
 		return user;
 	}
-
-	@Override
-	public boolean enabled() {
-		return true;
+	
+	public User find(AuthUser authUser) {
+		if (authUser == null) return null;
+    	String userKey = User.getKey(authUser.getProvider(), authUser.getId());
+		User user = userDAO.get(userKey);
+		if (log.isDebugEnabled())
+			log.debug("user : " + user);
+		return user;
 	}
 
 	@Override
 	public void onStart() {
 		instance = this;
 		userDAO = GuicePlugin.getInstance().getInstance(UserDAO.class);
-
+		super.onStart();
 		if (log.isInfoEnabled())
 			log.debug(getClass().getSimpleName() + " started.");
 
@@ -140,7 +147,7 @@ public class AuthenticatePlugin extends UserServicePlugin {
 	public void onStop() {
 		instance = null;
 		userDAO = null;
-		
+		super.onStop();
 		if (log.isInfoEnabled())
 			log.debug(getClass().getSimpleName() + " stopped.");
 	}

@@ -41,6 +41,7 @@
                 <th class="header">@Messages("User.profile")</th>
                 <th class="header">@Messages("User.lastLogin")</th>
                 <th class="header">@Messages("User.loginCount")</th>
+                <th class="header">@Messages("User.accessExpires")</th>
                 <th class="header">@Messages("User.roles")</th>
                 <th class="header" colspan="3">@Messages("User.status")</th>
                 <th class="header">@Messages("Reputation")
@@ -60,6 +61,7 @@
                 </div></td>
                 <td>@prettify(user.getLastLogin())</td>
                 <td>@user.getLoginCount()</td>
+                <td>@prettify(user.getAccessExpires())</td>
                 <td>
                 	<a id="roles-@user.getKey()" class="user-role" href="#" 
                 		data-type="checklist" 

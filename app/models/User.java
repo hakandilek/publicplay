@@ -24,17 +24,17 @@ import play.db.ebean.Model;
 import play.utils.dao.TimestampModel;
 import security.Approvable;
 import security.EntityPermission;
-import socialauth.core.SocialUser;
 import be.objectify.deadbolt.core.models.Permission;
 import be.objectify.deadbolt.core.models.Role;
 import be.objectify.deadbolt.core.models.Subject;
 
 import com.avaje.ebean.annotation.EnumValue;
+import com.avaje.ebean.validation.Email;
 
 @Entity
 @Table(name="TBL_USER")
 @SuppressWarnings("serial")
-public class User extends Model implements Subject, Approvable, TimestampModel<String>, SocialUser {
+public class User extends Model implements Subject, Approvable, TimestampModel<String> {
 
 	public enum Status {
 		@EnumValue("N")
@@ -76,6 +76,7 @@ public class User extends Model implements Subject, Approvable, TimestampModel<S
 	private Date birthdate;
 
 	@Basic
+	@Email
 	private String email;
 
 	@Basic
@@ -92,6 +93,12 @@ public class User extends Model implements Subject, Approvable, TimestampModel<S
 
 	@Basic
 	private String provider;
+	
+	@Basic
+	private String accessToken;
+
+	@Basic
+	private Date accessExpires;
 	
 	@OneToMany(cascade=CascadeType.ALL, mappedBy="createdBy")
 	private Set<Reputation> reputations = new HashSet<Reputation>();
@@ -319,18 +326,24 @@ public class User extends Model implements Subject, Approvable, TimestampModel<S
 		return builder.toString();
 	}
 
-	@Override
-	public String getUserKey() {
-		return key;
-	}
-
-	@Override
-	public String getValidatedId() {
-		return originalKey;
-	}
-
 	public Set<Reputation> getReputations() {
 		return reputations;
+	}
+
+	public String getAccessToken() {
+		return accessToken;
+	}
+
+	public void setAccessToken(String accessToken) {
+		this.accessToken = accessToken;
+	}
+
+	public Date getAccessExpires() {
+		return accessExpires;
+	}
+
+	public void setAccessExpires(Date accessExpires) {
+		this.accessExpires = accessExpires;
 	}
 
 }

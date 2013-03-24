@@ -172,6 +172,7 @@ User.status.SUSPENDED=Askıda
 User.status.NEW=Yeni
 User.status.APPROVED=Onaylı
 User.roles=Roles
+User.accessExpires=token expires
 
 # SecurityRole
 SecurityRole_num={0} roles

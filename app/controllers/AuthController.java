@@ -16,14 +16,6 @@ public class AuthController extends Controller {
 	
 	private static ALogger log = Logger.of(AuthController.class);
 
-	/** session key for authenticated user key */
-	public static final String USER_KEY = "userKey";
-
-	/** session key for authenticated user */
-	public static final String USER = "user";
-
-	public static final String ORIGINAL_URL = "originalURL";
-
 	UserDAO userDAO;
 
 	@Inject
@@ -40,6 +32,9 @@ public class AuthController extends Controller {
 	}
 
 	public Result logout() {
+		if (log.isDebugEnabled())
+			log.debug("logout <-");
+		
 		return Authenticate.logout();
 	}
 

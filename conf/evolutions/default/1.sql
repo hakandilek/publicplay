@@ -150,6 +150,8 @@ create table TBL_USER (
   location                  varchar(255),
   profile_image_url         varchar(255),
   provider                  varchar(255),
+  access_token              varchar(255),
+  access_expires            timestamp,
   status                    varchar(1),
   revision                  integer not null,
   constraint ck_TBL_USER_status check (status in ('N','S','A')),

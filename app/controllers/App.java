@@ -5,14 +5,13 @@ import javax.inject.Inject;
 
 import play.mvc.Controller;
 import play.mvc.Result;
+import security.Authenticated;
 import security.CommentDeletePermission;
 import security.CommentEditPermission;
 import security.PostDeletePermission;
 import security.PostEditPermission;
 import security.RestrictApproved;
 import security.RestrictCombine;
-import socialauth.core.Secure;
-import socialauth.core.SocialAware;
 
 public class App extends Controller {
 
@@ -22,93 +21,91 @@ public class App extends Controller {
 	@Inject CommentController commentController;
 	@Inject UserController userController;
 
-	@SocialAware public Result index() {
+	public Result index() {
 		return postController.list(0, null);
 	}
 	
-	@SocialAware
 	public Result postList(int page, String category) {
 		return postController.list(page, category);
 	}
 	
-	@Secure
+	@Authenticated
 	@RestrictApproved
 	public Result postNewForm() {
 		return postController.newForm();
 	}
 
-	@Secure
+	@Authenticated
 	@RestrictApproved
 	public Result postCreate() {
 		return postController.create();
 	}
 	
-	@Secure
+	@Authenticated
 	@RestrictApproved
 	public Result postListFollowing(int page) {
 		return postController.listFollowing(page);
 	}
 
-	@Secure
+	@Authenticated
 	@RestrictCombine(roles = "admin", with = PostEditPermission.class)
 	@RestrictApproved
 	public Result postEditForm(Long key) {
 		return postController.editForm(key);
 	}
 
-	@Secure
+	@Authenticated
 	@RestrictCombine(roles = "admin", with = PostEditPermission.class)
 	@RestrictApproved
 	public Result postUpdate(Long key) {
 		return postController.update(key);
 	}
 
-	@SocialAware
 	public Result postShow(Long postKey, String title, int page) {
 		return postController.show(postKey, title, page);
 	}
 
-	@Secure
+	@Authenticated
 	@RestrictCombine(roles = "admin", with = PostDeletePermission.class)
 	@RestrictApproved
 	public Result postDelete(Long key) {
 		return postController.delete(key);
 	}
 
-	@Secure
+	@Authenticated
 	@RestrictApproved
 	public Result commentCreate(Long postKey, String title) {
 		return commentController.create(postKey, title);
 	}
 
-	@Secure
+	@Authenticated
 	@RestrictCombine(roles = "admin", with = CommentEditPermission.class)
 	@RestrictApproved
 	public Result commentEditForm(Long postKey, Long commentKey) {
 		return commentController.editForm(postKey, commentKey);
 	}
 
-	@Secure
+	@Authenticated
 	@RestrictCombine(roles = "admin", with = CommentEditPermission.class)
 	@RestrictApproved
 	public Result commentUpdate(Long postKey, Long commentKey) {
 		return commentController.update(postKey, commentKey);
 	}
 
-	@Secure
+	@Authenticated
 	@RestrictCombine(roles = "admin", with = CommentDeletePermission.class)
 	@RestrictApproved
 	public Result commentDelete(Long postKey, Long commentKey) {
 		return commentController.delete(postKey, commentKey);
 	}
 
-	@Secure
+	@Authenticated
 	@RestrictApproved
 	public Result rateUp(Long key) {
 		return rateController.rateUp(key);
 	}
 
-	@Secure
+	@Authenticated
 	@RestrictApproved
 	public Result rateDown(Long key) {
 		return rateController.rateDown(key);
@@ -118,25 +115,22 @@ public class App extends Controller {
 		return rateController.rateShow(postKey);
 	}
 
-	@SocialAware
 	@RestrictApproved
 	public Result userShow(String key,String tab,int votedPageNumber) {
 		return userController.show(key,tab,votedPageNumber);
 	}
 	
-	@SocialAware
 	@RestrictApproved
 	public Result userFollowers(String key,int pageNumber) {
 		return userController.showFollowers(key,pageNumber);
 	}
 	
-	@SocialAware
 	@RestrictApproved
 	public Result userFollowings(String key,int pageNumber) {
 		return userController.showFollowings(key,pageNumber);
 	}
 
-	@Secure
+	@Authenticated
 	public Result userShowSelf() {
 		return userController.showSelf();
 	}

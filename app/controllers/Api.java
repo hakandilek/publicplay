@@ -9,9 +9,8 @@ import play.mvc.BodyParser;
 import play.mvc.BodyParser.Json;
 import play.mvc.Result;
 import play.utils.crud.APIController;
+import security.Authenticated;
 import security.RestrictApproved;
-import socialauth.core.Secure;
-import socialauth.core.SocialAware;
 
 import be.objectify.deadbolt.java.actions.*;
 
@@ -40,127 +39,125 @@ public class Api extends App {
 	@Inject SourceConfigurationAPIController sourceConfigurationAPI;
 	@Inject ContentReportAPIController contentReportAPI;
 	
-	@Secure
+	@Authenticated
 	@BodyParser.Of(Json.class)
 	public Result invalid(String resource) {
 		return APIController.invalid(resource);
 	}
 
-	@Secure
+	@Authenticated
 	@BodyParser.Of(Json.class)
 	public Result categoryUpdate(String key) {
 		return categoryAPI.update(key);
 	}
 
-	@Secure
+	@Authenticated
 	@BodyParser.Of(Json.class)
 	public Result commentUpdate(Long key) {
 		return commentAPI.update(key);
 	}
 
-	@Secure
+	@Authenticated
 	@BodyParser.Of(Json.class)
 	public Result postUpdate(Long key) {
 		return postAPI.update(key);
 	}
 
-	@Secure
+	@Authenticated
 	@BodyParser.Of(Json.class)
 	public Result postRatingUpdate(String key) {
 		return postRatingAPI.update(PostRatingPK.fromString(key));
 	}
 
-	@Secure
+	@Authenticated
 	@BodyParser.Of(Json.class)
 	public Result s3FileUpdate(String key) {
 		return s3FileAPI.update(UUID.fromString(key));
 	}
 
-	@Secure
+	@Authenticated
 	@BodyParser.Of(Json.class)
 	public Result securityRoleUpdate(Long key) {
 		return securityRoleAPI.update(key);
 	}
 
-	@Secure
+	@Authenticated
 	@BodyParser.Of(Json.class)
 	public Result securityRoleList() {
 		return securityRoleAPI.list();
 	}
 
-	@Secure
+	@Authenticated
 	@BodyParser.Of(Json.class)
 	public Result userUpdate(String key) {
 		return userAPI.update(key);
 	}
 	
-	@Secure
+	@Authenticated
 	@BodyParser.Of(Json.class)
 	public Result userRoleUpdate(String key) {
 		return userAPI.roleUpdate(key);
 	}
 	
-	@Secure
+	@Authenticated
 	@BodyParser.Of(Json.class)
 	public Result sourceConfigurationUpdate(Long key) {
 		return sourceConfigurationAPI.update(key);
 	}
 
-	@SocialAware
 	@RestrictApproved
 	public Result userFollow(String key) {
 		return userAPI.follow(key);
 	}
 
-	@SocialAware
 	@RestrictApproved
 	public Result userUnfollow(String key) {
 		return userAPI.unfollow(key);
 	}
 
-	@Secure
+	@Authenticated
 	@BodyParser.Of(Json.class)
 	public Result contentReportCreate() {
 		return contentReportAPI.create();
 	}
 	
-	@Secure
+	@Authenticated
 	@BodyParser.Of(Json.class)
 	public Result contentReportUpdate(Long key) {
 		return contentReportAPI.update(key);
 	}
 
-	@Secure @Restrict(@Group("admin")) @RestrictApproved 
+	@Authenticated @Restrict(@Group("admin")) @RestrictApproved 
 	@BodyParser.Of(Json.class)
 	public Result contentReportIgnore(Long key) {
 		return contentReportAPI.ignore(key);
 	}
 
-	@Secure @Restrict(@Group("admin")) @RestrictApproved 
+	@Authenticated @Restrict(@Group("admin")) @RestrictApproved 
 	@BodyParser.Of(Json.class)
 	public Result postApprove(Long key) {
 		return postAPI.approve(key);
 	}
 
-	@Secure @Restrict(@Group("admin")) @RestrictApproved 
+	@Authenticated @Restrict(@Group("admin")) @RestrictApproved 
 	@BodyParser.Of(Json.class)
 	public Result postRemove(Long key) {
 		return postAPI.remove(key);
 	}
 
-	@Secure @Restrict(@Group("admin")) @RestrictApproved 
+	@Authenticated @Restrict(@Group("admin")) @RestrictApproved 
 	@BodyParser.Of(Json.class)
 	public Result postMarkExpired(Long key) {
 		return postAPI.expire(key);
 	}
 
-	@Secure @Restrict(@Group("admin")) @RestrictApproved 
+	@Authenticated @Restrict(@Group("admin")) @RestrictApproved 
 	@BodyParser.Of(Json.class)
 	public Result commentApprove(Long key) {
 		return commentAPI.approve(key);
 	}
 
-	@Secure @Restrict(@Group("admin")) @RestrictApproved 
+	@Authenticated @Restrict(@Group("admin")) @RestrictApproved 
 	@BodyParser.Of(Json.class)
 	public Result commentRemove(Long key) {
 		return commentAPI.remove(key);

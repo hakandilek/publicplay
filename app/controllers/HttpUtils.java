@@ -3,18 +3,20 @@ package controllers;
 import models.S3File;
 import models.SecurityRole;
 import models.User;
-import play.Logger;
-import play.Logger.ALogger;
 import play.mvc.Http;
 import play.mvc.Http.Context;
 import play.mvc.Http.MultipartFormData;
 import play.mvc.Http.MultipartFormData.FilePart;
 import play.mvc.Http.Request;
 import play.mvc.Http.RequestBody;
+import plugins.AuthenticatePlugin;
+
+import com.feth.play.module.pa.PlayAuthenticate;
+import com.feth.play.module.pa.user.AuthUser;
 
 public class HttpUtils {
 
-	private static ALogger log = Logger.of(HttpUtils.class);
+	private static AuthenticatePlugin userService = AuthenticatePlugin.getInstance();
 	
 	public HttpUtils() {
 		super();
@@ -40,10 +42,9 @@ public class HttpUtils {
 	 * @return login user, or null
 	 */
 	public static User loginUser(Context ctx) {
-		User user = (User) ctx.args.get(AuthController.USER);
-		if (log.isDebugEnabled())
-			log.debug("user : " + user);
-		return user;
+		AuthUser authUser = PlayAuthenticate.getUser(ctx);
+		if (authUser == null) return null;
+		return userService.find(authUser);
 	}
 	
 	public static boolean isAdmin() {
