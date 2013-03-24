@@ -1,5 +1,6 @@
 1500:plugins.S3Plugin
 1500:plugins.GuicePlugin
+1500:com.typesafe.plugin.CommonsMailerPlugin
 10000:be.objectify.deadbolt.java.DeadboltPlugin
 10005:plugins.AuthenticatePlugin
 10020:com.feth.play.module.pa.providers.oauth2.facebook.FacebookAuthProvider

@@ -13,6 +13,7 @@ import security.PostEditPermission;
 import security.RestrictApproved;
 import security.RestrictCombine;
 
+
 public class App extends Controller {
 
 	@Inject RateController rateController;
@@ -20,6 +21,7 @@ public class App extends Controller {
 	@Inject PostController postController;
 	@Inject CommentController commentController;
 	@Inject UserController userController;
+	@Inject ContactPageController contactPageController;
 
 	public Result index() {
 		return postController.list(0, null);
@@ -149,6 +151,21 @@ public class App extends Controller {
 
 	public Result authenticateDenied(String provider) {
 		return authController.authenticateDenied(provider);
+	}
+	
+	public Result about(){
+		return ok(views.html.template.about.render());
+	}
+	public Result faq(){
+		return ok(views.html.template.faq.render());
+	}
+	
+	public Result contactNewForm() {
+		return contactPageController.newForm();
+	}
+	
+	public Result contact(){
+		return contactPageController.contact();
 	}
 
 }

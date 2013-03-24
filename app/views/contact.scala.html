@@ -1,0 +1,56 @@
+@(contactForm: Form[ContactPage])
+
+@import helper._
+@implicitField = @{ FieldConstructor(twitterBootstrapInput.f) }
+
+@template.main(Messages("Contact")){
+<div class="container-fluid">  
+      
+      	 <div class="page-header">  
+            <h2>@Messages("Contact_Me")</h2>  
+        </div>  
+        @if(flash.contains("success")) {
+            <div class="alert alert-success">
+            @Messages("Message_Succeeds") 
+    		</div>
+         }else{
+         @helper.form(action = routes.App.contact(),'class->"form-horizontal") {
+        
+        <fieldset>
+            	
+            @inputText(
+                contactForm("name"), 
+                '_label -> Messages("Name"), 
+                '_iconcls -> "icon-user", 
+                'placeholder -> Messages("Your_Name"),
+                '_help -> "",
+                '_error -> contactForm.globalError
+                
+            )
+            
+            @inputText(
+                contactForm("email"), 
+                '_label -> Messages("Email"),
+                '_help -> "",
+                '_iconcls -> "icon-envelope-alt",
+                 'placeholder -> Messages("Your_mail_address")
+            )
+              @textarea(
+                contactForm("message"), 
+                '_label -> Messages("Message"), '_help -> "",
+                'placeholder -> Messages("The_message_you_want_to_send"),
+                'rows -> 8,
+                '_iconcls -> "icon-pencil", 
+                'class->"span5"
+            )
+            
+        </fieldset>
+        <div class="form-actions">
+            <input type="submit" class="btn primary" value=@Messages("Send")>
+        </div>
+        
+    }
+    }
+          
+    </div>  
+}
