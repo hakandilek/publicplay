@@ -42,7 +42,7 @@ public class PostHelper {
 		StringBuilder sb = new StringBuilder();
 		if (post.getStatus() == EXPIRED)
 			sb.append(DEL1);
-		sb.append(post.getTitle());
+		sb.append(post.getContent());
 		if (post.getStatus() == EXPIRED)
 			sb.append(DEL2);
 		return new Html(sb);
