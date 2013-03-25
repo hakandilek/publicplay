@@ -1,6 +1,6 @@
 #!/bin/bash          
-play clean dist
 af logout
-af login
+af login hakandilek@gmail.com
+play clean dist
 af update
 

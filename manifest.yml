@@ -1,17 +1,17 @@
 --- 
 applications: 
   dist/publicplay-0.1.1-SNAPSHOT.zip: 
-    instances: 1
-    mem: 512M
-    infra: eu-aws
-    framework: 
-      info: 
-        exec: 
-        mem: 256M
-        description: Play Framework Application
-      name: play
     services: 
       publicplay-postgre: 
         type: postgresql
+    framework: 
+      name: play
+      info: 
+        exec: 
+        description: Play Framework Application
+        mem: 256M
     url: ${name}.${target-base}
+    infra: eu-aws
     name: publicplay
+    mem: 512M
+    instances: 1
