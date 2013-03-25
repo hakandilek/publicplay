@@ -55,6 +55,7 @@ public class AuthenticatePlugin extends UserServicePlugin {
 				OAuth2AuthInfo authInfo = fbu.getOAuth2AuthInfo();
 				user.setAccessToken(authInfo.getAccessToken());
 				user.setAccessExpires(new Date(authInfo.getExpiration()));
+				user.setProfileImageURL(fbu.getPicture());
 			}
     		
         	userDAO.create(user);
@@ -94,6 +95,7 @@ public class AuthenticatePlugin extends UserServicePlugin {
 				OAuth2AuthInfo authInfo = fbu.getOAuth2AuthInfo();
 				user.setAccessToken(authInfo.getAccessToken());
 				user.setAccessExpires(new Date(authInfo.getExpiration()));
+				user.setProfileImageURL(fbu.getPicture());
 			}
 			userDAO.update(userKey, user);
         }
