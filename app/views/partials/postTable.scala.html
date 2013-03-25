@@ -24,5 +24,12 @@
 			<p class="noleft nl-withoutSpace">@post.getContent().take(200) ...</p>
 			<a class="noleft" href="@routes.App.postShow(post.getKey(), sanitizeURL(post.getTitle()))"> @Messages("Read_More") <i class="icon-double-angle-right" style="text-decoration: none"></i></a>
 		}
+		<div class="post-footer">
+			<ul class="inline">
+				<li>
+					<a  href="@routes.App.postShow(post.getKey(), sanitizeURL(post.getTitle()))#Comments"><i class="icon-comment" style="text-decoration: none"></i>@post.getComments().size() @Messages("Comment")</a>
+				</li>
+			</ul>
+		</div>
 	</td>
 </tr>

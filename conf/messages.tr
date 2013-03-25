@@ -89,6 +89,7 @@ Post.created=Oluşturma
 Post.updated=Güncelleme
 
 # Comment
+Comment=Yorum
 no_comments_yet=Henüz yorum yapılmamış. İlk yorumu yapın: 
 Comments=Yorumlar
 drop_your_comment=yorum yapın:
