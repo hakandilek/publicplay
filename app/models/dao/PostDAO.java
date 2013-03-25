@@ -56,6 +56,7 @@ public class PostDAO extends CachedDAO<Long, Post> {
 				DateTime yesterday = now.minusDays(1);
 				return find.where().gt("createdOn", yesterday.toDate())
 						.ne("status", ContentStatus.REMOVED)
+						.ne("status", ContentStatus.EXPIRED)
 						.orderBy("rating desc").findPagingList(TOP_10)
 						.getPage(0);
 			}
@@ -69,6 +70,7 @@ public class PostDAO extends CachedDAO<Long, Post> {
 				DateTime lastWeek = now.minusDays(7);
 				return find.where().gt("createdOn", lastWeek.toDate())
 						.ne("status", ContentStatus.REMOVED)
+						.ne("status", ContentStatus.EXPIRED)
 						.orderBy("rating desc").findPagingList(TOP_10)
 						.getPage(0);
 			}
@@ -78,7 +80,9 @@ public class PostDAO extends CachedDAO<Long, Post> {
 	public Page<Post> topAllPage() {
 		return cache.page(".topAll", new Callable<Page<Post>>() {
 			public Page<Post> call() throws Exception {
-				return find.where().ne("status", ContentStatus.REMOVED)
+				return find.where()
+						.ne("status", ContentStatus.REMOVED)
+						.ne("status", ContentStatus.EXPIRED)
 						.orderBy("rating desc").findPagingList(TOP_10)
 						.getPage(0);
 			}

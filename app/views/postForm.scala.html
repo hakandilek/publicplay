@@ -1,6 +1,6 @@
 @(key: Long, postForm: Form[Post], image: S3File, categories:List[String])
 @import helper._ 
-@import helper.twitterBootstrap._
+@implicitField = @{ FieldConstructor(twitterBootstrapInput.f) }
 @import helper.PostHelper._
 @import helper.UserHelper._
 
@@ -10,7 +10,6 @@
 
     @form(if(key != null) { routes.App.postUpdate(key) } 
           else            { routes.App.postCreate() },
-          'class -> "form-horizontal",
           'enctype -> "multipart/form-data") {
         <div class="control-group"> 
         @select(postForm("category.name"), args = '_label -> Messages("Post.category.label"), 
