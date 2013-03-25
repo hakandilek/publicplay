@@ -99,5 +99,10 @@
         </tbody>
     </table>
     
+	
+	@partials.pagination(currentPage, Constants.USERS_PER_PAGE, 
+	    routes.Admin.userList(status, currentPage.getPageIndex - 1),
+	    routes.Admin.userList(status, currentPage.getPageIndex + 1))
+    
     }
 }
