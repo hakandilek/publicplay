@@ -70,7 +70,7 @@ public class AuthenticatePlugin extends UserServicePlugin {
 
 	@Override
 	public AuthUser update(final AuthUser authUser) {
-		// User logged in again, bump last login date
+		// User logged in again
     	if (log.isDebugEnabled())
 			log.debug("authUser : " + authUser);
     	String userKey = User.getKey(authUser.getProvider(), authUser.getId());
@@ -78,7 +78,23 @@ public class AuthenticatePlugin extends UserServicePlugin {
 		if (log.isDebugEnabled())
 			log.debug("user : " + user);
         if (user != null) {
+        	// bump last login date
 			user.setLastLogin(new Date());
+			// update info from facebook 
+			if (authUser instanceof FacebookAuthUser) {
+				FacebookAuthUser fbu = (FacebookAuthUser) authUser;
+    			// Remember, even when getting them from FB & Co., emails should be
+    			// verified within the application as a security breach there might
+    			// break your security as well!
+    			//TODO:user.setEmailValidated(false);
+    			user.setEmail(fbu.getEmail());
+				user.setFirstName(fbu.getFirstName());
+				user.setLastName(fbu.getLastName());
+				user.setGender(fbu.getGender());
+				OAuth2AuthInfo authInfo = fbu.getOAuth2AuthInfo();
+				user.setAccessToken(authInfo.getAccessToken());
+				user.setAccessExpires(new Date(authInfo.getExpiration()));
+			}
 			userDAO.update(userKey, user);
         }
     	return super.update(authUser);
