@@ -86,6 +86,7 @@ Post_not_found=Post not found
 Post0_not_found=Post {0} not found
 
 # Comment
+Comment=Comment
 no_comments_yet=no comments yet, be the first one:
 Comments=Comments
 drop_your_comment=drop your comment:
