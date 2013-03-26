@@ -153,13 +153,6 @@ public class App extends Controller {
 		return authController.authenticateDenied(provider);
 	}
 	
-	public Result about(){
-		return ok(views.html.template.about.render());
-	}
-	public Result faq(){
-		return ok(views.html.template.faq.render());
-	}
-	
 	public Result contactNewForm() {
 		return contactPageController.newForm();
 	}

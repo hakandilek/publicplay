@@ -1,16 +1,13 @@
 @()
 <div id="footer">
 	<div class="navbar navbar-fixed-bottom">
-		<div class="container">
-			<ul class="inline">
-				<li><small> <a href="@routes.App.about()">@Messages("About")</a>
-				</small></li>
-				<li><small><a href="#">@Messages("Policy")</a></small></li>
-				<li><small><a href="@routes.App.faq()">@Messages("FAQ")</a></small></li>
-				<li><small><a href="@routes.App.contactNewForm()">@Messages("Contact")</a></small></li>
-				<li><small><a href="http://www.facebook.com/KiyakFiyat">Facebook</a></small></li>
-				<li><small><a href="http://twitter.com/KiyakFiyat">Twitter</a></small></li>
-			</ul>
-		</div>
+		<ul class="inline">
+			<li><small><a href="@routes.Page.about">@Messages("About")</a></small></li>
+			<li><small><a href="@routes.Page.policy">@Messages("Policy")</a></small></li>
+			<li><small><a href="@routes.Page.faq">@Messages("FAQ")</a></small></li>
+			<li><small><a href="@routes.App.contactNewForm()">@Messages("Contact")</a></small></li>
+			<li><small><a href="http://www.facebook.com/PublicPlay">Facebook</a></small></li>
+			<li><small><a href="http://twitter.com/PublicPlay">Twitter</a></small></li>
+		</ul>
 	</div>
 </div>

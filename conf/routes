@@ -38,10 +38,11 @@ POST    /authenticate/:provider         				@controllers.App.authenticate(provid
 GET     /authenticate/:provider/denied     				@controllers.App.authenticateDenied(provider: String)
 
 #Footer
-GET		/about											@controllers.App.about()
+GET		/about											@controllers.Page.about()
+GET		/faq											@controllers.Page.faq()
+GET		/policy											@controllers.Page.policy()
 GET		/contact										@controllers.App.contactNewForm()
 POST	/contact										@controllers.App.contact()
-GET		/faq											@controllers.App.faq()
 
 # crud integration
 # ~~~~
