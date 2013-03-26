@@ -1,5 +1,4 @@
 html {
-    background: #eee;
     position: relative;
   	min-height: 100%;
 }
@@ -13,8 +12,7 @@ header h1 {
 
 section#main {
     position: relative;
-    padding: 6em 1em;
-    border-bottom: 1px solid #ccc;
+    padding: 5em 1em;
     min-height: 600px;
 } 
 
