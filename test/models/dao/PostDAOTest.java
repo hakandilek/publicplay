@@ -111,7 +111,7 @@ public class PostDAOTest extends BaseTest {
 				assertThat(page).isNotNull();
 				assertThat(page.getPageIndex()).isEqualTo(0);
 				assertThat(page.getTotalPageCount()).isEqualTo(1);
-				assertThat(page.getTotalRowCount()).isEqualTo(10);
+				assertThat(page.getTotalRowCount()).isEqualTo(9);
 			}
 		});
 	}
