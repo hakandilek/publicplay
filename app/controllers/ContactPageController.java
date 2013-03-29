@@ -18,6 +18,8 @@ import views.html.contact;
 import com.typesafe.plugin.MailerAPI;
 import com.typesafe.plugin.MailerPlugin;
 
+import forms.ContactPage;
+
 public class ContactPageController extends Controller {
 
 	/**

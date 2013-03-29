@@ -1,4 +1,4 @@
-package controllers;
+package forms;
 
 import play.data.validation.Constraints.Email;
 import play.data.validation.Constraints.MaxLength;
