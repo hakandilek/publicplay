@@ -2,6 +2,7 @@ package models;
 
 import java.util.Date;
 import java.util.Set;
+import java.util.UUID;
 
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -15,6 +16,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.persistence.Version;
 
 import play.data.validation.Constraints.MaxLength;
@@ -85,6 +87,9 @@ public class Post extends Model implements TimestampModel<Long>, Owned<Long> {
 
     @Enumerated(value=EnumType.STRING)
     private ContentStatus status = ContentStatus.NEW;
+
+    @Transient
+	private UUID imageKey;
 
 	public Long getKey() {
 		return key;
@@ -228,6 +233,14 @@ public class Post extends Model implements TimestampModel<Long>, Owned<Long> {
 
 	public void setStatus(ContentStatus status) {
 		this.status = status;
+	}
+
+	public UUID getImageKey() {
+		return imageKey;
+	}
+
+	public void setImageKey(UUID imageKey) {
+		this.imageKey = imageKey;
 	}
 
 	@Override

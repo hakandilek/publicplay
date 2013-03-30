@@ -3,7 +3,7 @@
 @import helper.H._
 	<div class="fileupload-preview fileupload-exists thumbnail post-img-preview">
 @if(image == null) {
-	    <img data-src='holder.js/120x90/#fefef9:#000/text:@Messages("Post.image.no_image")' />
+	    <img data-src='@routes.Assets.at("javascripts/holder.js")/120x90/#fefef9:#000/text:@Messages("Post.image.no_image")' />
 } else {
         <a data-toggle="modal" href="#imageModal-@image.id" >
             <img src="@image.getUrl()" alt='@Messages("Post.image.label")'/>

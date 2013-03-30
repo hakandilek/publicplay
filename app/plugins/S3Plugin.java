@@ -24,9 +24,9 @@ public class S3Plugin implements Plugin {
 	public static final String AWS_SECRET_KEY = "aws.secret.key";
 	private final Application application;
 
-	public static AmazonS3 amazonS3;
+	private static String bucket;
 
-	public static String s3Bucket;
+	public static AmazonS3 amazonS3;
 
 	public S3Plugin(Application application) {
 		this.application = application;
@@ -34,12 +34,17 @@ public class S3Plugin implements Plugin {
 
 	@Override
 	public void onStart() {
+		if (log.isDebugEnabled())
+			log.debug("onStart <-");
 		Configuration conf = application.configuration();
 		String accessKey = conf.getString(AWS_ACCESS_KEY);
 		String secretKey = conf.getString(AWS_SECRET_KEY);
-		s3Bucket = conf.getString(AWS_S3_BUCKET);
+		String s3Bucket = conf.getString(AWS_S3_BUCKET);
+		if (log.isDebugEnabled())
+			log.debug("accessKey : " + accessKey);
 		if (log.isDebugEnabled())
 			log.debug("s3Bucket : " + s3Bucket);
+		bucket = s3Bucket;
 
 		if ((accessKey != null) && (secretKey != null)) {
 			AWSCredentials credentials = new BasicAWSCredentials(accessKey,
@@ -86,6 +91,10 @@ public class S3Plugin implements Plugin {
 	@Override
 	public void onStop() {
 		amazonS3 = null;
+	}
+
+	public static String getBucket() {
+		return bucket;
 	}
 
 }

@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.UUID;
 
 import javax.inject.Inject;
 
@@ -152,50 +153,59 @@ public class PostController extends DynamicTemplateController implements
 	}
 
 	public Result create() {
-		if (log.isDebugEnabled())
-			log.debug("create() <-");
-
-		User user = HttpUtils.loginUser();
-
-		S3File image = HttpUtils.uploadFile(request(), "image");
-		if (log.isDebugEnabled())
-			log.debug("image : " + image);
-
-		Form<Post> filledForm = form.bindFromRequest();
-		if (filledForm.hasErrors() || user == null) {
+		try {
 			if (log.isDebugEnabled())
-				log.debug("form.data : " + form.data());
+				log.debug("create() <-");
+
+			User user = HttpUtils.loginUser();
+
+			Form<Post> filledForm = form.bindFromRequest();
 			if (log.isDebugEnabled())
-				log.debug("validation errors occured");
+				log.debug("filledForm : " + filledForm);
 
-			Map<String, List<ValidationError>> errors = filledForm.errors();
+			UUID imageKey = filledForm.get().getImageKey();
 			if (log.isDebugEnabled())
-				log.debug("errors : " + errors);
+				log.debug("imageKey : " + imageKey);
 
-			return badRequest(postForm.render(null, filledForm, image,
-					categories()));
-		} else {
-			Post post = filledForm.get();
-			post.setCreatedBy(user);
-			post.setCreatorIp(request().remoteAddress());
-			post.setStatus(ContentStatus.NEW);
+			S3File image = s3FileDAO.get(imageKey);
+			if (log.isDebugEnabled())
+				log.debug("image : " + image);
 
-			if (image != null) {
-				image.parent = "Post";
-				s3FileDAO.create(image);
+			if (filledForm.hasErrors() || user == null) {
 				if (log.isDebugEnabled())
-					log.debug("image : " + image);
-				post.setImage(image);
+					log.debug("form.data : " + form.data());
+				if (log.isDebugEnabled())
+					log.debug("validation errors occured");
+
+				Map<String, List<ValidationError>> errors = filledForm.errors();
+				if (log.isDebugEnabled())
+					log.debug("errors : " + errors);
+
+				return badRequest(postForm.render(null, filledForm, image,
+						categories()));
+			} else {
+				Post post = filledForm.get();
+				post.setCreatedBy(user);
+				post.setCreatorIp(request().remoteAddress());
+				post.setStatus(ContentStatus.NEW);
+
+				if (image != null) {
+					post.setImage(image);
+				}
+
+				postDAO.create(post);
+				
+				reputationDAO.addReputation(post,"createPost");
+				
+				if (log.isDebugEnabled())
+					log.debug("entity created: " + post);
+
+				return redirect(routes.App.index());
 			}
-
-			postDAO.create(post);
-			
-			reputationDAO.addReputation(post,"createPost");
-			
-			if (log.isDebugEnabled())
-				log.debug("entity created: " + post);
-
-			return redirect(routes.App.index());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
 		}
 	}
 
@@ -221,11 +231,15 @@ public class PostController extends DynamicTemplateController implements
 
 		User user = HttpUtils.loginUser();
 
-		S3File image = HttpUtils.uploadFile(request(), "image");
+		Form<Post> filledForm = form.bindFromRequest();
+		UUID imageKey = filledForm.get().getImageKey();
+		if (log.isDebugEnabled())
+			log.debug("imageKey : " + imageKey);
+
+		S3File image = s3FileDAO.get(imageKey);
 		if (log.isDebugEnabled())
 			log.debug("image : " + image);
 
-		Form<Post> filledForm = form.bindFromRequest();
 		if (log.isDebugEnabled())
 			log.debug("filledForm : " + filledForm);
 		// ignore missing images
@@ -253,10 +267,6 @@ public class PostController extends DynamicTemplateController implements
 			post.setStatus(ContentStatus.UPDATED);
 
 			if (image != null) {
-				image.parent = "Post";
-				s3FileDAO.create(image);
-				if (log.isDebugEnabled())
-					log.debug("image : " + image);
 				post.setImage(image);
 			}
 

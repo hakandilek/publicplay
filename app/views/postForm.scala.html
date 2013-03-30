@@ -3,14 +3,23 @@
 @implicitField = @{ FieldConstructor(twitterBootstrapInput.f) }
 @import helper.PostHelper._
 @import helper.UserHelper._
+        
+@imageSrc(image: S3File) = {
+	@if(image != null) {@image.getUrl()} else {holder.js/120x90/#fefef9:#000/text:@Messages("Post.image.no_image")}
+}
 
-@template.main(if(key != null) Messages("update_post") else Messages("new_post")) {
+@script() = {
+        <link rel="stylesheet" type="text/css" media="screen" href='@routes.Assets.at("stylesheets/fineuploader.css")'> 
+		<script type="text/javascript" src='@routes.Assets.at("javascripts/jquery.fineuploader.js")'></script>
+		<script type="text/javascript" src='@routes.Assets.at("javascripts/image_upload.js")'></script>
+}
+
+@template.main(if(key != null) Messages("update_post") else Messages("new_post"), scripts=script) {
         
 	<h3>@if(key != null) { @Messages("update_post_detail") } else { @Messages("new_post_detail") } </h3>
 
     @form(if(key != null) { routes.App.postUpdate(key) } 
-          else            { routes.App.postCreate() },
-          'enctype -> "multipart/form-data") {
+          else            { routes.App.postCreate() }) {
         <div class="control-group"> 
         @select(postForm("category.name"), args = '_label -> Messages("Post.category.label"), 
         	options=categories.map{ c => c -> (Messages("Category." + c)) })
@@ -23,50 +32,16 @@
         <div class="control-group">
         @textarea(postForm("content"), args = '_label -> Messages("Post.content.label"), Symbol("data-maxchars") -> "2000")
         </div>
-        
-        <div class="control-group">
-			<div class="clearfix  " id="content_field">
-			    <label for="image">@Messages("Post.image.label")</label>
 
-            @if(image == null) {
-				<div class="fileupload fileupload-new" data-provides="fileupload">
-					<div class="fileupload-new thumbnail post-img" data-dismiss="fileupload">
-                        <img data-src="holder.js/120x90/#fefef9:#000/text:@Messages("Post.image.no_image")" />
-					</div>
-					<div class="fileupload-preview fileupload-exists thumbnail post-img-preview">
-					</div>
-					<div>
-						<span class="btn btn-mini btn-warning btn-file">
-                            <span class="fileupload-new">@Messages("Post.image.select_image")</span>
-							<span class="fileupload-exists">@Messages("Post.image.change_image")</span>
-                            <input type="file" id="image" name="image" />
-						</span> 
-						<a href="#" class="btn btn-mini btn-danger fileupload-exists" 
-						      data-dismiss="fileupload">@Messages("Post.image.remove_image")</a>
-					</div>
+	    <input type="hidden" id="imageKey" name="imageKey">
+        <div class="control-group">
+			<div class="clearfix">
+			    <label for="image">@Messages("Post.image.label")</label>
+				<div class="fileupload-new thumbnail post-img" data-dismiss="fileupload">
+                	<img id="image-preview" data-src="@imageSrc(image)" src="" />
 				</div>
-            } else {
-                <div class="fileupload fileupload-exists" data-provides="fileupload">
-                    <div class="fileupload-new thumbnail post-img" data-dismiss="fileupload">
-                        <img data-src='holder.js/120x90/#fefef9:#000/text:@Messages("Post.image.no_image")' />
-                    </div>
-                    <div class="fileupload-preview fileupload-exists thumbnail post-img-preview">
-                        <img alt="@image.name" src="@image.getUrl()">
-                    </div>
-                    <div>
-                        <span class="btn btn-mini btn-warning btn-file">
-                            <span class="fileupload-new">@Messages("Post.image.select_image")</span>
-                            <span class="fileupload-exists">@Messages("Post.image.change_image")</span>
-                            <input type="file" id="image" name="image" />
-                        </span> 
-                        <a href="#" class="btn btn-mini btn-danger fileupload-exists" 
-                              data-dismiss="fileupload">@Messages("Post.image.remove_image")</a>
-                    </div>
-                </div>
-                <script type="text/javascript">
-                $('.fileupload').fileupload();
-                </script>
-            }
+				<div id="image-upload" data-call="@routes.Api.s3FileCreate()" data-text='@Messages("Post.image.choose")'>
+				</div>
 			</div>
         </div>
          

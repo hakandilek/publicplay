@@ -3,10 +3,13 @@ package controllers;
 import models.S3File;
 import models.SecurityRole;
 import models.User;
+import play.Logger;
+import play.Logger.ALogger;
 import play.mvc.Http;
 import play.mvc.Http.Context;
 import play.mvc.Http.MultipartFormData;
 import play.mvc.Http.MultipartFormData.FilePart;
+import play.mvc.Http.RawBuffer;
 import play.mvc.Http.Request;
 import play.mvc.Http.RequestBody;
 import plugins.AuthenticatePlugin;
@@ -15,6 +18,8 @@ import com.feth.play.module.pa.PlayAuthenticate;
 import com.feth.play.module.pa.user.AuthUser;
 
 public class HttpUtils {
+	
+	private static ALogger log = Logger.of(HttpUtils.class);
 
 	private static AuthenticatePlugin userService = AuthenticatePlugin.getInstance();
 	
@@ -58,17 +63,48 @@ public class HttpUtils {
 		return user.getRoles().contains(admin);
 	}
 
-	public static S3File uploadFile(Request r, String field) {
+	public static S3File uploadFileMultipart(Request r, String field, String parent) {
+		if (log.isDebugEnabled())
+			log.debug("uploadFileMultipart <-");
 		RequestBody b = r.body();
 		MultipartFormData body = b.asMultipartFormData();
+		if (log.isDebugEnabled())
+			log.debug("body : " + body);
+
 		FilePart filePart = body.getFile(field);
+		if (log.isDebugEnabled())
+			log.debug("filePart : " + filePart);
+
+		S3File file = new S3File();
+		file.parent = parent;
 		if (filePart != null) {
-			S3File file = new S3File();
 			file.name = filePart.getFilename();
-			file.file = filePart.getFile();
-			return file;
+			file.setInputFromFile(filePart.getFile());
 		}
-		return null;
+		
+		if (log.isDebugEnabled())
+			log.debug("file : " + file);
+		return file;
+	}
+
+	public static S3File uploadFile(Request r, String paramFilename, String parent) {
+		if (log.isDebugEnabled())
+			log.debug("uploadFile <-");
+		String filename = r.getQueryString("qqfile");
+		if (log.isDebugEnabled())
+			log.debug("filename : " + filename);
+
+		RequestBody b = r.body();
+		RawBuffer rb = b.asRaw();
+		byte[] data = rb.asBytes();
+		S3File f = new S3File();
+		f.parent = parent;
+		f.setInputFromData(data);
+		f.name = filename;
+		
+		if (log.isDebugEnabled())
+			log.debug("f : " + f);
+		return f;
 	}
 
 }

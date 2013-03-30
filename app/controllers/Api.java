@@ -127,6 +127,11 @@ public class Api extends App {
 		return contentReportAPI.update(key);
 	}
 
+	@BodyParser.Of(value = BodyParser.Raw.class, maxLength = 512000)
+	public Result s3FileCreate() {
+		return s3FileAPI.create();
+	}
+
 	@Authenticated @Restrict(@Group("admin")) @RestrictApproved 
 	@BodyParser.Of(Json.class)
 	public Result contentReportIgnore(Long key) {

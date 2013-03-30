@@ -134,6 +134,7 @@ PUT     /api/category/:key              				@controllers.Api.categoryUpdate(key:
 PUT     /api/comment/:key               				@controllers.Api.commentUpdate(key: Long)
 PUT     /api/postRating/:key            				@controllers.Api.postRatingUpdate(key: String)
 PUT     /api/post/:key                  				@controllers.Api.postUpdate(key: Long)
+POST    /api/s3File/                					@controllers.Api.s3FileCreate()
 PUT     /api/s3File/:key                				@controllers.Api.s3FileUpdate(key: String)
 PUT     /api/securityRole/:key          				@controllers.Api.securityRoleUpdate(key: Long)
 GET     /api/securityRole/           				    @controllers.Api.securityRoleList()

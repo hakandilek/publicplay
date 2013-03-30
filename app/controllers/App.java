@@ -3,6 +3,8 @@ package controllers;
 
 import javax.inject.Inject;
 
+import be.objectify.deadbolt.java.actions.SubjectPresent;
+
 import play.mvc.Controller;
 import play.mvc.Result;
 import security.Authenticated;
@@ -31,7 +33,7 @@ public class App extends Controller {
 		return postController.list(page, category);
 	}
 	
-	@Authenticated
+	@SubjectPresent
 	@RestrictApproved
 	public Result postNewForm() {
 		return postController.newForm();

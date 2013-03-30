@@ -104,6 +104,8 @@ public class AuthenticatePlugin extends UserServicePlugin {
 	
     @Override
     public Object getLocalIdentity(final AuthUserIdentity identity) {
+    	if (log.isDebugEnabled())
+			log.debug("getLocalIdentity <-");
     	String userKey = User.getKey(identity.getProvider(), identity.getId());
 		User user = userDAO.get(userKey);
 		if (log.isDebugEnabled())
@@ -117,6 +119,8 @@ public class AuthenticatePlugin extends UserServicePlugin {
 
     @Override
     public AuthUser merge(final AuthUser newUser, final AuthUser oldUser) {
+    	if (log.isDebugEnabled())
+			log.debug("merge <-");
         if (!oldUser.equals(newUser)) {
             //TODO: User.merge(oldUser, newUser);
         }
@@ -125,6 +129,8 @@ public class AuthenticatePlugin extends UserServicePlugin {
 
     @Override
     public AuthUser link(final AuthUser oldUser, final AuthUser newUser) {
+    	if (log.isDebugEnabled())
+			log.debug("link <-");
         //TODO: User.addLinkedAccount(oldUser, newUser);
         return null;
     }
@@ -143,6 +149,9 @@ public class AuthenticatePlugin extends UserServicePlugin {
 	}
 	
 	public User find(AuthUser authUser) {
+		if (log.isDebugEnabled())
+			log.debug("find <- " + authUser);
+		
 		if (authUser == null) return null;
     	String userKey = User.getKey(authUser.getProvider(), authUser.getId());
 		User user = userDAO.get(userKey);

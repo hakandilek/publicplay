@@ -16,21 +16,22 @@
   </appender>
   
   <logger name="play" level="INFO" />
+  <logger name="module" level="INFO" />
   <logger name="plugins" level="INFO" />
   <logger name="application" level="INFO" />
   <logger name="utils" level="INFO" />
   <logger name="controllers" level="DEBUG" />
-  <logger name="controllers.crud" level="DEBUG" />
+  <logger name="controllers.crud" level="INFO" />
   <logger name="security" level="INFO" />
   <logger name="models" level="INFO" />
-  <logger name="models.dao" level="DEBUG" />
+  <logger name="models.dao" level="INFO" />
   <logger name="socialauth" level="INFO" />
   <!-- db logging -->
-  <logger name="com.jolbox.bonecp" level="DEBUG" />
-  <logger name="play.utils.cache" level="DEBUG" />
-  <logger name="play.utils.dao" level="DEBUG" />
-  <logger name="net.sf.ehcache" level="DEBUG" />
-  <logger name="play.api.cache" level="DEBUG" />
+  <logger name="com.jolbox.bonecp" level="INFO" />
+  <logger name="play.utils.cache" level="INFO" />
+  <logger name="play.utils.dao" level="INFO" />
+  <logger name="net.sf.ehcache" level="INFO" />
+  <logger name="play.api.cache" level="INFO" />
 
   <root level="ERROR">
     <appender-ref ref="STDOUT" />
