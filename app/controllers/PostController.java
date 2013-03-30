@@ -167,7 +167,9 @@ public class PostController extends DynamicTemplateController implements
 			if (log.isDebugEnabled())
 				log.debug("imageKey : " + imageKey);
 
-			S3File image = s3FileDAO.get(imageKey);
+			S3File image = null;
+			if (imageKey != null)
+				image = s3FileDAO.get(imageKey);
 			if (log.isDebugEnabled())
 				log.debug("image : " + image);
 
