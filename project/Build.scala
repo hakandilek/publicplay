@@ -22,6 +22,7 @@ object ApplicationBuild extends Build {
         "joda-time" % "joda-time"% "2.1",
         "be.objectify" %% "deadbolt-java" % "2.1-SNAPSHOT",
         "com.amazonaws" % "aws-java-sdk" % "1.3.11",
+        "postgresql" % "postgresql" % "9.1-901.jdbc4",
         "com.google.inject" % "guice" % "3.0",
         "play2-cache" % "play2-cache_2.10" % "0.4.0-SNAPSHOT",
         "play2-crud" % "play2-crud_2.10" % "0.3.0-SNAPSHOT",

@@ -1,0 +1,19 @@
+diff --git a/conf/application.conf b/conf/application.conf
+index 2ce46f9..a39f604 100644
+--- a/conf/application.conf
++++ b/conf/application.conf
+@@ -22,10 +22,10 @@ application.global=module.Global
+ # You can declare as many datasources as you want.
+ # By convention, the default datasource is named `default`
+ #
+-db.default.driver=org.h2.Driver
+-db.default.url="jdbc:h2:db/development"
+-# db.default.user=sa
+-# db.default.password=
++db.default.driver=${?cloud.services.postgresql.connection.driver}
++db.default.url=${?cloud.services.postgresql.connection.url}
++db.default.password=${?cloud.services.postgresql.connection.password}
++db.default.user=${?cloud.services.postgresql.connection.username}
+ #
+ # You can expose this datasource via JNDI if needed (Useful for JPA)
+ # db.default.jndiName=DefaultDS
