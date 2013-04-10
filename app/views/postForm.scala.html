@@ -33,16 +33,16 @@
         @textarea(postForm("content"), args = '_label -> Messages("Post.content.label"), Symbol("data-maxchars") -> "2000")
         </div>
 
-	    <input type="hidden" id="imageKey" name="imageKey">
+        <input type="hidden" id="imageKey" name="imageKey" class="imageKey">
         <div class="control-group">
-			<div class="clearfix">
-			    <label for="image">@Messages("Post.image.label")</label>
-				<div class="fileupload-new thumbnail post-img" data-dismiss="fileupload">
-                	<img id="image-preview" data-src="@imageSrc(image)" src="" />
-				</div>
-				<div id="image-upload" data-call="@routes.Api.s3FileCreate()" data-text='@Messages("Post.image.choose")'>
-				</div>
-			</div>
+            <div class="clearfix">
+                <label for="image">@Messages("Post.image.label")</label>
+                <div class="fileupload-new thumbnail post-img" data-dismiss="fileupload">
+                    <img id="image-preview" data-src="@imageSrc(image)" src="" class="image-preview"/>
+                </div>
+                <div id="image-upload" class="image-upload" data-call="@routes.Api.s3FileCreate()" data-text='@Messages("Post.image.choose")' >
+                </div>
+            </div>
         </div>
          
         <div>

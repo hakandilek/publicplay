@@ -1,27 +1,31 @@
-$(document).ready( function() {
-    var comp = $('#image-upload');
-    var call = comp.attr("data-call");
-    var text = comp.attr("data-text");
-    comp.fineUploader({
-	request : {
-	    forceMultipart : false,
-	    paramsInBody : false,
-	    endpoint : call
-	},
-	multiple : false,
-	validation : {
-	    allowedExtensions : [ 'jpeg', 'jpg', 'gif', 'png' ],
-	    sizeLimit : 512000
-	},
-	text : {
-	    uploadButton : '<i class="icon-plus icon-white"></i> ' + text
-	}
-    }).on('complete', function(event, id, filename, response) {
-	if (response.success) {
-	    var img = $('#image-preview');
-	    img.attr('src', response.data.url);
-	    img.attr('alt', filename);
-	    $('#imageKey').val(response.data.key);
-	}
+$(document).ready(function() {
+    $('.image-upload').each(function(index) {
+	var call = $(this).attr("data-call");
+	var text = $(this).attr("data-text");
+	$(this).fineUploader({
+	    request : {
+		forceMultipart : false,
+		paramsInBody : false,
+		endpoint : call
+	    },
+	    multiple : false,
+	    validation : {
+		allowedExtensions : [ 'jpeg', 'jpg', 'gif', 'png' ],
+		sizeLimit : 512000
+	    },
+	    text : {
+		uploadButton : '<i class="icon-plus icon-white"></i> ' + text
+	    }
+	}).on('complete', function(event, id, filename, response) {
+	    if (response.success) {
+		$('.image-preview').each(function(index) {
+		    $(this).attr('src', response.data.url);
+		    $(this).attr('alt', filename);
+		});
+		$('.imageKey').each(function(index) {
+		    $(this).val(response.data.key);
+		});
+	    }
+	});
     });
 });
