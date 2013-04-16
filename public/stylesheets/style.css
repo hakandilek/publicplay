@@ -83,7 +83,7 @@ h4 {padding-bottom: 1em; }
 .nl {word-wrap:break-word;}
 
 /* table column size adjustments */
-.col-post-rate { min-width: 36px; max-width: 36px; }
+.col-post-rate { min-width: 46px; max-width: 46px; }
 .col-post-title { min-width: 410px; }
 .col-post-image { min-width: 120px; max-width: 120px; }
 
