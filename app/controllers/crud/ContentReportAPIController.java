@@ -76,7 +76,7 @@ public class ContentReportAPIController extends
 		User user = HttpUtils.loginUser();
 		report.setUpdatedBy(user);
 		report.setStatus(IGNORED);
-		dao.update(key, report);
+		dao.update(report);
 		if (log.isDebugEnabled())
 			log.debug("report : " + report);
 

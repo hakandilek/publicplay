@@ -80,14 +80,14 @@ public class CommentAPIController extends APIController<Long, Comment> {
 			comment.setStatus(APPROVED);
 			comment.setApprovedBy(user);
 			comment.setApprovedOn(new Date());
-			commentDAO.update(key, comment);
+			commentDAO.update( comment);
 
 			List<ContentReport> reports = contentReportDAO.findForContent(ContentType.POST, key);
 			for (ContentReport report : reports) {
 				if (report.getStatus() == ContentReport.Status.NEW) {
 					report.setStatus(ContentReport.Status.IGNORED);
 					report.setUpdatedBy(user);
-					contentReportDAO.update(key, report);
+					contentReportDAO.update(report);
 				}
 			}
 			return ok(toJson(ImmutableMap.of("status", "ok", "key", key)));
@@ -110,14 +110,14 @@ public class CommentAPIController extends APIController<Long, Comment> {
 		User user = HttpUtils.loginUser(ctx());
 		comment.setStatus(REMOVED);
 		comment.setUpdatedBy(user);
-		commentDAO.update(key, comment);
+		commentDAO.update(comment);
 		
 		List<ContentReport> reports = contentReportDAO.findForContent(ContentType.POST, key);
 		for (ContentReport report : reports) {
 			if (report.getStatus() == ContentReport.Status.NEW) {
 				report.setStatus(ContentReport.Status.PROCESSED);
 				report.setUpdatedBy(user);
-				contentReportDAO.update(key, report);
+				contentReportDAO.update(report);
 			}
 		}
 		return ok(toJson(ImmutableMap.of("status", "ok", "key", key)));

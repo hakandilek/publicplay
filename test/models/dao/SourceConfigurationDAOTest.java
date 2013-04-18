@@ -54,7 +54,7 @@ public class SourceConfigurationDAOTest extends BaseTest{
 				Long key =sourceConfigurationDAO.create(sourceConfiguration);
 				assertThat(sourceConfigurationDAO.getWithSourceKey("sourceKey")).isEqualTo(sourceConfiguration);
 				sourceConfiguration.setSourceKey("newSourceKey");
-				sourceConfigurationDAO.update(key, sourceConfiguration);
+				sourceConfigurationDAO.update(sourceConfiguration);
 				assertThat(sourceConfigurationDAO.getWithSourceKey("newSourceKey")).isEqualTo(sourceConfiguration);
 			}
 		});

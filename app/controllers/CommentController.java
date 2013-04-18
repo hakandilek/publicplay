@@ -141,7 +141,7 @@ public class CommentController extends DynamicTemplateController implements Cons
 
 			if (log.isDebugEnabled())
 				log.debug("comment : " + comment);
-			commentDAO.update(commentKey, comment);
+			commentDAO.update(comment);
 			if (log.isDebugEnabled())
 				log.debug("entity updated");
 

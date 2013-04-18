@@ -26,7 +26,7 @@ public class UserFollowDAOFollowCacheCleaner implements
 	}
 
 	
-	public void afterUpdate(UserFollowPK key, UserFollow m) {
+	public void afterUpdate(UserFollow m) {
 	}
 
 	
@@ -38,6 +38,6 @@ public class UserFollowDAOFollowCacheCleaner implements
 	}
 
 	
-	public void beforeUpdate(UserFollowPK key, UserFollow m) {
+	public void beforeUpdate(UserFollow m) {
 	}
 }

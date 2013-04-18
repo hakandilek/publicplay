@@ -31,7 +31,7 @@ public class OwnerCacheCleaner<K, M extends Owned<K>> implements
 	}
 
 	@Override
-	public void afterUpdate(K key, M m) {
+	public void afterUpdate(M m) {
 		User owner = m.getCreatedBy();
 		if (owner != null)
 			userDAO.cacheClean(owner.getKey());
@@ -46,7 +46,7 @@ public class OwnerCacheCleaner<K, M extends Owned<K>> implements
 	}
 
 	@Override
-	public void beforeUpdate(K key, M m) {
+	public void beforeUpdate(M m) {
 	}
 
 }

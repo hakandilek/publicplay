@@ -64,7 +64,7 @@ public class AuthenticatePlugin extends UserServicePlugin {
             // we have this user already, so return null
 			user.setLoginCount(user.getLoginCount() + 1);
 			user.setLastLogin(new Date());
-			userDAO.update(userKey, user);
+			userDAO.update(user);
             return null;
         }
     }
@@ -97,7 +97,7 @@ public class AuthenticatePlugin extends UserServicePlugin {
 				user.setAccessExpires(new Date(authInfo.getExpiration()));
 				user.setProfileImageURL(fbu.getPicture());
 			}
-			userDAO.update(userKey, user);
+			userDAO.update(user);
         }
     	return super.update(authUser);
 	}

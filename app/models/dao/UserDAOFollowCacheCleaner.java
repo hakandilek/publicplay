@@ -20,7 +20,7 @@ public class UserDAOFollowCacheCleaner implements  DAOListener<String, User> {
 		dao.cleanCache(key);
 	}
 
-	public void afterUpdate(String key, User m) {
+	public void afterUpdate(User m) {
 	}
 
 	
@@ -32,6 +32,6 @@ public class UserDAOFollowCacheCleaner implements  DAOListener<String, User> {
 	}
 
 	
-	public void beforeUpdate(String key, User m) {
+	public void beforeUpdate(User m) {
 	}
 }

@@ -79,14 +79,14 @@ public class PostAPIController extends APIController<Long, Post> {
 			post.setStatus(APPROVED);
 			post.setApprovedBy(user);
 			post.setApprovedOn(new Date());
-			postDAO.update(key, post);
+			postDAO.update(post);
 
 			List<ContentReport> reports = contentReportDAO.findForContent(ContentType.POST, key);
 			for (ContentReport report : reports) {
 				if (report.getStatus() == ContentReport.Status.NEW) {
 					report.setStatus(ContentReport.Status.IGNORED);
 					report.setUpdatedBy(user);
-					contentReportDAO.update(key, report);
+					contentReportDAO.update(report);
 				}
 			}
 			return ok(toJson(ImmutableMap.of("status", "ok", "key", key)));
@@ -109,14 +109,14 @@ public class PostAPIController extends APIController<Long, Post> {
 		User user = HttpUtils.loginUser(ctx());
 		post.setStatus(REMOVED);
 		post.setUpdatedBy(user);
-		postDAO.update(key, post);
+		postDAO.update( post);
 		
 		List<ContentReport> reports = contentReportDAO.findForContent(ContentType.POST, key);
 		for (ContentReport report : reports) {
 			if (report.getStatus() == ContentReport.Status.NEW) {
 				report.setStatus(ContentReport.Status.PROCESSED);
 				report.setUpdatedBy(user);
-				contentReportDAO.update(key, report);
+				contentReportDAO.update(report);
 			}
 		}
 		return ok(toJson(ImmutableMap.of("status", "ok", "key", key)));
@@ -137,14 +137,14 @@ public class PostAPIController extends APIController<Long, Post> {
 			User user = HttpUtils.loginUser(ctx());
 			post.setStatus(EXPIRED);
 			post.setUpdatedBy(user);
-			postDAO.update(key, post);
+			postDAO.update(post);
 
 			List<ContentReport> reports = contentReportDAO.findForContent(ContentType.POST, key);
 			for (ContentReport report : reports) {
 				if (report.getStatus() == ContentReport.Status.NEW) {
 					report.setStatus(ContentReport.Status.PROCESSED);
 					report.setUpdatedBy(user);
-					contentReportDAO.update(key, report);
+					contentReportDAO.update(report);
 				}
 			}
 			return ok(toJson(ImmutableMap.of("status", "ok", "key", key)));

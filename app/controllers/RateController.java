@@ -85,7 +85,7 @@ public class RateController extends Controller implements Constants {
 			} else {
 				int ratingBefore = pr.getValue();
 				pr.setValue(rating);
-				postRatingDAO.update(key, pr);
+				postRatingDAO.update(pr);
 				if (log.isDebugEnabled())
 					log.debug("post.rating : " + post.getRating());
 				if (log.isDebugEnabled())
@@ -97,7 +97,7 @@ public class RateController extends Controller implements Constants {
 
 			if (log.isDebugEnabled())
 				log.debug("updating post : " + post);
-			postDAO.update(post.getKey(), post);
+			postDAO.update(post);
 			if (log.isDebugEnabled())
 				log.debug("post : " + post);
 

@@ -63,7 +63,7 @@ public class CategoryDAO extends CachedDAO<String, Category> {
 				
 				if (log.isDebugEnabled())
 					log.debug("update p : " + p);
-				postDAO.update(postKey, p);
+				postDAO.update(p);
 			}
 			
 			//remove old category

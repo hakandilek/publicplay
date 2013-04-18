@@ -64,8 +64,8 @@ public class SourceConfigurationDAO extends CachedDAO<Long, SourceConfiguration>
 	}
 
 	@Override
-	public void update(Long key, SourceConfiguration m) {
-		super.update(key, m);
+	public void update(SourceConfiguration m) {
+		super.update(m);
 		String sourceKey = m.getSourceKey();
 		String cacheKey = "SourceConfigurationDAO.bySourceKey." + sourceKey;
 		Cache.set(cacheKey, m);

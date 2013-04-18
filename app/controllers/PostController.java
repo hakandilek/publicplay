@@ -274,7 +274,7 @@ public class PostController extends DynamicTemplateController implements
 
 			if (log.isDebugEnabled())
 				log.debug("post : " + post);
-			postDAO.update(key, post);
+			postDAO.update(post);
 			if (log.isDebugEnabled())
 				log.debug("entity updated");
 

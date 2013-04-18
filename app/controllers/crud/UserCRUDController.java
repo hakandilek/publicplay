@@ -79,7 +79,7 @@ public class UserCRUDController extends CRUDController<String, User> {
 		if (log.isDebugEnabled())
 			log.debug("user : " + user);
 
-		userDAO.update(key, user);
+		userDAO.update(user);
 		return list(null, page);
 	}
 
@@ -92,7 +92,7 @@ public class UserCRUDController extends CRUDController<String, User> {
 		if (log.isDebugEnabled())
 			log.debug("user : " + user);
 
-		userDAO.update(key, user);
+		userDAO.update(user);
 		return list(null, page);
 	}
 
@@ -115,7 +115,7 @@ public class UserCRUDController extends CRUDController<String, User> {
 		if (log.isDebugEnabled())
 			log.debug("user : " + user);
 
-		userDAO.update(user.getKey(), user);
+		userDAO.update(user);
 	}
 
 	public Result list(String status, int page) {
@@ -220,7 +220,7 @@ public class UserCRUDController extends CRUDController<String, User> {
 						log.debug("birthdate : " + birthdate);
 					
 					user.merge(fbu);
-					userDAO.update(key, user);
+					userDAO.update(user);
 				}
 				return null;
 			}

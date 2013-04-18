@@ -116,7 +116,7 @@ public class SourceConfigurationCRUDController extends
 			SourceConfiguration model = formModel.toModel();
 			if (log.isDebugEnabled())
 				log.debug("model : " + model);
-			sourceConfigurationDAO.update(key, model);
+			sourceConfigurationDAO.update(model);
 			if (log.isDebugEnabled())
 				log.debug("entity updated");
 
