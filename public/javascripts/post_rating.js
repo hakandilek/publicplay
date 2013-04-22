@@ -5,7 +5,11 @@ $(document).ready(function() {
         var sel = '.btn-rate[data-key="' + key + '"]';
         var selRating = '.rating[data-key="' + key + '"]';
         var clicked = this;
-    	
+        var ownPost = $(this).attr('data-self');
+    	if (ownPost!="false") {
+    		$('.alert').show();
+            window.setTimeout(function() { $(".alert").hide(); }, 5000);
+		}else{
         $.ajax({
         	type: 'GET',
     		url: $(this).attr('data-href'),
@@ -34,5 +38,6 @@ $(document).ready(function() {
                 });
     		}
     	});
+			}
     });
 });

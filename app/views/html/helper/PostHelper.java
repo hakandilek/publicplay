@@ -47,4 +47,8 @@ public class PostHelper {
 			sb.append(DEL2);
 		return new Html(sb);
 	}
+	
+	public static boolean isPostCreatedByLoginUser(Post post){
+		return post.getCreatedBy().equals(UserHelper.loginUser());
+	}
 }

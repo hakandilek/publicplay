@@ -41,7 +41,10 @@
     </div>
         
     } else {
-	
+	<div id="saveAlert" class="alert alert-error hide" data-alert="alert" style="top:0">
+        <a class="close" href="#">x</a>
+        <p>@Messages("You_cant_vote_your_own_post")</p>
+    </div>
     <table class="posts table table-striped table-bordered">
         <tbody>
         @for(post <- currentPage.getList) {

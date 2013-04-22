@@ -25,6 +25,10 @@ currentPostPage: com.avaje.ebean.Page[Post])
     		@partials.userShowLeftPane(userToBeShowed,followerCount,followingCount)
     		
 	        <div class="span10" id="top-div">
+	        	<div id="saveAlert" class="alert alert-error hide" data-alert="alert" style="top:0">
+       				<a class="close" href="#">x</a>
+       			 	<p>@Messages("You_cant_vote_your_own_post")</p>
+   				</div>
 	        	@partials.userShowTabs(userToBeShowed,self,following,Constants.POSTS)
 	        	<div class="tab-content">
 	        		

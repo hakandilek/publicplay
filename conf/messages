@@ -60,6 +60,7 @@ bad_request=Bad request
 error_occured=Error occurred
 page_not_found=Page not found
 requested_page_not_found=Page you requested not found: {0}
+You_cant_vote_your_own_post=You can't vote your own post
  
 # Post
 update_post=update post

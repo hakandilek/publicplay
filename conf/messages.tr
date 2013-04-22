@@ -65,6 +65,7 @@ bad_request=Sayfa hatalı
 error_occured=Hata oluştu
 page_not_found=Sayfa bulunamadı
 requested_page_not_found=Sayfa bulunamadı: {0}
+You_cant_vote_your_own_post=Kendi bildiriminizi oylayamazsınız
 
 # Post
 update_post=başlığı düzenle
