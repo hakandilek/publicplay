@@ -21,7 +21,7 @@ import models.dao.CategoryDAO;
 import models.dao.CommentDAO;
 import models.dao.PostDAO;
 import models.dao.PostRatingDAO;
-import models.dao.ReputationDAO;
+import models.dao.UserActionDAO;
 import models.dao.S3FileDAO;
 import models.dao.UserFollowDAO;
 
@@ -62,19 +62,19 @@ public class PostController extends DynamicTemplateController implements
 
 	private final UserFollowDAO userFollowDAO;
 
-	private ReputationDAO reputationDAO;
+	private UserActionDAO userActionDAO;
 
 	@Inject
 	public PostController(PostDAO postDAO, CommentDAO commentDAO,
 			PostRatingDAO postRatingDAO, CategoryDAO categoryDAO,
-			S3FileDAO s3FileDAO, UserFollowDAO userFollowDAO,ReputationDAO reputationDAO) {
+			S3FileDAO s3FileDAO, UserFollowDAO userFollowDAO,UserActionDAO userActionDAO) {
 		this.postDAO = postDAO;
 		this.commentDAO = commentDAO;
 		this.postRatingDAO = postRatingDAO;
 		this.categoryDAO = categoryDAO;
 		this.s3FileDAO = s3FileDAO;
 		this.userFollowDAO = userFollowDAO;
-		this.reputationDAO = reputationDAO;
+		this.userActionDAO = userActionDAO;
 	}
 
 	/**
@@ -197,7 +197,7 @@ public class PostController extends DynamicTemplateController implements
 
 				postDAO.create(post);
 				
-				reputationDAO.addReputation(post,"createPost");
+				userActionDAO.addUserAction(post,"createPost");
 				
 				if (log.isDebugEnabled())
 					log.debug("entity created: " + post);

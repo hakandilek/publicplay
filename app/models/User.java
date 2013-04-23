@@ -66,6 +66,9 @@ public class User extends Model implements Subject, Approvable, TimestampModel<S
 
 	@Basic
 	private int loginCount;
+	
+	@Basic
+	private int reputationValue;
 
 	@Basic
 	private Date lastLogin;
@@ -111,7 +114,7 @@ public class User extends Model implements Subject, Approvable, TimestampModel<S
 	private Date accessExpires;
 	
 	@OneToMany(cascade=CascadeType.ALL, mappedBy="createdBy")
-	private Set<Reputation> reputations = new HashSet<Reputation>();
+	private Set<Action> actions = new HashSet<Action>();
 	
     @Enumerated(value=EnumType.STRING)
     private Status status = Status.NEW;
@@ -328,8 +331,8 @@ public class User extends Model implements Subject, Approvable, TimestampModel<S
 		return builder.toString();
 	}
 
-	public Set<Reputation> getReputations() {
-		return reputations;
+	public Set<Action> getActions() {
+		return actions;
 	}
 
 	public String getAccessToken() {
@@ -367,5 +370,13 @@ public class User extends Model implements Subject, Approvable, TimestampModel<S
 		email = facebookUser.getEmail();
 		gender = facebookUser.getGender();
 		location = facebookUser.getLocation();
+	}
+
+	public int getReputationValue() {
+		return reputationValue;
+	}
+
+	public void setReputationValue(int reputation) {
+		this.reputationValue = reputation;
 	}
 }

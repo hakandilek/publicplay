@@ -85,7 +85,7 @@
                     }
                 </td>
                 <td>
-                	@calculateReputation(user)
+                	@user.getReputationValue()
                     <a href="@routes.Admin.userRecalculateReputation(user.getKey())"><i class="icon-refresh pull-right"></i></a>
                 </td>
                 <td>

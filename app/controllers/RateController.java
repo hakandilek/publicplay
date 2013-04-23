@@ -8,7 +8,7 @@ import models.PostRatingPK;
 import models.User;
 import models.dao.PostDAO;
 import models.dao.PostRatingDAO;
-import models.dao.ReputationDAO;
+import models.dao.UserActionDAO;
 import play.Logger;
 import play.Logger.ALogger;
 import play.mvc.Controller;
@@ -23,10 +23,10 @@ public class RateController extends Controller implements Constants {
 	
 	PostDAO postDAO;
 	PostRatingDAO postRatingDAO;
-	ReputationDAO reputationDAO;
+	UserActionDAO reputationDAO;
 
 	@Inject
-	public RateController(PostDAO postDAO, PostRatingDAO postRatingDAO, ReputationDAO reputationDAO) {
+	public RateController(PostDAO postDAO, PostRatingDAO postRatingDAO, UserActionDAO reputationDAO) {
 		super();
 		this.postDAO = postDAO;
 		this.postRatingDAO = postRatingDAO;
@@ -42,7 +42,7 @@ public class RateController extends Controller implements Constants {
 		if (log.isDebugEnabled())
 			log.debug("rateUp <-" + key);
 		Post post = postDAO.get(key);
-		reputationDAO.addReputation(post,"rateUp");
+		reputationDAO.addUserAction(post,"rateUp");
 		return rate(post, 1);
 	}
 
@@ -52,7 +52,7 @@ public class RateController extends Controller implements Constants {
 		if (log.isDebugEnabled())
 			log.debug("rateDown <-" + key);
 		Post post = postDAO.get(key);
-		reputationDAO.addReputation(post,"rateDown");
+		reputationDAO.addUserAction(post,"rateDown");
 		return rate(post, -1);
 	}
 

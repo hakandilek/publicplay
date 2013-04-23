@@ -7,10 +7,8 @@ import java.util.concurrent.Callable;
 
 import javax.inject.Inject;
 
-import models.Reputation;
-import models.ReputationValue;
 import models.User;
-import models.dao.ReputationValueDAO;
+import models.dao.UserActionDAO;
 import models.dao.UserDAO;
 import play.Logger;
 import play.Logger.ALogger;
@@ -39,15 +37,15 @@ public class UserCRUDController extends CRUDController<String, User> {
 
 	private Form<BulkUser> bulkForm = form(BulkUser.class);
 
-	private ReputationValueDAO reputationValueDAO;
+	private UserActionDAO userActionDAO;
 
 	@Inject
 	public UserCRUDController(UserDAO userDAO,
-			ReputationValueDAO reputationValueDAO) {
+			UserActionDAO userActionDAO) {
 		super(userDAO, form(User.class), String.class, User.class, PAGE_SIZE,
 				"lastLogin desc");
 		this.userDAO = userDAO;
-		this.reputationValueDAO = reputationValueDAO;
+		this.userActionDAO = userActionDAO;
 	}
 
 	@Override
@@ -104,14 +102,8 @@ public class UserCRUDController extends CRUDController<String, User> {
 
 	private void updateReputation(User user) {
 
-		for (Reputation reputation : user.getReputations()) {
-			ReputationValue reputationValueInTable = reputationValueDAO
-					.get(reputation.getName());
-			int valueInTable = reputationValueInTable.getValue();
-			if (reputation.getValue() != valueInTable) {
-				reputation.setValue(valueInTable);
-			}
-		}
+		int reputation= userActionDAO.calculate(user);
+		user.setReputationValue(reputation);
 		if (log.isDebugEnabled())
 			log.debug("user : " + user);
 

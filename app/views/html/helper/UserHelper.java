@@ -2,7 +2,6 @@ package views.html.helper;
 
 import java.util.List;
 
-import models.Reputation;
 import models.SecurityRole;
 import models.User;
 import controllers.HttpUtils;
@@ -44,13 +43,5 @@ public class UserHelper {
 			}
 		}
 		return sb.toString();
-	}
-	
-	public static int calculateReputation(User user) {
-		int reputationValue=0;
-		for(Reputation reputation: user.getReputations()){
-			reputationValue+=reputation.getValue();
-		}
-		return reputationValue;
 	}
 }

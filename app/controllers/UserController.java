@@ -23,7 +23,12 @@ import play.Logger;
 import play.Logger.ALogger;
 import play.mvc.Result;
 import play.utils.crud.DynamicTemplateController;
-import views.html.*;
+import views.html.userFollowShow;
+import views.html.userShow;
+import views.html.userShowComments;
+import views.html.userShowRoles;
+import views.html.userShowVotedPages;
+
 import com.avaje.ebean.Page;
 
 public class UserController extends DynamicTemplateController {
@@ -101,8 +106,6 @@ public class UserController extends DynamicTemplateController {
 		int followerCount = userFollowDAO.getFollowerCount(userToShow);
 		int followingCount = userFollowDAO.getFollowingCount(userToShow);
 
-		
-		
 		if(tab == null || tab.toString().equals("") || tab.toString().equals(Constants.POSTS)){
 			postPage = postDAO.getPostsCreatedBy(new ArrayList<String>( Arrays.asList(userToShow.getKey())),
 					pageNumber, Constants.POSTS_PER_PAGE);

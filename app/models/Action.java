@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Version;
 
@@ -16,7 +17,7 @@ import play.utils.dao.TimestampModel;
 @Entity
 @Table(name="TBL_REPUTATION")
 @SuppressWarnings("serial")
-public class Reputation extends Model implements TimestampModel<Long> {
+public class Action extends Model implements TimestampModel<Long> {
 
 	@Id
 	private Long key;
@@ -28,15 +29,13 @@ public class Reputation extends Model implements TimestampModel<Long> {
 	private Date createdOn;
 	
 	@Basic
-	private int value;
-	
-	@Basic
 	private Date updatedOn;
 	
 	@Version
 	private int revision;
 	
-	@Basic
+	@OneToOne
+    @JoinColumn(name="postKey", nullable=false)
 	private Post post;
 	
 	@ManyToOne
@@ -62,14 +61,6 @@ public class Reputation extends Model implements TimestampModel<Long> {
 
 	public void setRevision(int revision) {
 		this.revision = revision;
-	}
-
-	public int getValue() {
-		return value;
-	}
-
-	public void setValue(int value) {
-		this.value = value;
 	}
 	
 	public Date getUpdatedOn() {

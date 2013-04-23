@@ -1,4 +1,5 @@
 package controllers;
+
 import static play.data.Form.*;
 
 import java.util.Set;
@@ -13,6 +14,7 @@ import models.User;
 import models.dao.CommentDAO;
 import models.dao.PostDAO;
 import models.dao.PostRatingDAO;
+import models.dao.UserActionDAO;
 import play.data.Form;
 import play.mvc.Result;
 import play.utils.crud.DynamicTemplateController;
@@ -22,19 +24,23 @@ import views.html.helper.H;
 
 import com.avaje.ebean.Page;
 
-public class CommentController extends DynamicTemplateController implements Constants {
+public class CommentController extends DynamicTemplateController implements
+		Constants {
 
 	private CommentDAO commentDAO;
 	private PostDAO postDAO;
 	private PostRatingDAO postRatingDAO;
-	
+	private UserActionDAO userActionDAO;
+
 	private Form<Comment> form = form(Comment.class);
 
 	@Inject
-	public CommentController(PostDAO postDAO, CommentDAO dao, PostRatingDAO postRatingDAO) {
+	public CommentController(PostDAO postDAO, CommentDAO commentDAO,
+			PostRatingDAO postRatingDAO, UserActionDAO userActionDAO) {
 		this.postDAO = postDAO;
-		this.commentDAO = dao;
+		this.commentDAO = commentDAO;
 		this.postRatingDAO = postRatingDAO;
+		this.userActionDAO = userActionDAO;
 	}
 
 	public Result create(Long postKey, String title) {
@@ -57,8 +63,7 @@ public class CommentController extends DynamicTemplateController implements Cons
 			Set<Long> downVotes = user == null ? new TreeSet<Long>()
 					: postRatingDAO.getDownVotedPostKeys(user);
 
-			Page<Comment> pg = commentDAO
-					.page(postKey, 0, COMMENTS_PER_PAGE);
+			Page<Comment> pg = commentDAO.page(postKey, 0, COMMENTS_PER_PAGE);
 			return badRequest(postShow.render(post, null, filledForm, pg,
 					upVotes, downVotes));
 		} else {
@@ -74,6 +79,8 @@ public class CommentController extends DynamicTemplateController implements Cons
 			commentDAO.create(comment);
 			if (log.isDebugEnabled())
 				log.debug("comment created : " + comment);
+
+			userActionDAO.addUserAction(post, "comment");
 
 			final Long key = post.getKey();
 			return redirect(routes.App.postShow(key, title, 0));
@@ -93,8 +100,8 @@ public class CommentController extends DynamicTemplateController implements Cons
 			log.debug("comment : " + comment);
 
 		User user = HttpUtils.loginUser();
-		Set<Long> upVotes = user == null ? new TreeSet<Long>()
-				: postRatingDAO.getUpVotedPostKeys(user);
+		Set<Long> upVotes = user == null ? new TreeSet<Long>() : postRatingDAO
+				.getUpVotedPostKeys(user);
 		Set<Long> downVotes = user == null ? new TreeSet<Long>()
 				: postRatingDAO.getDownVotedPostKeys(user);
 
@@ -124,10 +131,9 @@ public class CommentController extends DynamicTemplateController implements Cons
 			Set<Long> downVotes = user == null ? new TreeSet<Long>()
 					: postRatingDAO.getDownVotedPostKeys(user);
 
-			Page<Comment> pg = commentDAO
-					.page(postKey, 0, COMMENTS_PER_PAGE);
-			return badRequest(postShow.render(post, commentKey, filledForm,
-					pg, upVotes, downVotes));
+			Page<Comment> pg = commentDAO.page(postKey, 0, COMMENTS_PER_PAGE);
+			return badRequest(postShow.render(post, commentKey, filledForm, pg,
+					upVotes, downVotes));
 		} else {
 			final Comment commentData = commentDAO.get(commentKey);
 			Comment comment = filledForm.get();
@@ -137,7 +143,6 @@ public class CommentController extends DynamicTemplateController implements Cons
 			comment.setUpdatedBy(user);
 			comment.setModifierIp(request().remoteAddress());
 			comment.setStatus(ContentStatus.UPDATED);
-
 
 			if (log.isDebugEnabled())
 				log.debug("comment : " + comment);

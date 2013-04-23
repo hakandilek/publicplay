@@ -38,7 +38,7 @@ public class SourceConfigurationDAOTest extends BaseTest{
 				}
 				assertThat(sourceConfigurationDAO.getWithSourceKey("sourceKey")).isNull();
 			}
-		});
+		}); 
 	}
 	
 	@Test
@@ -50,7 +50,7 @@ public class SourceConfigurationDAOTest extends BaseTest{
 				SourceConfiguration sourceConfiguration=new SourceConfiguration();
 				sourceConfiguration.setSourceKey("sourceKey");
 				
-				
+				sourceConfigurationDAO.create(sourceConfiguration);
 				assertThat(sourceConfigurationDAO.getWithSourceKey("sourceKey")).isEqualTo(sourceConfiguration);
 				sourceConfiguration.setSourceKey("newSourceKey");
 				sourceConfigurationDAO.update(sourceConfiguration);
