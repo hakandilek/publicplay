@@ -33,7 +33,7 @@ public class App extends Controller {
 		return postController.list(page, category);
 	}
 	
-	@SubjectPresent
+	@Authenticated
 	@RestrictApproved
 	public Result postNewForm() {
 		return postController.newForm();
