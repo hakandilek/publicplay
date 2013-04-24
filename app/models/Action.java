@@ -3,6 +3,7 @@ package models;
 import java.util.Date;
 
 import javax.persistence.Basic;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -37,6 +38,13 @@ public class Action extends Model implements TimestampModel<Long> {
 	@OneToOne
     @JoinColumn(name="postKey", nullable=false)
 	private Post post;
+	
+	@OneToOne
+	@Column(name="COMMENT_KEY")
+    private Comment comment;
+	
+	@OneToOne
+    private User actionUser;
 	
 	@ManyToOne
 	@JoinColumn(name = "created_by", nullable = false)
@@ -94,5 +102,31 @@ public class Action extends Model implements TimestampModel<Long> {
 	public void setPost(Post post) {
 		this.post = post;
 	}
+
+	public Comment getComment() {
+		return comment;
+	}
+
+	public void setComment(Comment comment) {
+		this.comment = comment;
+	}
+
+	public void setUser(User user) {
+		actionUser=user;
+	}
+	public User getUser() {
+		return actionUser;
+	}
 	
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("Comment [key=").append(key)
+				.append(", createdOn=").append(createdOn)
+				.append(", updatedOn=").append(updatedOn)
+				.append(", post=").append(post)
+				.append(", createdBy=").append(createdBy)
+				.append(", revision=").append(revision).append("]");
+		return builder.toString();
+	}
 }

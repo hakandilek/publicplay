@@ -1,5 +1,5 @@
-@(userToBeShowed: models.User,self: Boolean,tabName:String, upVotedPostKeys:Set[Long], downVotedPostKeys:Set[Long], following: Boolean, followerCount:Integer, followingCount:Integer,
-currentPostPage: com.avaje.ebean.Page[Post])
+@(userToBeShowed: models.User,self: Boolean,tabName:String, upVotedPostKeys:Set[Long], downVotedPostKeys:Set[Long], 
+following: Boolean, followerCount:Integer, followingCount:Integer, currentActionPage: com.avaje.ebean.Page[models.Action])
 @import be.objectify.deadbolt.java.views.html._
 @import be.objectify.deadbolt.core.utils.TemplateUtils._
 @import views.html.security._
@@ -29,23 +29,57 @@ currentPostPage: com.avaje.ebean.Page[Post])
        				<a class="close" href="#">x</a>
        			 	<p>@Messages("You_cant_vote_your_own_post")</p>
    				</div>
-	        	@partials.userShowTabs(userToBeShowed,self,following,Constants.POSTS)
+	        	@partials.userShowTabs(userToBeShowed,self,following,Constants.TIMELINE)
 	        	<div class="tab-content">
 	        		
 	        		<div id="user_Posts"  class="tab-pane fade in active">             	
-	        			<table class="posts table table-striped table-bordered">   		
-	        				<tbody>
-	        					@for(post <- currentPostPage.getList) {
-	        						@partials.postTable(post, upVotedPostKeys, downVotedPostKeys)
-	        					}
-	        				</tbody>
-	        			</table>
-	        			 
+	        			@for(action <- currentActionPage.getList) {
+	        				<div class="userAction">
+	        				@action.getName() match {
+		        				case ActionConstants.RATE_UP => {
+		        					<table class="posts table table-striped table-bordered">   		
+		        						<tbody> 
+		   	        					@partials.postTable(action.getPost(), upVotedPostKeys, downVotedPostKeys)
+		        						</tbody>
+		        					</table>
+		        					<small>@userToBeShowed.getFirstName() @Messages("Post.Voted.CreatedOn", prettify(action.getCreatedOn()))</small>
+		        				}
+								case ActionConstants.CREATE_POST =>{
+									<div style="padding: 10px 0;">
+										<small>@userToBeShowed.getFirstName() @Messages("Post.CreatedOn", prettify(action.getPost().getCreatedOn()))</small>
+									</div>
+		        					<table class="posts table table-striped table-bordered">   		
+		        						<tbody>
+		   	        					@partials.postTable(action.getPost(), upVotedPostKeys, downVotedPostKeys)
+		        						</tbody> 
+		        					</table>
+		        				}
+		        				case ActionConstants.COMMENT=>{
+		        					<table class="posts table table-striped table-bordered">   		
+		        						<tbody>
+		   	        					@partials.postTable(action.getComment().getPost(), upVotedPostKeys, downVotedPostKeys)
+		        						</tbody>
+		        					</table>
+		        					<small>@userToBeShowed.getFirstName() @Messages("Comment.CreatedOn", prettify(action.getComment().getCreatedOn()))</small>
+		        					<tr>
+	        							<td class="nl-withoutSpace">
+	        							<a href="@routes.App.postShow(action.getComment().getPost().getKey(), 
+	        							sanitizeURL(action.getComment().getPost().getTitle()))#@action.getComment().getKey()">@action.getComment().getContent()</a>
+	        							</td>
+	        						</tr>
+		        				}
+		        				case ActionConstants.FOLLOW_USER=>{
+		        					<small>@userToBeShowed.getFirstName() 
+		        					@Html(Messages("UserFollow.CreatedOn", prettify(action.getCreatedOn()),partials.userProfile(action.getUser())))</small>
+		        				}
+	        				}
+	        				</div>
+	        			}
 	        		</div>
 	             </div>
-	             	@partials.pagination(currentPostPage, Constants.POSTS_PER_PAGE, 
-            				routes.App.userShow(userToBeShowed.getKey(), tabName, currentPostPage.getPageIndex - 1),
-            				routes.App.userShow(userToBeShowed.getKey(), tabName, currentPostPage.getPageIndex + 1))
+	             	@partials.pagination(currentActionPage, Constants.POSTS_PER_PAGE, 
+            				routes.App.userShow(userToBeShowed.getKey(), tabName, currentActionPage.getPageIndex - 1),
+            				routes.App.userShow(userToBeShowed.getKey(), tabName, currentActionPage.getPageIndex + 1))
 	        </div>
 	    </div>
 	</div>

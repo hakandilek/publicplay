@@ -8,6 +8,7 @@ import java.util.TreeSet;
 
 import javax.inject.Inject;
 
+import models.Action;
 import models.Comment;
 import models.Post;
 import models.SecurityRole;
@@ -17,6 +18,7 @@ import models.dao.CommentDAO;
 import models.dao.PostDAO;
 import models.dao.PostRatingDAO;
 import models.dao.SecurityRoleDAO;
+import models.dao.UserActionDAO;
 import models.dao.UserDAO;
 import models.dao.UserFollowDAO;
 import play.Logger;
@@ -28,6 +30,7 @@ import views.html.userShow;
 import views.html.userShowComments;
 import views.html.userShowRoles;
 import views.html.userShowVotedPages;
+import views.html.userShowPosts;
 
 import com.avaje.ebean.Page;
 
@@ -40,17 +43,19 @@ public class UserController extends DynamicTemplateController {
 	private SecurityRoleDAO securityRoleDAO;
 	private PostDAO postDAO;
 	private CommentDAO commentDAO;
+	private UserActionDAO userActionDAO;
 
 	@Inject
 	public UserController(UserDAO userDAO, PostRatingDAO postRatingDAO,
 			UserFollowDAO userFollowDAO, SecurityRoleDAO securityRoleDAO,
-			PostDAO postDAO, CommentDAO commentDAO) {
+			PostDAO postDAO, CommentDAO commentDAO,UserActionDAO userActionDAO) {
 		this.userDAO = userDAO;
 		this.postRatingDAO = postRatingDAO;
 		this.userFollowDAO = userFollowDAO;
 		this.securityRoleDAO = securityRoleDAO;
 		this.postDAO = postDAO;
 		this.commentDAO = commentDAO;
+		this.userActionDAO=userActionDAO;
 	}
 
 	public Result show(String key,String tab,int votedPageNumber) {
@@ -73,6 +78,7 @@ public class UserController extends DynamicTemplateController {
 	private Result show(User loginUser, User userToShow,String tab,int pageNumber) {
 
 		Page<Post> postPage=null;
+		Page<Action> actionPage=null;
 		Page<Comment> commentPage=null;
 		
 		Set<Long> upVotes = userToShow == null ? new TreeSet<Long>()
@@ -87,7 +93,7 @@ public class UserController extends DynamicTemplateController {
 			log.debug("user : " + loginUser);
 		if (loginUser == null || userToShow == null) {
 			return badRequest(userShow.render(userToShow, false,tab, upVotes,
-					downVotes, false, 0, 0, postPage));
+					downVotes, false, 0, 0, actionPage));
 		}
 
 		boolean selfPage = false;
@@ -106,10 +112,15 @@ public class UserController extends DynamicTemplateController {
 		int followerCount = userFollowDAO.getFollowerCount(userToShow);
 		int followingCount = userFollowDAO.getFollowingCount(userToShow);
 
-		if(tab == null || tab.toString().equals("") || tab.toString().equals(Constants.POSTS)){
+		if(tab == null || tab.toString().equals("") || tab.toString().equals(Constants.TIMELINE)){
+			actionPage=userActionDAO.getActionsCreatedBy(new ArrayList<String>( Arrays.asList(userToShow.getKey())),
+					pageNumber, Constants.ACTIONS_PER_PAGE);
+			return ok(userShow.render(userToShow, selfPage,tab, upVotes, downVotes,
+					following, followerCount, followingCount,actionPage));
+		}else if(tab.toString().equals(Constants.POSTS)){
 			postPage = postDAO.getPostsCreatedBy(new ArrayList<String>( Arrays.asList(userToShow.getKey())),
 					pageNumber, Constants.POSTS_PER_PAGE);
-			return ok(userShow.render(userToShow, selfPage,tab, upVotes, downVotes,
+			return ok(userShowPosts.render(userToShow, selfPage,tab, upVotes, downVotes,
 					following, followerCount, followingCount,postPage));
 		}else if(tab.toString().equals(Constants.COMMENTS)){
 			commentPage = commentDAO.getCommentsBy(userToShow.getKey(), pageNumber, Constants.COMMENTS_PER_PAGE);
@@ -127,7 +138,7 @@ public class UserController extends DynamicTemplateController {
 		
 
 		return badRequest(userShow.render(userToShow, false,tab, upVotes,
-				downVotes, false, 0, 0, postPage));
+				downVotes, false, 0, 0, actionPage));
 	}
 
 	

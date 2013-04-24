@@ -3,6 +3,8 @@ package controllers;
 public interface Constants {
 
 	int POSTS_PER_PAGE = 10;
+	
+	int ACTIONS_PER_PAGE = 10;
 
 	int COMMENTS_PER_PAGE = 10;
 
@@ -15,4 +17,6 @@ public interface Constants {
 	String POSTS = "Posts";
 
 	String COMMENTS = "Comments";
+	
+	String TIMELINE = "Timeline";
 }

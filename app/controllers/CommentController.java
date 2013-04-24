@@ -80,7 +80,7 @@ public class CommentController extends DynamicTemplateController implements
 			if (log.isDebugEnabled())
 				log.debug("comment created : " + comment);
 
-			userActionDAO.addUserAction(post, "comment");
+			userActionDAO.addUserAction(comment, ActionConstants.COMMENT);
 
 			final Long key = post.getKey();
 			return redirect(routes.App.postShow(key, title, 0));

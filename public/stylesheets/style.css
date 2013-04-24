@@ -175,3 +175,5 @@ ul.stats li span {color: #999999;display: block;font-size: 11px;margin-top: -2px
     font-size: 16px;
 }
 .postfooter{margin-bottom: -15px;margin-top:15px;padding-left: 45px;}
+
+.userAction{border-bottom: 1px solid #E0E0E0;  padding: 10px 0;}

@@ -1,0 +1,53 @@
+@(userToBeShowed: models.User,self: Boolean,tabName:String, upVotedPostKeys:Set[Long], downVotedPostKeys:Set[Long], 
+following: Boolean, followerCount:Integer, followingCount:Integer, currentPostPage: com.avaje.ebean.Page[Post])
+@import be.objectify.deadbolt.java.views.html._
+@import be.objectify.deadbolt.core.utils.TemplateUtils._
+@import views.html.security._
+@import helper.H._
+@import controllers._
+
+
+@scripts = {
+        <script src="@routes.Assets.at("javascripts/user_follow.js")" type="text/javascript"></script>
+}
+
+@template.main(Messages("user_information"), scripts = scripts) {
+
+    @if(userToBeShowed == null) {
+    
+    <div class="page-header">
+        <p class="text-error"> @Messages("User not found") </p>
+    </div>
+    
+    } else {
+    
+	<div class="container-fluid">
+    	<div class="row-fluid">
+    		@partials.userShowLeftPane(userToBeShowed,followerCount,followingCount)
+    		
+	        <div class="span10" id="top-div">
+	        	<div id="saveAlert" class="alert alert-error hide" data-alert="alert" style="top:0">
+       				<a class="close" href="#">x</a>
+       			 	<p>@Messages("You_cant_vote_your_own_post")</p>
+   				</div>
+	        	@partials.userShowTabs(userToBeShowed,self,following,Constants.POSTS)
+	        	<div class="tab-content">
+	        		
+	        		<div id="user_Posts"  class="tab-pane fade in active">
+						<table class="posts table table-striped table-bordered">   		
+	        				<tbody>
+	        					@for(post <- currentPostPage.getList) {
+	        						@partials.postTable(post, upVotedPostKeys, downVotedPostKeys)
+	        					}
+	        				</tbody>
+	        			</table>
+					</div>
+	             </div>
+	             	@partials.pagination(currentPostPage, Constants.POSTS_PER_PAGE, 
+            				routes.App.userShow(userToBeShowed.getKey(), tabName, currentPostPage.getPageIndex - 1),
+            				routes.App.userShow(userToBeShowed.getKey(), tabName, currentPostPage.getPageIndex + 1))
+	        </div>
+	    </div>
+	</div>
+    }
+}

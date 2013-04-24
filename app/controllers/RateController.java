@@ -23,14 +23,14 @@ public class RateController extends Controller implements Constants {
 	
 	PostDAO postDAO;
 	PostRatingDAO postRatingDAO;
-	UserActionDAO reputationDAO;
+	UserActionDAO userActionDAO;
 
 	@Inject
 	public RateController(PostDAO postDAO, PostRatingDAO postRatingDAO, UserActionDAO reputationDAO) {
 		super();
 		this.postDAO = postDAO;
 		this.postRatingDAO = postRatingDAO;
-		this.reputationDAO = reputationDAO;
+		this.userActionDAO = reputationDAO;
 	}
 
 	/**
@@ -42,7 +42,6 @@ public class RateController extends Controller implements Constants {
 		if (log.isDebugEnabled())
 			log.debug("rateUp <-" + key);
 		Post post = postDAO.get(key);
-		reputationDAO.addUserAction(post,"rateUp");
 		return rate(post, 1);
 	}
 
@@ -52,7 +51,6 @@ public class RateController extends Controller implements Constants {
 		if (log.isDebugEnabled())
 			log.debug("rateDown <-" + key);
 		Post post = postDAO.get(key);
-		reputationDAO.addUserAction(post,"rateDown");
 		return rate(post, -1);
 	}
 
@@ -95,6 +93,10 @@ public class RateController extends Controller implements Constants {
 
 			postRatingDAO.resetVotedPostKeyCache(user);
 
+			if (rating>0) {
+				userActionDAO.addUserAction(post,ActionConstants.RATE_UP);
+			}
+			
 			if (log.isDebugEnabled())
 				log.debug("updating post : " + post);
 			postDAO.update(post);

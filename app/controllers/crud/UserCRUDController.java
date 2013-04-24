@@ -1,4 +1,5 @@
 package controllers.crud;
+
 import static play.data.Form.form;
 
 import java.util.Date;
@@ -40,8 +41,7 @@ public class UserCRUDController extends CRUDController<String, User> {
 	private UserActionDAO userActionDAO;
 
 	@Inject
-	public UserCRUDController(UserDAO userDAO,
-			UserActionDAO userActionDAO) {
+	public UserCRUDController(UserDAO userDAO, UserActionDAO userActionDAO) {
 		super(userDAO, form(User.class), String.class, User.class, PAGE_SIZE,
 				"lastLogin desc");
 		this.userDAO = userDAO;
@@ -102,7 +102,7 @@ public class UserCRUDController extends CRUDController<String, User> {
 
 	private void updateReputation(User user) {
 
-		int reputation= userActionDAO.calculate(user);
+		int reputation = userActionDAO.calculate(user);
 		user.setReputationValue(reputation);
 		if (log.isDebugEnabled())
 			log.debug("user : " + user);
@@ -191,16 +191,18 @@ public class UserCRUDController extends CRUDController<String, User> {
 	public Results.AsyncResult reload(final String key) {
 		if (log.isDebugEnabled())
 			log.debug("reload <-");
-		
+
 		return async(Akka.future(new Callable<Void>() {
 			public Void call() throws Exception {
 				User user = userDAO.get(key);
 				if (user != null) {
 					String accessToken = user.getAccessToken();
 					String identifier = user.getOriginalKey();
-					FacebookClient facebookClient = new DefaultFacebookClient(accessToken);
+					FacebookClient facebookClient = new DefaultFacebookClient(
+							accessToken);
 
-					User fbu = facebookClient.fetchObject(identifier, User.class);
+					User fbu = facebookClient.fetchObject(identifier,
+							User.class);
 					fbu.setKey("facebook", identifier);
 					if (log.isDebugEnabled())
 						log.debug("fbu : " + fbu);
@@ -210,7 +212,7 @@ public class UserCRUDController extends CRUDController<String, User> {
 						log.debug("birthday : " + birthday);
 					if (log.isDebugEnabled())
 						log.debug("birthdate : " + birthdate);
-					
+
 					user.merge(fbu);
 					userDAO.update(user);
 				}

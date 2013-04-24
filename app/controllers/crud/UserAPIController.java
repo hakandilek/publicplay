@@ -13,6 +13,7 @@ import models.User;
 import models.UserFollow;
 import models.UserFollowPK;
 import models.dao.SecurityRoleDAO;
+import models.dao.UserActionDAO;
 import models.dao.UserDAO;
 import models.dao.UserFollowDAO;
 
@@ -31,13 +32,16 @@ public class UserAPIController extends APIController<String, User> {
 	private UserDAO userDAO;
 	private UserFollowDAO userFollowDAO;
 	private SecurityRoleDAO securityRoleDAO;
+	private UserActionDAO userActionDAO;
 
 	@Inject
-	public UserAPIController(UserDAO userDAO, UserFollowDAO userFollowDAO, SecurityRoleDAO securityRoleDAO)   {
+	public UserAPIController(UserDAO userDAO, UserFollowDAO userFollowDAO,
+			SecurityRoleDAO securityRoleDAO,UserActionDAO userActionDAO)   {
 		super(userDAO);
 		this.userDAO = userDAO;
 		this.userFollowDAO = userFollowDAO;
 		this.securityRoleDAO = securityRoleDAO;
+		this.userActionDAO = userActionDAO;
 	}
 
 	@Override
@@ -89,6 +93,7 @@ public class UserAPIController extends APIController<String, User> {
 			follow = new UserFollow();
 			follow.setKey(followKey);
 			userFollowDAO.create(follow);
+			userActionDAO.addUserAction(userDAO.get(key), "followUser");
 		}
 
 		return created(toJson(ImmutableMap.of("status", "OK", "key", key,

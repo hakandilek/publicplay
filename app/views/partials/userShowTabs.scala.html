@@ -5,6 +5,7 @@
 @import views.html.security._
 <div>
 	<ul id="top-tab" class="nav nav-tabs">
+		<li id=@Constants.TIMELINE><a href="@routes.App.userShow(userToBeShowed.getKey(),Constants.TIMELINE)">@Messages("Timeline")</a></li>
 		<li id=@Constants.POSTS><a href="@routes.App.userShow(userToBeShowed.getKey(),Constants.POSTS)">@Messages("Posts")</a></li>
 		<li id=@Constants.COMMENTS><a href="@routes.App.userShow(userToBeShowed.getKey(),Constants.COMMENTS)">@Messages("Comments")</a></li>
 		@restrictCombine(la(as("admin")), "models.User.self." + self) {
