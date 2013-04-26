@@ -3,8 +3,6 @@ package controllers;
 
 import javax.inject.Inject;
 
-import be.objectify.deadbolt.java.actions.SubjectPresent;
-
 import play.mvc.Controller;
 import play.mvc.Result;
 import security.Authenticated;
