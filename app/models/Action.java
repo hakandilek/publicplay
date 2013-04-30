@@ -63,6 +63,10 @@ public class Action extends Model implements TimestampModel<Long> {
 		return key;
 	}
 
+	public void setKey(Long key) {
+		this.key = key;
+	}
+
 	public int getRevision() {
 		return revision;
 	}

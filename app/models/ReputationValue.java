@@ -23,6 +23,10 @@ public class ReputationValue extends Model implements BasicModel<String>{
 		return getName();
 	}
 
+	public void setKey(String name) {
+		this.name = name;
+	} 
+	
 	public int getValue() {
 		return value;
 	}

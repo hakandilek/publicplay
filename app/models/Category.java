@@ -53,6 +53,10 @@ public class Category extends Model implements BasicModel<String> {
 		return name;
 	}
 
+	public void setKey(String name) {
+		this.name = name;
+	} 
+
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();

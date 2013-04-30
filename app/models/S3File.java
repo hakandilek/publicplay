@@ -67,6 +67,10 @@ public class S3File extends Model implements TimestampModel<UUID> {
 		return id;
 	}
 
+	public void setKey(UUID id) {
+		this.id = id;
+	}
+
 	public Date getCreatedOn() {
 		return createdOn;
 	}
