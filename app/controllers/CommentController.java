@@ -120,8 +120,8 @@ public class CommentController extends DynamicTemplateController implements
 			log.debug("post : " + post);
 
 		User user = HttpUtils.loginUser();
-
-		Form<Comment> filledForm = form.bindFromRequest();
+		Comment original = commentDAO.get(commentKey);
+		Form<Comment> filledForm = form.fill(original).bindFromRequest();
 		if (filledForm.hasErrors() || user == null) {
 			if (log.isDebugEnabled())
 				log.debug("validation errors occured");
@@ -142,8 +142,10 @@ public class CommentController extends DynamicTemplateController implements
 			comment.setCreatorIp(commentData.getCreatorIp());
 			comment.setUpdatedBy(user);
 			comment.setModifierIp(request().remoteAddress());
+			comment.setKey(commentKey);
+			comment.setRevision(commentData.getRevision());
 			comment.setStatus(ContentStatus.UPDATED);
-
+			//comment.u
 			if (log.isDebugEnabled())
 				log.debug("comment : " + comment);
 			commentDAO.update(comment);

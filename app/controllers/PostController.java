@@ -232,13 +232,15 @@ public class PostController extends DynamicTemplateController implements
 			log.debug("update() <-" + key);
 
 		User user = HttpUtils.loginUser();
-
-		Form<Post> filledForm = form.bindFromRequest();
+		Post original = postDAO.get(key);
+		Form<Post> filledForm = form.fill(original).bindFromRequest();
 		UUID imageKey = filledForm.get().getImageKey();
 		if (log.isDebugEnabled())
 			log.debug("imageKey : " + imageKey);
-
-		S3File image = s3FileDAO.get(imageKey);
+		S3File image = null;
+		if (imageKey != null){
+			image = s3FileDAO.get(imageKey);
+		}
 		if (log.isDebugEnabled())
 			log.debug("image : " + image);
 
@@ -267,7 +269,8 @@ public class PostController extends DynamicTemplateController implements
 			post.setUpdatedBy(user);
 			post.setModifierIp(request().remoteAddress());
 			post.setStatus(ContentStatus.UPDATED);
-
+			post.setKey(postData.getKey());
+			post.setRevision(postData.getRevision());
 			if (image != null) {
 				post.setImage(image);
 			}
