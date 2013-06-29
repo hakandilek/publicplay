@@ -177,3 +177,21 @@ ul.stats li span {color: #999999;display: block;font-size: 11px;margin-top: -2px
 .postfooter{margin-bottom: -15px;margin-top:15px;padding-left: 45px;}
 
 .userAction{border-bottom: 1px solid #E0E0E0;  padding: 10px 0;}
+
+.comment-avatar {
+    border-radius: 3px 3px 3px 3px;
+    float: left;
+    position: relative;
+}
+.commentList{
+	margin-bottom: 10px;
+	border-bottom: 1px solid #E0E0E0;
+}
+
+.commentList .commentBody{
+	overflow: hidden;
+    padding-left: 10px;
+}
+.commentBody .header{
+	margin-bottom:10px
+}
