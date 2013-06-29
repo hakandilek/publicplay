@@ -1,5 +1,7 @@
 package models.dao;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -14,7 +16,6 @@ import play.Logger.ALogger;
 import play.db.ebean.Model;
 import play.utils.dao.CachedDAO;
 import play.utils.dao.TimestampListener;
-import views.html.helper.UserHelper;
 
 import com.avaje.ebean.Page;
 
@@ -27,8 +28,6 @@ public class UserActionDAO extends CachedDAO<Long, Action> {
 
 	ReputationValueDAO reputationValueDAO;
 
-	private User loginUser;
-
 	@Inject
 	public UserActionDAO(ReputationValueDAO reputationValueDAO) {
 		super(Long.class, Action.class);
@@ -36,28 +35,20 @@ public class UserActionDAO extends CachedDAO<Long, Action> {
 		this.reputationValueDAO = reputationValueDAO;
 	}
 
-	public void addUserAction(Model model, String actionName) {
-		User user = internalGetLoginUser();
+	public void addUserAction(User user, Model model, String actionName) {
 		Action userAction = new Action();
 		userAction.setCreatedBy(user);
 		userAction.setName(actionName);
 		if (model instanceof Post) {
-			userAction.setPost((Post) model);
-		}else if(model instanceof Comment){
-			userAction.setComment((Comment)model);
-		}else if(model instanceof User){
-			userAction.setUser((User)model);
+			userAction.setTargetPost((Post) model);
+		} else if (model instanceof Comment) {
+			userAction.setTargetComment((Comment) model);
+		} else if (model instanceof User) {
+			userAction.setTargetUser((User) model);
 		}
 		this.create(userAction);
 		user.setReputationValue(calculate(user));
 		user.update();
-	}
-
-	private User internalGetLoginUser() {
-		if (null == loginUser) {
-			loginUser = UserHelper.loginUser();
-		}
-		return loginUser;
 	}
 
 	public int calculate(User userToShow) {
@@ -68,9 +59,10 @@ public class UserActionDAO extends CachedDAO<Long, Action> {
 			int ratingValue = reputationValueDAO.get(ActionConstants.RATING).getValue();
 			int postCreateValue = reputationValueDAO.get(ActionConstants.CREATE_POST)
 					.getValue();
-			for (Action action : userToShow.getActions()) {
+			Collection<Action> actions = getActionsCreatedBy(userToShow);
+			for (Action action : actions) {
 				if (action.getName().equals(ActionConstants.CREATE_POST)) {
-					int postRating = action.getPost().getRating();
+					int postRating = action.getTargetPost().getRating();
 					reputation += postRating * ratingValue;
 					reputation += postCreateValue;
 				}
@@ -83,8 +75,9 @@ public class UserActionDAO extends CachedDAO<Long, Action> {
 		return reputation;
 	}
 
-	public void setUser(User user) {
-		loginUser = user;
+	public Collection<Action> getActionsCreatedBy(User user) {
+		if (user == null) return new ArrayList<>();
+		return find.where().eq("created_by", user.getKey()).findSet();
 	}
 
 	public Page<Action> getActionsCreatedBy(List<String> usernames, int page,

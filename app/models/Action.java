@@ -3,7 +3,6 @@ package models;
 import java.util.Date;
 
 import javax.persistence.Basic;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -36,20 +35,17 @@ public class Action extends Model implements TimestampModel<Long> {
 	private int revision;
 	
 	@OneToOne
-    @JoinColumn(name="postKey", nullable=false)
-	private Post post;
+	private Post targetPost;
 	
 	@OneToOne
-	@Column(name="COMMENT_KEY")
-    private Comment comment;
+    private Comment targetComment;
 	
 	@OneToOne
-    private User actionUser;
+    private User targetUser;
 	
 	@ManyToOne
 	@JoinColumn(name = "created_by", nullable = false)
 	private User createdBy;
-	
 	
 	public Date getCreatedOn() {
 		return createdOn;
@@ -99,38 +95,37 @@ public class Action extends Model implements TimestampModel<Long> {
 		this.name = name;
 	}
 
-	public Post getPost() {
-		return post;
+	public Post getTargetPost() {
+		return targetPost;
 	}
 
-	public void setPost(Post post) {
-		this.post = post;
+	public void setTargetPost(Post targetPost) {
+		this.targetPost = targetPost;
 	}
 
-	public Comment getComment() {
-		return comment;
+	public Comment getTargetComment() {
+		return targetComment;
 	}
 
-	public void setComment(Comment comment) {
-		this.comment = comment;
+	public void setTargetComment(Comment targetComment) {
+		this.targetComment = targetComment;
 	}
 
-	public void setUser(User user) {
-		actionUser=user;
+	public User getTargetUser() {
+		return targetUser;
 	}
-	public User getUser() {
-		return actionUser;
+
+	public void setTargetUser(User targetUser) {
+		this.targetUser = targetUser;
 	}
-	
+
 	@Override
 	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("Comment [key=").append(key)
-				.append(", createdOn=").append(createdOn)
-				.append(", updatedOn=").append(updatedOn)
-				.append(", post=").append(post)
-				.append(", createdBy=").append(createdBy)
-				.append(", revision=").append(revision).append("]");
-		return builder.toString();
+		return "Action [key=" + key + ", name=" + name + ", createdOn="
+				+ createdOn + ", updatedOn=" + updatedOn + ", revision="
+				+ revision + ", targetPost=" + targetPost + ", targetComment="
+				+ targetComment + ", targetUser=" + targetUser + ", createdBy="
+				+ createdBy + "]";
 	}
+
 }

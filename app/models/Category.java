@@ -22,7 +22,6 @@ public class Category extends Model implements BasicModel<String> {
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "category")
 	private Set<Post> posts;
 
-
 	public Category() {
 		super();
 	}

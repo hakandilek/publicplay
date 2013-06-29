@@ -4,6 +4,9 @@ import static org.fest.assertions.Assertions.assertThat;
 import static play.test.Helpers.fakeApplication;
 import static play.test.Helpers.inMemoryDatabase;
 import static play.test.Helpers.running;
+
+import java.util.Collection;
+
 import models.Action;
 import models.Post;
 import models.User;
@@ -28,11 +31,11 @@ public class UserActionDAOTest extends BaseTest {
 				
 				Post post= postDAO.get((long) -11);
 				User user = userDAO.get("testuser");
-				userActionDAO.setUser(user);
 				
-				userActionDAO.addUserAction(post,"rateUp");
-				assertThat(user.getActions().size()).isEqualTo(1);
-				assertThat(user.getActions().toArray(new Action[0])[0].getName()).isEqualTo("rateUp");
+				userActionDAO.addUserAction(user, post,"rateUp");
+				Collection<Action> actions = userActionDAO.getActionsCreatedBy(user);
+				assertThat(actions.size()).isEqualTo(1);
+				assertThat(actions.toArray(new Action[0])[0].getName()).isEqualTo("rateUp");
 			}
 		});
 	}

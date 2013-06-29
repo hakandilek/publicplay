@@ -39,38 +39,38 @@ following: Boolean, followerCount:Integer, followingCount:Integer, currentAction
 		        				case ActionConstants.RATE_UP => {
 		        					<table class="posts table table-striped table-bordered">   		
 		        						<tbody> 
-		   	        					@partials.postTable(action.getPost(), upVotedPostKeys, downVotedPostKeys)
+		   	        					@partials.postTable(action.getTargetPost(), upVotedPostKeys, downVotedPostKeys)
 		        						</tbody>
 		        					</table>
 		        					<small>@userToBeShowed.getFirstName() @Messages("Post.Voted.CreatedOn", prettify(action.getCreatedOn()))</small>
 		        				}
 								case ActionConstants.CREATE_POST =>{
 									<div style="padding: 10px 0;">
-										<small>@userToBeShowed.getFirstName() @Messages("Post.CreatedOn", prettify(action.getPost().getCreatedOn()))</small>
+										<small>@userToBeShowed.getFirstName() @Messages("Post.CreatedOn", prettify(action.getTargetPost().getCreatedOn()))</small>
 									</div>
 		        					<table class="posts table table-striped table-bordered">   		
 		        						<tbody>
-		   	        					@partials.postTable(action.getPost(), upVotedPostKeys, downVotedPostKeys)
+		   	        					@partials.postTable(action.getTargetPost(), upVotedPostKeys, downVotedPostKeys)
 		        						</tbody> 
 		        					</table>
 		        				}
 		        				case ActionConstants.COMMENT=>{
 		        					<table class="posts table table-striped table-bordered">   		
 		        						<tbody>
-		   	        					@partials.postTable(action.getComment().getPost(), upVotedPostKeys, downVotedPostKeys)
+		   	        					@partials.postTable(action.getTargetComment().getPost(), upVotedPostKeys, downVotedPostKeys)
 		        						</tbody>
 		        					</table>
-		        					<small>@userToBeShowed.getFirstName() @Messages("Comment.CreatedOn", prettify(action.getComment().getCreatedOn()))</small>
+		        					<small>@userToBeShowed.getFirstName() @Messages("Comment.CreatedOn", prettify(action.getTargetComment().getCreatedOn()))</small>
 		        					<tr>
 	        							<td class="nl-withoutSpace">
-	        							<a href="@routes.App.postShow(action.getComment().getPost().getKey(), 
-	        							sanitizeURL(action.getComment().getPost().getTitle()))#@action.getComment().getKey()">@action.getComment().getContent()</a>
+	        							<a href="@routes.App.postShow(action.getTargetComment().getPost().getKey(), 
+	        							sanitizeURL(action.getTargetComment().getPost().getTitle()))#@action.getTargetComment().getKey()">@action.getTargetComment().getContent()</a>
 	        							</td>
 	        						</tr>
 		        				}
 		        				case ActionConstants.FOLLOW_USER=>{
 		        					<small>@userToBeShowed.getFirstName() 
-		        					@Html(Messages("UserFollow.CreatedOn", prettify(action.getCreatedOn()),partials.userProfile(action.getUser())))</small>
+		        					@Html(Messages("UserFollow.CreatedOn", prettify(action.getCreatedOn()),partials.userProfile(action.getTargetUser())))</small>
 		        				}
 	        				}
 	        				</div>

@@ -197,7 +197,7 @@ public class PostController extends DynamicTemplateController implements
 
 				postDAO.create(post);
 				
-				userActionDAO.addUserAction(post,"createPost");
+				userActionDAO.addUserAction(user, post,"createPost");
 				
 				if (log.isDebugEnabled())
 					log.debug("entity created: " + post);

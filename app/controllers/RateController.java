@@ -94,7 +94,7 @@ public class RateController extends Controller implements Constants {
 			postRatingDAO.resetVotedPostKeyCache(user);
 
 			if (rating>0) {
-				userActionDAO.addUserAction(post,ActionConstants.RATE_UP);
+				userActionDAO.addUserAction(user, post,ActionConstants.RATE_UP);
 			}
 			
 			if (log.isDebugEnabled())

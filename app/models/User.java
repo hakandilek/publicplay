@@ -113,9 +113,6 @@ public class User extends Model implements Subject, Approvable, TimestampModel<S
 	@Basic
 	private Date accessExpires;
 	
-	@OneToMany(cascade=CascadeType.ALL, mappedBy="createdBy")
-	private Set<Action> actions = new HashSet<Action>();
-	
     @Enumerated(value=EnumType.STRING)
     private Status status = Status.NEW;
 	
@@ -329,10 +326,6 @@ public class User extends Model implements Subject, Approvable, TimestampModel<S
 				.append(getFirstName()).append(", lastName=").append(getLastName())
 				.append(", email=").append(getEmail()).append("]");
 		return builder.toString();
-	}
-
-	public Set<Action> getActions() {
-		return actions;
 	}
 
 	public String getAccessToken() {

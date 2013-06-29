@@ -86,14 +86,15 @@ public class UserAPIController extends APIController<String, User> {
 	public Result follow(String key) {
 		if (log.isDebugEnabled())
 			log.debug("follow() <- " + key);
-		String sourceKey = HttpUtils.loginUser().getKey();
+		User loginUser = HttpUtils.loginUser();
+		String sourceKey = loginUser.getKey();
 		UserFollowPK followKey = new UserFollowPK(sourceKey, key);
 		UserFollow follow = userFollowDAO.get(followKey);
 		if (follow == null) {
 			follow = new UserFollow();
 			follow.setKey(followKey);
 			userFollowDAO.create(follow);
-			userActionDAO.addUserAction(userDAO.get(key), "followUser");
+			userActionDAO.addUserAction(loginUser, userDAO.get(key), "followUser");
 		}
 
 		return created(toJson(ImmutableMap.of("status", "OK", "key", key,
