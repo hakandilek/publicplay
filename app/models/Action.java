@@ -15,7 +15,7 @@ import play.db.ebean.Model;
 import play.utils.dao.TimestampModel;
 
 @Entity
-@Table(name="TBL_REPUTATION")
+@Table(name="TBL_ACTION")
 @SuppressWarnings("serial")
 public class Action extends Model implements TimestampModel<Long> {
 
