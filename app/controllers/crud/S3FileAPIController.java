@@ -36,6 +36,9 @@ public class S3FileAPIController extends APIController<UUID, S3File> {
 		UUID key = null;
 		try {
 			file = HttpUtils.uploadFile(request(), "qqfile", "Post");
+			if (log.isDebugEnabled())
+				log.debug("file : " + file);
+
 			key = dao.create(file);
 		} catch (Exception e) {
 			log.error("exception occured : " + e, e);
