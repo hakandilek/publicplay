@@ -9,7 +9,6 @@ import java.util.concurrent.Callable;
 import javax.inject.Inject;
 
 import models.User;
-import models.dao.UserActionDAO;
 import models.dao.UserDAO;
 import play.Logger;
 import play.Logger.ALogger;
@@ -25,6 +24,7 @@ import com.avaje.ebean.Page;
 import com.restfb.DefaultFacebookClient;
 import com.restfb.FacebookClient;
 
+import controllers.ReputationHandler;
 import controllers.routes;
 import forms.BulkUser;
 
@@ -38,14 +38,14 @@ public class UserCRUDController extends CRUDController<String, User> {
 
 	private Form<BulkUser> bulkForm = form(BulkUser.class);
 
-	private UserActionDAO userActionDAO;
+	private ReputationHandler reputationHandler;
 
 	@Inject
-	public UserCRUDController(UserDAO userDAO, UserActionDAO userActionDAO) {
+	public UserCRUDController(UserDAO userDAO, ReputationHandler reputationHandler) {
 		super(userDAO, form(User.class), String.class, User.class, PAGE_SIZE,
 				"lastLogin desc");
 		this.userDAO = userDAO;
-		this.userActionDAO = userActionDAO;
+		this.reputationHandler = reputationHandler;
 	}
 
 	@Override
@@ -96,18 +96,9 @@ public class UserCRUDController extends CRUDController<String, User> {
 
 	public Result recalculateReputation(final String key, final int page) {
 		User user = userDAO.get(key);
-		updateReputation(user);
+		//update reputation
+		reputationHandler.reevaluateForSubject(user);
 		return list(null, page);
-	}
-
-	private void updateReputation(User user) {
-
-		int reputation = userActionDAO.calculate(user);
-		user.setReputationValue(reputation);
-		if (log.isDebugEnabled())
-			log.debug("user : " + user);
-
-		userDAO.update(user);
 	}
 
 	public Result list(String status, int page) {
@@ -176,8 +167,7 @@ public class UserCRUDController extends CRUDController<String, User> {
 		return async(Akka.future(new Callable<Void>() {
 			public Void call() throws Exception {
 				for (User user : users) {
-
-					updateReputation(user);
+					reputationHandler.reevaluateForSubject(user);
 				}
 				return null;
 			}

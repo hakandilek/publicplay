@@ -236,7 +236,7 @@ SourceConfiguration.bulkData.label=bulk configuration
 update_sourceConfiguration=update config
 
 #Reputation
-Reputation=Reputation
+User.Reputation=Reputation
 
 # ReputationValue
 Reputation_Value=Reputation Value

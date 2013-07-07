@@ -1,4 +1,4 @@
-@(userToBeShowed: models.User,followerCount:Integer, followingCount:Integer)
+@(user: models.User, reputation: models.UserReputation, followerCount:Integer, followingCount:Integer)
 
 @import helper.H._
 @import helper.UserHelper._
@@ -8,36 +8,36 @@
 	<div class="clearfix">
 		<div class="center-horizontal">
 			<h3>
-				<img src="@getProfileImageURLWithNormalSize(userToBeShowed)"
-					alt="@userToBeShowed.getFirstName() @userToBeShowed.getLastName()"
+				<img src="@getProfileImageURLWithNormalSize(user)"
+					alt="@user.getFirstName() @user.getLastName()"
 					width="120px" />
 			</h3>
 			<h4>
-				<span>@userToBeShowed.getFirstName()
-					@userToBeShowed.getLastName()</span>
+				<span>@user.getFirstName()
+					@user.getLastName()</span>
 			</h4>
 		</div>
 		<dl class="center-horizontal">
 			@restrict(la(as("admin"))) {
 
 			<dt>@Messages("joinedOn")</dt>
-			<dd>@formatDateToDayAndYear(userToBeShowed.getCreatedOn())</dd>
+			<dd>@formatDateToDayAndYear(user.getCreatedOn())</dd>
 			}
 
 		</dl>
 		<div class="span12">
 			<ul class="stats">
-				<li id="reputation"><strong>@userToBeShowed.getReputationValue()</strong>
+				<li id="reputation"><strong>@reputation.getValue()</strong>
 				<span>@Messages("reputation")</span>
 				</li>
 			</ul>
 		</div>
 		<div class="span12">
 			<ul class="stats">
-				<li><a href="@routes.App.userFollowings(userToBeShowed.getKey())"> <strong>@followingCount</strong>
+				<li><a href="@routes.App.userFollowings(user.getKey())"> <strong>@followingCount</strong>
 					<span>@Messages("Following")</span>
 				</a></li>
-				<li><a href="@routes.App.userFollowers(userToBeShowed.getKey())"> <strong>@followerCount</strong>
+				<li><a href="@routes.App.userFollowers(user.getKey())"> <strong>@followerCount</strong>
 					<span>@Messages("Followers")</span>
 				</a></li>
 			</ul>

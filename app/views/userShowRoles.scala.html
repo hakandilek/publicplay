@@ -1,4 +1,4 @@
-@(userToBeShowed: models.User, self: Boolean, following: Boolean, followerCount:Integer, followingCount:Integer,
+@(user: models.User, reputation: models.UserReputation, self: Boolean, following: Boolean, followerCount:Integer, followingCount:Integer,
  allRoles:List[models.SecurityRole], userRoles:List[models.SecurityRole])
 @import be.objectify.deadbolt.java.views.html._
 @import be.objectify.deadbolt.core.utils.TemplateUtils._
@@ -12,7 +12,7 @@
 
 @template.main(Messages("user_information"), scripts = scripts) {
 
-    @if(userToBeShowed == null) {
+    @if(user == null) {
     
     <div class="page-header">
         <p class="text-error"> @Messages("User not found") </p>
@@ -22,10 +22,10 @@
     
 	<div class="container-fluid">
     	<div class="row-fluid">
-    		@partials.userShowLeftPane(userToBeShowed,followerCount,followingCount)
+    		@partials.userShowLeftPane(user, reputation, followerCount, followingCount)
     		
 	        <div class="span10" id="top-div">
-	        	@partials.userShowTabs(userToBeShowed,self,following,Constants.ROLES)
+	        	@partials.userShowTabs(user, self, following, Constants.ROLES)
 
 	        	<div class="tab-content">
 	        		

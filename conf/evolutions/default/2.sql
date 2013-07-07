@@ -7,8 +7,9 @@ insert into TBL_CATEGORY (name) values ('category3');
 insert into TBL_CATEGORY (name) values ('category4');
 insert into TBL_CATEGORY (name) values ('category5');
 
-insert into TBL_REPUTATION_VALUE (name,value) values ('rating',10);
-insert into TBL_REPUTATION_VALUE (name,value) values ('createPost',10);
+insert into TBL_REPUTATION_VALUE (name, value) values ('RATE_UP', 20);
+insert into TBL_REPUTATION_VALUE (name, value) values ('RATE_DOWN', -5);
+insert into TBL_REPUTATION_VALUE (name, value) values ('CREATE_POST', 1);
 
 insert into TBL_SECURITY_ROLE (key, name) values (-1, 'admin');
 insert into TBL_SECURITY_ROLE (key, name) values (-2, 'role1');
@@ -16,10 +17,10 @@ insert into TBL_SECURITY_ROLE (key, name) values (-3, 'role2');
 insert into TBL_SECURITY_ROLE (key, name) values (-4, 'role3');
 insert into TBL_SECURITY_ROLE (key, name) values (-5, 'role4');
 
-insert into TBL_USER (key, original_key, created_on, updated_on, login_count, last_login, first_name, last_name, email, profile_image_url, provider, revision, status, reputation_value) values ('new_user',           'newKey',    '2012-01-01', '2012-01-01', 1, '2012-01-01', 'New',   'User',  'newbar@test.com',      'http://static.ak.fbcdn.net/rsrc.php/v2/yL/r/HsTZSDw4avx.gif', 'somewhere', 1, 'N',0);
-insert into TBL_USER (key, original_key, created_on, updated_on, login_count, last_login, first_name, last_name, email, profile_image_url, provider, revision, status, reputation_value) values ('testuser',           'testKey',   '2012-01-01', '2012-01-01', 1, '2012-01-01', 'Foo',   'Bar',   'foobar@test.com',      'http://static.ak.fbcdn.net/rsrc.php/v2/yL/r/HsTZSDw4avx.gif', 'somewhere', 1, 'S',0);
-insert into TBL_USER (key, original_key, created_on, updated_on, login_count, last_login, first_name, last_name, email, profile_image_url, provider, revision, status, reputation_value) values ('facebook::807220003','807220003', '2012-10-11', '2012-10-11', 1, '2012-10-11', 'Hakan', 'Dilek', 'hakan@mailinator.com', 'http://graph.facebook.com/807220003/picture',                 'facebook',  1, 'A',0);
-insert into TBL_USER (key, original_key, created_on, updated_on, login_count, last_login, first_name, last_name, email, profile_image_url, provider, revision, status, reputation_value) values ('facebook::758958842','758958842', '2012-10-11', '2012-10-11', 1, '2012-11-11', 'Necip', 'Karakas', 'necipk@gmail.com', 'http://graph.facebook.com/758958842/picture',               'facebook',  1, 'A',0);
+insert into TBL_USER (key, original_key, created_on, updated_on, login_count, last_login, first_name, last_name, email, profile_image_url, provider, revision, status) values ('new_user',           'newKey',    '2012-01-01', '2012-01-01', 1, '2012-01-01', 'New',   'User',  'newbar@test.com',      'http://static.ak.fbcdn.net/rsrc.php/v2/yL/r/HsTZSDw4avx.gif', 'somewhere', 1, 'N');
+insert into TBL_USER (key, original_key, created_on, updated_on, login_count, last_login, first_name, last_name, email, profile_image_url, provider, revision, status) values ('testuser',           'testKey',   '2012-01-01', '2012-01-01', 1, '2012-01-01', 'Foo',   'Bar',   'foobar@test.com',      'http://static.ak.fbcdn.net/rsrc.php/v2/yL/r/HsTZSDw4avx.gif', 'somewhere', 1, 'S');
+insert into TBL_USER (key, original_key, created_on, updated_on, login_count, last_login, first_name, last_name, email, profile_image_url, provider, revision, status) values ('facebook::807220003','807220003', '2012-10-11', '2012-10-11', 1, '2012-10-11', 'Hakan', 'Dilek', 'hakan@mailinator.com', 'http://graph.facebook.com/807220003/picture',                 'facebook',  1, 'A');
+insert into TBL_USER (key, original_key, created_on, updated_on, login_count, last_login, first_name, last_name, email, profile_image_url, provider, revision, status) values ('facebook::758958842','758958842', '2012-10-11', '2012-10-11', 1, '2012-11-11', 'Necip', 'Karakas', 'necipk@gmail.com',   'http://graph.facebook.com/758958842/picture',                 'facebook',  1, 'A');
 
 insert into TBL_USER_SECURITY_ROLE (USER_key, security_role_key) values ('facebook::807220003', -1);
 insert into TBL_USER_SECURITY_ROLE (USER_key, security_role_key) values ('facebook::758958842', -1);

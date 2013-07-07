@@ -5,14 +5,15 @@ import javax.inject.Inject;
 import models.Post;
 import models.PostRating;
 import models.PostRatingPK;
+import models.ReputationType;
 import models.User;
 import models.dao.PostDAO;
 import models.dao.PostRatingDAO;
-import models.dao.UserActionDAO;
 import play.Logger;
 import play.Logger.ALogger;
 import play.mvc.Controller;
 import play.mvc.Result;
+import reputation.ReputationContext;
 import security.Authenticated;
 import security.RestrictApproved;
 import views.html.partials.rate;
@@ -23,14 +24,14 @@ public class RateController extends Controller implements Constants {
 	
 	PostDAO postDAO;
 	PostRatingDAO postRatingDAO;
-	UserActionDAO userActionDAO;
+	ReputationHandler reputationHandler;
 
 	@Inject
-	public RateController(PostDAO postDAO, PostRatingDAO postRatingDAO, UserActionDAO reputationDAO) {
+	public RateController(PostDAO postDAO, PostRatingDAO postRatingDAO, ReputationHandler reputationHandler) {
 		super();
 		this.postDAO = postDAO;
 		this.postRatingDAO = postRatingDAO;
-		this.userActionDAO = reputationDAO;
+		this.reputationHandler = reputationHandler;
 	}
 
 	/**
@@ -93,9 +94,8 @@ public class RateController extends Controller implements Constants {
 
 			postRatingDAO.resetVotedPostKeyCache(user);
 
-			if (rating>0) {
-				userActionDAO.addUserAction(user, post,ActionConstants.RATE_UP);
-			}
+			ReputationType repType = rating > 0 ? ReputationType.RATE_UP : ReputationType.RATE_DOWN;
+			reputationHandler.evaluate(new ReputationContext(post), repType);
 			
 			if (log.isDebugEnabled())
 				log.debug("updating post : " + post);

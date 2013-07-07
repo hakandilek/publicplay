@@ -27,7 +27,7 @@ import play.utils.dao.TimestampModel;
 @Entity
 @Table(name="TBL_POST")
 @SuppressWarnings("serial")
-public class Post extends Model implements TimestampModel<Long>, Owned<Long> {
+public class Post extends Model implements TimestampModel<Long>, Owned<Long>, ActionSubject, ReputationSubject {
 
 	@Id
 	private Long key;
@@ -90,6 +90,11 @@ public class Post extends Model implements TimestampModel<Long>, Owned<Long> {
 
     @Transient
 	private UUID imageKey;
+
+	@Override
+	public void associate(Action action) {
+		action.setTargetPost(this);
+	}
 
 	public Long getKey() {
 		return key;

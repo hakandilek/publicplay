@@ -1,4 +1,4 @@
-@(userToBeShowed: models.User,self: Boolean,tabName:String, upVotedPostKeys:Set[Long], downVotedPostKeys:Set[Long], following: Boolean, followerCount:Integer, followingCount:Integer,
+@(user: models.User, reputation: models.UserReputation, self: Boolean,tabName:String, upVotedPostKeys:Set[Long], downVotedPostKeys:Set[Long], following: Boolean, followerCount:Integer, followingCount:Integer,
 currentVotedPostPage: com.avaje.ebean.Page[Post])
 @import be.objectify.deadbolt.java.views.html._
 @import be.objectify.deadbolt.core.utils.TemplateUtils._
@@ -12,7 +12,7 @@ currentVotedPostPage: com.avaje.ebean.Page[Post])
 
 @template.main(Messages("user_information"), scripts = scripts) {
 
-    @if(userToBeShowed == null) {
+    @if(user == null) {
     
     <div class="page-header">
         <p class="text-error"> @Messages("User not found") </p>
@@ -22,10 +22,10 @@ currentVotedPostPage: com.avaje.ebean.Page[Post])
     
 	<div class="container-fluid">
     	<div class="row-fluid">
-    		@partials.userShowLeftPane(userToBeShowed,followerCount,followingCount)
+    		@partials.userShowLeftPane(user, reputation, followerCount, followingCount)
     		
 	        <div class="span10" id="top-div">
-	        	@partials.userShowTabs(userToBeShowed,self,following,Constants.VOTED_POSTS)
+	        	@partials.userShowTabs(user, self, following, Constants.VOTED_POSTS)
 	        	<div class="tab-content">
 	        		
 	        		<div id="user_Posts"  class="tab-pane fade in active">             	
@@ -40,8 +40,8 @@ currentVotedPostPage: com.avaje.ebean.Page[Post])
 	        		</div>
 	             </div>
 	             	@partials.pagination(currentVotedPostPage, Constants.POSTS_PER_PAGE, 
-            				routes.App.userShow(userToBeShowed.getKey(), tabName, currentVotedPostPage.getPageIndex - 1),
-            				routes.App.userShow(userToBeShowed.getKey(), tabName, currentVotedPostPage.getPageIndex + 1))
+            				routes.App.userShow(user.getKey(), tabName, currentVotedPostPage.getPageIndex - 1),
+            				routes.App.userShow(user.getKey(), tabName, currentVotedPostPage.getPageIndex + 1))
 	        </div>
 	    </div>
 	</div>

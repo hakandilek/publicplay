@@ -21,7 +21,7 @@ import play.utils.dao.TimestampModel;
 @Entity
 @Table(name="TBL_COMMENT")
 @SuppressWarnings("serial")
-public class Comment extends Model implements TimestampModel<Long>, Owned<Long> {
+public class Comment extends Model implements TimestampModel<Long>, Owned<Long>, ActionSubject {
 
 	@Id
 	private Long key;
@@ -67,6 +67,11 @@ public class Comment extends Model implements TimestampModel<Long>, Owned<Long> 
 
     @Enumerated(value=EnumType.STRING)
     private ContentStatus status = ContentStatus.NEW;
+
+	@Override
+	public void associate(Action action) {
+		action.setTargetComment(this);
+	}
 
 	public Long getKey() {
 		return key;

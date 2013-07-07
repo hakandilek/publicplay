@@ -4,6 +4,8 @@ import java.util.Date;
 
 import javax.persistence.Basic;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -22,8 +24,8 @@ public class Action extends Model implements TimestampModel<Long> {
 	@Id
 	private Long key;
 	
-	@Basic
-	private String name;
+    @Enumerated(value=EnumType.STRING)
+    private ActionType type;
 	
 	@Basic
 	private Date createdOn;
@@ -87,12 +89,12 @@ public class Action extends Model implements TimestampModel<Long> {
 		this.createdBy = createdBy;
 	}
 
-	public String getName() {
-		return name;
+	public ActionType getType() {
+		return type;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setType(ActionType type) {
+		this.type = type;
 	}
 
 	public Post getTargetPost() {
@@ -121,7 +123,7 @@ public class Action extends Model implements TimestampModel<Long> {
 
 	@Override
 	public String toString() {
-		return "Action [key=" + key + ", name=" + name + ", createdOn="
+		return "Action [key=" + key + ", type=" + type + ", createdOn="
 				+ createdOn + ", updatedOn=" + updatedOn + ", revision="
 				+ revision + ", targetPost=" + targetPost + ", targetComment="
 				+ targetComment + ", targetUser=" + targetUser + ", createdBy="

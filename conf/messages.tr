@@ -267,7 +267,7 @@ SourceConfiguration.bulkData.label=toplu konfigürasyon
 update_sourceConfiguration=konfigurasyon düzenle
 
 #Reputation
-Reputation=Puan
+User.Reputation=Puan
 
 # ReputationValue
 Reputation_Value=Puan Degeri

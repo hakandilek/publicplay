@@ -8,12 +8,12 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import models.ActionType;
 import models.SecurityRole;
 import models.User;
 import models.UserFollow;
 import models.UserFollowPK;
 import models.dao.SecurityRoleDAO;
-import models.dao.UserActionDAO;
 import models.dao.UserDAO;
 import models.dao.UserFollowDAO;
 
@@ -25,6 +25,7 @@ import play.utils.dao.EntityNotFoundException;
 
 import com.google.common.collect.ImmutableMap;
 
+import controllers.ActionHandler;
 import controllers.HttpUtils;
 
 public class UserAPIController extends APIController<String, User> {
@@ -32,16 +33,16 @@ public class UserAPIController extends APIController<String, User> {
 	private UserDAO userDAO;
 	private UserFollowDAO userFollowDAO;
 	private SecurityRoleDAO securityRoleDAO;
-	private UserActionDAO userActionDAO;
+	private ActionHandler actionHandler;
 
 	@Inject
 	public UserAPIController(UserDAO userDAO, UserFollowDAO userFollowDAO,
-			SecurityRoleDAO securityRoleDAO,UserActionDAO userActionDAO)   {
+			SecurityRoleDAO securityRoleDAO, ActionHandler actionHandler)   {
 		super(userDAO);
 		this.userDAO = userDAO;
 		this.userFollowDAO = userFollowDAO;
 		this.securityRoleDAO = securityRoleDAO;
-		this.userActionDAO = userActionDAO;
+		this.actionHandler = actionHandler;
 	}
 
 	@Override
@@ -94,7 +95,7 @@ public class UserAPIController extends APIController<String, User> {
 			follow = new UserFollow();
 			follow.setKey(followKey);
 			userFollowDAO.create(follow);
-			userActionDAO.addUserAction(loginUser, userDAO.get(key), "followUser");
+			actionHandler.perform(loginUser, userDAO.get(key), ActionType.FOLLOW_USER);
 		}
 
 		return created(toJson(ImmutableMap.of("status", "OK", "key", key,

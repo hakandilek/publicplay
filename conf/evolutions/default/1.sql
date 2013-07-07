@@ -5,7 +5,7 @@
 
 create table TBL_ACTION (
   key                       bigint not null,
-  name                      varchar(255),
+  type                      varchar(14),
   created_on                timestamp,
   updated_on                timestamp,
   target_post_key           bigint,
@@ -13,6 +13,7 @@ create table TBL_ACTION (
   target_user_key           varchar(255),
   created_by                varchar(255),
   revision                  integer not null,
+  constraint ck_TBL_ACTION_type check (type in ('CREATE_COMMENT','CREATE_POST','FOLLOW_USER')),
   constraint pk_TBL_ACTION primary key (key))
 ;
 
@@ -88,6 +89,16 @@ create table TBL_POST_RATING (
   constraint pk_TBL_POST_RATING primary key (user_key, post_key))
 ;
 
+create table TBL_REPUTATION (
+  key                       bigint not null,
+  created_on                timestamp,
+  updated_on                timestamp,
+  reputation_value_key      varchar(255) not null,
+  owner_key                 varchar(255) not null,
+  revision                  integer not null,
+  constraint pk_TBL_REPUTATION primary key (key))
+;
+
 create table TBL_REPUTATION_VALUE (
   name                      varchar(255) not null,
   value                     integer,
@@ -142,7 +153,6 @@ create table TBL_USER (
   created_on                timestamp,
   updated_on                timestamp,
   login_count               integer,
-  reputation_value          integer,
   last_login                timestamp,
   first_name                varchar(255),
   last_name                 varchar(255),
@@ -170,6 +180,14 @@ create table TBL_USER_FOLLOW (
   constraint pk_TBL_USER_FOLLOW primary key (source_key, target_key))
 ;
 
+create table TBL_USERREPUTATION (
+  key                       bigint not null,
+  value                     integer,
+  target_user_key           varchar(255),
+  revision                  integer not null,
+  constraint pk_TBL_USERREPUTATION primary key (key))
+;
+
 
 create table TBL_USER_SECURITY_ROLE (
   user_key                       varchar(255) not null,
@@ -188,6 +206,8 @@ create sequence TBL_POST_seq;
 
 create sequence TBL_POST_RATING_seq;
 
+create sequence TBL_REPUTATION_seq;
+
 create sequence TBL_REPUTATION_VALUE_seq;
 
 create sequence TBL_SECURITY_ROLE_seq;
@@ -197,6 +217,8 @@ create sequence TBL_SOURCE_CONFIG_seq;
 create sequence TBL_USER_seq;
 
 create sequence TBL_USER_FOLLOW_seq;
+
+create sequence TBL_USERREPUTATION_seq;
 
 alter table TBL_ACTION add constraint fk_TBL_ACTION_targetPost_1 foreign key (target_post_key) references TBL_POST (key) on delete restrict on update restrict;
 create index ix_TBL_ACTION_targetPost_1 on TBL_ACTION (target_post_key);
@@ -228,6 +250,8 @@ alter table TBL_POST add constraint fk_TBL_POST_approvedBy_14 foreign key (appro
 create index ix_TBL_POST_approvedBy_14 on TBL_POST (approved_by);
 alter table TBL_POST add constraint fk_TBL_POST_category_15 foreign key (category) references TBL_CATEGORY (name) on delete restrict on update restrict;
 create index ix_TBL_POST_category_15 on TBL_POST (category);
+alter table TBL_USERREPUTATION add constraint fk_TBL_USERREPUTATION_targetU_16 foreign key (target_user_key) references TBL_USER (key) on delete restrict on update restrict;
+create index ix_TBL_USERREPUTATION_targetU_16 on TBL_USERREPUTATION (target_user_key);
 
 
 
@@ -251,6 +275,8 @@ drop table if exists TBL_POST;
 
 drop table if exists TBL_POST_RATING;
 
+drop table if exists TBL_REPUTATION;
+
 drop table if exists TBL_REPUTATION_VALUE;
 
 drop table if exists TBL_S3FILE;
@@ -264,6 +290,8 @@ drop table if exists TBL_USER;
 drop table if exists TBL_USER_SECURITY_ROLE;
 
 drop table if exists TBL_USER_FOLLOW;
+
+drop table if exists TBL_USERREPUTATION;
 
 SET REFERENTIAL_INTEGRITY TRUE;
 
@@ -279,6 +307,8 @@ drop sequence if exists TBL_POST_seq;
 
 drop sequence if exists TBL_POST_RATING_seq;
 
+drop sequence if exists TBL_REPUTATION_seq;
+
 drop sequence if exists TBL_REPUTATION_VALUE_seq;
 
 drop sequence if exists TBL_SECURITY_ROLE_seq;
@@ -288,4 +318,6 @@ drop sequence if exists TBL_SOURCE_CONFIG_seq;
 drop sequence if exists TBL_USER_seq;
 
 drop sequence if exists TBL_USER_FOLLOW_seq;
+
+drop sequence if exists TBL_USERREPUTATION_seq;
 

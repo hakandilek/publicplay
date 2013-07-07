@@ -2,6 +2,7 @@ package controllers;
 import static play.data.Form.*;
 
 import static controllers.HttpUtils.*;
+import static models.ActionType.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -21,7 +22,6 @@ import models.dao.CategoryDAO;
 import models.dao.CommentDAO;
 import models.dao.PostDAO;
 import models.dao.PostRatingDAO;
-import models.dao.UserActionDAO;
 import models.dao.S3FileDAO;
 import models.dao.UserFollowDAO;
 
@@ -60,21 +60,22 @@ public class PostController extends DynamicTemplateController implements
 
 	private S3FileDAO s3FileDAO;
 
-	private final UserFollowDAO userFollowDAO;
+	private UserFollowDAO userFollowDAO;
 
-	private UserActionDAO userActionDAO;
+	private ActionHandler actionHandler;
 
 	@Inject
 	public PostController(PostDAO postDAO, CommentDAO commentDAO,
 			PostRatingDAO postRatingDAO, CategoryDAO categoryDAO,
-			S3FileDAO s3FileDAO, UserFollowDAO userFollowDAO,UserActionDAO userActionDAO) {
+			S3FileDAO s3FileDAO, UserFollowDAO userFollowDAO,
+			ActionHandler actionHandler) {
 		this.postDAO = postDAO;
 		this.commentDAO = commentDAO;
 		this.postRatingDAO = postRatingDAO;
 		this.categoryDAO = categoryDAO;
 		this.s3FileDAO = s3FileDAO;
 		this.userFollowDAO = userFollowDAO;
-		this.userActionDAO = userActionDAO;
+		this.actionHandler = actionHandler;
 	}
 
 	/**
@@ -197,7 +198,7 @@ public class PostController extends DynamicTemplateController implements
 
 				postDAO.create(post);
 				
-				userActionDAO.addUserAction(user, post,"createPost");
+				actionHandler.perform(user, post, CREATE_POST);
 				
 				if (log.isDebugEnabled())
 					log.debug("entity created: " + post);

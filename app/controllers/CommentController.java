@@ -7,6 +7,7 @@ import java.util.TreeSet;
 
 import javax.inject.Inject;
 
+import models.ActionType;
 import models.Comment;
 import models.ContentStatus;
 import models.Post;
@@ -14,7 +15,6 @@ import models.User;
 import models.dao.CommentDAO;
 import models.dao.PostDAO;
 import models.dao.PostRatingDAO;
-import models.dao.UserActionDAO;
 import play.data.Form;
 import play.mvc.Result;
 import play.utils.crud.DynamicTemplateController;
@@ -30,17 +30,17 @@ public class CommentController extends DynamicTemplateController implements
 	private CommentDAO commentDAO;
 	private PostDAO postDAO;
 	private PostRatingDAO postRatingDAO;
-	private UserActionDAO userActionDAO;
+	private ActionHandler actionHandler;
 
 	private Form<Comment> form = form(Comment.class);
 
 	@Inject
 	public CommentController(PostDAO postDAO, CommentDAO commentDAO,
-			PostRatingDAO postRatingDAO, UserActionDAO userActionDAO) {
+			PostRatingDAO postRatingDAO, ActionHandler actionHandler) {
 		this.postDAO = postDAO;
 		this.commentDAO = commentDAO;
 		this.postRatingDAO = postRatingDAO;
-		this.userActionDAO = userActionDAO;
+		this.actionHandler = actionHandler;
 	}
 
 	public Result create(Long postKey, String title) {
@@ -80,7 +80,7 @@ public class CommentController extends DynamicTemplateController implements
 			if (log.isDebugEnabled())
 				log.debug("comment created : " + comment);
 
-			userActionDAO.addUserAction(user, comment, ActionConstants.COMMENT);
+			actionHandler.perform(user, comment, ActionType.CREATE_COMMENT);
 
 			final Long key = post.getKey();
 			return redirect(routes.App.postShow(key, title, 0));

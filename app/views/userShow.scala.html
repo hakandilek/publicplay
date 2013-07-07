@@ -1,4 +1,4 @@
-@(userToBeShowed: models.User,self: Boolean,tabName:String, upVotedPostKeys:Set[Long], downVotedPostKeys:Set[Long], 
+@(user: models.User, reputation: models.UserReputation, self: Boolean, tabName:String, upVotedPostKeys:Set[Long], downVotedPostKeys:Set[Long], 
 following: Boolean, followerCount:Integer, followingCount:Integer, currentActionPage: com.avaje.ebean.Page[models.Action])
 @import be.objectify.deadbolt.java.views.html._
 @import be.objectify.deadbolt.core.utils.TemplateUtils._
@@ -12,7 +12,7 @@ following: Boolean, followerCount:Integer, followingCount:Integer, currentAction
 
 @template.main(Messages("user_information"), scripts = scripts) {
 
-    @if(userToBeShowed == null) {
+    @if(user == null) {
     
     <div class="page-header">
         <p class="text-error"> @Messages("User not found") </p>
@@ -22,31 +22,23 @@ following: Boolean, followerCount:Integer, followingCount:Integer, currentAction
     
 	<div class="container-fluid">
     	<div class="row-fluid">
-    		@partials.userShowLeftPane(userToBeShowed,followerCount,followingCount)
+    		@partials.userShowLeftPane(user, reputation, followerCount, followingCount)
     		
 	        <div class="span10" id="top-div">
 	        	<div id="saveAlert" class="alert alert-error hide" data-alert="alert" style="top:0">
        				<a class="close" href="#">x</a>
        			 	<p>@Messages("You_cant_vote_your_own_post")</p>
    				</div>
-	        	@partials.userShowTabs(userToBeShowed,self,following,Constants.TIMELINE)
+	        	@partials.userShowTabs(user,self,following,Constants.TIMELINE)
 	        	<div class="tab-content">
 	        		
 	        		<div id="user_Posts"  class="tab-pane fade in active">             	
 	        			@for(action <- currentActionPage.getList) {
 	        				<div class="userAction">
-	        				@action.getName() match {
-		        				case ActionConstants.RATE_UP => {
-		        					<table class="posts table table-striped table-bordered">   		
-		        						<tbody> 
-		   	        					@partials.postTable(action.getTargetPost(), upVotedPostKeys, downVotedPostKeys)
-		        						</tbody>
-		        					</table>
-		        					<small>@userToBeShowed.getFirstName() @Messages("Post.Voted.CreatedOn", prettify(action.getCreatedOn()))</small>
-		        				}
-								case ActionConstants.CREATE_POST =>{
+	        				@action.getType() match {
+								case ActionType.CREATE_POST =>{
 									<div style="padding: 10px 0;">
-										<small>@userToBeShowed.getFirstName() @Messages("Post.CreatedOn", prettify(action.getTargetPost().getCreatedOn()))</small>
+										<small>@user.getFirstName() @Messages("Post.CreatedOn", prettify(action.getTargetPost().getCreatedOn()))</small>
 									</div>
 		        					<table class="posts table table-striped table-bordered">   		
 		        						<tbody>
@@ -54,13 +46,13 @@ following: Boolean, followerCount:Integer, followingCount:Integer, currentAction
 		        						</tbody> 
 		        					</table>
 		        				}
-		        				case ActionConstants.COMMENT=>{
+		        				case ActionType.CREATE_COMMENT=>{
 		        					<table class="posts table table-striped table-bordered">   		
 		        						<tbody>
 		   	        					@partials.postTable(action.getTargetComment().getPost(), upVotedPostKeys, downVotedPostKeys)
 		        						</tbody>
 		        					</table>
-		        					<small>@userToBeShowed.getFirstName() @Messages("Comment.CreatedOn", prettify(action.getTargetComment().getCreatedOn()))</small>
+		        					<small>@user.getFirstName() @Messages("Comment.CreatedOn", prettify(action.getTargetComment().getCreatedOn()))</small>
 		        					<tr>
 	        							<td class="nl-withoutSpace">
 	        							<a href="@routes.App.postShow(action.getTargetComment().getPost().getKey(), 
@@ -68,8 +60,8 @@ following: Boolean, followerCount:Integer, followingCount:Integer, currentAction
 	        							</td>
 	        						</tr>
 		        				}
-		        				case ActionConstants.FOLLOW_USER=>{
-		        					<small>@userToBeShowed.getFirstName() 
+		        				case ActionType.FOLLOW_USER=>{
+		        					<small>@user.getFirstName() 
 		        					@Html(Messages("UserFollow.CreatedOn", prettify(action.getCreatedOn()),partials.userProfile(action.getTargetUser())))</small>
 		        				}
 	        				}
@@ -78,8 +70,8 @@ following: Boolean, followerCount:Integer, followingCount:Integer, currentAction
 	        		</div>
 	             </div>
 	             	@partials.pagination(currentActionPage, Constants.POSTS_PER_PAGE, 
-            				routes.App.userShow(userToBeShowed.getKey(), tabName, currentActionPage.getPageIndex - 1),
-            				routes.App.userShow(userToBeShowed.getKey(), tabName, currentActionPage.getPageIndex + 1))
+            				routes.App.userShow(user.getKey(), tabName, currentActionPage.getPageIndex - 1),
+            				routes.App.userShow(user.getKey(), tabName, currentActionPage.getPageIndex + 1))
 	        </div>
 	    </div>
 	</div>

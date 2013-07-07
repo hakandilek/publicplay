@@ -14,13 +14,15 @@ import models.Post;
 import models.SecurityRole;
 import models.User;
 import models.UserFollow;
+import models.UserReputation;
 import models.dao.CommentDAO;
 import models.dao.PostDAO;
 import models.dao.PostRatingDAO;
 import models.dao.SecurityRoleDAO;
-import models.dao.UserActionDAO;
+import models.dao.ActionDAO;
 import models.dao.UserDAO;
 import models.dao.UserFollowDAO;
+import models.dao.UserReputationDAO;
 import play.Logger;
 import play.Logger.ALogger;
 import play.mvc.Result;
@@ -43,12 +45,14 @@ public class UserController extends DynamicTemplateController {
 	private SecurityRoleDAO securityRoleDAO;
 	private PostDAO postDAO;
 	private CommentDAO commentDAO;
-	private UserActionDAO userActionDAO;
+	private ActionDAO userActionDAO;
+	private UserReputationDAO userReputationDAO;
 
 	@Inject
 	public UserController(UserDAO userDAO, PostRatingDAO postRatingDAO,
 			UserFollowDAO userFollowDAO, SecurityRoleDAO securityRoleDAO,
-			PostDAO postDAO, CommentDAO commentDAO,UserActionDAO userActionDAO) {
+			PostDAO postDAO, CommentDAO commentDAO, ActionDAO userActionDAO,
+			UserReputationDAO userReputationDAO) {
 		this.userDAO = userDAO;
 		this.postRatingDAO = postRatingDAO;
 		this.userFollowDAO = userFollowDAO;
@@ -56,6 +60,7 @@ public class UserController extends DynamicTemplateController {
 		this.postDAO = postDAO;
 		this.commentDAO = commentDAO;
 		this.userActionDAO=userActionDAO;
+		this.userReputationDAO = userReputationDAO;
 	}
 
 	public Result show(String key,String tab,int votedPageNumber) {
@@ -75,12 +80,13 @@ public class UserController extends DynamicTemplateController {
 		return show(loginUser, loginUser,null,0);
 	}
 
-	private Result show(User loginUser, User userToShow,String tab,int pageNumber) {
+	private Result show(User loginUser, User userToShow, String tab,
+			int pageNumber) {
 
-		Page<Post> postPage=null;
-		Page<Action> actionPage=null;
-		Page<Comment> commentPage=null;
-		
+		Page<Post> postPage = null;
+		Page<Action> actionPage = null;
+		Page<Comment> commentPage = null;
+
 		Set<Long> upVotes = userToShow == null ? new TreeSet<Long>()
 				: postRatingDAO.getUpVotedPostKeys(userToShow);
 		Set<Long> downVotes = userToShow == null ? new TreeSet<Long>()
@@ -89,11 +95,13 @@ public class UserController extends DynamicTemplateController {
 		List<SecurityRole> allRoles = securityRoleDAO.all();
 		List<SecurityRole> userRoles = new ArrayList<SecurityRole>();
 		
+		UserReputation reputation = userReputationDAO.get(userToShow);
+
 		if (log.isDebugEnabled())
 			log.debug("user : " + loginUser);
 		if (loginUser == null || userToShow == null) {
-			return badRequest(userShow.render(userToShow, false,tab, upVotes,
-					downVotes, false, 0, 0, actionPage));
+			return badRequest(userShow.render(userToShow, reputation, false,
+					tab, upVotes, downVotes, false, 0, 0, actionPage));
 		}
 
 		boolean selfPage = false;
@@ -112,36 +120,41 @@ public class UserController extends DynamicTemplateController {
 		int followerCount = userFollowDAO.getFollowerCount(userToShow);
 		int followingCount = userFollowDAO.getFollowingCount(userToShow);
 
-		if(tab == null || tab.toString().equals("") || tab.toString().equals(Constants.TIMELINE)){
-			actionPage=userActionDAO.getActionsCreatedBy(new ArrayList<String>( Arrays.asList(userToShow.getKey())),
+		if (tab == null || tab.toString().equals("")
+				|| tab.toString().equals(Constants.TIMELINE)) {
+			actionPage = userActionDAO.getActionsCreatedBy(
+					new ArrayList<String>(Arrays.asList(userToShow.getKey())),
 					pageNumber, Constants.ACTIONS_PER_PAGE);
-			return ok(userShow.render(userToShow, selfPage,tab, upVotes, downVotes,
-					following, followerCount, followingCount,actionPage));
-		}else if(tab.toString().equals(Constants.POSTS)){
-			postPage = postDAO.getPostsCreatedBy(new ArrayList<String>( Arrays.asList(userToShow.getKey())),
+			return ok(userShow.render(userToShow, reputation, selfPage, tab,
+					upVotes, downVotes, following, followerCount,
+					followingCount, actionPage));
+		} else if (tab.toString().equals(Constants.POSTS)) {
+			postPage = postDAO.getPostsCreatedBy(
+					new ArrayList<String>(Arrays.asList(userToShow.getKey())),
 					pageNumber, Constants.POSTS_PER_PAGE);
-			return ok(userShowPosts.render(userToShow, selfPage,tab, upVotes, downVotes,
-					following, followerCount, followingCount,postPage));
-		}else if(tab.toString().equals(Constants.COMMENTS)){
-			commentPage = commentDAO.getCommentsBy(userToShow.getKey(), pageNumber, Constants.COMMENTS_PER_PAGE);
-			return ok(userShowComments.render(userToShow, selfPage,tab,
-					following, followerCount, followingCount,commentPage));
-		}else if(tab.toString().equals(Constants.ROLES)){
+			return ok(userShowPosts.render(userToShow, reputation, selfPage,
+					tab, upVotes, downVotes, following, followerCount,
+					followingCount, postPage));
+		} else if (tab.toString().equals(Constants.COMMENTS)) {
+			commentPage = commentDAO.getCommentsBy(userToShow.getKey(),
+					pageNumber, Constants.COMMENTS_PER_PAGE);
+			return ok(userShowComments.render(userToShow, reputation, selfPage,
+					tab, following, followerCount, followingCount, commentPage));
+		} else if (tab.toString().equals(Constants.ROLES)) {
 			userRoles = userToShow.getSecurityRoles();
-			return ok(userShowRoles.render(userToShow, selfPage,
-					following, followerCount, followingCount,allRoles, userRoles));
-		}else if(tab.toString().equals(Constants.VOTED_POSTS)){
-			postPage= postRatingDAO.getUpVotedPosts(userToShow, pageNumber);
-			return ok(userShowVotedPages.render(userToShow, selfPage,tab, upVotes, downVotes,
-					following, followerCount, followingCount,postPage));
+			return ok(userShowRoles.render(userToShow, reputation, selfPage,
+					following, followerCount, followingCount, allRoles,
+					userRoles));
+		} else if (tab.toString().equals(Constants.VOTED_POSTS)) {
+			postPage = postRatingDAO.getUpVotedPosts(userToShow, pageNumber);
+			return ok(userShowVotedPages.render(userToShow, reputation,
+					selfPage, tab, upVotes, downVotes, following,
+					followerCount, followingCount, postPage));
 		}
-		
 
-		return badRequest(userShow.render(userToShow, false,tab, upVotes,
-				downVotes, false, 0, 0, actionPage));
+		return badRequest(userShow.render(userToShow, reputation, false, tab,
+				upVotes, downVotes, false, 0, 0, actionPage));
 	}
-
-	
 
 	public Result showFollowers(String key,int page) {
 		User userToShow = null;

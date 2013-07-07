@@ -20,6 +20,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Version;
 
+import karma.model.Reputable;
+
 import play.db.ebean.Model;
 import play.utils.dao.TimestampModel;
 import security.Approvable;
@@ -38,7 +40,7 @@ import static com.restfb.util.StringUtils.isBlank;
 @Entity
 @Table(name="TBL_USER")
 @SuppressWarnings("serial")
-public class User extends Model implements Subject, Approvable, TimestampModel<String> {
+public class User extends Model implements Subject, Approvable, TimestampModel<String>, ActionSubject, Reputable {
 
 	public enum Status {
 		@EnumValue("N")
@@ -67,9 +69,6 @@ public class User extends Model implements Subject, Approvable, TimestampModel<S
 	@Basic
 	private int loginCount;
 	
-	@Basic
-	private int reputationValue;
-
 	@Basic
 	private Date lastLogin;
 
@@ -125,6 +124,11 @@ public class User extends Model implements Subject, Approvable, TimestampModel<S
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinTable(name = "TBL_USER_SECURITY_ROLE", joinColumns = @JoinColumn(name = "user_key"), inverseJoinColumns = @JoinColumn(name = "security_role_key"))
     private List<SecurityRole> securityRoles = new ArrayList<SecurityRole>();
+
+	@Override
+	public void associate(Action action) {
+		action.setTargetUser(this);
+	}
 
 	public static String getKey(String provider, String id) {
 		return provider + "::" + id;
@@ -365,11 +369,4 @@ public class User extends Model implements Subject, Approvable, TimestampModel<S
 		location = facebookUser.getLocation();
 	}
 
-	public int getReputationValue() {
-		return reputationValue;
-	}
-
-	public void setReputationValue(int reputation) {
-		this.reputationValue = reputation;
-	}
 }

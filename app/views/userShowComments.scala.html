@@ -1,4 +1,4 @@
-@(userToBeShowed: models.User,self: Boolean,tabName:String, following: Boolean, 
+@(user: models.User, reputation: models.UserReputation, self: Boolean,tabName:String, following: Boolean, 
 followerCount:Integer, followingCount:Integer,currentCommentPage: com.avaje.ebean.Page[Comment])
 @import be.objectify.deadbolt.java.views.html._
 @import be.objectify.deadbolt.core.utils.TemplateUtils._
@@ -12,7 +12,7 @@ followerCount:Integer, followingCount:Integer,currentCommentPage: com.avaje.ebea
 
 @template.main(Messages("user_information"), scripts = scripts) {
 
-    @if(userToBeShowed == null) {
+    @if(user == null) {
     
     <div class="page-header">
         <p class="text-error"> @Messages("User not found") </p>
@@ -22,10 +22,10 @@ followerCount:Integer, followingCount:Integer,currentCommentPage: com.avaje.ebea
     
 	<div class="container-fluid">
     	<div class="row-fluid">
-    		@partials.userShowLeftPane(userToBeShowed,followerCount,followingCount)
+    		@partials.userShowLeftPane(user, reputation, followerCount, followingCount)
     		
 	        <div class="span10" id="top-div">
-	        	@partials.userShowTabs(userToBeShowed,self,following,Constants.COMMENTS)
+	        	@partials.userShowTabs(user, self, following, Constants.COMMENTS)
 
 	        	<div class="tab-content">
 	        		
@@ -47,8 +47,8 @@ followerCount:Integer, followingCount:Integer,currentCommentPage: com.avaje.ebea
 	        		</div>
 	             	</div>
 	             	@partials.pagination(currentCommentPage, Constants.COMMENTS_PER_PAGE, 
-            				routes.App.userShow(userToBeShowed.getKey(), tabName, currentCommentPage.getPageIndex - 1),
-            				routes.App.userShow(userToBeShowed.getKey(), tabName, currentCommentPage.getPageIndex + 1))
+            				routes.App.userShow(user.getKey(), tabName, currentCommentPage.getPageIndex - 1),
+            				routes.App.userShow(user.getKey(), tabName, currentCommentPage.getPageIndex + 1))
 	        </div>
 	    </div>
 	</div>
