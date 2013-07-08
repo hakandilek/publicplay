@@ -33,7 +33,6 @@ public class SourceConfigurationDAOTest extends BaseTest{
 				try {
 					sourceConfigurationDAO.remove(key);
 				} catch (EntityNotFoundException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				assertThat(sourceConfigurationDAO.getWithSourceKey("sourceKey")).isNull();

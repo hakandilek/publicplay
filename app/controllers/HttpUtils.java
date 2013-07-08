@@ -27,11 +27,6 @@ public class HttpUtils {
 		super();
 	}
 
-	public String selfURL() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 	/**
 	 * extract login user from the context if available
 	 * @return login user, or null

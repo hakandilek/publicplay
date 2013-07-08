@@ -206,7 +206,7 @@ public class PostController extends DynamicTemplateController implements
 				return redirect(routes.App.index());
 			}
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
+			log.error("error occured", e);
 			e.printStackTrace();
 			return null;
 		}
