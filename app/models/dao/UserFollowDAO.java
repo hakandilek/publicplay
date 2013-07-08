@@ -110,10 +110,6 @@ public class UserFollowDAO extends CachedDAO<UserFollowPK, UserFollow> {
 		return count;
 	}
 	
-	public void cleanCache(User u) {
-		cleanCache(u.getKey());
-	}
-	
 	public void cleanCache(String key) {
 		followerCountCache.set("." + key, null); 
 		followingCache.set("." + key, null);
