@@ -1,12 +1,17 @@
 import sbt._
 import Keys._
 import play.Project._
+import de.johoop.jacoco4sbt._
+import JacocoPlugin._
 
 object ApplicationBuild extends Build {
 
     val appName         = "PublicPlay"
     val appVersion      = "0.1.1-SNAPSHOT"
 
+    // Jacoco for code coverage
+    lazy val s = Defaults.defaultSettings ++ Seq(jacoco.settings:_*)
+    
     val appDependencies = Seq(
        	
        	javaCore, javaJdbc, javaEbean,
@@ -31,7 +36,7 @@ object ApplicationBuild extends Build {
         "com.typesafe" %% "play-plugins-mailer" % "2.1.0"
     )
 
-    val main = play.Project(appName, appVersion, appDependencies).settings (
+    val main = play.Project(appName, appVersion, appDependencies, settings = s).settings (
         // Add your own project settings here
         // The Typesafe repository
         resolvers += "Typesafe repository" at "http://repo.typesafe.com/typesafe/releases/",
@@ -57,7 +62,24 @@ object ApplicationBuild extends Build {
         resolvers += Resolver.url("Objectify Play Repository - snapshots", url("http://schaloner.github.com/snapshots/"))(Resolver.ivyStylePatterns),
         
         // The Sonatype repository for PrettyTime
-        resolvers += "sonatype-oss-public" at "http://oss.sonatype.org/content/groups/public/"
+        resolvers += "sonatype-oss-public" at "http://oss.sonatype.org/content/groups/public/",
+        
+        // Jacoco configuration for code coverage
+    	parallelExecution     in jacoco.Config := false,
+    	jacoco.reportFormats  in jacoco.Config := Seq(XMLReport("utf-8"), HTMLReport("utf-8")),
+    	jacoco.excludes       in jacoco.Config := Seq(
+    	    "*Routes*",
+    	    "controllers*ref*", 
+    	    "controllers*javascript*", 
+    	    "controllers*routes", 
+    	    "controllers*routes.*",
+    	    "views*html*",
+    	    "views*html*admin*",
+    	    "views*html*errors*",
+    	    "views*html*page*",
+    	    "views*html*partials*",
+    	    "views*html*template*"
+	    )
         
         //ignore checksum check
         //checksums := Nil
