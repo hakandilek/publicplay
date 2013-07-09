@@ -4,10 +4,9 @@ import javax.inject.Inject;
 
 import models.Owned;
 import models.User;
-import play.utils.dao.DAOListener;
+import play.utils.dao.DAOListenerAdapter;
 
-public class OwnerCacheCleaner<K, M extends Owned<K>> implements
-		DAOListener<K, M> {
+public class OwnerCacheCleaner<K, M extends Owned<K>> extends DAOListenerAdapter<K, M> {
 
 	private UserDAO userDAO;
 
@@ -35,18 +34,6 @@ public class OwnerCacheCleaner<K, M extends Owned<K>> implements
 		User owner = m.getCreatedBy();
 		if (owner != null)
 			userDAO.cacheClean(owner.getKey());
-	}
-
-	@Override
-	public void beforeCreate(M m) {
-	}
-
-	@Override
-	public void beforeRemove(K key) {
-	}
-
-	@Override
-	public void beforeUpdate(M m) {
 	}
 
 }

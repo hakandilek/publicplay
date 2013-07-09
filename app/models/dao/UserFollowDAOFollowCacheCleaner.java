@@ -2,10 +2,9 @@ package models.dao;
 
 import models.UserFollow;
 import models.UserFollowPK;
-import play.utils.dao.DAOListener;
+import play.utils.dao.DAOListenerAdapter;
 
-public class UserFollowDAOFollowCacheCleaner implements
-		DAOListener<UserFollowPK, UserFollow>{
+public class UserFollowDAOFollowCacheCleaner extends DAOListenerAdapter<UserFollowPK, UserFollow>{
 
 	private UserFollowDAO dao;
 
@@ -24,20 +23,5 @@ public class UserFollowDAOFollowCacheCleaner implements
 		dao.cleanCache(key.getSourceKey());
 		dao.cleanCache(key.getTargetKey());
 	}
-
 	
-	public void afterUpdate(UserFollow m) {
-	}
-
-	
-	public void beforeCreate(UserFollow m) {
-	}
-
-	
-	public void beforeRemove(UserFollowPK key) {
-	}
-
-	
-	public void beforeUpdate(UserFollow m) {
-	}
 }

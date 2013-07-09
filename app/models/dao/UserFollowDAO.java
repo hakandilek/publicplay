@@ -18,6 +18,7 @@ import play.utils.dao.TimestampListener;
 import com.avaje.ebean.Page;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
+import play.utils.dao.*;
 
 @Singleton
 public class UserFollowDAO extends CachedDAO<UserFollowPK, UserFollow> {

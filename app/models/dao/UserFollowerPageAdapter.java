@@ -6,6 +6,7 @@ import java.util.List;
 import com.avaje.ebean.Page;
 
 import models.*;
+import play.utils.dao.*;
 
 public class UserFollowerPageAdapter extends PageAdapter<UserFollow, User> {
 

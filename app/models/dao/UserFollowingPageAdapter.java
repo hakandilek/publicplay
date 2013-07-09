@@ -3,9 +3,10 @@ package models.dao;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.avaje.ebean.Page;
+import models.User;
+import models.UserFollow;
 
-import models.*;
+import com.avaje.ebean.Page;
 
 public class UserFollowingPageAdapter extends UserFollowerPageAdapter {
 

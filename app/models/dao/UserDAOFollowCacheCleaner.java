@@ -1,9 +1,9 @@
 package models.dao;
 
 import models.User;
-import play.utils.dao.DAOListener;
+import play.utils.dao.DAOListenerAdapter;
 
-public class UserDAOFollowCacheCleaner implements  DAOListener<String, User> {
+public class UserDAOFollowCacheCleaner extends DAOListenerAdapter<String, User> {
 
 	private UserFollowDAO dao;
 
@@ -18,20 +18,5 @@ public class UserDAOFollowCacheCleaner implements  DAOListener<String, User> {
 	
 	public void afterRemove(String key, User m) {
 		dao.cleanCache(key);
-	}
-
-	public void afterUpdate(User m) {
-	}
-
-	
-	public void beforeCreate(User m) {
-	}
-
-	
-	public void beforeRemove(String key) {
-	}
-
-	
-	public void beforeUpdate(User m) {
 	}
 }

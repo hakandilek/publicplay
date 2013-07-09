@@ -7,6 +7,7 @@ import models.Post;
 import models.PostRating;
 
 import com.avaje.ebean.Page;
+import play.utils.dao.*;
 
 public class PostRatingPageAdapter extends PageAdapter<PostRating, Post> {
 

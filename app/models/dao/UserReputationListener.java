@@ -3,9 +3,9 @@ package models.dao;
 import models.User;
 import models.UserReputation;
 import play.utils.cache.InterimCache;
-import play.utils.dao.DAOListener;
+import play.utils.dao.DAOListenerAdapter;
 
-public class UserReputationListener implements DAOListener<Long, UserReputation> {
+public class UserReputationListener extends DAOListenerAdapter<Long, UserReputation> {
 
 	final InterimCache<UserReputation> cache;
 
@@ -44,18 +44,6 @@ public class UserReputationListener implements DAOListener<Long, UserReputation>
 				cache.set(userKey, rep);
 			}
 		}
-	}
-
-	@Override
-	public void beforeCreate(UserReputation rep) {
-	}
-
-	@Override
-	public void beforeRemove(Long key) {
-	}
-
-	@Override
-	public void beforeUpdate(UserReputation rep) {
 	}
 
 }

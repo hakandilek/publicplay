@@ -1,9 +1,9 @@
 package models.dao;
 
 import models.Reputation;
-import play.utils.dao.DAOListener;
+import play.utils.dao.DAOListenerAdapter;
 
-public class ReputationDAOListener implements DAOListener<Long, Reputation> {
+public class ReputationDAOListener extends DAOListenerAdapter<Long, Reputation> {
 
 	private ReputationDAO reputationDAO;
 
@@ -39,18 +39,6 @@ public class ReputationDAOListener implements DAOListener<Long, Reputation> {
 			reputationDAO.cleanUserCache(ownerKey);
 			reputationDAO.cleanReputationValueCache(reputationValueKey);
 		}
-	}
-
-	@Override
-	public void beforeCreate(Reputation rep) {
-	}
-
-	@Override
-	public void beforeRemove(Long key) {
-	}
-
-	@Override
-	public void beforeUpdate(Reputation rep) {
 	}
 
 }
