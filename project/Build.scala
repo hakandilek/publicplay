@@ -29,7 +29,6 @@ object ApplicationBuild extends Build {
         "com.amazonaws" % "aws-java-sdk" % "1.3.11",
         "postgresql" % "postgresql" % "9.1-901.jdbc4",
         "com.google.inject" % "guice" % "3.0",
-        "play2-cache" % "play2-cache_2.10" % "0.6.0-SNAPSHOT",
         "play2-crud" % "play2-crud_2.10" % "0.6.0-SNAPSHOT",
         "com.pickleproject" % "pickle-core" % "0.6-SNAPSHOT",
         "com.pickleproject" % "pickle-shopping" % "0.6-SNAPSHOT",
