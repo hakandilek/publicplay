@@ -14,7 +14,6 @@ import models.PostRating;
 import models.PostRatingPK;
 import models.User;
 import play.utils.cache.InterimCache;
-import play.utils.dao.CachedDAO;
 import play.utils.dao.*;
 
 import com.avaje.ebean.Page;
