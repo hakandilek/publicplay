@@ -72,6 +72,7 @@ object ApplicationBuild extends Build {
     	    "controllers*javascript*", 
     	    "controllers*routes", 
     	    "controllers*routes.*",
+    	    "controllers*Reverse*", 
     	    "views*html*",
     	    "views*html*admin*",
     	    "views*html*errors*",
