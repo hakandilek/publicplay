@@ -162,10 +162,9 @@ public class UserCRUDController extends CRUDController<String, User> {
 	}
 
 	public Results.AsyncResult calculateAllReputations() {
-		final List<User> users = userDAO.all();
-
 		return async(Akka.future(new Callable<Void>() {
 			public Void call() throws Exception {
+				final List<User> users = userDAO.all();
 				for (User user : users) {
 					reputationHandler.reevaluateForSubject(user);
 				}

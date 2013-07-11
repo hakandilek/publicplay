@@ -10,9 +10,6 @@ public class ReputationContext {
 		this.post = post;
 	}
 
-	public ReputationContext() {
-	}
-
 	public Post getPost() {
 		return post;
 	}

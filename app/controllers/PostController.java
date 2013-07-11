@@ -16,6 +16,7 @@ import models.Category;
 import models.Comment;
 import models.ContentStatus;
 import models.Post;
+import models.ReputationType;
 import models.S3File;
 import models.User;
 import models.dao.CategoryDAO;
@@ -34,6 +35,7 @@ import play.data.validation.ValidationError;
 import play.mvc.Result;
 import play.utils.crud.DynamicTemplateController;
 import play.utils.dao.EntityNotFoundException;
+import reputation.ReputationContext;
 import views.html.index;
 import views.html.postForm;
 import views.html.postNotFound;
@@ -64,11 +66,13 @@ public class PostController extends DynamicTemplateController implements
 
 	private ActionHandler actionHandler;
 
+	private ReputationHandler reputationHandler;
+
 	@Inject
 	public PostController(PostDAO postDAO, CommentDAO commentDAO,
 			PostRatingDAO postRatingDAO, CategoryDAO categoryDAO,
 			S3FileDAO s3FileDAO, UserFollowDAO userFollowDAO,
-			ActionHandler actionHandler) {
+			ActionHandler actionHandler, ReputationHandler reputationHandler) {
 		this.postDAO = postDAO;
 		this.commentDAO = commentDAO;
 		this.postRatingDAO = postRatingDAO;
@@ -76,6 +80,7 @@ public class PostController extends DynamicTemplateController implements
 		this.s3FileDAO = s3FileDAO;
 		this.userFollowDAO = userFollowDAO;
 		this.actionHandler = actionHandler;
+		this.reputationHandler = reputationHandler;
 	}
 
 	/**
@@ -199,6 +204,7 @@ public class PostController extends DynamicTemplateController implements
 				postDAO.create(post);
 				
 				actionHandler.perform(user, post, CREATE_POST);
+				reputationHandler.evaluate(new ReputationContext(post), ReputationType.CREATE_POST);
 				
 				if (log.isDebugEnabled())
 					log.debug("entity created: " + post);
