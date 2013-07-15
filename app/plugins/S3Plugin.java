@@ -57,7 +57,9 @@ public class S3Plugin implements Plugin {
 				config.setProxyPort(Integer.valueOf(proxyPort));
 			}
 
-			amazonS3 = new AmazonS3Client(credentials, config);
+			if (amazonS3 == null)
+				amazonS3 = new AmazonS3Client(credentials, config);
+			
 			if (amazonS3.doesBucketExist(s3Bucket)) {
 				if (log.isDebugEnabled())
 					log.debug("bucket exists: " + s3Bucket);
