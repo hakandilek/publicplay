@@ -1,33 +1,25 @@
 package models.dao;
 
 import static org.fest.assertions.Assertions.assertThat;
-import static play.test.Helpers.fakeApplication;
-import static play.test.Helpers.inMemoryDatabase;
-import static play.test.Helpers.running;
 
 import java.util.List;
 
 import models.ContentReport;
 import models.ContentReport.ContentType;
-import models.dao.ContentReportDAO;
 
 import org.junit.Test;
 
-import test.BaseTest;
+import test.IntegrationTest;
 
-public class ContentReportDAOTest extends BaseTest {
-
-	public ContentReportDAOTest() {
-		super();
-	}
+public class ContentReportDAOTest extends IntegrationTest {
 
 	@Test
 	public void findForContent() {
-		running(fakeApplication(inMemoryDatabase()), new Runnable() {
+		test(new Runnable() {
 			public void run() {
 				ContentReportDAO dao = getInstance(ContentReportDAO.class);
 
-				List<ContentReport> reports = dao.findForContent(ContentType.POST, -11L);
+				List<ContentReport> reports = dao.findForContent(ContentType.POST, -101L);
 				assertThat(reports).isNotNull();
 				assertThat(reports.size()).isEqualTo(2);
 				
@@ -35,7 +27,7 @@ public class ContentReportDAOTest extends BaseTest {
 				assertThat(reports).isNotNull();
 				assertThat(reports.size()).isEqualTo(0);
 				
-				reports = dao.findForContent(ContentType.COMMENT, -111L);
+				reports = dao.findForContent(ContentType.COMMENT, -101L);
 				assertThat(reports).isNotNull();
 				assertThat(reports.size()).isEqualTo(2);
 				

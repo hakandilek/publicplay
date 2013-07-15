@@ -6,20 +6,18 @@ import static play.test.Helpers.callAction;
 import static play.test.Helpers.charset;
 import static play.test.Helpers.contentAsString;
 import static play.test.Helpers.contentType;
-import static play.test.Helpers.fakeApplication;
-import static play.test.Helpers.inMemoryDatabase;
-import static play.test.Helpers.running;
 import static play.test.Helpers.status;
 
 import org.junit.Test;
 
 import play.mvc.Result;
+import test.IntegrationTest;
 
-public class HomeControllerTest {
+public class HomeControllerTest extends IntegrationTest {
 
 	@Test
 	public void testIndex() {
-		running(fakeApplication(inMemoryDatabase()), new Runnable() {
+		test(new Runnable() {
 			public void run() {
 				Result result = callAction(controllers.routes.ref.App.index());
 				assertThat(status(result)).isEqualTo(OK);

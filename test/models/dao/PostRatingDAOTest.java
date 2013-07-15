@@ -1,9 +1,6 @@
 package models.dao;
 
 import static org.fest.assertions.Assertions.assertThat;
-import static play.test.Helpers.fakeApplication;
-import static play.test.Helpers.inMemoryDatabase;
-import static play.test.Helpers.running;
 
 import java.util.List;
 import java.util.Set;
@@ -15,26 +12,18 @@ import models.User;
 
 import org.junit.Test;
 
+import test.IntegrationTest;
+
 import com.avaje.ebean.Page;
 
-import test.BaseTest;
-
-public class PostRatingDAOTest extends BaseTest {
-
-	public PostRatingDAOTest() {
-		super();
-	}
+public class PostRatingDAOTest extends IntegrationTest {
 
 	@Test
 	public void getRatingFromUserAndPostSucceeds() {
-		running(fakeApplication(inMemoryDatabase()), new Runnable() {
+		test(new Runnable() {
 			public void run() {
-				PostRatingDAO postRatingDAO = getInstance(PostRatingDAO.class);
-				UserDAO userDAO = getInstance(UserDAO.class);
-				PostDAO postDAO = getInstance(PostDAO.class);
-
-				User user = userDAO.get("testuser");
-				Post post = postDAO.get((long) -11);
+				User user = userDAO.get("testuser2");
+				Post post = postDAO.get((long) -101);
 
 				PostRatingPK key = new PostRatingPK(user.getKey(), post
 						.getKey());
@@ -53,12 +42,9 @@ public class PostRatingDAOTest extends BaseTest {
 
 	@Test
 	public void getRatingFromUserSucceeds() {
-		running(fakeApplication(inMemoryDatabase()), new Runnable() {
+		test(new Runnable() {
 			public void run() {
-				PostRatingDAO postRatingDAO = getInstance(PostRatingDAO.class);
-				UserDAO userDAO = getInstance(UserDAO.class);
-				
-				User user = userDAO.get("testuser");
+				User user = userDAO.get("testuser2");
 				List<PostRating> postRatingList = postRatingDAO.get(user);
 				assertThat(postRatingList.size()).isEqualTo(0);
 				
@@ -76,17 +62,16 @@ public class PostRatingDAOTest extends BaseTest {
 	
 	@Test
 	public void getUpVotedKeysSucceeds(){
-		running(fakeApplication(inMemoryDatabase()), new Runnable() {
+		test(new Runnable() {
 			public void run() {
-				PostRatingDAO postRatingDAO = getInstance(PostRatingDAO.class);
 				UserDAO userDAO = getInstance(UserDAO.class);
 				PostDAO postDAO = getInstance(PostDAO.class);
 				
-				User user = userDAO.get("testuser");
+				User user = userDAO.get("testuser2");
 				Set<Long> upVotedKeys = postRatingDAO.getUpVotedPostKeys(user);
 				assertThat(upVotedKeys.size()).isEqualTo(0);
 				
-				Post post = postDAO.get((long) -11);
+				Post post = postDAO.get((long) -101);
 				
 				PostRatingPK key = new PostRatingPK(user.getKey(),post.getKey());
 				PostRating pr = new PostRating();
@@ -105,17 +90,13 @@ public class PostRatingDAOTest extends BaseTest {
 	
 	@Test
 	public void getDownVotedKeysSucceeds(){
-		running(fakeApplication(inMemoryDatabase()), new Runnable() {
+		test(new Runnable() {
 			public void run() {
-				PostRatingDAO postRatingDAO = getInstance(PostRatingDAO.class);
-				UserDAO userDAO = getInstance(UserDAO.class);
-				PostDAO postDAO = getInstance(PostDAO.class);
-				
-				User user = userDAO.get("testuser");
+				User user = userDAO.get("testuser2");
 				Set<Long> upVotedKeys = postRatingDAO.getDownVotedPostKeys(user);
 				assertThat(upVotedKeys.size()).isEqualTo(0);
 				
-				Post post = postDAO.get((long) -11);
+				Post post = postDAO.get((long) -101);
 				
 				PostRatingPK key = new PostRatingPK(user.getKey(),post.getKey());
 				PostRating pr = new PostRating();
@@ -134,17 +115,13 @@ public class PostRatingDAOTest extends BaseTest {
 	
 	@Test
 	public void getUpVotedPostsSucceeds(){
-		running(fakeApplication(inMemoryDatabase()), new Runnable() {
+		test(new Runnable() {
 			public void run() {
-				PostRatingDAO postRatingDAO = getInstance(PostRatingDAO.class);
-				UserDAO userDAO = getInstance(UserDAO.class);
-				PostDAO postDAO = getInstance(PostDAO.class);
-				
-				User user = userDAO.get("testuser");
+				User user = userDAO.get("testuser2");
 				Page<Post> upVotedPosts = postRatingDAO.getUpVotedPosts(user, 0);
 				assertThat(upVotedPosts.getList().size()).isEqualTo(0);
 				
-				Post post = postDAO.get((long) -11);
+				Post post = postDAO.get((long) -101);
 				
 				PostRatingPK key = new PostRatingPK(user.getKey(),post.getKey());
 				PostRating pr = new PostRating();
@@ -160,4 +137,5 @@ public class PostRatingDAOTest extends BaseTest {
 			}
 		});
 	}
+
 }

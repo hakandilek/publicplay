@@ -35,6 +35,12 @@ public class SecurityRole extends Model implements Role, BasicModel<Long> {
 		this.name = name;
 	}
 
+	public SecurityRole(Long key, String name) {
+		super();
+		this.key = key;
+		this.name = name;
+	}
+
 	public SecurityRole() {
 		super();
 	}

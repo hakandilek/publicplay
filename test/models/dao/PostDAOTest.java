@@ -1,56 +1,48 @@
 package models.dao;
 
 import static org.fest.assertions.Assertions.assertThat;
-import static play.test.Helpers.fakeApplication;
-import static play.test.Helpers.inMemoryDatabase;
-import static play.test.Helpers.running;
 
 import java.util.List;
 
 import models.Category;
 import models.Post;
-import models.dao.PostDAO;
 
 import org.junit.Test;
 
-import test.BaseTest;
+import test.IntegrationTest;
 
 import com.avaje.ebean.Page;
 import com.google.common.collect.ImmutableList;
 
-public class PostDAOTest extends BaseTest {
-
-	public PostDAOTest() {
-		super();
-	}
+public class PostDAOTest extends IntegrationTest {
 
 	@Test
 	public void testPage() {
-		running(fakeApplication(inMemoryDatabase()), new Runnable() {
+		test(new Runnable() {
 			public void run() {
 				PostDAO dao = getInstance(PostDAO.class);
 
 				Page<Post> page = dao.page(0, 10);
 				assertThat(page).isNotNull();
 				assertThat(page.getPageIndex()).isEqualTo(0);
-				assertThat(page.getTotalPageCount()).isEqualTo(1);
-				assertThat(page.getTotalRowCount()).isEqualTo(10);
+				assertThat(page.getTotalPageCount()).isGreaterThanOrEqualTo(1);
+				assertThat(page.getTotalRowCount()).isGreaterThanOrEqualTo(3);
 
-				page = dao.page(1, 10);
+				page = dao.page(1, 2);
 				assertThat(page).isNotNull();
 				assertThat(page.getPageIndex()).isEqualTo(1);
-				assertThat(page.getTotalPageCount()).isEqualTo(1);
-				assertThat(page.getTotalRowCount()).isEqualTo(10);
+				assertThat(page.getTotalPageCount()).isGreaterThanOrEqualTo(2);
+				assertThat(page.getTotalRowCount()).isGreaterThanOrEqualTo(3);
 			}
 		});
 	}
 
 	@Test
 	public void testGetPostsBy() {
-		running(fakeApplication(inMemoryDatabase()), new Runnable() {
+		test(new Runnable() {
 			public void run() {
 				PostDAO dao = getInstance(PostDAO.class);
-				Category category = new Category("category1");
+				Category category = new Category("categoryA");
 				
 				Page<Post> page = dao.pageInCategory(category, 0, 10);
 				assertThat(page).isNotNull();
@@ -69,7 +61,7 @@ public class PostDAOTest extends BaseTest {
 
 	@Test
 	public void testTopDayPage() {
-		running(fakeApplication(inMemoryDatabase()), new Runnable() {
+		test(new Runnable() {
 			public void run() {
 				PostDAO dao = getInstance(PostDAO.class);
 				Post post = new Post();
@@ -79,14 +71,14 @@ public class PostDAOTest extends BaseTest {
 				assertThat(page).isNotNull();
 				assertThat(page.getPageIndex()).isEqualTo(0);
 				assertThat(page.getTotalPageCount()).isEqualTo(1);
-				assertThat(page.getTotalRowCount()).isEqualTo(1);
+				assertThat(page.getTotalRowCount()).isEqualTo(4);
 			}
 		});
 	}
 
 	@Test
 	public void testTopWeekPage() {
-		running(fakeApplication(inMemoryDatabase()), new Runnable() {
+		test(new Runnable() {
 			public void run() {
 				PostDAO dao = getInstance(PostDAO.class);
 				Post post = new Post();
@@ -96,40 +88,39 @@ public class PostDAOTest extends BaseTest {
 				assertThat(page).isNotNull();
 				assertThat(page.getPageIndex()).isEqualTo(0);
 				assertThat(page.getTotalPageCount()).isEqualTo(1);
-				assertThat(page.getTotalRowCount()).isEqualTo(1);
+				assertThat(page.getTotalRowCount()).isEqualTo(4);
 			}
 		});
 	}
 
 	@Test
 	public void testTopAllPage() {
-		running(fakeApplication(inMemoryDatabase()), new Runnable() {
+		test(new Runnable() {
 			public void run() {
 				PostDAO dao = getInstance(PostDAO.class);
 				
 				Page<Post> page = dao.topAllPage();
 				assertThat(page).isNotNull();
 				assertThat(page.getPageIndex()).isEqualTo(0);
-				assertThat(page.getTotalPageCount()).isEqualTo(1);
-				assertThat(page.getTotalRowCount()).isEqualTo(9);
+				assertThat(page.getTotalPageCount()).isGreaterThanOrEqualTo(1);
+				assertThat(page.getTotalRowCount()).isGreaterThanOrEqualTo(3);
 			}
 		});
 	}
 
 	@Test
 	public void testGetPostsCreatedBy() {
-		running(fakeApplication(inMemoryDatabase()), new Runnable() {
+		test(new Runnable() {
 			public void run() {
 				PostDAO dao = getInstance(PostDAO.class);
 				
-				List<String> usernames = ImmutableList.of("testuser");
+				List<String> usernames = ImmutableList.of("testuser2");
 				Page<Post> page = dao.getPostsCreatedBy(usernames, 0, 10);
 				assertThat(page).isNotNull();
 				assertThat(page.getPageIndex()).isEqualTo(0);
-				assertThat(page.getTotalPageCount()).isEqualTo(2);
-				assertThat(page.getTotalRowCount()).isEqualTo(11);
+				assertThat(page.getTotalPageCount()).isEqualTo(1);
+				assertThat(page.getTotalRowCount()).isEqualTo(3);
 			}
 		});
 	}
-
 }

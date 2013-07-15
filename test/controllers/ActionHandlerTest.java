@@ -1,9 +1,6 @@
 package controllers;
 
 import static org.fest.assertions.Assertions.assertThat;
-import static play.test.Helpers.fakeApplication;
-import static play.test.Helpers.inMemoryDatabase;
-import static play.test.Helpers.running;
 
 import java.util.Collection;
 
@@ -17,27 +14,21 @@ import models.dao.UserDAO;
 
 import org.junit.Test;
 
-import controllers.ActionHandler;
+import test.IntegrationTest;
 
-import test.BaseTest;
-
-public class ActionHandlerTest extends BaseTest {
-	
-	public ActionHandlerTest() {
-		super();
-	}
+public class ActionHandlerTest extends IntegrationTest {
 	
 	@Test
 	public void testCreatePost() {
-		running(fakeApplication(inMemoryDatabase()), new Runnable() {
+		test(new Runnable() {
 			public void run() {
 				ActionHandler actionHandler = getInstance(ActionHandler.class);
 				ActionDAO actionDAO = getInstance(ActionDAO.class);
 				PostDAO postDAO = getInstance(PostDAO.class);
 				UserDAO userDAO = getInstance(UserDAO.class);
 				
-				Post post= postDAO.get((long) -11);
-				User user = userDAO.get("testuser");
+				Post post= postDAO.get((long) -101);
+				User user = userDAO.get("testuser2");
 				
 				actionHandler.perform(user, post, ActionType.CREATE_POST);
 				Collection<Action> actions = actionDAO.getActionsCreatedBy(user);

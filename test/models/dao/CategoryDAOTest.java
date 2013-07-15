@@ -1,46 +1,36 @@
 package models.dao;
 
 import static org.fest.assertions.Assertions.assertThat;
-import static play.test.Helpers.fakeApplication;
-import static play.test.Helpers.inMemoryDatabase;
-import static play.test.Helpers.running;
 
 import java.util.Map;
 import java.util.Set;
 
 import models.Category;
 import models.Post;
-import models.dao.CategoryDAO;
 
 import org.junit.Test;
 
-import test.BaseTest;
+import test.IntegrationTest;
 
-public class CategoryDAOTest extends BaseTest {
-
-	public CategoryDAOTest() {
-		super();
-	}
+public class CategoryDAOTest extends IntegrationTest {
 
 	@Test
 	public void testOptions() {
-		running(fakeApplication(inMemoryDatabase()), new Runnable() {
+		test(new Runnable() {
 			public void run() {
-				CategoryDAO dao = getInstance(CategoryDAO.class);
-
-				Map<String, String> options = dao.options();
+				Map<String, String> options = categoryDAO.options();
 				assertThat(options).isNotNull();
-				assertThat(options.size()).isEqualTo(5);
+				assertThat(options.size()).isGreaterThan(1);
 			}
 		});
 	}
 
+
 	@Test
 	public void testUpdate() {
-		running(fakeApplication(inMemoryDatabase()), new Runnable() {
+		test(new Runnable() {
 			public void run() {
-				CategoryDAO dao = getInstance(CategoryDAO.class);
-				Category oldCat = dao.get("category1");
+				Category oldCat = categoryDAO.get("categoryA");
 				Set<Post> posts = oldCat.getPosts();
 				int count = posts.size();
 
@@ -48,17 +38,17 @@ public class CategoryDAOTest extends BaseTest {
 				newCat.setName("testCategory");
 				
 				//perform operation
-				dao.update("category1", newCat);
+				categoryDAO.update("categoryA", newCat);
 				
 				//verify
-				Category newCat2 = dao.get("testCategory");
+				Category newCat2 = categoryDAO.get("testCategory");
 				assertThat(newCat2).isNotNull();
 				assertThat(newCat2.getPosts()).isNotNull();
 				assertThat(newCat2.getPosts().size()).isEqualTo(count);
 				
 				//clean cache and re-verify
-				dao.cacheClean("testCategory");
-				Category newCat3 = dao.get("testCategory");
+				categoryDAO.cacheClean("testCategory");
+				Category newCat3 = categoryDAO.get("testCategory");
 				assertThat(newCat3).isNotNull();
 				assertThat(newCat3.getPosts()).isNotNull();
 				assertThat(newCat3.getPosts().size()).isEqualTo(count);

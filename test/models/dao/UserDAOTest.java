@@ -1,8 +1,5 @@
 package models.dao;
 
-import static play.test.Helpers.fakeApplication;
-import static play.test.Helpers.inMemoryDatabase;
-import static play.test.Helpers.running;
 import static org.fest.assertions.Assertions.assertThat;
 
 import java.util.List;
@@ -12,17 +9,13 @@ import models.User.Status;
 
 import org.junit.Test;
 
-import test.BaseTest;
+import test.IntegrationTest;
 
-public class UserDAOTest extends BaseTest {
-
-	public UserDAOTest() {
-		super();
-	}
+public class UserDAOTest extends IntegrationTest {
 
 	@Test
 	public void getPageOfUsersWithOrderOfLastLogin() {
-		running(fakeApplication(inMemoryDatabase()), new Runnable() {
+		test(new Runnable() {
 			public void run() {
 				UserDAO userDAO=getInstance(UserDAO.class);
 				//Approved users
