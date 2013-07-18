@@ -79,14 +79,11 @@ public class S3Plugin implements Plugin {
 			log.debug("enabled() <-");
 		
 		Set<String> keys = application.configuration().keys();
-		if (log.isDebugEnabled())
-			log.debug("keys : " + keys);
-		
 		boolean result = keys.contains(AWS_ACCESS_KEY) && keys.contains(AWS_SECRET_KEY) && keys
 				.contains(AWS_S3_BUCKET);
-		if (log.isDebugEnabled())
-			log.debug("result : " + result);
 		
+		if (log.isDebugEnabled())
+			log.debug("enabled : " + result);
 		return result;
 	}
 

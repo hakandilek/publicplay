@@ -35,7 +35,7 @@ public class AuthenticatePlugin extends UserServicePlugin {
     	if (log.isDebugEnabled())
 			log.debug("authUser : " + authUser);
     	String userKey = User.getKey(authUser.getProvider(), authUser.getId());
-		User user = userDAO.get(userKey);
+		User user = userDAO().get(userKey);
 		if (log.isDebugEnabled())
 			log.debug("user : " + user);
 		
@@ -58,16 +58,22 @@ public class AuthenticatePlugin extends UserServicePlugin {
 				user.setProfileImageURL(fbu.getPicture());
 			}
     		
-        	userDAO.create(user);
+        	userDAO().create(user);
             return userKey;
         } else {
             // we have this user already, so return null
 			user.setLoginCount(user.getLoginCount() + 1);
 			user.setLastLogin(new Date());
-			userDAO.update(user);
+			userDAO().update(user);
             return null;
         }
     }
+
+	private UserDAO userDAO() {
+		if (userDAO == null)
+			userDAO = GuicePlugin.getInstance().getInstance(UserDAO.class);
+		return userDAO;
+	}
 
 	@Override
 	public AuthUser update(final AuthUser authUser) {
@@ -75,7 +81,7 @@ public class AuthenticatePlugin extends UserServicePlugin {
     	if (log.isDebugEnabled())
 			log.debug("authUser : " + authUser);
     	String userKey = User.getKey(authUser.getProvider(), authUser.getId());
-		User user = userDAO.get(userKey);
+		User user = userDAO().get(userKey);
 		if (log.isDebugEnabled())
 			log.debug("user : " + user);
         if (user != null) {
@@ -97,7 +103,7 @@ public class AuthenticatePlugin extends UserServicePlugin {
 				user.setAccessExpires(new Date(authInfo.getExpiration()));
 				user.setProfileImageURL(fbu.getPicture());
 			}
-			userDAO.update(user);
+			userDAO().update(user);
         }
     	return super.update(authUser);
 	}
@@ -107,7 +113,7 @@ public class AuthenticatePlugin extends UserServicePlugin {
     	if (log.isDebugEnabled())
 			log.debug("getLocalIdentity <-");
     	String userKey = User.getKey(identity.getProvider(), identity.getId());
-		User user = userDAO.get(userKey);
+		User user = userDAO().get(userKey);
 		if (log.isDebugEnabled())
 			log.debug("user : " + user);
         if(user != null) {
@@ -142,7 +148,7 @@ public class AuthenticatePlugin extends UserServicePlugin {
 		if (log.isDebugEnabled())
 			log.debug("userKey : " + userKey);
 		
-		final User user = userDAO.get(userKey);
+		final User user = userDAO().get(userKey);
 		if (log.isDebugEnabled())
 			log.debug("user : " + user);
 		return user;
@@ -154,7 +160,10 @@ public class AuthenticatePlugin extends UserServicePlugin {
 		
 		if (authUser == null) return null;
     	String userKey = User.getKey(authUser.getProvider(), authUser.getId());
-		User user = userDAO.get(userKey);
+    	if (log.isDebugEnabled())
+			log.debug("userKey : " + userKey);
+
+		User user = userDAO().get(userKey);
 		if (log.isDebugEnabled())
 			log.debug("user : " + user);
 		return user;
@@ -164,16 +173,20 @@ public class AuthenticatePlugin extends UserServicePlugin {
 	public void onStart() {
 		instance = this;
 		userDAO = GuicePlugin.getInstance().getInstance(UserDAO.class);
-		super.onStart();
-		if (log.isInfoEnabled())
-			log.debug(getClass().getSimpleName() + " started.");
+		if (log.isDebugEnabled())
+			log.debug("userDAO : " + userDAO);
 
+		super.onStart();
+		
+		log.info(getClass().getSimpleName() + " started.");
 	}
 
 	@Override
 	public void onStop() {
 		instance = null;
 		userDAO = null;
+		if (log.isDebugEnabled())
+			log.debug("userDAO : " + userDAO);
 		super.onStop();
 		if (log.isInfoEnabled())
 			log.debug(getClass().getSimpleName() + " stopped.");
@@ -182,5 +195,12 @@ public class AuthenticatePlugin extends UserServicePlugin {
 	public static AuthenticatePlugin getInstance() {
 		return instance;
 	}
+
+	@Override
+	public boolean enabled() {
+		return true;
+	}
+	
+	
 
 }
