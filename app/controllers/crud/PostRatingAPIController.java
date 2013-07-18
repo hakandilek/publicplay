@@ -14,7 +14,7 @@ public class PostRatingAPIController extends APIController<PostRatingPK, PostRat
 
 	@Inject
 	public PostRatingAPIController(PostRatingDAO postRatingDAO) {
-		super(postRatingDAO);
+		super(postRatingDAO, PostRatingPK.class, PostRating.class);
 	}
 
 	@Override

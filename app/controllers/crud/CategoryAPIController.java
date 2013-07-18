@@ -12,7 +12,7 @@ public class CategoryAPIController extends APIController<String, Category> {
 
 	@Inject
 	public CategoryAPIController(CategoryDAO categoryDAO) {
-		super(categoryDAO);
+		super(categoryDAO, String.class, Category.class);
 	}
 
 	@Override

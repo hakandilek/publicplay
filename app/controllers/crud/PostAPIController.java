@@ -33,7 +33,7 @@ public class PostAPIController extends APIController<Long, Post> {
 
 	@Inject
 	public PostAPIController(PostDAO postDAO, ContentReportDAO contentReportDAO) {
-		super(postDAO);
+		super(postDAO, Long.class, Post.class);
 		this.postDAO = postDAO;
 		this.contentReportDAO = contentReportDAO;
 	}

@@ -21,7 +21,7 @@ public class SecurityRoleAPIController extends APIController<Long, SecurityRole>
 
 	@Inject
 	public SecurityRoleAPIController(SecurityRoleDAO securityRoleDAO) {
-		super(securityRoleDAO);
+		super(securityRoleDAO, Long.class, SecurityRole.class);
 	}
 
 	@Override

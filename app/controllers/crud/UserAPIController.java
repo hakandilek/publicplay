@@ -38,7 +38,7 @@ public class UserAPIController extends APIController<String, User> {
 	@Inject
 	public UserAPIController(UserDAO userDAO, UserFollowDAO userFollowDAO,
 			SecurityRoleDAO securityRoleDAO, ActionHandler actionHandler)   {
-		super(userDAO);
+		super(userDAO, String.class, User.class);
 		this.userDAO = userDAO;
 		this.userFollowDAO = userFollowDAO;
 		this.securityRoleDAO = securityRoleDAO;
@@ -105,18 +105,21 @@ public class UserAPIController extends APIController<String, User> {
 	public Result unfollow(String key) {
 		if (log.isDebugEnabled())
 			log.debug("follow() <- " + key);
-		String sourceKey = HttpUtils.loginUser().getKey();
+		User user = HttpUtils.loginUser();
+		if (user == null)
+			return notFound("no user logged in");
+
+		String sourceKey = user.getKey();
 		UserFollowPK followKey = new UserFollowPK(sourceKey, key);
 		UserFollow follow = userFollowDAO.get(followKey);
 		if (follow != null) {
 			try {
 				userFollowDAO.remove(followKey);
 			} catch (EntityNotFoundException e) {
-				return ok(toJson(ImmutableMap.of("status", "not found", "key", key,
-						"data", follow)));
+				return ok(toJson(ImmutableMap.of("status", "not found", "key", key, "data", follow)));
 			}
 		}
-		
+
 		return created(toJson(ImmutableMap.of("status", "OK", "key", key,
 				"data", follow)));
 	}

@@ -24,7 +24,7 @@ public class S3FileAPIController extends APIController<UUID, S3File> {
 	
 	@Inject
 	public S3FileAPIController(S3FileDAO s3FileDAO) {
-		super(s3FileDAO);
+		super(s3FileDAO, UUID.class, S3File.class);
 	}
 
 	@Override

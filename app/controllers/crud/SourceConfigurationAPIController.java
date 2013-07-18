@@ -18,7 +18,7 @@ public class SourceConfigurationAPIController extends APIController<Long, Source
 
 	@Inject
 	public SourceConfigurationAPIController(SourceConfigurationDAO sourceConfigurationDAO) {
-		super(sourceConfigurationDAO);
+		super(sourceConfigurationDAO, Long.class, SourceConfiguration.class);
 		this.sourceConfigurationDAO = sourceConfigurationDAO;
 	}
 

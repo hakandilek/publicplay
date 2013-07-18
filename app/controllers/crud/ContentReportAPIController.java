@@ -25,7 +25,7 @@ public class ContentReportAPIController extends
 	
 	@Inject
 	public ContentReportAPIController(ContentReportDAO ContentReportDAO) {
-		super(ContentReportDAO);
+		super(ContentReportDAO, Long.class, ContentReport.class);
 	}
 
 	@Override
@@ -74,6 +74,9 @@ public class ContentReportAPIController extends
 			log.debug("report : " + report);
 
 		User user = HttpUtils.loginUser();
+		if (user == null)
+			return notFound("no user logged in");
+
 		report.setUpdatedBy(user);
 		report.setStatus(IGNORED);
 		dao.update(report);

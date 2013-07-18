@@ -34,7 +34,7 @@ public class CommentAPIController extends APIController<Long, Comment> {
 
 	@Inject
 	public CommentAPIController(CommentDAO commentDAO, ContentReportDAO contentReportDAO) {
-		super(commentDAO);
+		super(commentDAO, Long.class, Comment.class);
 		this.commentDAO = commentDAO;
 		this.contentReportDAO = contentReportDAO;
 	}
