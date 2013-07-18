@@ -52,6 +52,8 @@ public class CommentController extends DynamicTemplateController implements
 			log.debug("post : " + post);
 
 		User user = HttpUtils.loginUser();
+		if (user == null)
+			return notFound("no user logged in");
 
 		Form<Comment> filledForm = form.bindFromRequest();
 		if (filledForm.hasErrors() || user == null) {
@@ -100,6 +102,9 @@ public class CommentController extends DynamicTemplateController implements
 			log.debug("comment : " + comment);
 
 		User user = HttpUtils.loginUser();
+		if (user == null)
+			return notFound("no user logged in");
+
 		Set<Long> upVotes = user == null ? new TreeSet<Long>() : postRatingDAO
 				.getUpVotedPostKeys(user);
 		Set<Long> downVotes = user == null ? new TreeSet<Long>()
@@ -115,11 +120,14 @@ public class CommentController extends DynamicTemplateController implements
 		if (log.isDebugEnabled())
 			log.debug("updateComment() <-");
 
+		User user = HttpUtils.loginUser();
+		if (user == null)
+			return notFound("no user logged in");
+
 		Post post = postDAO.get(postKey);
 		if (log.isDebugEnabled())
 			log.debug("post : " + post);
 
-		User user = HttpUtils.loginUser();
 		Comment original = commentDAO.get(commentKey);
 		Form<Comment> filledForm = form.fill(original).bindFromRequest();
 		if (filledForm.hasErrors() || user == null) {

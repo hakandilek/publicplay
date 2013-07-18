@@ -97,10 +97,8 @@ public class PostController extends DynamicTemplateController implements
 			log.debug("page : " + page);
 
 		User user = HttpUtils.loginUser();
-
-		Page<Post> topDay = postDAO.topDayPage();
-		Page<Post> topWeek = postDAO.topWeekPage();
-		Page<Post> topAll = postDAO.topAllPage();
+		if (user == null)
+			return notFound("no user logged in");
 
 		Page<Post> pg = null;
 		if (StringUtils.hasLength(categoryName)) {
@@ -115,8 +113,11 @@ public class PostController extends DynamicTemplateController implements
 		if (log.isDebugEnabled())
 			log.debug("pg : " + pg);
 
+		Boolean following = false;
 		List<Category> categoryList = categoryDAO.all();
-		Boolean following=false;
+		Page<Post> topDay = postDAO.topDayPage();
+		Page<Post> topWeek = postDAO.topWeekPage();
+		Page<Post> topAll = postDAO.topAllPage();
 
 		return ok(index.render(pg, categoryName, categoryList, topDay, topWeek,
 				topAll,getUpVotes(user), getDownVotes(user),following));
@@ -127,10 +128,8 @@ public class PostController extends DynamicTemplateController implements
 			log.debug("index() <-");
 
 		User user = HttpUtils.loginUser();
-		
-		Page<Post> topDay = postDAO.topDayPage();
-		Page<Post> topWeek = postDAO.topWeekPage();
-		Page<Post> topAll = postDAO.topAllPage();
+		if (user == null)
+			return notFound("no user logged in");
 
 		List<String> followingUserKeys = userFollowDAO.getAllFollowingsKeys(user);
 		Page<Post> pg=null;
@@ -142,8 +141,12 @@ public class PostController extends DynamicTemplateController implements
 		if (log.isDebugEnabled())
 			log.debug("pg : " + pg);
 
-		List<Category> categoryList = categoryDAO.all();
 		Boolean following=true;
+		List<Category> categoryList = categoryDAO.all();
+		Page<Post> topDay = postDAO.topDayPage();
+		Page<Post> topWeek = postDAO.topWeekPage();
+		Page<Post> topAll = postDAO.topAllPage();
+
 
 		return ok(index.render(pg, null, categoryList, topDay, topWeek,
 				topAll, getUpVotes(user), getDownVotes(user),following));
@@ -164,6 +167,8 @@ public class PostController extends DynamicTemplateController implements
 				log.debug("create() <-");
 
 			User user = HttpUtils.loginUser();
+			if (user == null)
+				return notFound("no user logged in");
 
 			Form<Post> filledForm = form.bindFromRequest();
 			if (log.isDebugEnabled())
@@ -239,8 +244,21 @@ public class PostController extends DynamicTemplateController implements
 			log.debug("update() <-" + key);
 
 		User user = HttpUtils.loginUser();
+		if (user == null)
+			return notFound("no user logged in");
+
 		Post original = postDAO.get(key);
-		Form<Post> filledForm = form.fill(original).bindFromRequest();
+		if (original == null)
+			return notFound("post not found");
+		
+		Form<Post> fromDb = form.fill(original);
+		if (log.isDebugEnabled())
+			log.debug("fromDb : " + fromDb);
+
+		Form<Post> filledForm = fromDb.bindFromRequest();
+		if (log.isDebugEnabled())
+			log.debug("filledForm : " + filledForm);
+
 		UUID imageKey = filledForm.get().getImageKey();
 		if (log.isDebugEnabled())
 			log.debug("imageKey : " + imageKey);
@@ -342,7 +360,7 @@ public class PostController extends DynamicTemplateController implements
 		} catch (EntityNotFoundException e) {
 			if (log.isDebugEnabled())
 				log.debug("entity not found for key:" + key);
-			flash("error", "entity not found for key:" + key);
+			return notFound(postNotFound.render(key));
 		}
 
 		return redirect(routes.App.index());

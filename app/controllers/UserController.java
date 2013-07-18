@@ -49,9 +49,8 @@ public class UserController extends DynamicTemplateController {
 	private UserReputationDAO userReputationDAO;
 
 	@Inject
-	public UserController(UserDAO userDAO, PostRatingDAO postRatingDAO,
-			UserFollowDAO userFollowDAO, SecurityRoleDAO securityRoleDAO,
-			PostDAO postDAO, CommentDAO commentDAO, ActionDAO userActionDAO,
+	public UserController(UserDAO userDAO, PostRatingDAO postRatingDAO, UserFollowDAO userFollowDAO,
+			SecurityRoleDAO securityRoleDAO, PostDAO postDAO, CommentDAO commentDAO, ActionDAO userActionDAO,
 			UserReputationDAO userReputationDAO) {
 		this.userDAO = userDAO;
 		this.postRatingDAO = postRatingDAO;
@@ -59,54 +58,50 @@ public class UserController extends DynamicTemplateController {
 		this.securityRoleDAO = securityRoleDAO;
 		this.postDAO = postDAO;
 		this.commentDAO = commentDAO;
-		this.userActionDAO=userActionDAO;
+		this.userActionDAO = userActionDAO;
 		this.userReputationDAO = userReputationDAO;
 	}
 
-	public Result show(String key,String tab,int votedPageNumber) {
+	public Result show(String key, String tab, int votedPageNumber) {
 		if (log.isDebugEnabled())
 			log.debug("show() <- " + key);
 		User loginUser = HttpUtils.loginUser();
 		User userToShow = null;
 		if (null != key)
 			userToShow = userDAO.get(key);
-		return show(loginUser, userToShow,tab, votedPageNumber);
+		return show(loginUser, userToShow, tab, votedPageNumber);
 	}
 
 	public Result showSelf() {
 		if (log.isDebugEnabled())
 			log.debug("showSelf() <-");
 		User loginUser = HttpUtils.loginUser(ctx());
-		return show(loginUser, loginUser,null,0);
+		return show(loginUser, loginUser, null, 0);
 	}
 
-	private Result show(User loginUser, User userToShow, String tab,
-			int pageNumber) {
+	private Result show(User loginUser, User userToShow, String tab, int pageNumber) {
 
 		Page<Post> postPage = null;
 		Page<Action> actionPage = null;
 		Page<Comment> commentPage = null;
 
-		Set<Long> upVotes = userToShow == null ? new TreeSet<Long>()
-				: postRatingDAO.getUpVotedPostKeys(userToShow);
-		Set<Long> downVotes = userToShow == null ? new TreeSet<Long>()
-				: postRatingDAO.getDownVotedPostKeys(userToShow);
+		Set<Long> upVotes = userToShow == null ? new TreeSet<Long>() : postRatingDAO.getUpVotedPostKeys(userToShow);
+		Set<Long> downVotes = userToShow == null ? new TreeSet<Long>() : postRatingDAO.getDownVotedPostKeys(userToShow);
 
 		List<SecurityRole> allRoles = securityRoleDAO.all();
 		List<SecurityRole> userRoles = new ArrayList<SecurityRole>();
-		
+
 		UserReputation reputation = userReputationDAO.get(userToShow);
 
 		if (log.isDebugEnabled())
 			log.debug("user : " + loginUser);
 		if (loginUser == null || userToShow == null) {
-			return badRequest(userShow.render(userToShow, reputation, false,
-					tab, upVotes, downVotes, false, 0, 0, actionPage));
+			return badRequest(userShow.render(userToShow, reputation, false, tab, upVotes, downVotes, false, 0, 0,
+					actionPage));
 		}
 
 		boolean selfPage = false;
-		if (loginUser != null && userToShow != null
-				&& (loginUser.getKey() + "").equals(userToShow.getKey())) {
+		if (loginUser != null && userToShow != null && (loginUser.getKey() + "").equals(userToShow.getKey())) {
 			selfPage = true;
 		}
 
@@ -120,62 +115,63 @@ public class UserController extends DynamicTemplateController {
 		int followerCount = userFollowDAO.getFollowerCount(userToShow);
 		int followingCount = userFollowDAO.getFollowingCount(userToShow);
 
-		if (tab == null || tab.toString().equals("")
-				|| tab.toString().equals(Constants.TIMELINE)) {
-			actionPage = userActionDAO.getActionsCreatedBy(
-					new ArrayList<String>(Arrays.asList(userToShow.getKey())),
+		if (tab == null || tab.toString().equals("") || tab.toString().equals(Constants.TIMELINE)) {
+			actionPage = userActionDAO.getActionsCreatedBy(new ArrayList<String>(Arrays.asList(userToShow.getKey())),
 					pageNumber, Constants.ACTIONS_PER_PAGE);
-			return ok(userShow.render(userToShow, reputation, selfPage, tab,
-					upVotes, downVotes, following, followerCount,
-					followingCount, actionPage));
+			return ok(userShow.render(userToShow, reputation, selfPage, tab, upVotes, downVotes, following,
+					followerCount, followingCount, actionPage));
 		} else if (tab.toString().equals(Constants.POSTS)) {
-			postPage = postDAO.getPostsCreatedBy(
-					new ArrayList<String>(Arrays.asList(userToShow.getKey())),
-					pageNumber, Constants.POSTS_PER_PAGE);
-			return ok(userShowPosts.render(userToShow, reputation, selfPage,
-					tab, upVotes, downVotes, following, followerCount,
-					followingCount, postPage));
+			postPage = postDAO.getPostsCreatedBy(new ArrayList<String>(Arrays.asList(userToShow.getKey())), pageNumber,
+					Constants.POSTS_PER_PAGE);
+			return ok(userShowPosts.render(userToShow, reputation, selfPage, tab, upVotes, downVotes, following,
+					followerCount, followingCount, postPage));
 		} else if (tab.toString().equals(Constants.COMMENTS)) {
-			commentPage = commentDAO.getCommentsBy(userToShow.getKey(),
-					pageNumber, Constants.COMMENTS_PER_PAGE);
-			return ok(userShowComments.render(userToShow, reputation, selfPage,
-					tab, following, followerCount, followingCount, commentPage));
+			commentPage = commentDAO.getCommentsBy(userToShow.getKey(), pageNumber, Constants.COMMENTS_PER_PAGE);
+			return ok(userShowComments.render(userToShow, reputation, selfPage, tab, following, followerCount,
+					followingCount, commentPage));
 		} else if (tab.toString().equals(Constants.ROLES)) {
 			userRoles = userToShow.getSecurityRoles();
-			return ok(userShowRoles.render(userToShow, reputation, selfPage,
-					following, followerCount, followingCount, allRoles,
-					userRoles));
+			return ok(userShowRoles.render(userToShow, reputation, selfPage, following, followerCount, followingCount,
+					allRoles, userRoles));
 		} else if (tab.toString().equals(Constants.VOTED_POSTS)) {
 			postPage = postRatingDAO.getUpVotedPosts(userToShow, pageNumber);
-			return ok(userShowVotedPages.render(userToShow, reputation,
-					selfPage, tab, upVotes, downVotes, following,
+			return ok(userShowVotedPages.render(userToShow, reputation, selfPage, tab, upVotes, downVotes, following,
 					followerCount, followingCount, postPage));
 		}
 
-		return badRequest(userShow.render(userToShow, reputation, false, tab,
-				upVotes, downVotes, false, 0, 0, actionPage));
+		return badRequest(userShow.render(userToShow, reputation, false, tab, upVotes, downVotes, false, 0, 0,
+				actionPage));
 	}
 
-	public Result showFollowers(String key,int page) {
+	public Result showFollowers(String key, int page) {
+		User user = HttpUtils.loginUser();
+		if (user == null)
+			return notFound("no user logged in");
+
 		User userToShow = null;
 		if (null != key)
 			userToShow = userDAO.get(key);
-		Page<User> pg=userFollowDAO.getFollowerUsers(userToShow, page);
-		List<String> followingUserKeys = userFollowDAO.getAllFollowingsKeys(HttpUtils.loginUser());
-		boolean isFollowingPage=false;
-		
-		return ok(userFollowShow.render(pg,userToShow,followingUserKeys,isFollowingPage));
+		Page<User> pg = userFollowDAO.getFollowerUsers(userToShow, page);
+
+		List<String> followingUserKeys = userFollowDAO.getAllFollowingsKeys(user);
+		boolean isFollowingPage = false;
+
+		return ok(userFollowShow.render(pg, userToShow, followingUserKeys, isFollowingPage));
 	}
 
-	public Result showFollowings(String key,int page) {
+	public Result showFollowings(String key, int page) {
+		User user = HttpUtils.loginUser();
+		if (user == null)
+			return notFound("no user logged in");
+
 		User userToShow = null;
 		if (null != key)
 			userToShow = userDAO.get(key);
-		Page<User> pg=userFollowDAO.getFollowingUsers(userToShow, page);
-		List<String> followingUserKeys = userFollowDAO.getAllFollowingsKeys(HttpUtils.loginUser());
-		boolean isFollowingPage=true;
-		
-		return ok(userFollowShow.render(pg,userToShow,followingUserKeys,isFollowingPage));
+		Page<User> pg = userFollowDAO.getFollowingUsers(userToShow, page);
+		List<String> followingUserKeys = userFollowDAO.getAllFollowingsKeys(user);
+		boolean isFollowingPage = true;
+
+		return ok(userFollowShow.render(pg, userToShow, followingUserKeys, isFollowingPage));
 	}
 
 }

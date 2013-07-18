@@ -23,10 +23,6 @@ public class HttpUtils {
 
 	private static AuthenticatePlugin userService = AuthenticatePlugin.getInstance();
 	
-	public HttpUtils() {
-		super();
-	}
-
 	/**
 	 * extract login user from the context if available
 	 * @return login user, or null
@@ -54,7 +50,7 @@ public class HttpUtils {
 	
 	public static boolean isAdmin(User user) {
 		if (user == null) return false;
-		SecurityRole admin = new SecurityRole("admin");
+		SecurityRole admin = new SecurityRole(-1L, "admin");
 		return user.getRoles().contains(admin);
 	}
 

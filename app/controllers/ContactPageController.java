@@ -34,20 +34,20 @@ public class ContactPageController extends Controller {
 		if (log.isDebugEnabled())
 			log.debug("newForm() <-");
 		User user = HttpUtils.loginUser();
-		if(null==user){
+		if (null == user) {
 			return ok(contact.render(contactForm));
-		}else{
-			ContactPage contactPage = new ContactPage(user.getFirstName()+" "+user.getLastName(), user.getEmail(), null);
+		} else {
+			ContactPage contactPage = new ContactPage(user.getFirstName() + " " + user.getLastName(), user.getEmail(),
+					null);
 			return ok(contact.render(contactForm.fill(contactPage)));
 		}
-		
+
 	}
-	
+
 	public Result contact() {
 		Form<ContactPage> filledForm = contactForm.bindFromRequest();
-		
-		if (filledForm.hasErrors()) {
 
+		if (filledForm.hasErrors()) {
 			Map<String, List<ValidationError>> errors = filledForm.errors();
 			if (log.isDebugEnabled())
 				log.debug("errors : " + errors);
@@ -58,9 +58,9 @@ public class ContactPageController extends Controller {
 			mail.setSubject(contactPage.getName());
 			mail.addRecipient("necipk@gmail.com");
 			mail.addFrom(contactPage.getEmail());
-			//sends text/text
+			// sends text/text
 			mail.send(contactPage.getMessage());
-			flash("success","hellp");
+			flash("success", "hellp");
 			return ok(contact.render(contactForm));
 		}
 	}

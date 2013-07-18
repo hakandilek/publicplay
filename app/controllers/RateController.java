@@ -65,6 +65,8 @@ public class RateController extends Controller implements Constants {
 		User user = HttpUtils.loginUser();
 		if (log.isDebugEnabled())
 			log.debug("user : " + user);
+		if (user == null)
+			return notFound("no user logged in");
 
 		if (post != null && user != null) {
 			// save/update rate
