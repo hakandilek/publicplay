@@ -33,7 +33,7 @@ public class BaseTest {
 
 	@Before
 	public void startApp() {
-		S3Plugin.amazonS3 = mock(AmazonS3Client.class);
+		S3Plugin.amazonS3 =  Mockito.mock(AmazonS3Client.class);
 		when(S3Plugin.amazonS3.doesBucketExist(anyString())).thenReturn(true);
 
 		if (app == null)
