@@ -1,8 +1,7 @@
 package controllers;
 
 import static org.fest.assertions.Assertions.assertThat;
-import static play.mvc.Http.Status.SEE_OTHER;
-import static play.test.Helpers.callAction;
+import static play.mvc.Http.Status.*;
 import static play.test.Helpers.status;
 
 import org.junit.Test;
@@ -11,86 +10,61 @@ import play.mvc.Result;
 import test.IntegrationTest;
 
 public class PostControllerTest extends IntegrationTest {
-
 	@Test
 	public void testNewForm() {
-		test(new Runnable() {
-			public void run() {
-				Result result = callAction(controllers.routes.ref.App.postNewForm());
-				assertThat(status(result)).isEqualTo(SEE_OTHER);
-			}
-		});
+		Result result = getInstance(PostController.class).newForm();
+		assertThat(status(result)).isEqualTo(OK);
 	}
 
 	@Test
 	public void testEditForm() {
-		test(new Runnable() {
-			public void run() {
-				Result result = callAction(controllers.routes.ref.App.postEditForm(-11l));
-				assertThat(status(result)).isEqualTo(SEE_OTHER);
-			}
-		});
+		Result result = getInstance(PostController.class).editForm(-11L);
+		assertThat(status(result)).isEqualTo(OK);
 	}
 
-	@Test
-	public void testEditCommentForm() {
-		test(new Runnable() {
-			public void run() {
-				Result result = callAction(controllers.routes.ref.App
-						.commentEditForm(-11l, -111l));
-				assertThat(status(result)).isEqualTo(SEE_OTHER);
-			}
-		});
-	}
-
-/*
 	@Test
 	public void testShow() {
-		test(new Runnable() {
-			public void run() {
-				Result result = callAction(controllers.routes.ref.App
-						.postShow(-11l, "title", 0));
-				assertThat(status(result)).isEqualTo(OK);
-			}
-		});
-	}
+		Result result;
 
-	@Test
-	public void testUpdate() {
-		fail("Not yet implemented");
+		result = getInstance(PostController.class).show(-11L, "title", 0);
+		assertThat(status(result)).isEqualTo(OK);
+
+		result = getInstance(PostController.class).show(42L, "not found", 0);
+		assertThat(status(result)).isEqualTo(NOT_FOUND);
 	}
 
 	@Test
 	public void testDelete() {
-		fail("Not yet implemented");
+		Result result;
+
+		result = getInstance(PostController.class).delete(-11L);
+		assertThat(status(result)).isEqualTo(SEE_OTHER);
+
+		result = getInstance(PostController.class).delete(42L);
+		assertThat(status(result)).isEqualTo(NOT_FOUND);
 	}
 
 	@Test
-	public void testCreateComment() {
-		fail("Not yet implemented");
+	public void testListFollowing() {
+		Result result;
+		result = getInstance(PostController.class).listFollowing(0);
+		assertThat(status(result)).isEqualTo(NOT_FOUND);
 	}
 
 	@Test
-	public void testEditCommentForm() {
-		test(new Runnable() {
-			public void run() {
-				Result result = callAction(controllers.routes.ref.App.commentEditForm(-11l, -111l));
-				assertThat(status(result)).isEqualTo(OK);
-				assertThat(contentType(result)).isEqualTo("text/html");
-				assertThat(charset(result)).isEqualTo("utf-8");
-				assertThat(contentAsString(result)).contains("some comment</textarea>");
-			}
-		});
-	}
+	public void testUpdateAnonymous() {
+		Result result;
 
-	@Test
-	public void testUpdateComment() {
-		fail("Not yet implemented");
+		result = getInstance(PostController.class).update(42L);
+		assertThat(status(result)).isEqualTo(NOT_FOUND);
 	}
-
-	@Test
-	public void testDeleteComment() {
-		fail("Not yet implemented");
-	}
-*/
+	/*
+	 * TODO: use http POST form data
+	 * 
+	 * @Test public void testUpdate() { Result result; HashMap<String, String[]>
+	 * request = Maps.newHashMap(); request.put("title", new String[] { "test"
+	 * }); login("testuser", request); result =
+	 * getInstance(PostController.class).update(-11L);
+	 * assertThat(status(result)).isEqualTo(OK); }
+	 */
 }

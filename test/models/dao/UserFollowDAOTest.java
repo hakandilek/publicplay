@@ -15,100 +15,80 @@ public class UserFollowDAOTest extends IntegrationTest {
 
 	@Test
 	public void getFollowerCountSucceeds() {
-		test(new Runnable() {
-			public void run() {
-				UserFollowDAO userFollowDAO = getInstance(UserFollowDAO.class);
-				UserDAO userDAO = getInstance(UserDAO.class);
+		UserFollowDAO userFollowDAO = getInstance(UserFollowDAO.class);
+		UserDAO userDAO = getInstance(UserDAO.class);
 
-				User testUser = userDAO.get("testuser2");
-				assertThat(userFollowDAO.getFollowerCount(testUser)).isEqualTo(0);
+		User testUser = userDAO.get("facebook::testuser");
+		assertThat(userFollowDAO.getFollowerCount(testUser)).isEqualTo(0);
 
-				UserFollowPK followKey = new UserFollowPK("testuser3", "testuser2");
-				createUserFollow(userFollowDAO, followKey);
-				assertThat(userFollowDAO.getFollowerCount(testUser)).isEqualTo(1);
-			}
-		});
+		UserFollowPK followKey = new UserFollowPK("facebook::new_user", "facebook::testuser");
+		createUserFollow(userFollowDAO, followKey);
+		assertThat(userFollowDAO.getFollowerCount(testUser)).isEqualTo(1);
 	}
 
 	@Test
 	public void getFollowingCountSucceeds() {
-		test(new Runnable() {
-			public void run() {
-				UserFollowDAO userFollowDAO = getInstance(UserFollowDAO.class);
-				UserDAO userDAO = getInstance(UserDAO.class);
+		UserFollowDAO userFollowDAO = getInstance(UserFollowDAO.class);
+		UserDAO userDAO = getInstance(UserDAO.class);
 
-				User testUser = userDAO.get("testuser2");
-				assertThat(userFollowDAO.getFollowingCount(testUser)).isEqualTo(0);
+		User testUser = userDAO.get("facebook::testuser");
+		assertThat(userFollowDAO.getFollowingCount(testUser)).isEqualTo(0);
 
-				UserFollowPK followKey = new UserFollowPK("testuser2", "testuser3");
-				createUserFollow(userFollowDAO, followKey);
+		UserFollowPK followKey = new UserFollowPK("facebook::testuser", "facebook::new_user");
+		createUserFollow(userFollowDAO, followKey);
 
-				assertThat(userFollowDAO.getFollowingCount(testUser)).isEqualTo(1);
-			}
-		});
+		assertThat(userFollowDAO.getFollowingCount(testUser)).isEqualTo(1);
 	}
 
 	@Test
 	public void getFollowingUsersSucceeds() {
-		test(new Runnable() {
-			public void run() {
-				UserFollowDAO userFollowDAO = getInstance(UserFollowDAO.class);
-				UserDAO userDAO = getInstance(UserDAO.class);
+		UserFollowDAO userFollowDAO = getInstance(UserFollowDAO.class);
+		UserDAO userDAO = getInstance(UserDAO.class);
 
-				User testUser = userDAO.get("testuser2");
-				assertThat(userFollowDAO.getFollowingUsers(testUser, 0).getList().size()).isEqualTo(0);
+		User testUser = userDAO.get("facebook::testuser");
+		assertThat(userFollowDAO.getFollowingUsers(testUser, 0).getList().size()).isEqualTo(0);
 
-				UserFollowPK followKey = new UserFollowPK("testuser2", "testuser3");
-				createUserFollow(userFollowDAO, followKey);
+		UserFollowPK followKey = new UserFollowPK("facebook::testuser", "facebook::new_user");
+		createUserFollow(userFollowDAO, followKey);
 
-				Page<User> followingUsers = userFollowDAO.getFollowingUsers(testUser, 0);
-				assertThat(followingUsers.getList().size()).isEqualTo(1);
-				for (User user : followingUsers.getList()) {
-					assertThat(user.getKey()).isEqualTo("testuser3");
-				}
-			}
-		});
+		Page<User> followingUsers = userFollowDAO.getFollowingUsers(testUser, 0);
+		assertThat(followingUsers.getList().size()).isEqualTo(1);
+		for (User user : followingUsers.getList()) {
+			assertThat(user.getKey()).isEqualTo("facebook::new_user");
+		}
 	}
 
 	@Test
 	public void getFollowerUsersSucceeds() {
-		test(new Runnable() {
-			public void run() {
-				UserFollowDAO userFollowDAO = getInstance(UserFollowDAO.class);
-				UserDAO userDAO = getInstance(UserDAO.class);
+		UserFollowDAO userFollowDAO = getInstance(UserFollowDAO.class);
+		UserDAO userDAO = getInstance(UserDAO.class);
 
-				User testUser = userDAO.get("testuser2");
-				assertThat(userFollowDAO.getFollowerUsers(testUser, 0).getList().size()).isEqualTo(0);
+		User testUser = userDAO.get("facebook::testuser");
+		assertThat(userFollowDAO.getFollowerUsers(testUser, 0).getList().size()).isEqualTo(0);
 
-				UserFollowPK followKey = new UserFollowPK("testuser3", "testuser2");
-				createUserFollow(userFollowDAO, followKey);
+		UserFollowPK followKey = new UserFollowPK("facebook::new_user", "facebook::testuser");
+		createUserFollow(userFollowDAO, followKey);
 
-				Page<User> followerUsers = userFollowDAO.getFollowerUsers(testUser, 0);
-				assertThat(followerUsers.getList().size()).isEqualTo(1);
-				for (User user : followerUsers.getList()) {
-					assertThat(user.getKey()).isEqualTo("testuser3");
-				}
-			}
-		});
+		Page<User> followerUsers = userFollowDAO.getFollowerUsers(testUser, 0);
+		assertThat(followerUsers.getList().size()).isEqualTo(1);
+		for (User user : followerUsers.getList()) {
+			assertThat(user.getKey()).isEqualTo("facebook::new_user");
+		}
 	}
 
 	@Test
 	public void getAllFollowingsKeysSucceeds() {
-		test(new Runnable() {
-			public void run() {
-				UserFollowDAO userFollowDAO = getInstance(UserFollowDAO.class);
-				UserDAO userDAO = getInstance(UserDAO.class);
+		UserFollowDAO userFollowDAO = getInstance(UserFollowDAO.class);
+		UserDAO userDAO = getInstance(UserDAO.class);
 
-				User testUser = userDAO.get("testuser2");
-				assertThat(userFollowDAO.getAllFollowingsKeys(testUser).size()).isEqualTo(0);
+		User testUser = userDAO.get("facebook::testuser");
+		assertThat(userFollowDAO.getAllFollowingsKeys(testUser).size()).isEqualTo(0);
 
-				UserFollowPK followKey = new UserFollowPK("testuser2", "testuser3");
-				createUserFollow(userFollowDAO, followKey);
+		UserFollowPK followKey = new UserFollowPK("facebook::testuser", "facebook::new_user");
+		createUserFollow(userFollowDAO, followKey);
 
-				assertThat(userFollowDAO.getAllFollowingsKeys(testUser).size()).isEqualTo(1);
-				assertThat(userFollowDAO.getAllFollowingsKeys(testUser).get(0)).isEqualTo("testuser3");
-			}
-		});
+		assertThat(userFollowDAO.getAllFollowingsKeys(testUser).size()).isEqualTo(1);
+		assertThat(userFollowDAO.getAllFollowingsKeys(testUser).get(0)).isEqualTo("facebook::new_user");
 	}
 
 	private void createUserFollow(UserFollowDAO userFollowDAO, UserFollowPK followKey) {

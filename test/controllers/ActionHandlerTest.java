@@ -17,24 +17,20 @@ import org.junit.Test;
 import test.IntegrationTest;
 
 public class ActionHandlerTest extends IntegrationTest {
-	
+
 	@Test
 	public void testCreatePost() {
-		test(new Runnable() {
-			public void run() {
-				ActionHandler actionHandler = getInstance(ActionHandler.class);
-				ActionDAO actionDAO = getInstance(ActionDAO.class);
-				PostDAO postDAO = getInstance(PostDAO.class);
-				UserDAO userDAO = getInstance(UserDAO.class);
-				
-				Post post= postDAO.get((long) -101);
-				User user = userDAO.get("testuser2");
-				
-				actionHandler.perform(user, post, ActionType.CREATE_POST);
-				Collection<Action> actions = actionDAO.getActionsCreatedBy(user);
-				assertThat(actions.size()).isEqualTo(1);
-				assertThat(actions.toArray(new Action[0])[0].getType()).isEqualTo(ActionType.CREATE_POST);
-			}
-		});
+		ActionHandler actionHandler = getInstance(ActionHandler.class);
+		ActionDAO actionDAO = getInstance(ActionDAO.class);
+		PostDAO postDAO = getInstance(PostDAO.class);
+		UserDAO userDAO = getInstance(UserDAO.class);
+
+		Post post = postDAO.get(-11L);
+		User user = userDAO.get("facebook::testuser");
+
+		actionHandler.perform(user, post, ActionType.CREATE_POST);
+		Collection<Action> actions = actionDAO.getActionsCreatedBy(user);
+		assertThat(actions.size()).isEqualTo(1);
+		assertThat(actions.toArray(new Action[0])[0].getType()).isEqualTo(ActionType.CREATE_POST);
 	}
 }

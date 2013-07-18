@@ -16,43 +16,36 @@ public class CategoryDAOTest extends IntegrationTest {
 
 	@Test
 	public void testOptions() {
-		test(new Runnable() {
-			public void run() {
-				Map<String, String> options = categoryDAO.options();
-				assertThat(options).isNotNull();
-				assertThat(options.size()).isGreaterThan(1);
-			}
-		});
+		Map<String, String> options = getInstance(CategoryDAO.class).options();
+		assertThat(options).isNotNull();
+		assertThat(options.size()).isGreaterThan(1);
 	}
-
 
 	@Test
 	public void testUpdate() {
-		test(new Runnable() {
-			public void run() {
-				Category oldCat = categoryDAO.get("categoryA");
-				Set<Post> posts = oldCat.getPosts();
-				int count = posts.size();
+		CategoryDAO categoryDAO = getInstance(CategoryDAO.class);
+		
+		Category oldCat = categoryDAO.get("category1");
+		Set<Post> posts = oldCat.getPosts();
+		int count = posts.size();
 
-				Category newCat = new Category();
-				newCat.setName("testCategory");
-				
-				//perform operation
-				categoryDAO.update("categoryA", newCat);
-				
-				//verify
-				Category newCat2 = categoryDAO.get("testCategory");
-				assertThat(newCat2).isNotNull();
-				assertThat(newCat2.getPosts()).isNotNull();
-				assertThat(newCat2.getPosts().size()).isEqualTo(count);
-				
-				//clean cache and re-verify
-				categoryDAO.cacheClean("testCategory");
-				Category newCat3 = categoryDAO.get("testCategory");
-				assertThat(newCat3).isNotNull();
-				assertThat(newCat3.getPosts()).isNotNull();
-				assertThat(newCat3.getPosts().size()).isEqualTo(count);
-			}
-		});
+		Category newCat = new Category();
+		newCat.setName("testCategory");
+
+		// perform operation
+		categoryDAO.update("category1", newCat);
+
+		// verify
+		Category newCat2 = categoryDAO.get("testCategory");
+		assertThat(newCat2).isNotNull();
+		assertThat(newCat2.getPosts()).isNotNull();
+		assertThat(newCat2.getPosts().size()).isEqualTo(count);
+
+		// clean cache and re-verify
+		categoryDAO.cacheClean("testCategory");
+		Category newCat3 = categoryDAO.get("testCategory");
+		assertThat(newCat3).isNotNull();
+		assertThat(newCat3.getPosts()).isNotNull();
+		assertThat(newCat3.getPosts().size()).isEqualTo(count);
 	}
 }
