@@ -1,7 +1,6 @@
 package controllers;
 
 import static org.fest.assertions.Assertions.assertThat;
-import static play.mvc.Http.Status.NOT_FOUND;
 import static play.mvc.Http.Status.OK;
 import static play.test.Helpers.charset;
 import static play.test.Helpers.contentAsString;
@@ -20,7 +19,7 @@ public class HomeControllerTest extends IntegrationTest {
 		Result result;
 		
 		result = getInstance(App.class).index();
-		assertThat(status(result)).isEqualTo(NOT_FOUND);
+		assertThat(status(result)).isEqualTo(OK);
 		
 		login("testuser");
 		result = getInstance(App.class).index();

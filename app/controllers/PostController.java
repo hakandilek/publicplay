@@ -97,8 +97,6 @@ public class PostController extends DynamicTemplateController implements
 			log.debug("page : " + page);
 
 		User user = HttpUtils.loginUser();
-		if (user == null)
-			return notFound("no user logged in");
 
 		Page<Post> pg = null;
 		if (StringUtils.hasLength(categoryName)) {
