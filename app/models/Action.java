@@ -25,7 +25,7 @@ public class Action extends Model implements TimestampModel<Long> {
 	private Long key;
 	
     @Enumerated(value=EnumType.STRING)
-    private ActionType type;
+    private ActionType actionType;
 	
 	@Basic
 	private Date createdOn;
@@ -90,11 +90,11 @@ public class Action extends Model implements TimestampModel<Long> {
 	}
 
 	public ActionType getType() {
-		return type;
+		return actionType;
 	}
 
 	public void setType(ActionType type) {
-		this.type = type;
+		this.actionType = type;
 	}
 
 	public Post getTargetPost() {
@@ -123,7 +123,7 @@ public class Action extends Model implements TimestampModel<Long> {
 
 	@Override
 	public String toString() {
-		return "Action [key=" + key + ", type=" + type + ", createdOn="
+		return "Action [key=" + key + ", type=" + actionType + ", createdOn="
 				+ createdOn + ", updatedOn=" + updatedOn + ", revision="
 				+ revision + ", targetPost=" + targetPost + ", targetComment="
 				+ targetComment + ", targetUser=" + targetUser + ", createdBy="
