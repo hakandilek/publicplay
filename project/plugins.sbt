@@ -13,4 +13,4 @@ libraryDependencies ++= Seq(
 addSbtPlugin("de.johoop" % "jacoco4sbt" % "1.2.4")
 
 // Use the Play sbt plugin for Play projects
-addSbtPlugin("play" % "sbt-plugin" % "2.1.1")
+addSbtPlugin("play" % "sbt-plugin" % "2.1.3")
