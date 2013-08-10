@@ -33,7 +33,9 @@ object ApplicationBuild extends Build {
         "com.pickleproject" % "pickle-core" % "0.6-SNAPSHOT",
         "com.pickleproject" % "pickle-shopping" % "0.6-SNAPSHOT",
         "com.typesafe" %% "play-plugins-mailer" % "2.1.0",
-        "org.mockito" % "mockito-core" % "1.9.5"
+        "org.mockito" % "mockito-core" % "1.9.5" % "test",
+        "play" %% "play-test" % play.core.PlayVersion.current % "test" exclude("com.novocode", "junit-interface"),
+        "com.novocode" % "junit-interface" % "0.9" % "test"
     )
 
     val main = play.Project(appName, appVersion, appDependencies, settings = s).settings (
