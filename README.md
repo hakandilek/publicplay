@@ -32,7 +32,10 @@ PublicPlay takes benefit of the following libraries:
  * [restfb](http://restfb.com/)
  * [deadbolt-2](https://github.com/schaloner/deadbolt-2)
  * [amazon-aws S3](http://aws.amazon.com/sdkforjava/)
- * [play2-cache](https://github.com/hakandilek/play2-cache)
  * [play2-crud](https://github.com/hakandilek/play2-crud)
 
- 
+Development
+-----------
+
+See [Development Guide](https://github.com/hakandilek/publicplay/wiki/Development-Guide) for details
+
