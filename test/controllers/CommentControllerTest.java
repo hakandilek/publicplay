@@ -15,15 +15,13 @@ public class CommentControllerTest extends IntegrationTest {
 	@Test
 	public void testDelete() {
 		Result result;
-/*
 		result = getInstance(CommentController.class).delete(-11L, -111L);
 		assertThat(status(result)).isEqualTo(SEE_OTHER);
-		/*/
 
 		result = getInstance(CommentController.class).delete(-11L, 42L);
 		assertThat(status(result)).isEqualTo(NOT_FOUND);
 	}
-/*
+
 	@Test
 	public void testEditForm() {
 		Result result;
@@ -36,6 +34,7 @@ public class CommentControllerTest extends IntegrationTest {
 		assertThat(status(result)).isEqualTo(OK);
 	}
 
+	/*
 	@Test
 	public void testUpdate() {
 		Result result;

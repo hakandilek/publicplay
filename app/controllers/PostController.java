@@ -97,8 +97,6 @@ public class PostController extends DynamicTemplateController implements
 			log.debug("page : " + page);
 
 		User user = HttpUtils.loginUser();
-		if (user == null)
-			return notFound("no user logged in");
 
 		Page<Post> pg = null;
 		if (StringUtils.hasLength(categoryName)) {
@@ -174,17 +172,9 @@ public class PostController extends DynamicTemplateController implements
 			if (log.isDebugEnabled())
 				log.debug("filledForm : " + filledForm);
 
-			UUID imageKey = filledForm.get().getImageKey();
-			if (log.isDebugEnabled())
-				log.debug("imageKey : " + imageKey);
-
 			S3File image = null;
-			if (imageKey != null)
-				image = s3FileDAO.get(imageKey);
-			if (log.isDebugEnabled())
-				log.debug("image : " + image);
-
-			if (filledForm.hasErrors() || user == null) {
+			
+			if (filledForm.hasErrors()) {
 				if (log.isDebugEnabled())
 					log.debug("form.data : " + form.data());
 				if (log.isDebugEnabled())
@@ -197,6 +187,18 @@ public class PostController extends DynamicTemplateController implements
 				return badRequest(postForm.render(null, filledForm, image,
 						categories()));
 			} else {
+			
+			UUID imageKey = filledForm.get().getImageKey();
+			if (log.isDebugEnabled())
+				log.debug("imageKey : " + imageKey);
+
+			
+			if (imageKey != null)
+				image = s3FileDAO.get(imageKey);
+			if (log.isDebugEnabled())
+				log.debug("image : " + image);
+
+			
 				Post post = filledForm.get();
 				post.setCreatedBy(user);
 				post.setCreatorIp(request().remoteAddress());

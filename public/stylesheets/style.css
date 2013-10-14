@@ -195,3 +195,6 @@ ul.stats li span {color: #999999;display: block;font-size: 11px;margin-top: -2px
 .commentBody .header{
 	margin-bottom:10px
 }
+#image-col{
+   text-align: center;   
+}

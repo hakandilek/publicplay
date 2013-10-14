@@ -18,7 +18,7 @@
 	<meta name="keywords" content="@post.getTitle().replace(" ",","),@Messages("Project_definition_keywords").replace(" ",",")" />
 	@defining(post.getCreatedBy()) { postCreator =>
 	<meta name="author" content="@postCreator.getFirstName(),@postCreator.getLastName()">
-	}
+	} 
 }
 
 @template.main(post.getTitle(), script, metaTags) {
@@ -82,7 +82,7 @@
 			</div>
 		    <div class="row-fluid">
 		        <hr/>
-		        <div class="fb-like" data-href="" data-send="false" data-width="550"  data-show-faces="true"></div>
+		        <div class="fb-like" data-href="@routes.App.postShow(post.getKey(), sanitizeURL(post.getTitle())).absoluteURL()" data-send="false" data-width="550"  data-show-faces="true"></div>
 		    </div>
     
 		    <div class="row-fluid">

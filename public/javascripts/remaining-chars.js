@@ -8,7 +8,7 @@ $(document).ready(function() {
 	    $this.attr('data-maxchars', null);
 	    
 	    var el = $('<span class="maxchars"> ' + remaining + '</span>');
-	    el.insertAfter($this);
+	    $(this).parent().append(el);
 	    
 	    $this.bind(supportOnInput ? 'input' : 'keyup', function() {
 	        var cc = $this.val().length;

@@ -5,7 +5,7 @@
 
 create table TBL_ACTION (
   key                       bigint not null,
-  type                      varchar(14),
+  action_type               varchar(14),
   created_on                timestamp,
   updated_on                timestamp,
   target_post_key           bigint,
@@ -13,7 +13,7 @@ create table TBL_ACTION (
   target_user_key           varchar(255),
   created_by                varchar(255),
   revision                  integer not null,
-  constraint ck_TBL_ACTION_type check (type in ('CREATE_COMMENT','CREATE_POST','FOLLOW_USER')),
+  constraint ck_TBL_ACTION_action_type check (action_type in ('CREATE_COMMENT','CREATE_POST','FOLLOW_USER')),
   constraint pk_TBL_ACTION primary key (key))
 ;
 
