@@ -25,7 +25,7 @@ object ApplicationBuild extends Build {
         "org.cloudfoundry" % "auto-reconfiguration" % "0.6.6" excludeAll(ExclusionRule(organization = "org.slf4j")),
         "com.restfb" % "restfb" % "1.6.11",
         "joda-time" % "joda-time"% "2.1",
-        "be.objectify" %% "deadbolt-java" % "2.1-RC2",
+        "be.objectify" %% "deadbolt-java" % "2.1",
         "com.amazonaws" % "aws-java-sdk" % "1.3.11",
         "postgresql" % "postgresql" % "9.1-901.jdbc4",
         "com.google.inject" % "guice" % "3.0",
