@@ -6,8 +6,8 @@
 GET     /                           					@controllers.App.index()
 # Post
 GET     /posts                      					@controllers.App.postList(p:Int ?= 0, category:String=null)
-GET     /posts/category/:category                       @controllers.App.postList(p:Int ?= 0, category:String)
-GET     /posts/following                      			@controllers.App.postListFollowing(p:Int ?= 0)
+GET     /following                                      @controllers.App.postListFollowing(p:Int ?= 0)
+GET     /category/:category                             @controllers.App.postList(p:Int ?= 0, category:String)
 POST    /posts                      					@controllers.App.postCreate()
 GET     /posts/new                  					@controllers.App.postNewForm()
 GET     /posts/:key/rateUp          					@controllers.App.rateUp(key: Long)
