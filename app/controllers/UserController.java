@@ -26,7 +26,7 @@ import models.dao.UserReputationDAO;
 import play.Logger;
 import play.Logger.ALogger;
 import play.mvc.Result;
-import play.utils.crud.DynamicTemplateController;
+import play.utils.crud.TemplateController;
 import views.html.userFollowShow;
 import views.html.userShow;
 import views.html.userShowComments;
@@ -36,7 +36,7 @@ import views.html.userShowPosts;
 
 import com.avaje.ebean.Page;
 
-public class UserController extends DynamicTemplateController {
+public class UserController extends TemplateController {
 
 	private static ALogger log = Logger.of(UserController.class);
 	private PostRatingDAO postRatingDAO;

@@ -17,14 +17,14 @@ import models.dao.PostDAO;
 import models.dao.PostRatingDAO;
 import play.data.Form;
 import play.mvc.Result;
-import play.utils.crud.DynamicTemplateController;
+import play.utils.crud.TemplateController;
 import play.utils.dao.EntityNotFoundException;
 import views.html.postShow;
 import views.html.helper.H;
 
 import com.avaje.ebean.Page;
 
-public class CommentController extends DynamicTemplateController implements
+public class CommentController extends TemplateController implements
 		Constants {
 
 	private CommentDAO commentDAO;

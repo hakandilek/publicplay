@@ -33,7 +33,7 @@ import play.Logger.ALogger;
 import play.data.Form;
 import play.data.validation.ValidationError;
 import play.mvc.Result;
-import play.utils.crud.DynamicTemplateController;
+import play.utils.crud.TemplateController;
 import play.utils.dao.EntityNotFoundException;
 import reputation.ReputationContext;
 import views.html.index;
@@ -43,7 +43,7 @@ import views.html.postRemoved;
 import views.html.postShow;
 
 import com.avaje.ebean.Page;
-public class PostController extends DynamicTemplateController implements
+public class PostController extends TemplateController implements
 		Constants {
 
 	private static ALogger log = Logger.of(PostController.class);

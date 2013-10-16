@@ -1,11 +1,9 @@
 package controllers.crud;
-import static play.data.Form.*;
+import static play.data.Form.form;
 
 import java.util.List;
 
 import javax.inject.Inject;
-
-import com.avaje.ebean.Page;
 
 import models.Comment;
 import models.ContentReport;
@@ -14,13 +12,20 @@ import models.Post;
 import models.dao.CommentDAO;
 import models.dao.ContentReportDAO;
 import models.dao.PostDAO;
+import play.Logger;
+import play.Logger.ALogger;
 import play.mvc.Call;
 import play.mvc.Result;
 import play.utils.crud.CRUDController;
+
+import com.avaje.ebean.Page;
+
 import controllers.routes;
 
 public class ContentReportCRUDController extends CRUDController<Long, ContentReport>  {
 
+	private static ALogger log = Logger.of(ContentReportCRUDController.class);
+	
 	private static final String ORDER_BY = "contentKey desc, contentType";
 
 	private static final int PAGE_SIZE = 20;
@@ -39,22 +44,18 @@ public class ContentReportCRUDController extends CRUDController<Long, ContentRep
 		this.commentDAO = commentDAO;
 	}
 
-	@Override
 	protected String templateForForm() {
 		return "admin.contentReportForm";
 	}
 
-	@Override
 	protected String templateForList() {
 		return "admin.contentReportList";
 	}
 
-	@Override
 	protected String templateForShow() {
 		return "admin.contentReportShow";
 	}
 
-	@Override
 	protected Call toIndex() {
 		return routes.Admin.contentReportList(null, 0);
 	}

@@ -11,10 +11,14 @@ import play.mvc.Result;
 import play.utils.crud.CRUDController;
 import controllers.routes;
 import forms.BulkConfiguration;
+import play.Logger;
+import play.Logger.ALogger;
 
 public class SourceConfigurationCRUDController extends
 		CRUDController<Long, SourceConfiguration> {
 
+	private static ALogger log = Logger.of(SourceConfigurationCRUDController.class);
+	
 	Form<BulkConfiguration> bulkForm = form(BulkConfiguration.class);
 	private SourceConfigurationDAO sourceConfigurationDAO;
 	
