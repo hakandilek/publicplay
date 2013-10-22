@@ -25,9 +25,10 @@ public class PostHelper {
 		}
 		return false;
 	}
-	
+
 	public static Html postTitle(Post post) {
-		if (post == null) return new Html(new StringBuilder());
+		if (post == null)
+			return new Html(new StringBuilder());
 		StringBuilder sb = new StringBuilder();
 		if (post.getStatus() == EXPIRED)
 			sb.append(DEL1);
@@ -38,7 +39,8 @@ public class PostHelper {
 	}
 
 	public static Html postContent(Post post) {
-		if (post == null) return new Html(new StringBuilder());
+		if (post == null)
+			return new Html(new StringBuilder());
 		StringBuilder sb = new StringBuilder();
 		if (post.getStatus() == EXPIRED)
 			sb.append(DEL1);
@@ -47,8 +49,8 @@ public class PostHelper {
 			sb.append(DEL2);
 		return new Html(sb);
 	}
-	
-	public static boolean isPostCreatedByLoginUser(Post post){
+
+	public static boolean isPostCreatedByLoginUser(Post post) {
 		return post.getCreatedBy().equals(UserHelper.loginUser());
 	}
 }

@@ -9,7 +9,8 @@ import scala.collection.mutable.StringBuilder;
 public class CommentHelper {
 
 	public static Html content(Comment c) {
-		if (c == null) return new Html(new StringBuilder());
+		if (c == null)
+			return new Html(new StringBuilder());
 		StringBuilder sb = new StringBuilder();
 		if (c.getStatus() == EXPIRED)
 			sb.append(DEL1);

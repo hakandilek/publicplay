@@ -28,9 +28,9 @@ public class H {
 
 	private final static Map<String, PrettyTime> prettyTimes = new HashMap<String, PrettyTime>();
 	private final static PrettyTime prettyTimeDefault = new PrettyTime(Locale.ENGLISH);
-	
+
 	private final static DateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy HH:mm");
-	
+
 	static {
 		prettyTimes.put(Locale.ENGLISH.getLanguage(), new PrettyTime(Locale.ENGLISH));
 		prettyTimes.put(new Locale("tr").getLanguage(), new PrettyTime(new Locale("tr")));
@@ -102,7 +102,7 @@ public class H {
 		s = s.toLowerCase(Locale.ENGLISH);
 		return s;
 	}
-	
+
 	public static <T> Html paging(Page<T> page) {
 		if (page == null)
 			return new Html(new StringBuilder());
@@ -112,16 +112,16 @@ public class H {
 
 		return new Html(new StringBuilder(Messages.get(lang, "displaying_num_of_num_pages", pageIndex, totalPage)));
 	}
-	
-	public static String getProfileImageURLWithNormalSize(User user){
-		return user.getProfileImageURL() +"?type=normal";
+
+	public static String getProfileImageURLWithNormalSize(User user) {
+		return user.getProfileImageURL() + "?type=normal";
 	}
-	
-	public static String formatDateToDayAndYear(Date dateToFormat){
+
+	public static String formatDateToDayAndYear(Date dateToFormat) {
 		DateFormat df = new SimpleDateFormat("dd.MM.yyyy");
 		return df.format(dateToFormat);
 	}
-	
+
 	public static String subStringWithGivenLength(String stringToCut, int length) {
 		if (stringToCut.length() <= length) {
 			return stringToCut;
@@ -133,22 +133,21 @@ public class H {
 	public static String getKeywordsFromTopPage(Page<Post> topPostPage) {
 		String keyword = null;
 		for (Post post : topPostPage.getList()) {
-			keyword += post.getTitle()+" ";
+			keyword += post.getTitle() + " ";
 		}
-		keyword+=Messages.get("Project_definition_keywords");
-		return subStringWithGivenLength(keyword.replace(" ", ","),300);
-	}	
-	
-	private static Lang getLang() {
-        Lang lang = null;
-        if(play.mvc.Http.Context.current.get() != null) {
-            lang = play.mvc.Http.Context.Implicit.lang();
-        } else {
-            Locale defaultLocale = Locale.getDefault();
-            lang = new Lang(new play.api.i18n.Lang(defaultLocale.getLanguage(), defaultLocale.getCountry()));
-        }
-        return lang;
+		keyword += Messages.get("Project_definition_keywords");
+		return subStringWithGivenLength(keyword.replace(" ", ","), 300);
 	}
-	
+
+	private static Lang getLang() {
+		Lang lang = null;
+		if (play.mvc.Http.Context.current.get() != null) {
+			lang = play.mvc.Http.Context.Implicit.lang();
+		} else {
+			Locale defaultLocale = Locale.getDefault();
+			lang = new Lang(new play.api.i18n.Lang(defaultLocale.getLanguage(), defaultLocale.getCountry()));
+		}
+		return lang;
+	}
 
 }

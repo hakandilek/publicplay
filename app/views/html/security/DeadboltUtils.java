@@ -16,8 +16,8 @@ import be.objectify.deadbolt.java.utils.RequestUtils;
 
 public class DeadboltUtils {
 
-	public static boolean viewRestrictCombine(List<String[]> roles,
-			String withPattern, PatternType patternType) throws Throwable {
+	public static boolean viewRestrictCombine(List<String[]> roles, String withPattern, PatternType patternType)
+			throws Throwable {
 		boolean hasAccess = viewRestrict(roles, null);
 		if (!hasAccess) {
 			hasAccess = viewPattern(withPattern, patternType, null);
@@ -47,7 +47,7 @@ public class DeadboltUtils {
 	public static boolean viewRestrictNotApproved() throws Throwable {
 		return !viewRestrictApproved();
 	}
-	
+
 	public static boolean isSubjectApproved(Subject roleHolder) {
 		boolean approved = false;
 		if (roleHolder != null && roleHolder instanceof Approvable) {

@@ -42,7 +42,7 @@ public class ContentReportHelper {
 		}
 		return commentReasons;
 	}
-	
+
 	public static boolean approvePossible(ContentStatus s) {
 		return s == NEW || s == UPDATED;
 	}
