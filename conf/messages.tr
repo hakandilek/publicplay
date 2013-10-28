@@ -276,3 +276,6 @@ new_reputation_value=Yeni puan degeri
 Create_new_reputation_value=Yeni puan degeri olustur
 reputation.value.label=Deger:
 reputation.name.label=Isim:
+
+Follow=Takip et
+Unfollow=Takip etme

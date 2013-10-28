@@ -245,3 +245,6 @@ new_reputation_value=new reputation value
 Create_new_reputation_value=Create new reputation value
 reputation.value.label=Value:
 reputation.name.label=Name:
+
+Follow=Follow
+Unfollow=Unfollow
