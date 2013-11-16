@@ -3,20 +3,19 @@ package module;
 import static play.mvc.Results.badRequest;
 import static play.mvc.Results.internalServerError;
 import static play.mvc.Results.notFound;
-
-import com.feth.play.module.pa.PlayAuthenticate;
-
 import play.Application;
-import play.GlobalSettings;
 import play.Logger;
 import play.mvc.Http.RequestHeader;
 import play.mvc.Result;
+import play.utils.crud.GlobalCRUDSettings;
 import plugins.GuicePlugin;
 import views.html.errors.onBadRequest;
 import views.html.errors.onError;
 import views.html.errors.onNotFound;
 
-public class Global extends GlobalSettings {
+import com.feth.play.module.pa.PlayAuthenticate;
+
+public class Global extends GlobalCRUDSettings {
 
 	private Application app;
 
@@ -28,6 +27,7 @@ public class Global extends GlobalSettings {
 
 	public void onStart(Application app) {
 		Logger.info("application starting:" + app);
+		super.onStart(app);
 		this.app = app;
 		PlayAuthenticate.setResolver(new AuthResolver());
 	}
