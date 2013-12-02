@@ -83,7 +83,7 @@ h4 {padding-bottom: 1em; }
 .nl {word-wrap:break-word;}
 
 /* table column size adjustments */
-.col-post-rate { min-width: 46px; max-width: 46px; }
+.col-post-rate { min-width: 56px; max-width: 56px; }
 .col-post-title { min-width: 410px; }
 .col-post-image { min-width: 120px; max-width: 120px; }
 
@@ -94,7 +94,18 @@ div.fb-like {min-height: 30px; height: 80px; }
 .modal-header-withoutBorder { margin-bottom: 10px; }
 
 /* makes new line without space*/ 
-.nl-withoutSpace{word-break: break-all; word-wrap: break-word;} 
+.nl-withoutSpace{
+	width: 480px; /* set to whatever width you need */
+  overflow: auto;
+  white-space: -moz-pre-wrap; /* Mozilla */
+  white-space: -hp-pre-wrap; /* HP printers */
+  white-space: -o-pre-wrap; /* Opera 7 */
+  white-space: -pre-wrap; /* Opera 4-6 */
+  white-space: pre-wrap; /* CSS 2.1 */
+  white-space: pre-line; /* CSS 3 (and 2.1 as well, actually) */
+  word-wrap: break-word; /* IE */
+  -moz-binding: url('xbl.xml#wordwrap'); /* Firefox (using XBL) */
+} 
 
 a:focus { outline:none }
 
@@ -197,4 +208,11 @@ ul.stats li span {color: #999999;display: block;font-size: 11px;margin-top: -2px
 }
 #image-col{
    text-align: center;   
+}
+
+.bs-docs-nav {
+    background-color: #563D7C;
+    border-color: #463265;
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.1);
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.15);
 }

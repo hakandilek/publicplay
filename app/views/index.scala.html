@@ -7,25 +7,25 @@
 }
 
 @header = {
-    <div class="row-fluid">
-        <div class="span12">
+    <div class="row">
+        <div class="col-md-12">
             <p class="visible-desktop">@Html(Messages("Project_definition"))</p>
         </div>
     </div><!-- row -->
 
-    <div class="row-fluid hidden-phone">
-        <div class="span12">
+    <div class="row hidden-phone">
+        <div class="col-md-12">
             <hr/>
         </div>
     </div><!-- row -->
 }
 
 @template.main(Messages("home"),metaTags=metaTags, header=header) {
-    <div class="row-fluid">
-        <div class="span8">
+    <div class="row">
+        <div class="col-md-8">
             @partials.postList(currentPage, categoryName, categories, upVotedPostKeys, downVotedPostKeys,following)
         </div>
-        <div class="span4" id="top-div">
+        <div class="col-md-4" id="top-div">
             <!-- Top lists -->
             <h4>@Messages("Top_posts")</h4>
             <ul id="top-tab" class="nav nav-tabs" data-spy="scroll" data-target="#top-div">

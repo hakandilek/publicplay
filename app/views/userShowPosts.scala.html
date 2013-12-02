@@ -16,17 +16,17 @@ following: Boolean, followerCount:Integer, followingCount:Integer, currentPostPa
     @if(user == null) {
     
     <div class="page-header">
-        <p class="text-error"> @Messages("User not found") </p>
+        <p class="text-danger"> @Messages("User not found") </p>
     </div>
     
     } else {
     
-	<div class="container-fluid">
-    	<div class="row-fluid">
+	<div class="container">
+    	<div class="row">
     		@partials.userShowLeftPane(user, reputation, followerCount, followingCount)
     		
-	        <div class="span10" id="top-div">
-	        	<div id="saveAlert" class="alert alert-error hide" data-alert="alert" style="top:0">
+	        <div class="col-md-10" id="top-div">
+	        	<div id="saveAlert" class="alert alert-danger hide" data-alert="alert" style="top:0">
        				<a class="close" href="#">x</a>
        			 	<p>@Messages("You_cant_vote_your_own_post")</p>
    				</div>

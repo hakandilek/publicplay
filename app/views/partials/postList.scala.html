@@ -5,7 +5,7 @@
 @import views.html.security._
 
 @restrictApproved() {
-    <h4><a href="@routes.App.postNewForm"><i class="icon-home icon-edit"></i>&nbsp;@Messages("Create_new_post")</a></h4>
+    <h4><a href="@routes.App.postNewForm"><i class="fa fa-edit"></i>&nbsp;@Messages("Create_new_post")</a></h4>
 }
 @restrictNotApproved() {
 	@Messages("Only_registered_and_approved_users")
@@ -20,9 +20,9 @@
     	<li class="dropdown @if(categoryName!=null) {active}">
 			<a href="#" class="dropdown-toggle" data-toggle="dropdown">@if(categoryName == null || "".equals(categoryName)) {@Messages("Category")} else { @Messages("Category." + categoryName) } <b class="caret"></b></a>
             <ul class="dropdown-menu">
-                <li><a href="@routes.App.index()">@if(categoryName == null || "".equals(categoryName)) {<i class="icon-check icon-white"></i>} else {<i class="icon-check-empty icon-white"></i>} @Messages("All")</a></li>
+                <li><a href="@routes.App.index()">@if(categoryName == null || "".equals(categoryName)) {<i class="fa fa-check-square-o"></i>} else {<i class="fa fa-square-o"></i>} @Messages("All")</a></li>
         @for(cat <- categories) {
-                <li @if(cat.getName().equals(categoryName)){class="active"}><a href="@routes.App.postList(0, cat.getName())">@if(cat.getName().equals(categoryName)) {<i class="icon-check icon-white"></i>} else {<i class="icon-check-empty icon-white"></i>} @Messages("Category." + cat.getName())</a></li>
+                <li @if(cat.getName().equals(categoryName)){class="active"}><a href="@routes.App.postList(0, cat.getName())">@if(cat.getName().equals(categoryName)) {<i class="fa fa-check-square-o"></i>} else {<i class="fa fa-square-o"></i>} @Messages("Category." + cat.getName())</a></li>
         }
             </ul>
    		</li>
@@ -41,7 +41,7 @@
     </div>
         
     } else {
-	<div id="saveAlert" class="alert alert-error hide" data-alert="alert" style="top:0">
+	<div id="saveAlert" class="alert alert-danger hide" data-alert="alert" style="top:0">
         <a class="close" href="#">x</a>
         <p>@Messages("You_cant_vote_your_own_post")</p>
     </div>

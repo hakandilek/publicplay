@@ -31,7 +31,7 @@ function reportForm(form) {
 function reportTrigger(action, data) {
     $('.btn-report').button('loading');
     $('.status').show('fast');
-    $('.status').html('<i class="icon-refresh icon-spin"></i>');
+    $('.status').html('<i class="fa fa-refresh fa-spin"></i>');
     var modal = $(data.modalKey);
     var reportCall = {
 	contentType : 'application/json',
@@ -43,7 +43,7 @@ function reportTrigger(action, data) {
 	success : function fetchCallback(data) {
 	    var status = data.status;
 	    if (status == 'error') {
-		$('#scrap-wait').html('<i class="icon-warning-sign"></i>');
+		$('#scrap-wait').html('<i class="fa fa-warning"></i>');
 		$('.btn-report').button('reset');
 	    } else if (status == 'OK') {
 		$('#submit-done').fadeIn('slow', function() {

@@ -11,7 +11,7 @@
 @if(userToBeShowed == null) {
 
 <div class="page-header">
-	<p class="text-error">@Messages("User not found")</p>
+	<p class="text-danger">@Messages("User not found")</p>
 </div>
 
 } else {
@@ -42,10 +42,10 @@
 						</a>
 						@if(user.getKey()!=loginUser().getKey()){
 						<a class="btn btn-follow pull-right" href="javascript:void(0)" data-hide="@isLoginUserFollowing(user,loginUserFollowings)" 
-						data-href="@routes.Api.userFollow(user.getKey())"> <i class="icon-ok-circle">&nbsp;@Messages("Follow")</i>
+						data-href="@routes.Api.userFollow(user.getKey())"> <i class="fa fa-check-circle">&nbsp;@Messages("Follow")</i>
 						</a>
 						<a class="btn btn-unfollow pull-right" href="javascript:void(0)" data-hide="@{!isLoginUserFollowing(user,loginUserFollowings)}" 
-						data-href="@routes.Api.userUnfollow(user.getKey())"> <i class="icon-circle-blank">&nbsp;@Messages("Unfollow")</i>
+						data-href="@routes.Api.userUnfollow(user.getKey())"> <i class="fa fa-circle-o">&nbsp;@Messages("Unfollow")</i>
 						</a>
 						}
 					</td>

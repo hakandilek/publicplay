@@ -45,7 +45,7 @@
                 <th class="header">@Messages("User.roles")</th>
                 <th class="header" colspan="3">@Messages("User.status")</th>
                 <th class="header">@Messages("User.Reputation")
-                	<a href="@routes.Admin.calculateAllReputations()"><i class="icon-refresh pull-right"></i></a>
+                	<a href="@routes.Admin.calculateAllReputations()"><i class="fa fa-refresh pull-right"></i></a>
                 </th>
                 <th class="header">@Messages("Edit")</th>
                 <th class="header">@Messages("Delete")</th>
@@ -76,22 +76,22 @@
                 </td>
                 <td>
                     @if(!user.isApproved()) {
-                    <a href="@routes.Admin.userApprove(user.getKey())"><i class="icon-ok"></i></a>
+                    <a href="@routes.Admin.userApprove(user.getKey())"><i class="fa fa-check"></i></a>
                     }
                 </td>
                 <td>
                     @if(!user.isSuspended()) {
-                    <a href="@routes.Admin.userSuspend(user.getKey())"><i class="icon-pause"></i></a>
+                    <a href="@routes.Admin.userSuspend(user.getKey())"><i class="fa fa-pause"></i></a>
                     }
                 </td>
                 <td>
-                    <a href="@routes.Admin.userRecalculateReputation(user.getKey())"><i class="icon-refresh pull-right"></i></a>
+                    <a href="@routes.Admin.userRecalculateReputation(user.getKey())"><i class="fa fa-refresh pull-right"></i></a>
                 </td>
                 <td>
-                    <a href="@routes.Admin.userEditForm(user.getKey())"><i class="icon-edit"></i></a>
+                    <a href="@routes.Admin.userEditForm(user.getKey())"><i class="fa fa-edit"></i></a>
                 </td>
                 <td>
-                    <a href="@routes.Admin.userDelete(user.getKey())"><i class="icon-trash"></i></a>
+                    <a href="@routes.Admin.userDelete(user.getKey())"><i class="fa fa-trash-o"></i></a>
                 </td>
             </tr>
         }

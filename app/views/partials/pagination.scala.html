@@ -3,8 +3,7 @@
 
 @if(currentPage.getTotalRowCount > pageSize) {
 
-<div id="pagination" class="pagination">
-    <ul>
+    <ul class="pagination">
         @if(currentPage.hasPrev) {
             <li class="prev">
                 <a href="@prevPage">&larr; @Messages("Previous")</a>
@@ -27,6 +26,5 @@
             </li>
         }
     </ul>
-</div>
 
 }

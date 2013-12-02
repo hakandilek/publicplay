@@ -4,7 +4,7 @@
 @implicitField = @{ FieldConstructor(twitterBootstrapInput.f) }
 
 @template.main(Messages("Contact")){
-<div class="container-fluid">  
+<div class="container">  
       
       	 <div class="page-header">  
             <h2>@Messages("Contact_Me")</h2>  
@@ -21,7 +21,7 @@
             @inputText(
                 contactForm("name"), 
                 '_label -> Messages("Name"), 
-                '_iconcls -> "icon-user", 
+                '_iconcls -> "fa fa-user", 
                 'placeholder -> Messages("Your_Name"),
                 '_help -> "",
                 '_error -> contactForm.globalError
@@ -32,7 +32,7 @@
                 contactForm("email"), 
                 '_label -> Messages("Email"),
                 '_help -> "",
-                '_iconcls -> "icon-envelope-alt",
+                '_iconcls -> "fa fa-envelope",
                  'placeholder -> Messages("Your_mail_address")
             )
               @textarea(
@@ -40,8 +40,8 @@
                 '_label -> Messages("Message"), '_help -> "",
                 'placeholder -> Messages("The_message_you_want_to_send"),
                 'rows -> 8,
-                '_iconcls -> "icon-pencil", 
-                'class->"span5"
+                '_iconcls -> "fa fa-pencil", 
+                'class->"col-md-5"
             )
             
         </fieldset>

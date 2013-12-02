@@ -15,16 +15,16 @@
     @if(user == null) {
     
     <div class="page-header">
-        <p class="text-error"> @Messages("User not found") </p>
+        <p class="text-danger"> @Messages("User not found") </p>
     </div>
     
     } else {
     
-	<div class="container-fluid">
-    	<div class="row-fluid">
+	<div class="container">
+    	<div class="row">
     		@partials.userShowLeftPane(user, reputation, followerCount, followingCount)
     		
-	        <div class="span10" id="top-div">
+	        <div class="col-md-10" id="top-div">
 	        	@partials.userShowTabs(user, self, following, Constants.ROLES)
 
 	        	<div class="tab-content">
@@ -36,7 +36,7 @@
 	        					<tr>
 	        						<td class="nl-withoutSpace">
 	        						@defining(userRoles.contains(role)) { hasRole =>
-	        							<i class="@if(hasRole) {icon-ok} else {icon-circle-blank}"></i>&nbsp; <span class="label @if(userRoles.contains(role)) { label-success }">@role.getName()</span>
+	        							<i class="@if(hasRole) {fa fa-check} else {fa fa-circle-o}"></i>&nbsp; <span class="label @if(userRoles.contains(role)) { label-success }">@role.getName()</span>
 	        						}
 	        						</td>
 	        						</tr>

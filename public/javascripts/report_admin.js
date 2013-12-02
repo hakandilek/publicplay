@@ -20,15 +20,15 @@ function doClick(key, href, btnClass, htmlAfterSuccess, reload) {
 		error: function(xhr, ajaxOptions, thrownError) {
 		    // failed request;
 		    $(sel).each(function (idx, elm) {
-		    	$(elm).html('<i class="icon-warning-sign"></i>');
+		    	$(elm).html('<i class="fa fa-warning"></i>');
 		    });
 		}
 	});
 }
 
 $(document).ready(function() {
-    $('.btn-ignore').click(function () { doClick($(this).attr('data-key'), $(this).attr('data-href'), 'btn-ignore', '<i class="icon-minus"></i> &nbsp; ignored', false); });
-    $('.btn-approve').click(function () { doClick($(this).attr('data-key'), $(this).attr('data-href'), 'btn-approve', '<i class="icon-ok"></i> &nbsp; approved', true); });
-    $('.btn-expired').click(function () { doClick($(this).attr('data-key'), $(this).attr('data-href'), 'btn-expired', '<i class="icon-strikethrough"></i> &nbsp; marked', true); });
-    $('.btn-remove').click(function () { doClick($(this).attr('data-key'), $(this).attr('data-href'), 'btn-remove', '<i class="icon-trash"></i> &nbsp; removed', true); });
+    $('.btn-ignore').click(function () { doClick($(this).attr('data-key'), $(this).attr('data-href'), 'btn-ignore', '<i class="fa fa-minus"></i> &nbsp; ignored', false); });
+    $('.btn-approve').click(function () { doClick($(this).attr('data-key'), $(this).attr('data-href'), 'btn-approve', '<i class="fa fa-check"></i> &nbsp; approved', true); });
+    $('.btn-expired').click(function () { doClick($(this).attr('data-key'), $(this).attr('data-href'), 'btn-expired', '<i class="fa fa-strikethrough"></i> &nbsp; marked', true); });
+    $('.btn-remove').click(function () { doClick($(this).attr('data-key'), $(this).attr('data-href'), 'btn-remove', '<i class="fa fa-trash-o"></i> &nbsp; removed', true); });
 });
