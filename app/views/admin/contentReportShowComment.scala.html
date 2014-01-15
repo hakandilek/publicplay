@@ -13,9 +13,9 @@
 
 @template.main("ContentReport:" + contentReport.getContentType() + "(" + contentReport.getContentKey() + ")", script) {
 
-<div class="container-fluid">
-	<div class="row-fluid">
-        <div class="span2">
+<div class="container">
+	<div class="row">
+        <div class="col-md-2">
 		    <p>
         		@partials.image(post.getImage())
         	</p>
@@ -26,7 +26,7 @@
         	}
         </div>
         
-        <div class="span6">
+        <div class="col-md-6">
 		    <div class="row">
 		    	<p class="lead nl-withoutSpace">@postTitle(post)</p>
 		    </div>
@@ -44,8 +44,8 @@
 	    </div>
     </div>
 
-    <div class="row-fluid">
-        <div class="span9">
+    <div class="row">
+        <div class="col-md-9">
         <table class="comments table table-striped table-bordered">
             <thead>
                 <tr>
@@ -63,10 +63,10 @@
 				        @Html(Messages("ApprovedOn_By", prettify(comment.getApprovedOn()), partials.userProfile(comment.getApprovedBy()))) }
                         </small>
                         @restrictCombine(la(as("admin")), "models.Comment.edit." + comment.getKey()) {
-                        <a class="btn btn-mini pull-right spaced" href="@routes.App.commentEditForm(post.getKey(), comment.getKey())#form">@Messages("edit")</a>
+                        <a class="btn btn-xs pull-right spaced" href="@routes.App.commentEditForm(post.getKey(), comment.getKey())#form">@Messages("edit")</a>
                         }
                         @restrictCombine(la(as("admin")), "models.Comment.delete." + comment.getKey()) {
-                        <a class="btn btn-mini btn-danger pull-right spaced" href="@routes.App.commentDelete(post.getKey(), comment.getKey())">@Messages("delete")</a>
+                        <a class="btn btn-xs btn-danger pull-right spaced" href="@routes.App.commentDelete(post.getKey(), comment.getKey())">@Messages("delete")</a>
                         }
  						<span id="status" class="badge">@Messages("Content.status." + comment.getStatus())</span>
                     </td> 
@@ -79,21 +79,21 @@
         </div>
     </div>
     
-	<div class="row-fluid">
-		<div class="span8">
-			@if(approvePossible(comment.getStatus())) { <a class="btn-approve btn btn-success spaced" data-key="comment-@comment.getKey()" href="javascript:void(0)" data-href="@routes.Api.commentApprove(comment.getKey())"><i class="icon-ok"></i> &nbsp; @Messages("approve")</a> }
-			@if(removePossible(comment.getStatus())) { <a class="btn-remove btn btn-danger spaced" data-key="comment-@comment.getKey()" href="javascript:void(0)" data-href="@routes.Api.commentRemove(comment.getKey())"><i class="icon-trash"></i> &nbsp; @Messages("remove")</a> }
+	<div class="row">
+		<div class="col-md-8">
+			@if(approvePossible(comment.getStatus())) { <a class="btn-approve btn btn-success spaced" data-key="comment-@comment.getKey()" href="javascript:void(0)" data-href="@routes.Api.commentApprove(comment.getKey())"><i class="fa fa-check"></i> &nbsp; @Messages("approve")</a> }
+			@if(removePossible(comment.getStatus())) { <a class="btn-remove btn btn-danger spaced" data-key="comment-@comment.getKey()" href="javascript:void(0)" data-href="@routes.Api.commentRemove(comment.getKey())"><i class="fa fa-trash-o"></i> &nbsp; @Messages("remove")</a> }
 		</div>
 	</div>
 	
-	<div class="row-fluid">
-		<div class="span8">
+	<div class="row">
+		<div class="col-md-8">
 			<h3>@Messages("ContentReport_num", reports.size())</h3>
 		</div>
 	</div>
 	
-	<div class="row-fluid">
-		<div class="span8">
+	<div class="row">
+		<div class="col-md-8">
 	        <table class="table table-striped table-bordered">
 	            <thead>
 	                <tr>
@@ -111,7 +111,7 @@
 	                        @if(report.getUpdatedBy() != null) { 
 	                        @Html(Messages("UpdatedOn_By", prettify(report.getUpdatedOn()), partials.userProfile(report.getUpdatedBy()))) }
 	                        </small>
-	                        <a class="btn-ignore btn btn-mini btn-inverse pull-right spaced @if(report.isIgnored()) { disabled }" data-key="report-@report.getKey()" href="javascript:void(0)" data-href="@routes.Api.contentReportIgnore(report.getKey())" data-href='@Messages("ignored")'><i class="icon-minus"></i> &nbsp; @Messages("ignore")</a>
+	                        <a class="btn-ignore btn btn-xs btn-inverse pull-right spaced @if(report.isIgnored()) { disabled }" data-key="report-@report.getKey()" href="javascript:void(0)" data-href="@routes.Api.contentReportIgnore(report.getKey())" data-href='@Messages("ignored")'><i class="fa fa-minus"></i> &nbsp; @Messages("ignore")</a>
 	                    </td> 
 	                </tr>
 	

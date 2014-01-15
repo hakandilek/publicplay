@@ -1,13 +1,13 @@
 @()
 <div id="footer">
 	<div class="navbar navbar-fixed-bottom">
-		<ul class="inline">
-			<li><small><a href="@routes.Page.about">@Messages("About")</a></small></li>
-			<li><small><a href="@routes.Page.policy">@Messages("Policy")</a></small></li>
-			<li><small><a href="@routes.Page.faq">@Messages("FAQ")</a></small></li>
-			<li><small><a href="@routes.App.contactNewForm()">@Messages("Contact")</a></small></li>
-			<li><small><a href="http://www.facebook.com/PublicPlay">Facebook</a></small></li>
-			<li><small><a href="http://twitter.com/PublicPlay">Twitter</a></small></li>
-		</ul>
+		<div class="container">
+			<small><a class="navbar-text" href="@routes.Page.about">@Messages("About")</a></small>
+			<small><a class="navbar-text" href="@routes.Page.policy">@Messages("Policy")</a></small>
+			<small><a class="navbar-text" href="@routes.Page.faq">@Messages("FAQ")</a></small>
+			<small><a class="navbar-text" href="@routes.App.contactNewForm()">@Messages("Contact")</a></small>
+			<small><a class="navbar-text" href="http://www.facebook.com/PublicPlay">Facebook</a></small>
+			<small><a class="navbar-text" href="http://twitter.com/PublicPlay">Twitter</a></small>
+		</div>
 	</div>
 </div>

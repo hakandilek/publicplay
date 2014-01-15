@@ -20,7 +20,7 @@ $(document).ready(function() {
     		error:function() {
     		    // failed request;
                 $(jq(currentId)).children('.btn-follow').each(function (idx, elm) {
-                    $(elm).html('<i class="icon-warning-sign"></i>');
+                    $(elm).html('<i class="fa fa-warning"></i>');
                 });
     		}
     	});
@@ -45,7 +45,7 @@ $(document).ready(function() {
     		error:function() {
     		    // failed request;
                $(jq(currentId)).children('.btn-unfollow').each(function (idx, elm) {
-                    $(elm).html('<i class="icon-warning-sign"></i>');
+                    $(elm).html('<i class="fa fa-warning"></i>');
                 });
     		}
     	});

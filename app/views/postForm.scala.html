@@ -20,21 +20,21 @@
 
     @form(if(key != null) { routes.App.postUpdate(key) } 
           else            { routes.App.postCreate() }) {
-        <div class="control-group"> 
+        <div class="form-group"> 
         @select(postForm("category.name"), args = '_label -> Messages("Post.category.label"), 
         	options=categories.map{ c => c -> (Messages("Category." + c)) })
         </div>
         
-        <div class="control-group"> 
+        <div class="form-group"> 
         @inputText(postForm("title"), args = '_label -> Messages("Post.title.label"), Symbol("data-maxchars") -> "120")
         </div>
         
-        <div class="control-group">
+        <div class="form-group">
         @textarea(postForm("content"), args = '_label -> Messages("Post.content.label"), Symbol("data-maxchars") -> "2000")
         </div>
 
         <input type="hidden" id="imageKey" name="imageKey" class="imageKey">
-        <div class="control-group">
+        <div class="form-group">
             <div class="clearfix">
                 <label for="image">@Messages("Post.image.label")</label>
                 <div class="fileupload-new thumbnail post-img" data-dismiss="fileupload">

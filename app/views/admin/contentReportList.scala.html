@@ -46,8 +46,8 @@
                 <td>@Html(Messages("UpdatedOn_By", prettify(contentReport.getUpdatedOn()), partials.userProfile(contentReport.getUpdatedBy()))) </td>
                 @**
                 <td>
-                    <a class="btn btn-mini btn-danger pull-right spaced" href="@routes.Admin.contentReportDelete(contentReport.getKey())">@Messages("delete")</a>
-                    <a class="btn btn-mini pull-right spaced" href="@routes.Admin.contentReportEditForm(contentReport.getKey())">@Messages("edit")</a>
+                    <a class="btn btn-xs btn-danger pull-right spaced" href="@routes.Admin.contentReportDelete(contentReport.getKey())">@Messages("delete")</a>
+                    <a class="btn btn-xs pull-right spaced" href="@routes.Admin.contentReportEditForm(contentReport.getKey())">@Messages("edit")</a>
                	</td>
                	**@
             </tr>

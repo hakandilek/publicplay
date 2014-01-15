@@ -4,7 +4,7 @@
 @import helper.UserHelper._
 @import be.objectify.deadbolt.java.views.html._
 @import be.objectify.deadbolt.core.utils.TemplateUtils._
-<div class="span2">
+<div class="col-md-2">
 	<div class="clearfix">
 		<div class="center-horizontal">
 			<h3>
@@ -25,14 +25,14 @@
 			}
 
 		</dl>
-		<div class="span12">
+		<div class="col-md-12">
 			<ul class="stats">
 				<li id="reputation"><strong>@reputation.getValue()</strong>
 				<span>@Messages("User.Reputation")</span>
 				</li>
 			</ul>
 		</div>
-		<div class="span12">
+		<div class="col-md-12">
 			<ul class="stats">
 				<li><a href="@routes.App.userFollowings(user.getKey())"> <strong>@followingCount</strong>
 					<span>@Messages("Following")</span>

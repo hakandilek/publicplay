@@ -35,12 +35,12 @@
                 <td>
                 	<a href='@routes.Admin.s3FileShow(s3File.getKey() + "")'> @s3File.getKey()</a>
                 </td>
-                <td><a href="@s3File.getUrl()"><i class="icon-external-link"></i></a></td>
+                <td><a href="@s3File.getUrl()"><i class="fa fa-external-link"></i></a></td>
                 <td>@s3File.getCreatedOn()</td>
                 <td>@s3File.getUpdatedOn()</td>
                 <td>@s3File.getRevision()</td>
                 <td>
-                    <a class="btn btn-mini btn-danger pull-right spaced" href="@routes.Admin.s3FileDelete(s3File.getKey() + "")">@Messages("delete")</a>
+                    <a class="btn btn-xs btn-danger pull-right spaced" href="@routes.Admin.s3FileDelete(s3File.getKey() + "")">@Messages("delete")</a>
                 </td>
             </tr>
         }

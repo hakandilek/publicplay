@@ -34,7 +34,7 @@
         <tbody>
         @for(sourceConfiguration <- configPage.getList) {
             <tr>
-                <td><a href="@routes.Admin.sourceConfigurationShow(sourceConfiguration.getKey())" class="btn btn-small btn-inverse"><i class="icon-link"></i> @sourceConfiguration.getSourceKey()</a></td>
+                <td><a href="@routes.Admin.sourceConfigurationShow(sourceConfiguration.getKey())" class="btn btn-sm btn-inverse"><i class="fa fa-link"></i> @sourceConfiguration.getSourceKey()</a></td>
                 <td>
                     @sourceConfiguration.getRevision()
                 </td>
@@ -45,13 +45,13 @@
                     @sourceConfiguration.getUpdatedOn()
                 </td>
                 <td>
-                    <a class="btn btn-mini btn-danger pull-right spaced" href="@routes.Admin.sourceConfigurationDelete(sourceConfiguration.getKey())">@Messages("delete")</a>
+                    <a class="btn btn-xs btn-danger pull-right spaced" href="@routes.Admin.sourceConfigurationDelete(sourceConfiguration.getKey())">@Messages("delete")</a>
                 </td>
                 <td>
-                    <a class="btn btn-mini pull-right spaced" href="@routes.Admin.sourceConfigurationEditForm(sourceConfiguration.getKey())">@Messages("edit")</a>
+                    <a class="btn btn-xs pull-right spaced" href="@routes.Admin.sourceConfigurationEditForm(sourceConfiguration.getKey())">@Messages("edit")</a>
                 </td>
                 <td>
-                    <a class="btn btn-mini pull-right spaced" href="@routes.Admin.sourceConfigurationEditBulkForm(sourceConfiguration.getKey())">@Messages("edit")</a>
+                    <a class="btn btn-xs pull-right spaced" href="@routes.Admin.sourceConfigurationEditBulkForm(sourceConfiguration.getKey())">@Messages("edit")</a>
                 </td>
             </tr>
         }

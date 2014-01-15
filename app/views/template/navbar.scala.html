@@ -3,35 +3,24 @@
 @import be.objectify.deadbolt.core.utils.TemplateUtils._
 @import helper.UserHelper._
 
-<div class="navbar navbar-fixed-top">
-    <div class="navbar-inner">
-        <div class="container-narrow">
-
-            <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
-            <a class="btn btn-navbar" data-toggle="collapse"
-                data-target=".nav-collapse"> 
-                <span class="icon-bar"></span> 
-                <span class="icon-bar"></span> 
-                <span class="icon-bar"></span>
-            </a>
-
-            <!-- Be sure to leave the brand out there if you want it shown -->
-            <a class="brand" href="@routes.App.index()"><img alt="publicplay" src="@routes.Assets.at("images/logo.png")"> @Messages("Brand_title")</a>
-
-            <!--  github ribbon -->
-            <a class="visible-desktop" href="https://github.com/hakandilek/publicplay">
-                <img style="position: absolute; top: 0; right: 0; border: 0;"
-                src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png"
-                alt="Fork me on GitHub"></a>
-
-            <!-- Everything you want hidden at 940px or less, place within here -->
-            <div class="nav-collapse">
-                <!-- .nav, .navbar-search, .navbar-form, etc -->
-                <ul class="nav pull-right">
-           
-            @views.html.security.roleHolderPresent(){
+<div class="navbar navbar-inverse navbar-fixed-top bs-docs-nav">
+        <div class="container">
+            
+            <div class="navbar-header">
+    			<a class="navbar-brand" href="@routes.App.index()"><img alt="publicplay" src="@routes.Assets.at("images/logo.png")"> @Messages("Brand_title")</a>
+    		<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+		      <span class="icon-bar"></span>
+		      <span class="icon-bar"></span>
+		      <span class="icon-bar"></span>
+		    </button>
+		  </div>
+            
+            <nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation">
+            	<ul class="nav navbar-nav navbar-right">
+            		 @views.html.security.roleHolderPresent(){
                     <!-- new post -->
-                    <li><a href="@routes.App.postNewForm()" data-toggle="tooltip" data-placement="bottom" title="@Messages("Create_new_post")"><i class="icon-home icon-edit"></i></a></li>
+                    <li><a id="hello" href="@routes.App.postNewForm()" data-toggle="tooltip" data-placement="bottom" title="@Messages("Create_new_post")"rel="tooltip">
+                    <i class="fa fa-edit"></i></a></li>
             }
                 
             @views.html.security.roleHolderNotPresent(){
@@ -39,14 +28,15 @@
                     <li class="dropdown">
                     	<a href="#" data-toggle="dropdown">@Messages("Login")<b class="caret"></b></a>
                     	<div class="dropdown-menu" style="padding: 7px; padding-bottom: 7px; padding-right:2px;">
-						 <a class="btn btn-facebook" href='@controllers.routes.App.authenticate("facebook")'><i class="icon-facebook"></i>&nbsp;@Messages("facebook_login")</a>
+						 <a class="btn btn-facebook" href='@controllers.routes.App.authenticate("facebook")'><i class="fa fa-facebook fa-lg fb"></i>&nbsp;@Messages("facebook_login")</a>
 						 </div>
                     </li>
             }
                 
             @restrict(la(as("admin"))) {
                     <!-- admin -->
-                    <li><a href="@routes.Admin.index()" data-toggle="tooltip" data-placement="bottom" title="@Messages("Administration")"><i class="icon-wrench icon-white"></i></a></li>
+                    <li><a href="@routes.Admin.index()" data-toggle="tooltip" data-placement="bottom" title="@Messages("Administration")" rel="tooltip">
+                    <i class="fa fa-wrench"></i></a></li>
             }
             @views.html.security.roleHolderPresent() {
                 @if(userPresent()) {
@@ -58,17 +48,22 @@
                             @loggedInUser.getFirstName()<b class="caret"></b>
                         </a>
                         <ul class="dropdown-menu">
-                        	<li><a href="@controllers.routes.App.userShowSelf()"><i class="icon-user"></i> @Messages("User.Profile")</a></li>
+                        	<li><a href="@controllers.routes.App.userShowSelf()"><i class="fa fa-user"></i> @Messages("User.Profile")</a></li>
                         	<li class="divider"></li>
-                        	<li><a href="@controllers.routes.App.logout()"><i class="icon-off"></i> @Messages("Logout")</a></li>
+                        	<li><a href="@controllers.routes.App.logout()"><i class="fa fa-power-off"></i> @Messages("Logout")</a></li>
                         </ul>
                     </li>
                     }
                 }
             }     
+            	</ul>
+            </nav>           
                 
-                </ul>
-            </div>
          </div>
-    </div>
 </div>
+
+<script type="text/javascript">
+    $(function () {
+        $("[rel='tooltip']").tooltip();
+    });
+</script>

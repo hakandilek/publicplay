@@ -14,7 +14,7 @@ $(document).ready(function() {
 		sizeLimit : 512000
 	    },
 	    text : {
-		uploadButton : '<i class="icon-plus icon-white"></i> ' + text
+		uploadButton : '<i class="fa fa-plus-square"></i> ' + text
 	    }
 	}).on('complete', function(event, id, filename, response) {
 	    if (response.success) {

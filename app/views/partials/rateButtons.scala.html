@@ -5,18 +5,18 @@
 
 @roleHolderPresent() {
 	@if(postIsVotedUp(post, upVotedPostKeys)) {	 
-       <a class="btn-rate rate disabled" data-key="rate-@post.getKey()" href="javascript:void(0)" data-href="@routes.App.rateUp(post.getKey())" data-self="@isPostCreatedByLoginUser(post)"> <i class="icon-caret-up rated icon-large" style="text-decoration: none"></i></a>  
+       <a class="btn-rate rate disabled" data-key="rate-@post.getKey()" href="javascript:void(0)" data-href="@routes.App.rateUp(post.getKey())" data-self="@isPostCreatedByLoginUser(post)"> <i class="fa fa-caret-up rated fa-lg" style="text-decoration: none"></i></a>  
 	} else {
-	   <a class="btn-rate rate" data-key="rate-@post.getKey()" href="javascript:void(0)" data-href="@routes.App.rateUp(post.getKey())" data-self="@isPostCreatedByLoginUser(post)"> <i class="icon-caret-up unrated icon-large" style="text-decoration: none"></i></a>
+	   <a class="btn-rate rate" data-key="rate-@post.getKey()" href="javascript:void(0)" data-href="@routes.App.rateUp(post.getKey())" data-self="@isPostCreatedByLoginUser(post)"> <i class="fa fa-caret-up unrated fa-lg" style="text-decoration: none"></i></a>
 	}
     
     @if(postIsVotedUp(post, downVotedPostKeys)) {
-       <a class="btn-rate rate disabled" data-key="rate-@post.getKey()" href="javascript:void(0)" data-href="@routes.App.rateDown(post.getKey())" data-self="@isPostCreatedByLoginUser(post)"> <i class="icon-caret-down rated icon-large" style="text-decoration: none"></i></a>
+       <a class="btn-rate rate disabled" data-key="rate-@post.getKey()" href="javascript:void(0)" data-href="@routes.App.rateDown(post.getKey())" data-self="@isPostCreatedByLoginUser(post)"> <i class="fa fa-caret-down rated fa-lg" style="text-decoration: none"></i></a>
     } else {
-	   <a class="btn-rate rate" data-key="rate-@post.getKey()" href="javascript:void(0)" data-href="@routes.App.rateDown(post.getKey())" data-self="@isPostCreatedByLoginUser(post)"> <i class="icon-caret-down unrated icon-large" style="text-decoration: none"></i></a>
+	   <a class="btn-rate rate" data-key="rate-@post.getKey()" href="javascript:void(0)" data-href="@routes.App.rateDown(post.getKey())" data-self="@isPostCreatedByLoginUser(post)"> <i class="fa fa-caret-down unrated fa-lg" style="text-decoration: none"></i></a>
     }
 }
 @roleHolderNotPresent() {
-	<a data-toggle="modal" href="javascript:void(0)" data-target="#loginModal" class="rate" data-key="rate-@post.getKey()"><i class="icon-caret-up unrated icon-large" style="text-decoration: none"></i></a>
-	<a data-toggle="modal" href="javascript:void(0)" data-target="#loginModal" class="rate" data-key="rate-@post.getKey()"><i class="icon-caret-down unrated icon-large" style="text-decoration: none"></i></a>
+	<a data-toggle="modal" href="javascript:void(0)" data-target="#loginModal" class="rate" data-key="rate-@post.getKey()"><i class="fa fa-caret-up unrated fa-lg" style="text-decoration: none"></i></a>
+	<a data-toggle="modal" href="javascript:void(0)" data-target="#loginModal" class="rate" data-key="rate-@post.getKey()"><i class="fa fa-caret-down unrated fa-lg" style="text-decoration: none"></i></a>
 }

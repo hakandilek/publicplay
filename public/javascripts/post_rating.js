@@ -34,7 +34,7 @@ $(document).ready(function() {
     		error:function() {
     		    // failed request;
                 $(sel).each(function (idx, elm) {
-                    $(elm).html('<i class="icon-warning-sign"></i>');
+                    $(elm).html('<i class="fa fa-warning"></i>');
                 });
     		}
     	});

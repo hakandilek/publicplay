@@ -16,11 +16,11 @@
 			@if(!self) {
 			<a class="btn btn-follow pull-right" href="javascript:void(0)" data-hide="@following" 
 				data-href="@routes.Api.userFollow(userToBeShowed.getKey())"> 
-				<i class="icon-ok-circle">&nbsp;@Messages("Follow")</i>
+				<i class="fa fa-check-circle">&nbsp;@Messages("Follow")</i>
 			</a>
 			<a class="btn btn-unfollow pull-right" href="javascript:void(0)" data-hide="@{!following}"
 				data-href="@routes.Api.userUnfollow(userToBeShowed.getKey())"> 
-				<i class="icon-circle-blank">&nbsp;@Messages("Unfollow")</i>
+				<i class="fa fa-check-circle-o">&nbsp;@Messages("Unfollow")</i>
 			</a> 
 			}
 		</div>
