@@ -5,16 +5,24 @@
 @if(image == null) {
 	    <img data-src='@routes.Assets.at("javascripts/holder.js")/120x90/#fefef9:#000/text:@Messages("Post.image.no_image")' />
 } else {
-        <a data-toggle="modal" href="#imageModal-@image.id" >
+
+ 	<a data-toggle="modal" href="#imageModal-@image.id" >
             <img src="@image.getUrl()" alt='@Messages("Post.image.label")'/>
-        </a>
-		
-        <div class="modal hide fade img-thumbnail" id="imageModal-@image.id">
-            <span class="modal-header-withoutBorder pull-right">
-                <button class="btn btn-xs btn-danger" data-dismiss="modal" aria-hidden="true"><i class="fa fa-times-circle"></i></button>
-            </span>
-        	<img src="@image.getUrl()" />
-        </div>         
+    </a>
+	<div class="modal fade" id="imageModal-@image.id" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	    <div class="modal-dialog">
+	      <div class="modal-content">
+            <div class="modal-header">
+            	<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            </div>
+	        <div class="modal-body">
+		        <div class="thumbnail">
+		        <img src="@image.getUrl()">
+		        </div>
+	        </div>
+	      </div><!-- /.modal-content -->
+	    </div><!-- /.modal-dialog -->
+  	</div><!-- /.modal -->
   
-}
-	</div>
+  }
+    </div>

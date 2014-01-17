@@ -101,8 +101,6 @@ div.fb-like {min-height: 30px; height: 80px; }
   white-space: -hp-pre-wrap; /* HP printers */
   white-space: -o-pre-wrap; /* Opera 7 */
   white-space: -pre-wrap; /* Opera 4-6 */
-  white-space: pre-wrap; /* CSS 2.1 */
-  white-space: pre-line; /* CSS 3 (and 2.1 as well, actually) */
   word-wrap: break-word; /* IE */
   -moz-binding: url('xbl.xml#wordwrap'); /* Firefox (using XBL) */
 } 
@@ -216,3 +214,15 @@ ul.stats li span {color: #999999;display: block;font-size: 11px;margin-top: -2px
     box-shadow: 0 1px 0 rgba(255, 255, 255, 0.1);
     text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.15);
 }
+
+.modal-body .thumbnail{
+	border:none;
+	padding: 0px;
+}
+.modal-header {
+	border:none;
+}
+img {
+    max-width: 100%;
+}
+
