@@ -4,14 +4,17 @@
 @import helper.PostHelper._
 @import helper.ContentReportHelper._
 @import views.html.security._
+@implicitField = @{ FieldConstructor(twitterBootstrapInput.f) }
 
 @roleHolderPresent() {
 	<a class="btn btn-xs btn-warning" data-toggle="modal" href="#report-@post.getKey()"> <i class="fa fa-warning"></i>&nbsp;@Messages("Report_content")</a>
 
 	<!-- Modal -->
-	<div id="report-@post.getKey()" class="modal hide fade report-modal" tabindex="-1" role="dialog"
+	<div id="report-@post.getKey()" class="modal  fade" tabindex="-1" role="dialog"
 		aria-labelledby="report-@post.getKey()-label" aria-hidden="true">
-		<div class="modal-header container">
+		<div class="modal-dialog">
+		 <div class="modal-content">
+		<div class="modal-header ">
 		    <div class="row">
 		    	<div class="col-md-10 col-md-offset-1">
 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
@@ -19,7 +22,8 @@
 				</div>
 			</div>
 		</div>
-		<div class="modal-body container">
+		
+		<div class="modal-body">
 		    <div class="row">
 		    	<div class="col-md-10 col-md-offset-1">
 		    	@if(post.getTitle().length < 60) {
@@ -64,13 +68,13 @@
 				    
 				    <input name="modalKey" type="hidden" value="#report-@post.getKey()" />
 				    
-				    <div class="form-group">
+				    <fieldset class="control-group">
 				    @select(repForm("reason"), args = '_label -> Messages("ContentReport.reason.label"), options=postReasons.map{ c => c -> (Messages("ContentReport." + c)) })
-				    </div>
+				    </fieldset>
 				        
-				    <div class="form-group"> 
+				    <fieldset class="control-group">
 				    @textarea(repForm("comment"), args = '_label -> Messages("ContentReport.comment.label"), Symbol("data-maxchars") -> "500", Symbol("class") -> "input-xlarge")
-				    </div>
+				    </fieldset>
 
 					<div class="alert hide alert-success" id="submit-done">@Messages("Report_saved")</div>
 					<div class="alert hide alert-danger" id="submit-error">@Messages("Error_occured")</div>
@@ -83,7 +87,11 @@
 				<!-- report -->
 	    		</div>	
 	    	</div>
+		
 		</div>
+		</div>
+		
+	</div>	
 	</div>
 } 
 
