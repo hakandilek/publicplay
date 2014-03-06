@@ -17,7 +17,7 @@ import models.dao.SecurityRoleDAO;
 import models.dao.UserDAO;
 import models.dao.UserFollowDAO;
 
-import org.codehaus.jackson.JsonNode;
+import com.fasterxml.jackson.databind.JsonNode;
 
 import play.mvc.Result;
 import play.utils.crud.APIController;

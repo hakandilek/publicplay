@@ -8,7 +8,7 @@ import java.util.List;
 import models.User;
 import models.User.Status;
 
-import org.codehaus.jackson.JsonNode;
+import com.fasterxml.jackson.databind.JsonNode;
 
 import play.Logger;
 import play.Logger.ALogger;

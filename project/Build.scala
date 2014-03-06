@@ -7,10 +7,10 @@ import JacocoPlugin._
 object ApplicationBuild extends Build {
 
     val appName         = "PublicPlay"
-    val appVersion      = "0.1.1-SNAPSHOT"
+    val appVersion      = "0.1.2-SNAPSHOT"
 
     // Jacoco for code coverage
-    lazy val s = Defaults.defaultSettings ++ Seq(jacoco.settings:_*)
+    lazy val s = playScalaSettings  ++ Seq(jacoco.settings:_*) ++ Seq(net.virtualvoid.sbt.graph.Plugin.graphSettings: _*)
     
     val appDependencies = Seq(
        	
@@ -20,22 +20,21 @@ object ApplicationBuild extends Build {
         //prettytime library
         "org.ocpsoft.prettytime" % "prettytime" % "2.1.2.Final",
         // facebook authentication library
-        "com.feth" %% "play-authenticate" % "0.2.5-SNAPSHOT",
+        "com.feth" %% "play-authenticate" % "0.5.2-SNAPSHOT",
         //appfog/cloudfoundry integration
         "org.cloudfoundry" % "auto-reconfiguration" % "0.6.6" excludeAll(ExclusionRule(organization = "org.slf4j")),
         "com.restfb" % "restfb" % "1.6.11",
         "joda-time" % "joda-time"% "2.1",
-        "be.objectify" %% "deadbolt-java" % "2.1",
+        "be.objectify" %% "deadbolt-java" % "2.2-RC4" exclude("com.typesafe.play", "play-cache_2.10"),
         "com.amazonaws" % "aws-java-sdk" % "1.3.11",
         "postgresql" % "postgresql" % "9.1-901.jdbc4",
         "com.google.inject" % "guice" % "3.0",
         "javax.inject" % "javax.inject" % "1",
-        "play2-crud" % "play2-crud_2.10" % "0.7.2-SNAPSHOT",
-        "com.pickleproject" % "pickle-core" % "0.6.1-SNAPSHOT",
-        "com.pickleproject" % "pickle-shopping" % "0.6.1-SNAPSHOT",
+        "play2-crud" % "play2-crud_2.10" % "0.7.3-SNAPSHOT" exclude("com.typesafe.play", "play-cache_2.10"),
+        "com.pickleproject" % "pickle-core" % "0.7.0-SNAPSHOT",
+        "com.pickleproject" % "pickle-shopping" % "0.7.0-SNAPSHOT",
         "com.typesafe" %% "play-plugins-mailer" % "2.1.0",
         "org.mockito" % "mockito-core" % "1.9.5" % "test",
-        "play" %% "play-test" % play.core.PlayVersion.current % "test" exclude("com.novocode", "junit-interface"),
         "com.novocode" % "junit-interface" % "0.9" % "test"
     )
 

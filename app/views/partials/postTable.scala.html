@@ -9,10 +9,10 @@
 		<br/>
 		@partials.rateButtons(post, upVotedPostKeys, downVotedPostKeys)
 	</td>
-	<td class="noborder-left noborder-bottom col-post-title nl-withoutSpace">
+	<td id="title-col" class="noborder-left noborder-bottom col-post-title nl-withoutSpace">
 		<a href="@routes.App.postShow(post.getKey(), sanitizeURL(post.getTitle()))">@postTitle(post)</a>
 	</td>
-	<td rowspan="2" class="noborder-left  col-post-image">
+	<td id="image-col" rowspan="2" class="noborder-left  col-post-image">
 		<a href="@routes.App.postShow(post.getKey(), sanitizeURL(post.getTitle()))">@partials.image(post.getImage())</a>
 	</td>
 </tr>
