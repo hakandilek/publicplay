@@ -6,7 +6,7 @@
 
 	<h3>@if(key != null) { @Messages("update_securityRole") } else { @Messages("new_securityRole") } </h3>
     
-    @form(if(key != null) { routes.Admin.securityRoleUpdate(modelForm.get().getKey()) } 
+    @form(if(key != null) { routes.Admin.securityRoleUpdate(modelForm.get.getKey()) } 
           else             { routes.Admin.securityRoleCreate() }) { 
         @inputText(modelForm("name"), args = '_label -> Messages("SecurityRole.name.label"))
         <div>

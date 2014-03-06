@@ -6,7 +6,7 @@
         
 	<h3>@if(key != null) { @Messages("update_sourceConfiguration") } else { @Messages("new_sourceConfiguration") } </h3>
     
-    @form(if(key != null) { routes.Admin.sourceConfigurationUpdate(sourceConfigurationForm.get().getKey()) } 
+    @form(if(key != null) { routes.Admin.sourceConfigurationUpdate(sourceConfigurationForm.get.getKey()) } 
           else             { routes.Admin.sourceConfigurationCreate() }) { 
     @if(key != null) {  
         @inputText(sourceConfigurationForm("revision"), args = 'readonly -> "readonly", '_label -> Messages("revision.label"))

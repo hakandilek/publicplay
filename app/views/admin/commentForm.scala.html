@@ -6,7 +6,7 @@
 
 	<h3>@if(key != null) { @Messages("update_comment") } else { @Messages("new_comment") } </h3>
     
-    @form(if(key != null) { routes.Admin.commentUpdate(modelForm.get().getKey()) } 
+    @form(if(key != null) { routes.Admin.commentUpdate(modelForm.get.getKey()) } 
           else             { routes.Admin.commentCreate() }) { 
     @if(key != null) {  
         @inputText(modelForm("revision"), args = 'readonly -> "readonly", '_label -> Messages("revision.label"))

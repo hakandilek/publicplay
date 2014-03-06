@@ -6,7 +6,7 @@
 
 	<h3>@if(key != null) { @Messages("update_reputation_value") } else { @Messages("new_reputation_value") } </h3>
     
-    @form(if(key != null) { routes.Admin.reputationValueUpdate(modelForm.get().getKey()) } 
+    @form(if(key != null) { routes.Admin.reputationValueUpdate(modelForm.get.getKey()) } 
           else             { routes.Admin.reputationValueCreate() }) { 
      
         @inputText(modelForm("name"), args = '_label -> Messages("reputation.name.label"))

@@ -1,4 +1,4 @@
-@(user: models.User, reputation: models.UserReputation, self: Boolean, tabName:String, upVotedPostKeys:Set[Long], downVotedPostKeys:Set[Long], 
+@(user: models.User, reputation: models.UserReputation, self: Boolean, tabName:String, upVotedPostKeys: java.util.Set[java.lang.Long], downVotedPostKeys: java.util.Set[java.lang.Long], 
 following: Boolean, followerCount:Integer, followingCount:Integer, currentActionPage: com.avaje.ebean.Page[models.Action])
 @import be.objectify.deadbolt.java.views.html._
 @import be.objectify.deadbolt.core.utils.TemplateUtils._

@@ -1,11 +1,12 @@
 @(post: Post)
 @import be.objectify.deadbolt.java.views.html._
 @import be.objectify.deadbolt.core.utils.TemplateUtils._
+@import helper.H._
 
     <meta property="fb:app_id" content="441048632604409">
     <meta property="og:title"  content="@post.getTitle()">
     <meta property="og:type"  content="product">
-    <meta property="og:url"  content="http://@request.host@request.uri">
+    <meta property="og:url"  content="@requestUrl">
     <meta property="og:description"  content="@post.getContent()">
 @if(post.getImage() != null) {
     <meta property="og:image"  content="@post.getImage().getUrl()">

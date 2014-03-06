@@ -15,9 +15,9 @@ import org.ocpsoft.prettytime.PrettyTime;
 import play.api.templates.Html;
 import play.i18n.Lang;
 import play.i18n.Messages;
+import play.mvc.Http.Request;
 
 import com.avaje.ebean.Page;
-import scala.collection.mutable.StringBuilder;
 
 /**
  * HTML Utils
@@ -150,4 +150,12 @@ public class H {
 		return lang;
 	}
 
+	public static Html requestUrl() {
+		StringBuilder sb = new StringBuilder();
+		Request req = play.mvc.Http.Context.current().request();
+		if (req != null) {
+			sb.append("http://").append(req.host()).append(req.uri());
+		}
+		return new Html(sb);
+	}
 }

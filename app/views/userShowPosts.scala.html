@@ -1,5 +1,5 @@
-@(user: models.User, reputation: models.UserReputation, self: Boolean,tabName:String, upVotedPostKeys:Set[Long], downVotedPostKeys:Set[Long], 
-following: Boolean, followerCount:Integer, followingCount:Integer, currentPostPage: com.avaje.ebean.Page[Post])
+@(user: models.User, reputation: models.UserReputation, self: Boolean,tabName:String, upVotedPostKeys: java.util.Set[java.lang.Long], downVotedPostKeys: java.util.Set[java.lang.Long], 
+following: Boolean, followerCount:Integer, followingCount:java.lang.Integer, currentPostPage: com.avaje.ebean.Page[Post])
 @import be.objectify.deadbolt.java.views.html._
 @import be.objectify.deadbolt.core.utils.TemplateUtils._
 @import views.html.security._

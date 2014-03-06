@@ -1,4 +1,4 @@
-@(post: Post, commentKey:Long, commentForm: Form[Comment], currentPage: com.avaje.ebean.Page[Comment], upVotedPostKeys:Set[Long], downVotedPostKeys:Set[Long])
+@(post: Post, commentKey:Long, commentForm: Form[Comment], currentPage: com.avaje.ebean.Page[Comment], upVotedPostKeys: java.util.Set[java.lang.Long], downVotedPostKeys: java.util.Set[java.lang.Long])(implicit request: RequestHeader)
 @import helper._ 
 @import helper.twitterBootstrap._
 @import helper.H._
@@ -81,7 +81,7 @@
 			</div>
 		    <div class="row">
 		        <hr/>
-		        <div class="fb-like" data-href="@routes.App.postShow(post.getKey(), sanitizeURL(post.getTitle())).absoluteURL()" data-send="false" data-width="550"  data-show-faces="true"></div>
+		        <div class="fb-like" data-href="@controllers.routes.App.postShow(post.getKey(), sanitizeURL(post.getTitle())).absoluteURL()" data-send="false" data-width="550"  data-show-faces="true"></div>
 		    </div>
     
 		    <div class="row">
@@ -96,7 +96,7 @@
 		
 		        <ul class="list-unstyled">
 		        	<h4>@Messages("Comments")</h4>
-			         @for(comment <- currentPage.getList.reverse) {
+			         @for(comment <- currentPage.getList) {
 			         	<li id="@comment.getKey()" class="commentList">
 			         			@defining(comment.getCreatedBy()) { commentCreator =>
 				         		<div class="comment-avatar">
