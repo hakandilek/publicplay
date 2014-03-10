@@ -1,6 +1,6 @@
 --- 
 applications: 
-  dist/publicplay-0.1.2-SNAPSHOT.zip: 
+  target/universal/publicplay-0.1.2-SNAPSHOT.zip: 
     services: 
       publicplay-postgre: 
         type: postgresql
@@ -8,7 +8,7 @@ applications:
       name: play
       info: 
         exec: 
-        description: Play Framework Application
+        description: PublicPlay Application
         mem: 256M
     url: ${name}.${target-base}
     infra: eu-aws
