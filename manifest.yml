@@ -1,6 +1,6 @@
 --- 
 applications: 
-  dist/publicplay-0.1.1-SNAPSHOT.zip: 
+  dist/publicplay-0.1.2-SNAPSHOT.zip: 
     services: 
       publicplay-postgre: 
         type: postgresql
