@@ -1,4 +1,4 @@
-@(contactForm: Form[forms.ContactPage])(implicit flash: Flash)
+@(contactForm: Form[forms.ContactPage])
 
 @import helper._
 @implicitField = @{ FieldConstructor(twitterBootstrapInput.f) }
@@ -9,7 +9,7 @@
       	 <div class="page-header">  
             <h2>@Messages("Contact_Me")</h2>  
         </div>  
-        @if(flash.get("success").isDefined) {
+        @if(flash.contains("success")) {
             <div class="alert alert-success">
             @Messages("Message_Succeeds") 
     		</div>

@@ -4,7 +4,6 @@ import static play.data.Form.form;
 
 import java.util.Date;
 import java.util.List;
-import java.util.concurrent.Callable;
 
 import javax.inject.Inject;
 
@@ -13,11 +12,12 @@ import models.dao.UserDAO;
 import play.Logger;
 import play.Logger.ALogger;
 import play.data.Form;
-import play.libs.Akka;
 import play.libs.F;
+import play.libs.F.Function;
+import play.libs.F.Function0;
+import play.libs.F.Promise;
 import play.mvc.Call;
 import play.mvc.Result;
-import play.mvc.Results;
 import play.utils.crud.CRUDController;
 
 import com.avaje.ebean.Page;
@@ -161,28 +161,32 @@ public class UserCRUDController extends CRUDController<String, User> {
 		}
 	}
 
-	public Results.AsyncResult calculateAllReputations() {
-		return async(Akka.future(new Callable<Void>() {
-			public Void call() throws Exception {
+	public Promise<Result> calculateAllReputations() {
+		Promise<Void> promise = Promise.promise(new Function0<Void>() {
+			@Override
+			public Void apply() throws Throwable {
 				final List<User> users = userDAO.all();
 				for (User user : users) {
 					reputationHandler.reevaluateForSubject(user);
 				}
 				return null;
 			}
-		}).map(new F.Function<Void, Result>() {
-			public Result apply(Void arg0) {
+		});
+		return promise.map(new Function<Void, Result>() {
+			@Override
+			public Result apply(Void arg0) throws Throwable {
 				return redirect(toIndex());
 			}
-		}));
+		});
 	}
 
-	public Results.AsyncResult reload(final String key) {
+	public Promise<Result> reload(final String key) {
 		if (log.isDebugEnabled())
 			log.debug("reload <-");
 
-		return async(Akka.future(new Callable<Void>() {
-			public Void call() throws Exception {
+		Promise<Void> promise = Promise.promise(new Function0<Void>() {
+			@Override
+			public Void apply() throws Throwable {
 				User user = userDAO.get(key);
 				if (user != null) {
 					String accessToken = user.getAccessToken();
@@ -207,10 +211,12 @@ public class UserCRUDController extends CRUDController<String, User> {
 				}
 				return null;
 			}
-		}).map(new F.Function<Void, Result>() {
+		});
+		
+		return promise.map(new F.Function<Void, Result>() {
 			public Result apply(Void p) {
 				return show(key);
 			}
-		}));
+		});
 	}
 }

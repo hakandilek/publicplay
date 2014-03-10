@@ -4,9 +4,10 @@ import java.util.List;
 
 import play.Logger;
 import play.Logger.ALogger;
+import play.libs.F.Promise;
 import play.mvc.Http.Context;
 import play.mvc.Http.Request;
-import play.mvc.Result;
+import play.mvc.SimpleResult;
 import be.objectify.deadbolt.java.DeadboltHandler;
 import be.objectify.deadbolt.java.actions.AbstractRestrictiveAction;
 import be.objectify.deadbolt.core.models.Permission;
@@ -16,22 +17,6 @@ public class RestrictCombineAction extends
 		AbstractRestrictiveAction<RestrictCombine> {
 
 	private static ALogger log = Logger.of(RestrictCombineAction.class);
-
-	@Override
-	public Result applyRestriction(Context ctx, DeadboltHandler deadboltHandler)
-			throws Throwable {
-		Result result;
-		if (isAllowed(ctx, deadboltHandler)) {
-			markActionAsAuthorised(ctx);
-			result = delegate.call(ctx);
-		} else {
-			markActionAsUnauthorised(ctx);
-			result = onAuthFailure(deadboltHandler, configuration.content(),
-					ctx);
-		}
-
-		return result;
-	}
 
 	private boolean isAllowed(Context ctx, DeadboltHandler deadboltHandler) {
 		if (log.isDebugEnabled())
@@ -79,4 +64,28 @@ public class RestrictCombineAction extends
 	public Class<? extends DeadboltHandler> getDeadboltHandlerClass() {
 		return configuration.handler();
 	}
+
+	@Override
+	public Promise<SimpleResult> applyRestriction(Context ctx,
+			DeadboltHandler deadboltHandler) throws Throwable {
+		
+		Promise<SimpleResult> result;
+		
+		if (isAllowed(ctx, deadboltHandler)) {
+			markActionAsAuthorised(ctx);
+			result = delegate.call(ctx);
+		} else {
+			markActionAsUnauthorised(ctx);
+			result = onAuthFailure(deadboltHandler, configuration.content(),
+					ctx);
+		}
+
+		return result;
+	}
+
+	@Override
+	public String getHandlerKey() {
+		return null;
+	}
+
 }

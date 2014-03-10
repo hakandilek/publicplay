@@ -198,7 +198,7 @@ public class UserAPIController extends APIController<String, User> {
 		if (node == null)
 			return null;
 		List<String> list = new ArrayList<String>();
-		for (Iterator<JsonNode> elems = node.getElements(); elems.hasNext();) {
+		for (Iterator<JsonNode> elems = node.elements(); elems.hasNext();) {
 			JsonNode elem = elems.next();
 			if (log.isDebugEnabled())
 				log.debug("elem : " + elem);

@@ -10,7 +10,7 @@ object ApplicationBuild extends Build {
     val appVersion      = "0.1.2-SNAPSHOT"
 
     // Jacoco for code coverage
-    lazy val s = playScalaSettings  ++ Seq(jacoco.settings:_*) ++ Seq(net.virtualvoid.sbt.graph.Plugin.graphSettings: _*)
+    lazy val s = playJavaSettings  ++ Seq(jacoco.settings:_*) ++ Seq(net.virtualvoid.sbt.graph.Plugin.graphSettings: _*)
     
     val appDependencies = Seq(
        	
@@ -30,6 +30,7 @@ object ApplicationBuild extends Build {
         "postgresql" % "postgresql" % "9.1-901.jdbc4",
         "com.google.inject" % "guice" % "3.0",
         "javax.inject" % "javax.inject" % "1",
+        "org.avaje.ebeanorm" % "avaje-ebeanorm-api" % "3.1.1",
         "play2-crud" % "play2-crud_2.10" % "0.7.3-SNAPSHOT" exclude("com.typesafe.play", "play-cache_2.10"),
         "com.pickleproject" % "pickle-core" % "0.7.0-SNAPSHOT",
         "com.pickleproject" % "pickle-shopping" % "0.7.0-SNAPSHOT",

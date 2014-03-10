@@ -2,8 +2,10 @@ package security;
 
 import play.Logger;
 import play.Logger.ALogger;
+import play.libs.F;
+import play.libs.F.Promise;
 import play.mvc.Http;
-import play.mvc.Result;
+import play.mvc.SimpleResult;
 import views.html.security.DeadboltUtils;
 import be.objectify.deadbolt.java.DeadboltHandler;
 import be.objectify.deadbolt.java.actions.AbstractRestrictiveAction;
@@ -14,9 +16,10 @@ public class RestrictApprovedAction extends AbstractRestrictiveAction<RestrictAp
 	private static ALogger log = Logger.of(RestrictApprovedAction.class);
 
 	@Override
-	public Result applyRestriction(Http.Context ctx,
+	public F.Promise<SimpleResult>  applyRestriction(Http.Context ctx,
 			DeadboltHandler deadboltHandler) throws Throwable {
-		Result result;
+		
+		Promise<SimpleResult> result;
 		if (isAllowed(ctx, deadboltHandler)) {
 			markActionAsAuthorised(ctx);
 			result = delegate.call(ctx);
@@ -44,6 +47,11 @@ public class RestrictApprovedAction extends AbstractRestrictiveAction<RestrictAp
 	@Override
 	public Class<? extends DeadboltHandler> getDeadboltHandlerClass() {
 		return configuration.handler();
+	}
+
+	@Override
+	public String getHandlerKey() {
+		return null;
 	}
 
 }

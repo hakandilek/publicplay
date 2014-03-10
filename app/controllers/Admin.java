@@ -7,6 +7,7 @@ import javax.inject.Inject;
 
 import models.PostRatingPK;
 import models.UserFollowPK;
+import play.libs.F;
 import play.mvc.Controller;
 import play.mvc.Result;
 import security.Authenticated;
@@ -268,7 +269,7 @@ public class Admin extends Controller {
 		return userController.show(key);
 	}
 
-	@Authenticated @Restrict(@Group("admin")) @RestrictApproved public Result userReload(String key) {
+	@Authenticated @Restrict(@Group("admin")) @RestrictApproved public F.Promise<Result> userReload(String key) {
 		return userController.reload(key);
 	}
 
@@ -352,7 +353,7 @@ public class Admin extends Controller {
 	@Authenticated
 	@Restrict(@Group("admin"))
 	@RestrictApproved
-	public Result calculateAllReputations() {
+	public F.Promise<Result> calculateAllReputations() {
 		return userController.calculateAllReputations();
 	}
 

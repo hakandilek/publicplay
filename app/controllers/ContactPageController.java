@@ -56,8 +56,8 @@ public class ContactPageController extends Controller {
 			ContactPage contactPage = filledForm.get();
 			MailerAPI mail = play.Play.application().plugin(MailerPlugin.class).email();
 			mail.setSubject(contactPage.getName());
-			mail.addRecipient("necipk@gmail.com");
-			mail.addFrom(contactPage.getEmail());
+			mail.setRecipient("necipk@gmail.com");
+			mail.setFrom(contactPage.getEmail());
 			// sends text/text
 			mail.send(contactPage.getMessage());
 			flash("success", "hellp");

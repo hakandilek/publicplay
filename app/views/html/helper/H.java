@@ -19,6 +19,8 @@ import play.mvc.Http.Request;
 
 import com.avaje.ebean.Page;
 
+import scala.collection.mutable.StringBuilder;
+
 /**
  * HTML Utils
  * 
